@@ -1,0 +1,72 @@
+Only in iDSK.0.13_patched//iDSK/src/.deps: Basic.Po
+Only in iDSK.0.13_patched//iDSK/src/.deps: BitmapCPC.Po
+Only in iDSK.0.13_patched//iDSK/src/.deps: Dams.Po
+Only in iDSK.0.13_patched//iDSK/src/.deps: Desass.Po
+Only in iDSK.0.13_patched//iDSK/src/.deps: GestDsk.Po
+Only in iDSK.0.13_patched//iDSK/src/.deps: Itoa.Po
+Only in iDSK.0.13_patched//iDSK/src/.deps: Main.Po
+Only in iDSK.0.13_patched//iDSK/src/.deps: Outils.Po
+Only in iDSK.0.13_patched//iDSK/src/.deps: ViewFile.Po
+Only in iDSK.0.13_patched//iDSK/src/.deps: endianPPC.Po
+Only in iDSK.0.13_patched//iDSK/src/.deps: getopt_pp.Po
+diff -w -ur iDSK.0.13/iDSK/src/Basic.cpp iDSK.0.13_patched//iDSK/src/Basic.cpp
+--- iDSK.0.13/iDSK/src/Basic.cpp	2008-07-10 16:59:48.000000000 +0200
++++ iDSK.0.13_patched//iDSK/src/Basic.cpp	2011-11-15 13:32:05.368088938 +0100
+@@ -1,4 +1,5 @@
+ #include <iostream>
++#include <stdio.h>
+ using namespace std;
+ #include <math.h>
+ #include <string.h>
+Binary files iDSK.0.13/iDSK/src/Basic.o and iDSK.0.13_patched//iDSK/src/Basic.o differ
+diff -w -ur iDSK.0.13/iDSK/src/BitmapCPC.cpp iDSK.0.13_patched//iDSK/src/BitmapCPC.cpp
+--- iDSK.0.13/iDSK/src/BitmapCPC.cpp	2008-06-25 19:02:20.000000000 +0200
++++ iDSK.0.13_patched//iDSK/src/BitmapCPC.cpp	2011-11-15 13:32:18.148107681 +0100
+@@ -1,4 +1,5 @@
+ #include <iostream>
++#include <stdio.h>
+ #include "MyType.h"
+ #include "BitmapCPC.h"
+ #include "GestDsk.h"
+Binary files iDSK.0.13/iDSK/src/BitmapCPC.o and iDSK.0.13_patched//iDSK/src/BitmapCPC.o differ
+diff -w -ur iDSK.0.13/iDSK/src/Dams.cpp iDSK.0.13_patched//iDSK/src/Dams.cpp
+--- iDSK.0.13/iDSK/src/Dams.cpp	2008-07-01 16:51:56.000000000 +0200
++++ iDSK.0.13_patched//iDSK/src/Dams.cpp	2011-11-15 13:32:33.108129629 +0100
+@@ -1,4 +1,5 @@
+ #include <iostream>
++#include <stdio.h>
+ #include <string.h>
+ using namespace std;
+ 
+Binary files iDSK.0.13/iDSK/src/Dams.o and iDSK.0.13_patched//iDSK/src/Dams.o differ
+diff -w -ur iDSK.0.13/iDSK/src/Desass.cpp iDSK.0.13_patched//iDSK/src/Desass.cpp
+--- iDSK.0.13/iDSK/src/Desass.cpp	2008-07-01 15:55:44.000000000 +0200
++++ iDSK.0.13_patched//iDSK/src/Desass.cpp	2011-11-15 13:32:38.788137952 +0100
+@@ -1,4 +1,5 @@
+ #include <iostream>
++#include <stdio.h>
+ #include <string.h>
+ 
+ #include  "Outils.h"
+Binary files iDSK.0.13/iDSK/src/Desass.o and iDSK.0.13_patched//iDSK/src/Desass.o differ
+diff -w -ur iDSK.0.13/iDSK/src/GestDsk.cpp iDSK.0.13_patched//iDSK/src/GestDsk.cpp
+--- iDSK.0.13/iDSK/src/GestDsk.cpp	2008-07-10 19:17:12.000000000 +0200
++++ iDSK.0.13_patched//iDSK/src/GestDsk.cpp	2011-11-15 13:32:45.688148074 +0100
+@@ -1,4 +1,5 @@
+ #include <iostream>
++#include <stdio.h>
+ #include <string.h>
+ #include <stdlib.h>
+ #include "MyType.h"
+Binary files iDSK.0.13/iDSK/src/GestDsk.o and iDSK.0.13_patched//iDSK/src/GestDsk.o differ
+diff -w -ur iDSK.0.13/iDSK/src/Outils.cpp iDSK.0.13_patched//iDSK/src/Outils.cpp
+--- iDSK.0.13/iDSK/src/Outils.cpp	2008-07-01 18:58:44.000000000 +0200
++++ iDSK.0.13_patched//iDSK/src/Outils.cpp	2011-11-15 13:32:52.118157503 +0100
+@@ -1,4 +1,5 @@
+ #include <iostream>
++#include <stdio.h>
+ #include <string.h>
+ using namespace std;
+ #include "Itoa.h"
+Binary files iDSK.0.13/iDSK/src/Outils.o and iDSK.0.13_patched//iDSK/src/Outils.o differ
+Binary files iDSK.0.13/iDSK/src/iDSK and iDSK.0.13_patched//iDSK/src/iDSK differ

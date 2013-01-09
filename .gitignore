@@ -1,1 +1,5 @@
 *~
+*.bin
+
+# outputs from z88dk
+*.cpc

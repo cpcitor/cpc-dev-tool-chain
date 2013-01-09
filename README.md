@@ -1,6 +1,9 @@
-# What is this ?
+cpc-dev-tool-chain
+==================
 
-This is currently an embryo of an integrated toolchain for the Amstrad CPC platform (or emulator).
+## What is this ?
+
+This an embryo of an integrated C or ASM development toolchain for the Amstrad CPC platform (or emulator).
 
 ## What does it do ?
 

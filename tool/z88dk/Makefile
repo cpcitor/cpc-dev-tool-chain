@@ -4,13 +4,31 @@ all: $(TARGETS)
 
 ########################################################################
 
-z88dk/.unpacked:
-	( set -e ; if [ -e z88dk_clean_checkout_20111118.tar.gz ] ; then tar zxvf z88dk_clean_checkout_20111118.tar.gz ; else cvs -z3 -d:pserver:anonymous@z88dk.cvs.sourceforge.net:/cvsroot/z88dk co -P z88dk ; fi ; touch $@ ; )
+# Tested release
+URL_RELEASE=http://sourceforge.net/projects/z88dk/files/z88dk/1.10/z88dk-1.10.1.tgz/download
+
+# Untested
+URL_RELEASE=http://sourceforge.net/projects/z88dk/files/latest/download?source=files
+URL_NIGHTLY=http://nightly.z88dk.org/z88dk-latest.tgz
+
+
+URL_DOWNLOAD=$(URL_RELEASE)
+
+z88dk-latest.tgz:
+	( set -e ; wget -S $(URL_RELEASE) -O $@.tmp ; mv -vf $@.tmp $@ ; )
+
+z88dk/.unpacked: z88dk-latest.tgz
+	( set -e ; tar zxvf "$<" ; touch $@ ; )
+
+# CVS sometimes broken for weeks. cvs up -D 2013-09-18
+#z88dk/.unpacked:
+#	( set -e ; cvs -z3 -d:pserver:anonymous@z88dk.cvs.sourceforge.net:/cvsroot/z88dk co -D 2013-09-18 -P z88dk ; touch $@ ; )
 
 z88dk/.patched: z88dk/.unpacked
 	( set -e ; touch $@ ; )
 
 z88dk/.built: z88dk/.patched
+	./z88dk_prerequisites_check.sh
 	(set -e ; ( cd $$(dirname "$@") ; LC_ALL=C ./build.sh ; ) ; touch $@ ; )
 
 build_config.inc: z88dk/.built Makefile

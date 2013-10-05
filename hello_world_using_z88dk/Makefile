@@ -1,18 +1,28 @@
-TARGETS=a.dsk main a.cpc
+SHELL=/bin/bash
+
+SRCS := $(wildcard *.c)
+
+TARGETS=a.dsk a.cpc a.opt
 
 all: $(TARGETS)
+
+test:
+	@echo SRCS=$(SRCS)
 
 ../tool/z88dk/build_config.inc:
 	( export LC_ALL=C ; make -C "$$(dirname "$@")" build_config.inc ; )
 
-main: main.c ../tool/z88dk/build_config.inc
-	( . ../tool/z88dk/build_config.inc ; zcc +cpc -lcpcfs -lmz -create-app -o $@ $< ; )
+#%: $(SRCS) ../tool/z88dk/build_config.inc
+#	( . ../tool/z88dk/build_config.inc ; zcc +cpc -lcpcfs -lmz -create-app -o $@ $< ; )
 
-a.cpc: main.c ../tool/z88dk/build_config.inc
+%.cpc: $(SRCS) ../tool/z88dk/build_config.inc
 	( . ../tool/z88dk/build_config.inc ; zcc +cpc -lndos -create-app $< ; )
 
-main.opt: main.c ../tool/z88dk/build_config.inc
-	( . ../tool/z88dk/build_config.inc ; zcc +cpc -lndos -a -create-app $< ; )
+%.opt: $(SRCS) ../tool/z88dk/build_config.inc
+	( . ../tool/z88dk/build_config.inc ; zcc +cpc -z80-verb -lndos -a -create-app $< ; )
+
+%.asm: $(SRCS) ../tool/z88dk/build_config.inc
+	( . ../tool/z88dk/build_config.inc ; zcc -O0 +cpc -z80-verb -lndos -a -create-app $< ; )
 
 ../tool/iDSK/iDSK:
 	( export LC_ALL=C ; make -C "$$(dirname "$@")" iDSK ; )
@@ -20,17 +30,17 @@ main.opt: main.c ../tool/z88dk/build_config.inc
 iDSK: ../tool/iDSK/iDSK
 	cp -avf $< $@
 
-a.bin: a.cpc
-	cp -avf $< $@
+#a.bin: a.cpc
+#	cp -avf $< $@
 
-a.dsk: a.bin iDSK Makefile
+a.dsk: a.cpc iDSK Makefile
 #	./iDSK $@ -n -i $< -t 1 -e 6000 -c 6000 -i a.bas -t 0 -l
 	./iDSK $@ -n -i $< -t 1 -e 6000 -c 6000 -l
 
 ########################################################################
 
 clean:
-	-rm -f *.bin *.cpc *.app zcc_opt.def $(TARGETS) *.dsk *.ihx *.lnk *.lst *.map *.asm *.sym *.o *.opt *~
+	-rm -f *.bin *.cpc *.app zcc_opt.def $(TARGETS) *.dsk *.ihx *.lnk *.lst *.map *.opt *.sym *.o *.asm *~
 
 distclean: clean
 	-rm -f iDSK

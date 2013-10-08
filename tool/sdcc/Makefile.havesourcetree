@@ -1,0 +1,63 @@
+SHELL=/bin/bash
+
+SDCCSOURCETREE:=$(shell cat sdcc_srctree.ref || echo ERROR)
+SDCCBUILDTREE:=$(SDCCSOURCETREE).buildtree
+SDCCINSTALLTREE:=$(SDCCSOURCETREE).installtree
+
+default: build_config.inc
+
+test:
+	@echo -e "SDCCSOURCETREE=\\t$(SDCCSOURCETREE)"
+	@echo -e "SDCCBUILDTREE=\\t$(SDCCBUILDTREE)"
+	@echo -e "SDCCINSTALLTREE=\\t$(SDCCINSTALLTREE)"
+
+# out-of-source build :-)
+$(SDCCBUILDTREE)/.configured: sdcc_srctree.ref
+	@echo "************************************************************************"
+	@echo "**************** Configuring in : $$(cat $<)"
+	@echo "************************************************************************"
+	./sdcc_configure.sh "$$(dirname "$@")" "${SDCCINSTALLTREE}" "$(SDCCSOURCETREE)"
+	touch "$@"
+	@echo "************************************************************************"
+	@echo "**************** Configuration success in : $$(cat $<)"
+	@echo "************************************************************************"
+
+$(SDCCBUILDTREE)/.built: $(SDCCBUILDTREE)/.configured
+	@echo "************************************************************************"
+	@echo "**************** Building in : $$(dirname $<)"
+	@echo "************************************************************************"
+	$(MAKE) -C $$(dirname "$<")
+	touch $@
+	@echo "************************************************************************"
+	@echo "**************** Build success in : $$(dirname $<)"
+	@echo "************************************************************************"
+
+$(SDCCINSTALLTREE)/.installed: $(SDCCBUILDTREE)/.built
+	@echo "************************************************************************"
+	@echo "**************** Installing in : $$(dirname $<)"
+	@echo "************************************************************************"
+	$(MAKE) -C $$(dirname "$<") install
+	touch $@
+	@echo "************************************************************************"
+	@echo "**************** Install success in : $$(dirname $<)"
+	@echo "************************************************************************"
+
+build_config.inc: $(SDCCINSTALLTREE)/.installed Makefile
+	(set -eu ; \
+	{ \
+	echo "# with bash do SOURCE this file to get a working sdcc config." ; \
+	cd $$(dirname "$<") ; \
+	echo "export PATH=\"\$${PATH}:$$PWD/bin\"" ; \
+	} >$@ ; )
+
+clean:
+	-rm -f *~
+	-$(MAKE) $(SDCCBUILDTREE) clean
+	-rm -f $(SDCCBUILDTREE)/.built
+
+mrproper: clean
+	-rm -f build_config.inc
+	-rm -rf $(SDCCSOURCETREE) $(SDCCBUILDTREE) $(SDCCINSTALLTREE) *.ref
+
+distclean: mrproper
+# we do nothing more but our caller does

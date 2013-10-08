@@ -1,13 +1,22 @@
 SHELL=/bin/bash
 
+DSKNAME=target.dsk
+
 SRCS := $(wildcard *.c)
 
-TARGETS=a.dsk a.cpc a.opt
+BINS=$(patsubst %.c,%.bin,$(SRCS))
+OPTS=$(patsubst %.c,%.opt,$(SRCS))
+
+TARGETS=$(DSKNAME) $(BINS) $(OPTS)
 
 all: $(TARGETS)
 
 test:
 	@echo SRCS=$(SRCS)
+	@echo BINS=$(BINS)
+	@echo OPTS=$(OPTS)
+
+########################################################################
 
 ../tool/z88dk/build_config.inc:
 	( export LC_ALL=C ; make -C "$$(dirname "$@")" build_config.inc ; )
@@ -15,8 +24,19 @@ test:
 #%: $(SRCS) ../tool/z88dk/build_config.inc
 #	( . ../tool/z88dk/build_config.inc ; zcc +cpc -lcpcfs -lmz -create-app -o $@ $< ; )
 
-%.cpc: $(SRCS) ../tool/z88dk/build_config.inc
-	( . ../tool/z88dk/build_config.inc ; zcc +cpc -lndos -create-app $< ; )
+# create-app adds a header but not if we name the file $@.bin
+%.bin: $(SRCS) ../tool/z88dk/build_config.inc
+	( set -o pipefail ; source ../tool/z88dk/build_config.inc ; zcc +cpc -lndos -create-app $< -o $@.cpc 2>&1 | sed 's/^sccz80:"\([^"]*\)" L:\([0-9]*\)/\1:\2:/' && mv -vf $@.cpc $@ )
+
+# z88dk compiler output does not match traditional compiler output.
+# expected:
+#	myfile.c:19:
+# observed:
+#	sccz80:"myfile.c" L:19
+# To help development environments, we adjust.
+# Benefit : from the IDE you see where warnings and errors
+# are, you can click to go on line to fix, etc.
+# sed 's/^sccz80:"\([^"]*\)" L:\([0-9]*\)/\1:\2/'
 
 %.opt: $(SRCS) ../tool/z88dk/build_config.inc
 	( . ../tool/z88dk/build_config.inc ; zcc +cpc -lndos -a $< -o $@ ; )
@@ -24,18 +44,26 @@ test:
 #%.asm: $(SRCS) ../tool/z88dk/build_config.inc
 #	( . ../tool/z88dk/build_config.inc ; zcc -O0 +cpc -lndos -a $< -o $@ ; )
 
+########################################################################
+
 ../tool/iDSK/iDSK:
 	( export LC_ALL=C ; make -C "$$(dirname "$@")" iDSK ; )
 
 iDSK: ../tool/iDSK/iDSK
 	cp -avf $< $@
 
-#a.bin: a.cpc
-#	cp -avf $< $@
-
-a.dsk: a.cpc iDSK Makefile
+# Create a new DSK file with all binaries.
+$(DSKNAME): $(BINS) iDSK Makefile
 #	./iDSK $@ -n -i $< -t 1 -e 6000 -c 6000 -i a.bas -t 0 -l
-	./iDSK $@ -n -i $< -t 1 -e 6000 -c 6000 -l
+#	./iDSK $@ -n -i $< -t 1 -e 6000 -c 6000 -l
+	( ./iDSK $@.tmp -n $$( for IN in $^ ; do [[ $$IN =~ .bin ]] && echo -i $$IN ; done ; ) && mv -vf $@.tmp $@ ; )
+# Arguments -e 6000 -c 6000 -t 1 are redundant when -create-app app is used : both create a AMSDOS header.
+#	( ./iDSK $@.tmp -n $$( for IN in $^ ; do [[ $$IN =~ .bin ]] && echo -i $$IN ; done ; ) -e 6000 -c 6000 -t 1 && mv -vf $@.tmp $@ ; )
+echo "************************************************************************"
+echo "**************** Image ready in $@ "
+echo "************************************************************************"
+echo "**************** Fire up your favorite emulator and run from it: $(BINS)"
+echo "************************************************************************"
 
 ########################################################################
 
@@ -44,8 +72,6 @@ clean:
 
 distclean: clean
 	-rm -f iDSK
-
-
 
 ########################################################################
 

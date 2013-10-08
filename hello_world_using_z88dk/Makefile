@@ -19,10 +19,10 @@ test:
 	( . ../tool/z88dk/build_config.inc ; zcc +cpc -lndos -create-app $< ; )
 
 %.opt: $(SRCS) ../tool/z88dk/build_config.inc
-	( . ../tool/z88dk/build_config.inc ; zcc +cpc -z80-verb -lndos -a -create-app $< ; )
+	( . ../tool/z88dk/build_config.inc ; zcc +cpc -lndos -a $< -o $@ ; )
 
-%.asm: $(SRCS) ../tool/z88dk/build_config.inc
-	( . ../tool/z88dk/build_config.inc ; zcc -O0 +cpc -z80-verb -lndos -a -create-app $< ; )
+#%.asm: $(SRCS) ../tool/z88dk/build_config.inc
+#	( . ../tool/z88dk/build_config.inc ; zcc -O0 +cpc -lndos -a $< -o $@ ; )
 
 ../tool/iDSK/iDSK:
 	( export LC_ALL=C ; make -C "$$(dirname "$@")" iDSK ; )

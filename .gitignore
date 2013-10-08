@@ -1,5 +1,6 @@
 *~
 *.bin
+*.dsk
 
 # outputs from z88dk
 *.cpc

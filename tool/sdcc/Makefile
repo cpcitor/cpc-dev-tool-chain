@@ -13,12 +13,13 @@ URL_RELEASE=http://sourceforge.net/projects/sdcc/files/sdcc/3.3.0/sdcc-src-3.3.0
 URL_DOWNLOAD=$(URL_RELEASE)
 
 sdcc.downloadlog.txt:
-	wget -S $(URL_RELEASE) | tee $@.tmp
+	wget -S $(URL_RELEASE) -o $@.tmp -O $@.downloadeddata
 	mv -vf $@.tmp $@
 
 sdcc_tarball.ref: sdcc.downloadlog.txt
-	grep -o 'sdcc-[^:/]*.tar.bz2' $< | uniq >$@.tmp
+	grep -i -o 'sdcc-[^:/]*.tar.bz2' $< | uniq >$@.tmp
 	mv -vf $@.tmp $@
+	mv -vf $<.downloadeddata $$(cat $@)
 	@echo "************************************************************************"
 	@echo "**************** Source archive was downloaded to : $$(cat $@)"
 	@echo "************************************************************************"

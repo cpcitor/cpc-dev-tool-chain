@@ -1,0 +1,42 @@
+SHELL=/bin/bash
+
+HEX2BINSOURCETREE:=$(shell cat hex2bin_srctree.ref || echo ERROR)
+HEX2BINBUILDTREE:=$(HEX2BINSOURCETREE)
+HEX2BININSTALLTREE:=$(HEX2BINSOURCETREE)
+
+default: build_config.inc
+
+test:
+	@echo -e "HEX2BINSOURCETREE=\\t$(HEX2BINSOURCETREE)"
+	@echo -e "HEX2BINBUILDTREE=\\t$(HEX2BINBUILDTREE)"
+	@echo -e "HEX2BININSTALLTREE=\\t$(HEX2BININSTALLTREE)"
+
+$(HEX2BINBUILDTREE)/.built: hex2bin_srctree.ref
+	@echo "************************************************************************"
+	@echo "**************** Building in : $$(cat $<)"
+	@echo "************************************************************************"
+	$(MAKE) -C $$(cat "$<")
+	touch $@
+	@echo "************************************************************************"
+	@echo "**************** Build success in : $$(cat $<)"
+	@echo "************************************************************************"
+
+build_config.inc: $(HEX2BINBUILDTREE)/.built
+	(set -eu ; \
+	{ \
+	echo "# with bash do SOURCE this file to get a working hex2bin config." ; \
+	cd $$(dirname "$<") ; \
+	echo "export PATH=\"\$${PATH}:$$PWD\"" ; \
+	} >$@ ; )
+
+clean:
+	-rm -f *~
+	-$(MAKE) $(HEX2BINBUILDTREE) clean
+	-rm -f $(HEX2BINBUILDTREE)/.built
+
+mrproper: clean
+	-rm -f build_config.inc
+	-rm -rf $(HEX2BINSOURCETREE) $(HEX2BINBUILDTREE) $(HEX2BININSTALLTREE) *.ref
+
+distclean: mrproper
+# we do nothing more but our caller does

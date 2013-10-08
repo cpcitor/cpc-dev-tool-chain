@@ -1,20 +1,30 @@
 SHELL=/bin/bash
 
 DSKNAME=target.dsk
+#EXENAME=hello
+EXENAME:=$(shell date +%Hh%Mm%S )
 
 SRCS := $(wildcard *.c)
+SRSS := $(wildcard *.s)
 
-IHXS=$(patsubst %.c,%.ihx,$(SRCS))
-BINS=$(patsubst %.c,%.bin,$(SRCS))
+RELS=$(patsubst %.c,%.rel,$(SRCS)) $(patsubst %.s,%.rel,$(SRSS))
+
+IHXS=$(EXENAME).ihx
+BINS=$(patsubst %.ihx,%.bin,$(IHXS))
 
 TARGETS=$(DSKNAME) $(BINS) $(OPTS)
 
 all: $(TARGETS)
 
 test:
+	@echo EXENAME=$(EXENAME)
 	@echo SRCS=$(SRCS)
+	@echo SRSS=$(SRSS)
+	@echo RELS=$(RELS)
 	@echo IHXS=$(IHXS)
 	@echo BINS=$(BINS)
+
+$(EXENAME).ihx: $(RELS)
 
 ########################################################################
 # Conjure up compiler
@@ -32,8 +42,19 @@ sdcc: ../tool/sdcc/build_config.inc
 ########################################################################
 
 # FIXME change code loc project must choose it
-%.ihx: %.c Makefile sdcc
-	( . ../tool/sdcc/build_config.inc ; sdcc -mz80 --no-std-crt0 --code-loc 32768 $< ; )
+%.rel: %.c Makefile sdcc
+	( . ../tool/sdcc/build_config.inc ; sdcc -mz80 -c $< ; )
+
+%.rel: %.s Makefile sdcc
+	( . ../tool/sdcc/build_config.inc ; sdasz80 -l -o -s $@ $< ; )
+
+$(EXENAME).ihx: $(RELS) Makefile sdcc
+	( . ../tool/sdcc/build_config.inc ; sdcc -mz80 --no-std-crt0 --code-loc 32768 $(filter %.rel,$^) -o $@ ; )
+
+# For aggressive optimization add :
+# --max-allocs-per-node 100000000
+# --fomit-frame-pointer
+# --all-callee-saves
 
 ########################################################################
 # Conjure up hex2bin
@@ -100,13 +121,13 @@ SRCS := $(wildcard *.c)
 GENHRDS := $(SRCS:.c=.h)
 
 indent:
-	indent -fca -fc1 -bbb -bad -bap -sob -br -ce $(HDRS) $(SRCS)
+	indent -fca -fc1 -bbb -bad -bap -sob -bli0 -ce -i8 $(HDRS) $(SRCS)
 	@echo "Modifs: "
 	( for a in $(HDRS) $(SRCS) ; do echo -n $$a ;  diff -u $$a~ $$a && { echo " inchangé" ; mv -f $$a~ $$a ; } ; done ; )
 
 # Headers générés automatiquement
 %.h: %.c Makefile
-	@echo -n Header pour $<: ont changé $? ...
+	@echo Header pour $<: ont changé $? ...
 #	@mv 2>/dev/null $@ $@.bak && echo || echo '(était absent)'
 	( rm -f $@.tmp ; set -e ; grep -q may_be_overwritten $@ || { touch $@ ; exit ; } && { echo "/* This is a generated header. If you modify it, remove this line and the next to prevent overwriting. */" ; echo "/* may_be_overwritten */" ; echo "#ifndef _$(*F)_H_" ; echo "#define _$(*F)_H_" ; cproto -ec $< -s -v $(INCLUDE) ; echo "#endif /* _$(*F)_H_ */" ; } >$@.tmp ; mv -f $@.tmp $@ ; )
 #	@[ -e $@.bak ] && diff -us $@.bak $@ && rm $@.bak || /bin/true

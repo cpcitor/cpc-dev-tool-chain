@@ -18,29 +18,32 @@ main ()
 		}
 	}
 
-	printf ("\r\n\r\nHello world by cpcitor.\r\n\r\n");
-	printf ("Parts in C, parts in assembly.\r\n");
+	polite_wait ("Let's use VDU control codes for credits.");
+
+	// \0xx is standard C: it's octal code to insert arbitrary characters
+	// in a string.
+
+	printf ("\r\n\n\017\002Hello \017\003world \017\001by cpcitor\.\r\n\n");
+	printf ("\030Parts in C\030, parts in assembly.\r\n");
 	printf ("Compiled with SDCC.\r\n");
 
-	polite_wait ("Let's use VDU control codes for credits.");
+	printf ("Credits.\r\n\n\016\003");
+	printf ("\017\001\030Kevin Thacker\030 for arnoldemu, sharing knowledge and many more.\022\r\n");
+	printf ("\017\002\030Mochilote\030 for tutorial on cpcmania.com.\022\r\n");
 
-	printf ("%c%cChanged to mode 1.\r\n", 4, 1);
+	// \000 would insert a byte zero, but that's the string terminator in C.
+	// So, we use printf %c instead.
+	printf ("\017%c\030Norecess\030 for tutorial on norecess.net.\022\r\n", 0);
+	printf ("\017\001All cpcwiki community.\022\r\n");
 
-	printf ("Credits.\r\n");
-	printf ("%c%c%cKevin Thacker%c for arnoldemu, sharing knowledge and many more.\r\n", 15, 1, 24, 24);
-	printf ("%c%c%cMochilote%c for tutorial on cpcmania.com.\r\n", 15, 2,
-		24, 24);
-	printf ("%c%c%cNorecess%c for tutorial on norecess.net.\r\n", 15, 3,
-		24, 24);
-	printf ("%c%cAll cpcwiki community.\r\n", 15, 1);
+	printf ("\r\n\n\016%c\017\001", 0);
 
-	polite_wait ("Let's use VDU control codes for credits.");
+	polite_wait ("Let's use VDU control chars to display many colors.");
 
-	printf ("%c%cChanged to mode 0.\r\n", 4, 0);
+	printf ("\004%cChanged to mode 0.\r\n", 0);
 
-	printf ("%c%c%cChanged border color to orange.\r\n", 29, 15, 15);
+	printf ("\035\017\017Changed border color to orange.\r\n");
 
-	polite_wait ("Next step is show some colors.");
 	{
 		unsigned char a;
 
@@ -53,14 +56,13 @@ main ()
 			putchar (10);
 		}
 	}
-	printf ("%c%c%c%c", 15, 1, 14, 0);
-	polite_wait ("Color end.");
+	printf ("\017\001\016%c", 0);
+	polite_wait ("Color show end. Next step go back to mode 1.");
 
-	polite_wait ("Next step go back to mode 1.");
+	printf ("\004\001Changed to mode 1.\r\n");
+	printf ("\035\001\001Changed border color back to blue.\r\n");
 
-	printf ("%c%cChanged to mode 1.\r\n", 4, 1);
-
-	polite_wait ("Next step is printing control chars test.");
+	printf ("Oh, we have forgotten to show control chars.\r\n\n");
 	{
 		unsigned char a;
 
@@ -70,12 +72,16 @@ main ()
 			putchar (a);
 		}
 	}
-	polite_wait ("Printing control char test end.");
+	printf ("\r\n\nShowing control char end.\r\n\n");
 
-	polite_wait ("Next step is printf with decimal argument test.");
+	polite_wait ("Let's switch to mode 2.");
+
+	printf ("\004\002Changed to mode 2.\r\n");
+
+	polite_wait ("Next step is C's printf() with formatting a decimal argument.");
 	printf ("Answer to life, the universe and everything: %d.\r\n", 42);
 
-	polite_wait ("Next step is using km_wait_key for keyboard input.");
+	polite_wait ("Next step is use C's printf() to show char and number from keyboard input.");
 	{
 		unsigned char n = 10;
 
@@ -85,11 +91,13 @@ main ()
 		{
 			unsigned char c = km_wait_key ();
 
-			printf ("Key yields char number %d which is '%c'\r\n",
+			printf ("Key yields char number %d which is '\001%c'\r\n",
 				c, c);
 		}
 	}
-	polite_wait ("I'll fill the screen by calling from C a function written in pure assembly.\r\n");
+	polite_wait("I'll go back to mode 1 then fill the screen\r\n"
+		    "by calling from C a fillscreen() function written in pure assembly.\r\n");
+	printf ("\004\001Changed to mode 1.\r\n");
 	{
 		unsigned char c = 0xff;
 
@@ -102,7 +110,7 @@ main ()
 		}
 	}
 	printf ("Goodbye world!\r\n");
-	printf ("(press any key)\r\n");
+	printf ("Press any key. Depending on the way the program was called, it will return or reset the CPC.\r\n");
 	km_wait_key ();
 	return 0;
 }

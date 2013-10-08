@@ -8,7 +8,7 @@ all: $(TARGETS)
 URL_RELEASE=http://sourceforge.net/projects/z88dk/files/z88dk/1.10/z88dk-1.10.1.tgz/download
 
 # Untested
-URL_RELEASE=http://sourceforge.net/projects/z88dk/files/latest/download?source=files
+URL_LATESTRELEASE=http://sourceforge.net/projects/z88dk/files/latest/download?source=files
 URL_NIGHTLY=http://nightly.z88dk.org/z88dk-latest.tgz
 
 
@@ -24,6 +24,7 @@ z88dk/.unpacked: z88dk-latest.tgz
 #z88dk/.unpacked:
 #	( set -e ; cvs -z3 -d:pserver:anonymous@z88dk.cvs.sourceforge.net:/cvsroot/z88dk co -D 2013-09-18 -P z88dk ; touch $@ ; )
 
+# nothing to patch at the moment
 z88dk/.patched: z88dk/.unpacked
 	( set -e ; touch $@ ; )
 
@@ -40,9 +41,6 @@ build_config.inc: z88dk/.built Makefile
 	echo "export ZCCCFG=\"$${ZCCCFG}\"" ; \
 	echo "export PATH=\"\$${PATH}:$$PWD/bin\"" ; \
 	} >$@ ; )
-
-#iDSK: z88dk/iDSK/src/iDSK
-#	cp -avf $< $@
 
 clean:
 	-( cd z88dk && make clean ; rm -f z88dk/.built ; )

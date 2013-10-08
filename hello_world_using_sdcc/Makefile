@@ -57,22 +57,23 @@ hex2bin: ../tool/hex2bin/build_config.inc
 # Conjure up tool to insert file in dsk image
 ########################################################################
 
-../tool/iDSK/iDSK:
-	( export LC_ALL=C ; make -C "$$(dirname "$@")" iDSK ; )
+# pseudo-target sdcc is used to say "I need sdcc compiled in PATH."
+.PHONY: idsk
+idsk: ../tool/idsk/build_config.inc
 
-iDSK: ../tool/iDSK/iDSK
-	cp -avf $< $@
+../tool/idsk/build_config.inc:
+	( export LC_ALL=C ; make -C "$$(dirname "$@")" ; )
 
 ########################################################################
 # Insert file in dsk image
 ########################################################################
 
 # Create a new DSK file with all binaries.
-$(DSKNAME): $(BINS) iDSK Makefile
+$(DSKNAME): $(BINS) idsk Makefile
 #	./iDSK $@ -n -i $< -t 1 -e 6000 -c 6000 -i a.bas -t 0 -l
 #	./iDSK $@ -n -i $< -t 1 -e 6000 -c 6000 -l
 # WARNING : addresses are in hex without prefix, no warning on overflow
-	( ./iDSK $@.tmp -n $$( for IN in $^ ; do [[ $$IN =~ .bin ]] && echo -i $$IN ; done ; ) -e 8000 -c 8000 -t 1 && mv -vf $@.tmp $@ ; )
+	( set -e ; source ../tool/idsk/build_config.inc ; iDSK $@.tmp -n $$( for IN in $^ ; do [[ $$IN =~ .bin ]] && echo -i $$IN ; done ; ) -e 8000 -c 8000 -t 1 && mv -vf $@.tmp $@ ; )
 	@echo
 	@echo "************************************************************************"
 	@echo "************************************************************************"
@@ -89,7 +90,7 @@ clean:
 	-rm -f *.lk *.noi *.rel *.asm *.ihx *.lst *.map *.sym $(TARGETS)
 
 distclean: clean
-	-rm -f iDSK
+
 
 ########################################################################
 

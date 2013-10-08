@@ -1,4 +1,4 @@
-TARGETS=iDSK
+TARGETS=build_config.inc
 
 all: $(TARGETS)
 
@@ -14,7 +14,15 @@ iDSK.0.13/.patched: iDSK.0.13_build_patch.patch iDSK.0.13/.unpacked
 	( set -e ; patch -p0 < $< ; touch $@ ; )
 
 iDSK.0.13/iDSK/src/iDSK: iDSK.0.13/.patched
-	(set -e ; cd iDSK.0.13/iDSK ; ./configure ; LC_ALL=C make --print-directory ; )
+	(set -e ; cd iDSK.0.13/iDSK ; ./configure ; LC_ALL=C $(MAKE) --print-directory ; )
+
+build_config.inc: iDSK.0.13/iDSK/src/iDSK
+	(set -eu ; \
+	{ \
+	echo "# with bash do SOURCE this file to get a working hex2bin config." ; \
+	cd $$(dirname "$<") ; \
+	echo "export PATH=\"\$${PATH}:$$PWD\"" ; \
+	} >$@ ; )
 
 iDSK: iDSK.0.13/iDSK/src/iDSK
 	cp -avf $< $@

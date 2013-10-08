@@ -1,4 +1,5 @@
 iDSK
 ._iDSK*
 *.tgz
-iDSK.*
+iDSK.*/
+

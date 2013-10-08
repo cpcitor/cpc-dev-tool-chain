@@ -18,7 +18,7 @@ main ()
 		}
 	}
 
-	printf ("\r\n\r\nHello world by cpcitor.\r\n");
+	printf ("\r\n\r\nHello world by cpcitor.\r\n\r\n");
 	printf ("Parts in C, parts in assembly.\r\n");
 	printf ("Compiled with SDCC.\r\n");
 
@@ -32,13 +32,13 @@ main ()
 		24, 24);
 	printf ("%c%c%cNorecess%c for tutorial on norecess.net.\r\n", 15, 3,
 		24, 24);
-	printf ("%c%cAll cpcwiki community.\r\n", 15, 0);
+	printf ("%c%cAll cpcwiki community.\r\n", 15, 1);
 
 	polite_wait ("Let's use VDU control codes for credits.");
 
 	printf ("%c%cChanged to mode 0.\r\n", 4, 0);
 
-	printf ("%c%c%cChanged border color.\r\n", 29, 15, 15);
+	printf ("%c%c%cChanged border color to orange.\r\n", 29, 15, 15);
 
 	polite_wait ("Next step is show some colors.");
 	{

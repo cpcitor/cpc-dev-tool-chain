@@ -114,10 +114,9 @@ If you are on Windows, install cygwin and when the installer asks you what packa
 * `patch`
 * `gcc`
 * `wget`
-* `bison`
-* `flex`
+* `bison`, `flex`, `libboost-dev`
 
-`make` is a tool to automate build steps. `patch` is to adjust iDSK source code (and possibly others in the future). `gcc` is the native compiler, to compile CPC compiler and tools. `wget` is used on first run to automatically get CPC-specific software from the Internet. `bison` and `flex` are needed to compile sdcc.
+`make` is a tool to automate build steps. `patch` is to adjust iDSK source code (and possibly others in the future). `gcc` is the native compiler, to compile CPC compiler and tools. `wget` is used on first run to automatically get CPC-specific software from the Internet. `bison`, `flex` and `libboost-dev` are needed to compile sdcc.
 
 If you are on Linux, use your distribution's package manager, for example on Debian/Ubuntu/derivatives :
 

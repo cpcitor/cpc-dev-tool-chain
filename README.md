@@ -22,11 +22,13 @@ This is a portable toolchain for C/ASM development targetting the Amstrad CPC pl
 ### Why would I *not* want to use that ?
 
 * If you don't want to know that virtually all Integrated Development
-  Environments are indeed graphical front-ends for command-line driven
-  toolchains.
+  Environments are indeed graphical front-ends for a toolchain.
 * If anything looking like a command line or an open-source style
-  environment makes you sick.  But in that case you are probably not a
-  programmer.
+  environment makes you sick.  In that case, it might be interesting
+  for you to read Wikipedia's article about
+  [Hacker (programmer subculture)](http://en.wikipedia.org/wiki/Hacker_%28programmer_subculture%29)
+  and ponder whether some kind of structure or common tools helps
+  every member of a community.
 
 ----------------------------------------------------------------
 
@@ -81,8 +83,8 @@ The toolchain is intended to be so easy to get running that you may even conside
 
 Prerequisites:
 
-* a Linux-like environment (Windows users will want to install cygwin) with a compiled and widespread tools
-* C source code (a "Hello World" is provided)
+* a Linux-like environment (Windows users will want to install cygwin) with a compiled and widespread tools. This may change in the future (e.g. mingw32, msys, gnuwin32).
+* C source code (a "Hello World" is provided).
 
 How to run:
 
@@ -109,16 +111,17 @@ The only dependencies are software that is widespread and easily obtainable on a
 If you are on Windows, install cygwin and when the installer asks you what packages you want, be sure to than the following packages names are selected:
 
 * `make`
+* `patch`
 * `gcc`
 * `wget`
 * `bison`
 * `flex`
 
-`make` is a tool to automate build steps. `gcc` is the native compiler, to compile CPC compiler and tools. `wget` is used on first run to automatically get CPC-specific software from the Internet. `bison` and `flex` are needed to compile sdcc.
+`make` is a tool to automate build steps. `patch` is to adjust iDSK source code (and possibly others in the future). `gcc` is the native compiler, to compile CPC compiler and tools. `wget` is used on first run to automatically get CPC-specific software from the Internet. `bison` and `flex` are needed to compile sdcc.
 
 If you are on Linux, use your distribution's package manager, for example on Debian/Ubuntu/derivatives :
 
-	sudo apt-get install make gcc wget bison flex
+	sudo apt-get install make patch gcc wget bison flex
 
 Software that is specific to CPC is automatically fetched and compiled from the Internet.
 

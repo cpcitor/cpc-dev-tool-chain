@@ -1,8 +1,9 @@
 SHELL=/bin/bash
 
 DSKNAME=target.dsk
-#EXENAME=hello
-EXENAME:=$(shell date +%Hh%Mm%S )
+EXENAME=sdccproj
+-include cdtc_project.conf
+#EXENAME:=$(shell date +%Hh%Mm%S )
 
 SRCS := $(wildcard *.c)
 SRSS := $(wildcard *.s)
@@ -32,9 +33,9 @@ $(EXENAME).ihx: $(RELS)
 
 # pseudo-target sdcc is used to say "I need sdcc compiled in PATH."
 .PHONY: sdcc
-sdcc: ../tool/sdcc/build_config.inc
+sdcc: $(CDTC_ROOT)/tool/sdcc/build_config.inc
 
-../tool/sdcc/build_config.inc:
+$(CDTC_ROOT)/tool/sdcc/build_config.inc:
 	( export LC_ALL=C ; $(MAKE) -C "$(@D)" build_config.inc ; )
 
 ########################################################################
@@ -43,13 +44,17 @@ sdcc: ../tool/sdcc/build_config.inc
 
 # FIXME change code loc project must choose it
 %.rel: %.c Makefile sdcc
-	( . ../tool/sdcc/build_config.inc ; sdcc -mz80 -c $< ; )
+	( SDCCARGS="" ; \
+	if grep '^#include .cpcrslib.h.' $< ; then echo "Uses cpcrslib: $<" ; SDCCARGS="$${SDCCARGS} -I$(CDTC_ROOT)/tool/cpcrslib/cpcrslib_SDCC.installtree/include" ; fi ; \
+	. "$(CDTC_ROOT)"/tool/sdcc/build_config.inc ; set -xv ; sdcc -mz80 $${SDCCARGS} -c $< ; )
 
 %.rel: %.s Makefile sdcc
-	( . ../tool/sdcc/build_config.inc ; sdasz80 -l -o -s $@ $< ; )
+	( . $(CDTC_ROOT)/tool/sdcc/build_config.inc ; sdasz80 -l -o -s $@ $< ; )
 
 $(EXENAME).ihx: $(RELS) Makefile sdcc
-	( . ../tool/sdcc/build_config.inc ; sdcc -mz80 --no-std-crt0 --code-loc 32768 $(filter %.rel,$^) -o $@ ; )
+	( SDCCARGS="" ; \
+	if grep -H '^#include .cpcrslib.h.' $(SRCS) ; then echo "This executable depends on cpcrslib: $@" ; SDCCARGS="$${SDCCARGS} -l$(CDTC_ROOT)/tool/cpcrslib/cpcrslib_SDCC.installtree/lib/cpcrslib.lib" ; fi ; \
+	 . $(CDTC_ROOT)/tool/sdcc/build_config.inc ; sdcc -mz80 --no-std-crt0 --code-loc 32768 $${SDCCARGS} $(filter %.rel,$^) -o "$@" ; )
 
 # For aggressive optimization add :
 # --max-allocs-per-node 100000000
@@ -62,9 +67,9 @@ $(EXENAME).ihx: $(RELS) Makefile sdcc
 
 # pseudo-target hex2bin is used to say "I need hex2bin compiled in PATH."
 .PHONY: hex2bin
-hex2bin: ../tool/hex2bin/build_config.inc
+hex2bin: $(CDTC_ROOT)/tool/hex2bin/build_config.inc
 
-../tool/hex2bin/build_config.inc:
+$(CDTC_ROOT)/tool/hex2bin/build_config.inc:
 	( export LC_ALL=C ; $(MAKE) -C "$(@D)" build_config.inc ; )
 
 ########################################################################
@@ -72,7 +77,7 @@ hex2bin: ../tool/hex2bin/build_config.inc
 ########################################################################
 
 %.bin: %.ihx hex2bin
-	( . ../tool/hex2bin/build_config.inc ; hex2bin -p 00 $< ; )
+	( . $(CDTC_ROOT)/tool/hex2bin/build_config.inc ; hex2bin -p 00 "$<" ; )
 
 ########################################################################
 # Conjure up tool to insert file in dsk image
@@ -80,9 +85,9 @@ hex2bin: ../tool/hex2bin/build_config.inc
 
 # pseudo-target sdcc is used to say "I need sdcc compiled in PATH."
 .PHONY: idsk
-idsk: ../tool/idsk/build_config.inc
+idsk: $(CDTC_ROOT)/tool/idsk/build_config.inc
 
-../tool/idsk/build_config.inc:
+$(CDTC_ROOT)/tool/idsk/build_config.inc:
 	( export LC_ALL=C ; $(MAKE) -C "$(@D)" ; )
 
 ########################################################################
@@ -94,7 +99,7 @@ $(DSKNAME): $(BINS) idsk Makefile
 #	./iDSK $@ -n -i $< -t 1 -e 6000 -c 6000 -i a.bas -t 0 -l
 #	./iDSK $@ -n -i $< -t 1 -e 6000 -c 6000 -l
 # WARNING : addresses are in hex without prefix, no warning on overflow
-	( set -e ; source ../tool/idsk/build_config.inc ; iDSK $@.tmp -n $$( for IN in $^ ; do [[ $$IN =~ .bin ]] && echo -i $$IN ; done ; ) -e 8000 -c 8000 -t 1 && mv -vf $@.tmp $@ ; )
+	( set -exv ; source $(CDTC_ROOT)/tool/idsk/build_config.inc ; iDSK $@.tmp -n $$( for IN in $(filter %.bin,$^) ; do echo -i $$IN ; done ; ) -e 8000 -c 8000 -t 1 && mv -vf $@.tmp $@ ; )
 	@echo
 	@echo "************************************************************************"
 	@echo "************************************************************************"

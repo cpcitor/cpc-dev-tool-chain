@@ -13,10 +13,13 @@ displayhelp:
 .PHONY: hello_world_using_z88dk hello_world_using_sdcc
 
 hello_world_using_z88dk: hello_world_using_z88dk/Makefile
-	LC_ALL=C $(MAKE) -C hello_world_using_z88dk
+	LC_ALL=C $(MAKE) -C $@
 
 hello_world_using_sdcc: hello_world_using_sdcc/Makefile
-	LC_ALL=C $(MAKE) -C hello_world_using_sdcc CDTC_ROOT=$$PWD
+	LC_ALL=C $(MAKE) -C $@ CDTC_ROOT=$$PWD
+
+cpcrslib_samples: tool/cpcrslib/Makefile
+	LC_ALL=C $(MAKE) -C $(<D) CDTC_ROOT=$$PWD
 
 #distclean:
 #	( find . -type d -print -exec bash -c "cd '{}' ; make clean ; make mrproper ; make distclean" \; ; )

@@ -20,16 +20,27 @@ cpcrslib_SDCC/.unpacked: cpcrslib_SDCC_11.03.2012.rar
 	@echo "************************************************************************"
 
 cpcrslib_SDCC/.patched: cpcrslib_SDCC/.unpacked
+	@echo "************************************************************************"
+	@echo "**************** Configuring samples in : $(@D)"
+	@echo "************************************************************************"
 	( set -e ; \
 	cd $(@D) ; \
 	cd examples ; \
 	for EXAMPLE in */ ; \
 	do \
 	$(CDTC_ROOT)/new-sdcc-project.sh "$${EXAMPLE}" ; \
-	echo EXENAME=$$( echo "$${EXAMPLE}" | tr -d -c 'A-Za-z0-9_'| grep -o '^........' ;  ) >"$${EXAMPLE}"/cdtc_project.conf ; \
+	( \
+		echo EXENAME=$$( echo "$${EXAMPLE}" | tr -d -c 'A-Za-z0-9_'| grep -o '^........' ; ) ; \
+		echo CDTC_ROOT=$(CDTC_ROOT) ; \
+	) >"$${EXAMPLE}"/cdtc_project.conf ; \
 	done ; \
 	)
 	touch $@
+	@echo "************************************************************************"
+	@echo "**************** Configured samples in : $(@D)"
+	@echo "************************************************************************"
+	@echo "**************** You can go in any sample directory (path above) and type make."
+	@echo "************************************************************************"
 
 cpcrslib_SDCC.buildtree/.built: cpcrslib_SDCC/.unpacked
 	@echo "************************************************************************"

@@ -35,7 +35,7 @@ $(EXENAME).ihx: $(RELS)
 sdcc: ../tool/sdcc/build_config.inc
 
 ../tool/sdcc/build_config.inc:
-	( export LC_ALL=C ; make -C "$$(dirname "$@")" build_config.inc ; )
+	( export LC_ALL=C ; make -C "$(@D)" build_config.inc ; )
 
 ########################################################################
 # Compile
@@ -65,7 +65,7 @@ $(EXENAME).ihx: $(RELS) Makefile sdcc
 hex2bin: ../tool/hex2bin/build_config.inc
 
 ../tool/hex2bin/build_config.inc:
-	( export LC_ALL=C ; make -C "$$(dirname "$@")" build_config.inc ; )
+	( export LC_ALL=C ; make -C "$(@D)" build_config.inc ; )
 
 ########################################################################
 # Use hex2bin
@@ -83,7 +83,7 @@ hex2bin: ../tool/hex2bin/build_config.inc
 idsk: ../tool/idsk/build_config.inc
 
 ../tool/idsk/build_config.inc:
-	( export LC_ALL=C ; make -C "$$(dirname "$@")" ; )
+	( export LC_ALL=C ; make -C "$(@D)" ; )
 
 ########################################################################
 # Insert file in dsk image

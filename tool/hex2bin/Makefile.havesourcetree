@@ -25,7 +25,7 @@ build_config.inc: $(HEX2BINBUILDTREE)/.built
 	(set -eu ; \
 	{ \
 	echo "# with bash do SOURCE this file to get a working hex2bin config." ; \
-	cd $$(dirname "$<") ; \
+	cd "$(<D)" ; \
 	echo "export PATH=\"\$${PATH}:$$PWD\"" ; \
 	} >$@ ; )
 

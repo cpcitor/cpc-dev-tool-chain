@@ -19,7 +19,7 @@ test:
 ########################################################################
 
 ../tool/z88dk/build_config.inc:
-	( export LC_ALL=C ; make -C "$$(dirname "$@")" build_config.inc ; )
+	( export LC_ALL=C ; make -C "$(@D)" build_config.inc ; )
 
 #%: $(SRCS) ../tool/z88dk/build_config.inc
 #	( . ../tool/z88dk/build_config.inc ; zcc +cpc -lcpcfs -lmz -create-app -o $@ $< ; )
@@ -53,7 +53,7 @@ test:
 idsk: ../tool/idsk/build_config.inc
 
 ../tool/idsk/build_config.inc:
-	( export LC_ALL=C ; make -C "$$(dirname "$@")" ; )
+	( export LC_ALL=C ; make -C "$(@D)" ; )
 
 ########################################################################
 # Insert file in dsk image

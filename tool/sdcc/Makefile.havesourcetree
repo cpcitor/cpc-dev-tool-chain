@@ -16,7 +16,7 @@ $(SDCCBUILDTREE)/.configured: sdcc_srctree.ref
 	@echo "************************************************************************"
 	@echo "**************** Configuring in : $$(cat $<)"
 	@echo "************************************************************************"
-	./sdcc_configure.sh "$$(dirname "$@")" "${SDCCINSTALLTREE}" "$(SDCCSOURCETREE)"
+	./sdcc_configure.sh "$(@D)" "${SDCCINSTALLTREE}" "$(SDCCSOURCETREE)"
 	touch "$@"
 	@echo "************************************************************************"
 	@echo "**************** Configuration success in : $$(cat $<)"
@@ -24,29 +24,29 @@ $(SDCCBUILDTREE)/.configured: sdcc_srctree.ref
 
 $(SDCCBUILDTREE)/.built: $(SDCCBUILDTREE)/.configured
 	@echo "************************************************************************"
-	@echo "**************** Building in : $$(dirname $<)"
+	@echo "**************** Building in : $(<D)"
 	@echo "************************************************************************"
-	$(MAKE) -C $$(dirname "$<")
+	$(MAKE) -C "$(<D)"
 	touch $@
 	@echo "************************************************************************"
-	@echo "**************** Build success in : $$(dirname $<)"
+	@echo "**************** Build success in : $(<D)"
 	@echo "************************************************************************"
 
 $(SDCCINSTALLTREE)/.installed: $(SDCCBUILDTREE)/.built
 	@echo "************************************************************************"
-	@echo "**************** Installing in : $$(dirname $<)"
+	@echo "**************** Installing in : $(<D)"
 	@echo "************************************************************************"
-	$(MAKE) -C $$(dirname "$<") install
+	$(MAKE) -C "$(<D)" install
 	touch $@
 	@echo "************************************************************************"
-	@echo "**************** Install success in : $$(dirname $<)"
+	@echo "**************** Install success in : $(<D)"
 	@echo "************************************************************************"
 
 build_config.inc: $(SDCCINSTALLTREE)/.installed Makefile
 	(set -eu ; \
 	{ \
 	echo "# with bash do SOURCE this file to get a working sdcc config." ; \
-	cd $$(dirname "$<") ; \
+	cd "$(<D)" ; \
 	echo "export PATH=\"\$${PATH}:$$PWD/bin\"" ; \
 	} >$@ ; )
 

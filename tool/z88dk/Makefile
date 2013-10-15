@@ -30,7 +30,7 @@ z88dk/.patched: z88dk/.unpacked
 
 z88dk/.built: z88dk/.patched
 	./z88dk_prerequisites_check.sh
-	(set -e ; ( cd $$(dirname "$@") ; LC_ALL=C ./build.sh ; ) ; touch $@ ; )
+	(set -e ; ( cd "$(@D)" ; LC_ALL=C ./build.sh ; ) ; touch $@ ; )
 
 build_config.inc: z88dk/.built Makefile
 	(set -e ; \

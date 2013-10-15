@@ -41,7 +41,7 @@ build_config.inc: iDSK.0.13/iDSK/src/iDSK
 	(set -eu ; \
 	{ \
 	echo "# with bash do \"source\" this file." ; \
-	cd $$(dirname "$<") ; \
+	cd "$(<D)" ; \
 	echo "export PATH=\"\$${PATH}:$$PWD\"" ; \
 	} >$@ ; )
 

@@ -108,26 +108,41 @@ Output produced:
 
 The only dependencies are software that is widespread and easily obtainable on any system.
 
-If you are on Windows, install cygwin and when the installer asks you what packages you want, be sure to than the following packages names are selected:
+### Linux
+
+* There are a few dependencies on very widespread tools.
+* Software that is specific to CPC is automatically fetched and compiled from the Internet.
+
+For the widespread tools, use your distribution's package manager, for example on Debian/Ubuntu/derivatives :
+
+    APT="sudo apt-get --no-install-recommends --assume-yes install"
+    ${APT:?} wget make patch gcc	# common tools
+    ${APT:?} gzip libmodern-perl-perl	# for z88dk
+    ${APT:?} bzip2	# for hex2bin and sdcc
+    ${APT:?} g++ bison flex libboost-dev	# for sdcc
+    ${APT:?} unrar	# for cpcrslib
+	uname -m | grep 64 && ${APT:?} libc6-i386
+
+The last command tests if you are on a 64bit platform because in that case, `hex2bin` is still a 32-bit executable. If your installation is really bare (unlikely, unless you work in a chroot) you might miss the 32-bit libc.
+
+### Windows
+
+At the moment, Window should work using cygwin.  Install cygwin and when the installer asks you what packages you want, be sure to than the following packages names are selected:
 
 * `make`
 * `patch`
 * `gcc`
 * `wget`
 * `bison`, `flex`, `libboost-dev`
+* `unrar`
 
-`make` is a tool to automate build steps. `patch` is to adjust iDSK source code (and possibly others in the future). `gcc` is the native compiler, to compile CPC compiler and tools. `wget` is used on first run to automatically get CPC-specific software from the Internet. `bison`, `flex` and `libboost-dev` are needed to compile sdcc.
-
-If you are on Linux, use your distribution's package manager, for example on Debian/Ubuntu/derivatives :
-
-	sudo apt-get install make patch gcc wget bison flex
-
-Software that is specific to CPC is automatically fetched and compiled from the Internet.
+`make` is a tool to automate build steps. `patch` is to adjust iDSK source code (and possibly others in the future). `gcc` is the native compiler, to compile CPC compiler and tools. `wget` is used on first run to automatically get CPC-specific software from the Internet. `bison`, `flex` and `libboost-dev` are needed to compile sdcc. `unrar` is for `cpcrslib`.
 
 ### Tested platforms
 
-* Ubuntu 11.10 (or was it 11.04 ?)
-* Ubuntu 12.10
+* Ubuntu 12.10 64-bits
+* Ubuntu 13.10 64-bits
+* Debian 7.1 Wheezy 64-bits
 
 Test and report on your platform, I'll be happy to help.
 

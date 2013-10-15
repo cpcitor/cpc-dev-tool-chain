@@ -1,7 +1,7 @@
 *.ref
 *.downloadlog.txt
 *.tar.bz2
-*.buildtree
-*.installtree
+*.buildtree/
+*.installtree/
 build_config.inc
 download

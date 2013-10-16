@@ -50,7 +50,7 @@ proceed_with_one_item ()
         {
                 echo "# ${OVERWRITABLE_MARKER}"
                 echo "-include cdtc_project.conf"
-                echo "-include $(CDTC_ROOT)/sdcc-project.Makefile"
+                echo "-include \$(CDTC_ROOT)/sdcc-project.Makefile"
                 echo "failure:"
                 echo -e "\011@echo 'Cannot locate cpc-dev-tool-chain main directory.'"
                 echo -e "\011@false"

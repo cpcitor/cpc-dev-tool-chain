@@ -1,5 +1,7 @@
+SHELL=/bin/bash
+
 TARGETLIBS=cpcrslib.lib cpcwyzlib.lib
-CDTC_ROOT=../../
+export CDTC_ROOT:=$(shell cd ../../ ; pwd ; )
 
 all: cpcrslib_SDCC.installtree/.installed cpcrslib_SDCC/.patched
 
@@ -48,7 +50,7 @@ cpcrslib_SDCC.buildtree/.built: cpcrslib_SDCC/.unpacked
 	@echo "************************************************************************"
 	( set -e ; \
 	mkdir -p $(@D) ; \
-	LC_ALL=C make --print-directory -f ../cpcrslib_SDCC_SDCC.Makefile -C $(@D) $(TARGET) CPCRSLIB_SRCTREE=../$(<D)/SDCC ; \
+	LC_ALL=C $(MAKE) --print-directory -f ../cpcrslib_SDCC_SDCC.Makefile -C $(@D) $(TARGET) CPCRSLIB_SRCTREE=../$(<D)/SDCC ; \
 	touch "$@" ; \
 	)
 	@echo "************************************************************************"
@@ -59,7 +61,7 @@ cpcrslib_SDCC.installtree/.installed: cpcrslib_SDCC.buildtree/.built
 	@echo "************************************************************************"
 	@echo "**************** Installing in : $(@D) target $(@F)"
 	@echo "************************************************************************"
-	( set -e ; mkdir -p $(@D) ; cd $(@D) ; \
+	( set -exv ; mkdir -p $(@D) ; cd $(@D) ; \
 	mkdir -p include ; cp ../cpcrslib_SDCC/SDCC/*.h include/ ;  \
 	mkdir -p lib ; cp ../cpcrslib_SDCC.buildtree/*.lib lib/ ; \
 	cd - ; touch "$@" \
@@ -69,7 +71,7 @@ cpcrslib_SDCC.installtree/.installed: cpcrslib_SDCC.buildtree/.built
 	@echo "************************************************************************"
 
 clean:
-	-( set -e ; cd cpcrslib_SDCC.buildtree ; make clean ; )
+	-( set -e ; cd cpcrslib_SDCC.buildtree ; $(MAKE) clean ; )
 
 mrproper: #clean
 	-rm -rf cpcrslib_SDCC cpcrslib_SDCC.buildtree cpcrslib_SDCC.installtree ._cpcrslib_SDCC *~

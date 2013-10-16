@@ -6,3 +6,5 @@ README.html
 # outputs from z88dk
 *.cpc
 *.tmp
+#*#
+.#*

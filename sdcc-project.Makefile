@@ -99,7 +99,7 @@ $(DSKNAME): $(BINS) idsk Makefile
 #	./iDSK $@ -n -i $< -t 1 -e 6000 -c 6000 -i a.bas -t 0 -l
 #	./iDSK $@ -n -i $< -t 1 -e 6000 -c 6000 -l
 # WARNING : addresses are in hex without prefix, no warning on overflow
-	( set -exv ; source $(CDTC_ROOT)/tool/idsk/build_config.inc ; iDSK $@.tmp -n $$( for IN in $(filter %.bin,$^) ; do echo -i $$IN ; done ; ) -e 8000 -c 8000 -t 1 && mv -vf $@.tmp $@ ; )
+	( set -exv ; source $(CDTC_ROOT)/tool/idsk/build_config.inc ; iDSK $@.tmp -n $(patsubst %,-i %, $(filter %.bin,$^)) -e 8000 -c 8000 -t 1 && mv -vf $@.tmp $@ ; )
 	@echo
 	@echo "************************************************************************"
 	@echo "************************************************************************"

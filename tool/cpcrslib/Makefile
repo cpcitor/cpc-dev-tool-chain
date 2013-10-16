@@ -3,7 +3,7 @@ SHELL=/bin/bash
 TARGETLIBS=cpcrslib.lib cpcwyzlib.lib
 export CDTC_ROOT:=$(shell cd ../../ ; pwd ; )
 
-all: cpcrslib_SDCC.installtree/.installed cpcrslib_SDCC/.patched
+all: cpcrslib_SDCC.installtree/.installed cpcrslib_SDCC/examples/.configured
 
 ########################################################################
 
@@ -22,15 +22,17 @@ cpcrslib_SDCC/.unpacked: cpcrslib_SDCC_11.03.2012.rar
 	@echo "**************** Source extracted to : $(@D)"
 	@echo "************************************************************************"
 
-cpcrslib_SDCC/.patched: cpcrslib_SDCC/.unpacked
+cpcrslib_SDCC/examples/.configured: cpcrslib_SDCC/.unpacked
 	@echo "************************************************************************"
 	@echo "**************** Configuring samples in : $(@D)"
 	@echo "************************************************************************"
 	( set -e ; \
 	cd $(@D) ; \
-	cd examples ; \
 	for EXAMPLE in */ ; \
 	do \
+	echo "************************************************************************" ; \
+	echo "**************** Configuring sample in : $${EXAMPLE}" ; \
+	echo "************************************************************************" ; \
 	( \
 		echo EXENAME=$$( echo "$${EXAMPLE}" | tr -d -c 'A-Za-z0-9_'| grep -o '^........' ; ) ; \
 	) >"$${EXAMPLE}"/cdtc_project.conf ; \

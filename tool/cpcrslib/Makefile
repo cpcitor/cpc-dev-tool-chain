@@ -26,7 +26,8 @@ cpcrslib_SDCC/examples/.configured: cpcrslib_SDCC/.unpacked
 	@echo "************************************************************************"
 	@echo "**************** Configuring samples in : $(@D)"
 	@echo "************************************************************************"
-	( set -e ; \
+	( set -exv ; \
+	function ifexists() { if [[ -e "$$1" ]] ; then echo "$$1" ; echo >&2 "$$1 exists, keeping" ; else echo >&2 "$$1 does not exist, skipping" ; fi ; } ; \
 	cd $(@D) ; \
 	for EXAMPLE in */ ; \
 	do \
@@ -34,7 +35,9 @@ cpcrslib_SDCC/examples/.configured: cpcrslib_SDCC/.unpacked
 	echo "**************** Configuring sample in : $${EXAMPLE}" ; \
 	echo "************************************************************************" ; \
 	( \
-		echo EXENAME=$$( echo "$${EXAMPLE}" | tr -d -c 'A-Za-z0-9_'| grep -o '^........' ; ) ; \
+		cd "$${EXAMPLE}" ; \
+		echo EXENAME=$$( echo "$${EXAMPLE}" | tr -d -c 'A-Za-z0-9_' | grep -o '^........' ; ) ; \
+		echo LDFLAGS=--code-loc 0x6038 --data-loc 0 --no-std-crt0 $$( ifexists crt0_cpc.rel ) $$( ifexists putchar_cpc.rel ) ; \
 	) >"$${EXAMPLE}"/cdtc_project.conf ; \
 	$(CDTC_ROOT)/new-sdcc-project.sh "$${EXAMPLE}" ; \
 	done ; \

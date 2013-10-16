@@ -38,7 +38,7 @@ cpcrslib_SDCC/examples/.configured: cpcrslib_SDCC/.unpacked
 		cd "$${EXAMPLE}" ; \
 		echo EXENAME=$$( echo "$${EXAMPLE}" | tr -d -c 'A-Za-z0-9_' | grep -o '^........' ; ) ; \
 		echo CODELOC=0x6038 ; \
-		echo LDFLAGS=--no-std-crt0 $$( ifexists crt0_cpc.rel ) $$( ifexists putchar_cpc.rel ) ; \
+		echo LDFLAGS=$$( ifexists crt0_cpc.rel ) $$( ifexists putchar_cpc.rel ) ; \
 	) >"$${EXAMPLE}"/cdtc_project.conf ; \
 	$(CDTC_ROOT)/new-sdcc-project.sh "$${EXAMPLE}" ; \
 	done ; \

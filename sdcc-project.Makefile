@@ -1,9 +1,12 @@
 SHELL=/bin/bash
 
 DSKNAME=target.dsk
-EXENAME=sdccproj
+
 -include cdtc_project.conf
 #EXENAME:=$(shell date +%Hh%Mm%S )
+EXENAME?=sdccproj
+LDFLAGS?=
+CODELOC?=0x4000
 
 SRCS := $(wildcard *.c)
 SRSS := $(wildcard *.s)
@@ -52,9 +55,9 @@ $(CDTC_ROOT)/tool/sdcc/build_config.inc:
 	( . $(CDTC_ROOT)/tool/sdcc/build_config.inc ; set -xv ; sdasz80 -l -o -s $@ $< ; )
 
 $(EXENAME).ihx: $(RELS) Makefile sdcc
-	( SDCCARGS="" ; \
+	( set -xv ; SDCCARGS="--code-loc $$(printf 0x%x $(CODELOC)) " ; \
 	if grep -H '^#include .cpcrslib.h.' $(SRCS) ; then echo "This executable depends on cpcrslib: $@" ; SDCCARGS="$${SDCCARGS} -l$(CDTC_ROOT)/tool/cpcrslib/cpcrslib_SDCC.installtree/lib/cpcrslib.lib" ; fi ; \
-	 . $(CDTC_ROOT)/tool/sdcc/build_config.inc ; sdcc -mz80 --no-std-crt0 --code-loc 32768 $${SDCCARGS} $(filter %.rel,$^) -o "$@" ; )
+	 . $(CDTC_ROOT)/tool/sdcc/build_config.inc ; sdcc -mz80 --no-std-crt0 $(LDFLAGS) $${SDCCARGS} $(filter %.rel,$^) -o "$@" ; )
 
 # For aggressive optimization add :
 # --max-allocs-per-node 100000000
@@ -99,7 +102,7 @@ $(DSKNAME): $(BINS) idsk Makefile
 #	./iDSK $@ -n -i $< -t 1 -e 6000 -c 6000 -i a.bas -t 0 -l
 #	./iDSK $@ -n -i $< -t 1 -e 6000 -c 6000 -l
 # WARNING : addresses are in hex without prefix, no warning on overflow
-	( set -exv ; source $(CDTC_ROOT)/tool/idsk/build_config.inc ; iDSK $@.tmp -n $(patsubst %,-i %, $(filter %.bin,$^)) -e 8000 -c 8000 -t 1 && mv -vf $@.tmp $@ ; )
+	( set -exv ; LOADADDR=$$( printf %x $(CODELOC) ) ; RUNADDR=$$LOADADDR ; source $(CDTC_ROOT)/tool/idsk/build_config.inc ; iDSK $@.tmp -n $(patsubst %,-i %, $(filter %.bin,$^)) -e $${RUNADDR} -c $${LOADADDR} -t 1 && mv -vf $@.tmp $@ ; )
 	@echo
 	@echo "************************************************************************"
 	@echo "************************************************************************"

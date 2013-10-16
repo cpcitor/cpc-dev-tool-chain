@@ -49,7 +49,7 @@ $(CDTC_ROOT)/tool/sdcc/build_config.inc:
 	. "$(CDTC_ROOT)"/tool/sdcc/build_config.inc ; set -xv ; sdcc -mz80 $${SDCCARGS} -c $< ; )
 
 %.rel: %.s Makefile sdcc
-	( . $(CDTC_ROOT)/tool/sdcc/build_config.inc ; sdasz80 -l -o -s $@ $< ; )
+	( . $(CDTC_ROOT)/tool/sdcc/build_config.inc ; set -xv ; sdasz80 -l -o -s $@ $< ; )
 
 $(EXENAME).ihx: $(RELS) Makefile sdcc
 	( SDCCARGS="" ; \

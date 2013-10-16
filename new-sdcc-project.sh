@@ -19,6 +19,8 @@ cd "$(dirname "$(readlink -f "$0")" )"
 SCRIPTDIR="$PWD"
 cd - >/dev/null
 
+CDTC_ROOT="${SCRIPTDIR}"
+
 OVERWRITABLE_MARKER="THIS_FILE_WILL_BE_OVERWRITTEN_BY_CDTC"
 
 proceed_with_one_item ()
@@ -47,13 +49,18 @@ proceed_with_one_item ()
 
         {
                 echo "# ${OVERWRITABLE_MARKER}"
-                echo "-include $SCRIPTDIR/sdcc-project.Makefile"
+                echo "-include cdtc_project.conf"
+                echo "-include $(CDTC_ROOT)/sdcc-project.Makefile"
                 echo "failure:"
                 echo -e "\011@echo 'Cannot locate cpc-dev-tool-chain main directory.'"
                 echo -e "\011@false"
         } >Makefile.tmp
 
         mv -f Makefile.tmp Makefile
+
+        { echo "CDTC_ROOT=${CDTC_ROOT}" ; grep -v "^CDTC_ROOT" cdtc_project.conf ; } >cdtc_project.conf.tmp
+
+        mv -f cdtc_project.conf.tmp cdtc_project.conf
 
         return 0
 }

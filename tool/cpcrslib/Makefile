@@ -1,4 +1,5 @@
 TARGETLIBS=cpcrslib.lib cpcwyzlib.lib
+CDTC_ROOT=../../
 
 all: cpcrslib_SDCC.installtree/.installed cpcrslib_SDCC/.patched
 
@@ -28,11 +29,10 @@ cpcrslib_SDCC/.patched: cpcrslib_SDCC/.unpacked
 	cd examples ; \
 	for EXAMPLE in */ ; \
 	do \
-	$(CDTC_ROOT)/new-sdcc-project.sh "$${EXAMPLE}" ; \
 	( \
 		echo EXENAME=$$( echo "$${EXAMPLE}" | tr -d -c 'A-Za-z0-9_'| grep -o '^........' ; ) ; \
-		echo CDTC_ROOT=$(CDTC_ROOT) ; \
 	) >"$${EXAMPLE}"/cdtc_project.conf ; \
+	$(CDTC_ROOT)/new-sdcc-project.sh "$${EXAMPLE}" ; \
 	done ; \
 	)
 	touch $@

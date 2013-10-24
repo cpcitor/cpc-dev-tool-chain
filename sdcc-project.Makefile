@@ -79,8 +79,8 @@ $(CDTC_ROOT)/tool/hex2bin/build_config.inc:
 # Use hex2bin
 ########################################################################
 
-%.bin: %.ihx hex2bin
-	( . $(CDTC_ROOT)/tool/hex2bin/build_config.inc ; hex2bin -p 00 "$<" ; )
+%.bin.log %.bin: %.ihx hex2bin
+	( . $(CDTC_ROOT)/tool/hex2bin/build_config.inc ; hex2bin -e "bin" -p 00 "$*.ihx" | tee "$*.bin.log" ; )
 
 ########################################################################
 # Conjure up tool to insert file in dsk image
@@ -98,11 +98,17 @@ $(CDTC_ROOT)/tool/idsk/build_config.inc:
 ########################################################################
 
 # Create a new DSK file with all binaries.
+# FIXME supports only one binary.
 $(DSKNAME): $(BINS) idsk Makefile
 #	./iDSK $@ -n -i $< -t 1 -e 6000 -c 6000 -i a.bas -t 0 -l
 #	./iDSK $@ -n -i $< -t 1 -e 6000 -c 6000 -l
 # WARNING : addresses are in hex without prefix, no warning on overflow
-	( set -exv ; LOADADDR=$$( printf %x $(CODELOC) ) ; RUNADDR=$$LOADADDR ; source $(CDTC_ROOT)/tool/idsk/build_config.inc ; iDSK $@.tmp -n $(patsubst %,-i %, $(filter %.bin,$^)) -e $${RUNADDR} -c $${LOADADDR} -t 1 && mv -vf $@.tmp $@ ; )
+	( set -exv ; \
+	LOADADDR=$$( sed -n 's/^Lowest address  = 0000\([0-9]*\).*$$/\1/p' <$(<).log ) ; \
+	RUNADDR=$$( sed -n 's/^ *0000\([0-9]*\) *init *crt0.*$$/\1/p' <$(<:.bin=.map) ) ; \
+	source $(CDTC_ROOT)/tool/idsk/build_config.inc ; \
+	iDSK $@.tmp -n $(patsubst %,-i %, $(filter %.bin,$^)) -e $${RUNADDR} -c $${LOADADDR} -t 1 && mv -vf $@.tmp $@ ; \
+	)
 	@echo
 	@echo "************************************************************************"
 	@echo "************************************************************************"

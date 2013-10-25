@@ -9,6 +9,7 @@ LDFLAGS?=
 CODELOC?=0x4000
 DSKNAME?=$(EXENAME).dsk
 CDTNAME?=$(EXENAME).cdt
+VOCNAME?=$(EXENAME).voc
 
 SRCS := $(wildcard *.c)
 SRSS := $(wildcard *.s)
@@ -31,6 +32,7 @@ all: $(TARGETS)
 bin: $(BINS)
 dsk: $(DSKNAME)
 cdt: $(CDTNAME)
+voc: $(VOCNAME)
 
 ihx: $(EXENAME).ihx
 
@@ -163,6 +165,22 @@ $(CDTNAME): $(BINS) 2cdt Makefile
 	@echo "**************** Fire up your favorite emulator and run from it: $(BINS)"
 	@echo "************************************************************************"
 	@echo "************************************************************************"
+
+########################################################################
+# Conjure up tool to convert CDT to voc
+########################################################################
+
+CDTC_ENV_FOR_PLAYTZX=$(CDTC_ROOT)/tool/playtzx/build_config.inc
+
+$(CDTC_ENV_FOR_PLAYTZX):
+	( export LC_ALL=C ; $(MAKE) -C "$(@D)" ; )
+
+########################################################################
+# Insert file in CDT tape image
+########################################################################
+
+$(VOCNAME): $(CDTNAME)
+	( . $(CDTC_ENV_FOR_PLAYTZX) ; playtzx -voc $< $@ ; )
 
 ########################################################################
 

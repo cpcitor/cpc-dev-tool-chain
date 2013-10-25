@@ -1,18 +1,31 @@
+VARIABLES_AT_MAKEFILE_START := $(.VARIABLES)
+
 TARGETS=build_config.inc
 
 all: $(TARGETS)
 
 ########################################################################
+# Variables to adjust at each new integrated project
+########################################################################
 
 PRODUCT_NAME=iDSK
 URL_RELEASE=http://sid.cpc.free.fr/iDSK.0.13-src.tgz
-#ARCHIVE_NAME=...whatever or
+
+# If the and of the URL does not make a suitable file name, set ARCHIVE_NAME to a suitable file name.
+# Example : URL ends in /download -> define ARCHIVE_NAME to something suitable
+# Example : URL ends in foo.tar.gz -> do not define ARCHIVE_NAME
+#ARCHIVE_NAME=$(PRODUCT_NAME)_latest.tgz
+
+# You must set EXTRACT_DIR_NAME to match archive content.
 EXTRACT_DIR_NAME=iDSK.0.13
+
+# If only one generated executable file, set BUILD_TARGET_FILE to path to it.
+# It several generated executable files, do not set BUILD_TARGET_FILE.
 BUILD_TARGET_FILE=$(EXTRACT_DIR_NAME)/iDSK/src/iDSK
 
 URL_DOWNLOAD=$(URL_RELEASE)
 
-ARCHIVE_NAME?=$(notdir $URL_DOWNLOAD)
+ARCHIVE_NAME?=$(notdir $(URL_DOWNLOAD))
 
 $(ARCHIVE_NAME):
 	wget -S $(URL_RELEASE) -O $@.tmp
@@ -34,7 +47,7 @@ $(EXTRACT_DIR_NAME)/.unpacked: $(ARCHIVE_NAME)
 PATCHNAME=$(EXTRACT_DIR_NAME)_build_patch.patch
 
 ifeq ($(wildcard $(PATCHNAME)),)
-$(EXTRACT_DIR_NAME)/.patched: $(PATCHNAME) $(EXTRACT_DIR_NAME)/.unpacked
+$(EXTRACT_DIR_NAME)/.patched: $(EXTRACT_DIR_NAME)/.unpacked
 	@echo "************************************************************************"
 	@echo "**************** No patch to apply to: $^"
 	@echo "************************************************************************"
@@ -73,15 +86,24 @@ build_config.inc: $(BUILD_TARGET_FILE) Makefile
 	echo "export PATH=\"\$${PATH}:$$PWD\"" ; \
 	} >$@ ; )
 
-$(PRODUCT_NAME): $(BUILD_TARGET_FILE)
-	cp -avf $< $@
+#$(PRODUCT_NAME): $(BUILD_TARGET_FILE)
+#	cp -avf $< $@
 
 clean:
 	-( set -e ; cd $(EXTRACT_DIR_NAME)/iDSK ; $(MAKE) clean ; )
 	-rm -f $(BUILD_TARGET_FILE)
 
-mrproper: clean
-	-rm -rf $(EXTRACT_DIR_NAME) ._$(EXTRACT_DIR_NAME) *~ build_config.inc
+mrproper:
+	-rm -f $(BUILD_TARGET_FILE)
+	-rm -rf $(EXTRACT_DIR_NAME) ._$(EXTRACT_DIR_NAME) *~
+	-rm -f $(PRODUCT_NAME)
 
 distclean: mrproper
-	-rm -f $(PRODUCT_NAME) $(EXTRACT_DIR_NAME)
+	-rm -f $(ARCHIVE_NAME)
+
+########################################################################
+# Debug the makefile
+########################################################################
+$(foreach v,                                        \
+  $(filter-out $(VARIABLES_AT_MAKEFILE_START) VARIABLES_AT_MAKEFILE_START,$(.VARIABLES)), \
+  $(info $(v) = $($(v))))

@@ -1,13 +1,13 @@
 SHELL=/bin/bash
 
 VARIABLES_AT_MAKEFILE_START := $(.VARIABLES)
-DSKNAME=target.dsk
 
 -include cdtc_project.conf
 #EXENAME:=$(shell date +%Hh%Mm%S )
 EXENAME?=sdccproj
 LDFLAGS?=
 CODELOC?=0x4000
+DSKNAME?=$(EXENAME).dsk
 
 SRCS := $(wildcard *.c)
 SRSS := $(wildcard *.s)

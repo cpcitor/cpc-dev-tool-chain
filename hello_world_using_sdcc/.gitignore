@@ -7,3 +7,5 @@
 *.sym
 *.ihx
 *.rst
+*.bin.log
+*.cdt

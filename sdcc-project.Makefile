@@ -131,7 +131,6 @@ $(DSKNAME): $(BINS) $(CDTC_ENV_FOR_IDSK) Makefile
 # Conjure up tool to insert file in CDT tape image
 ########################################################################
 
-# pseudo-target 2cdt is used to say "I need 2cdt compiled in PATH."
 CDTC_ENV_FOR_2CDT=$(CDTC_ROOT)/tool/2cdt/build_config.inc
 
 $(CDTC_ENV_FOR_2CDT):
@@ -143,7 +142,7 @@ $(CDTC_ENV_FOR_2CDT):
 
 # FIXME DRY LOADADDR
 # FIXME support only one bin
-$(CDTNAME): $(BINS) 2cdt Makefile
+$(CDTNAME): $(BINS) $(CDTC_ENV_FOR_2CDT) Makefile
 	( set -exv ; \
 	LOADADDR=$$( sed -n 's/^Lowest address  = 0000\([0-9]*\).*$$/\1/p' <$(<).log ) ; \
 	RUNADDR=$$( sed -n 's/^ *0000\([0-9A-F]*\) *cpc_run_address  *.*$$/\1/p' <$(<:.bin=.map) ) ; \

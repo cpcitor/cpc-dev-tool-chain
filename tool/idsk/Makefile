@@ -4,40 +4,68 @@ all: $(TARGETS)
 
 ########################################################################
 
-iDSK.0.13-src.tgz:
-	wget -S http://sid.cpc.free.fr/iDSK.0.13-src.tgz -O $@.tmp && mv $@.tmp $@
+PRODUCT_NAME=iDSK
+URL_RELEASE=http://sid.cpc.free.fr/iDSK.0.13-src.tgz
+#ARCHIVE_NAME=...whatever or
+EXTRACT_DIR_NAME=iDSK.0.13
+BUILD_TARGET_FILE=$(EXTRACT_DIR_NAME)/iDSK/src/iDSK
+
+URL_DOWNLOAD=$(URL_RELEASE)
+
+ARCHIVE_NAME?=$(notdir $URL_DOWNLOAD)
+
+$(ARCHIVE_NAME):
+	wget -S $(URL_RELEASE) -O $@.tmp
+	mv -vf $@.tmp $@
 	@echo "************************************************************************"
-	@echo "**************** Source archive was downloaded to : $(@)"
+	@echo "**************** Source archive was downloaded to: $(@)"
 	@echo "************************************************************************"
 
-iDSK.0.13/.unpacked: iDSK.0.13-src.tgz
+$(EXTRACT_DIR_NAME)/.unpacked: $(ARCHIVE_NAME)
 	@echo "************************************************************************"
-	@echo "**************** Extracting source from : $^"
+	@echo "**************** Extracting source from: $^"
 	@echo "************************************************************************"
-	( set -e ; tar zxvf $< ; touch $@ ; )
+	tar zxvf $<
+	touch $@
 	@echo "************************************************************************"
-	@echo "**************** Source extracted to : $(@D)"
-	@echo "************************************************************************"
-
-iDSK.0.13/.patched: iDSK.0.13_build_patch.patch iDSK.0.13/.unpacked
-	@echo "************************************************************************"
-	@echo "**************** Patching source in : $^"
-	@echo "************************************************************************"
-	( set -e ; patch -p0 < $< ; touch $@ ; )
-	@echo "************************************************************************"
-	@echo "**************** Source patched in : $(@D)"
+	@echo "**************** Source extracted to: $(@D)"
 	@echo "************************************************************************"
 
-iDSK.0.13/iDSK/src/iDSK: iDSK.0.13/.patched
+PATCHNAME=$(EXTRACT_DIR_NAME)_build_patch.patch
+
+ifeq ($(wildcard $(PATCHNAME)),)
+$(EXTRACT_DIR_NAME)/.patched: $(PATCHNAME) $(EXTRACT_DIR_NAME)/.unpacked
 	@echo "************************************************************************"
-	@echo "**************** Configuring and build in : $^"
+	@echo "**************** No patch to apply to: $^"
 	@echo "************************************************************************"
-	( set -e ; cd iDSK.0.13/iDSK ; ./configure ; LC_ALL=C $(MAKE) --print-directory ; )
+	touch $@
 	@echo "************************************************************************"
-	@echo "**************** Configured and built in : $(@D)"
+	@echo "**************** Source patched in: $(@D)"
+	@echo "************************************************************************"
+else
+$(EXTRACT_DIR_NAME)/.patched: $(PATCHNAME) $(EXTRACT_DIR_NAME)/.unpacked
+	@echo "************************************************************************"
+	@echo "**************** Patching source in: $^"
+	@echo "************************************************************************"
+	patch -p0 < $<
+	touch $@
+	@echo "************************************************************************"
+	@echo "**************** Source patched in: $(@D)"
+	@echo "************************************************************************"
+endif
+
+BUILD_TARGET_FILE?=$(EXTRACT_DIR_NAME)/.built
+
+$(BUILD_TARGET_FILE): $(EXTRACT_DIR_NAME)/.patched
+	@echo "************************************************************************"
+	@echo "**************** Configuring and build in: $^"
+	@echo "************************************************************************"
+	( set -e ; cd $(EXTRACT_DIR_NAME)/iDSK ; ./configure ; LC_ALL=C $(MAKE) --print-directory ; )
+	@echo "************************************************************************"
+	@echo "**************** Configured and built in: $(@D)"
 	@echo "************************************************************************"
 
-build_config.inc: iDSK.0.13/iDSK/src/iDSK
+build_config.inc: $(BUILD_TARGET_FILE) Makefile
 	(set -eu ; \
 	{ \
 	echo "# with bash do \"source\" this file." ; \
@@ -45,14 +73,15 @@ build_config.inc: iDSK.0.13/iDSK/src/iDSK
 	echo "export PATH=\"\$${PATH}:$$PWD\"" ; \
 	} >$@ ; )
 
-iDSK: iDSK.0.13/iDSK/src/iDSK
+$(PRODUCT_NAME): $(BUILD_TARGET_FILE)
 	cp -avf $< $@
 
 clean:
-	-( set -e ; cd iDSK.0.13/iDSK ; make clean ; )
+	-( set -e ; cd $(EXTRACT_DIR_NAME)/iDSK ; $(MAKE) clean ; )
+	-rm -f $(BUILD_TARGET_FILE)
 
 mrproper: clean
-	-rm -rf iDSK.0.13 ._iDSK.0.13 *~
+	-rm -rf $(EXTRACT_DIR_NAME) ._$(EXTRACT_DIR_NAME) *~ build_config.inc
 
 distclean: mrproper
-	-rm -f iDSK iDSK.0.13-src.tgz
+	-rm -f $(PRODUCT_NAME) $(EXTRACT_DIR_NAME)

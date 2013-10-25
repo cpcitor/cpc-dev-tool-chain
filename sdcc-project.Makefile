@@ -106,7 +106,13 @@ $(DSKNAME): $(BINS) idsk Makefile
 # WARNING : addresses are in hex without prefix, no warning on overflow
 	( set -exv ; \
 	LOADADDR=$$( sed -n 's/^Lowest address  = 0000\([0-9]*\).*$$/\1/p' <$(<).log ) ; \
-	RUNADDR=$$( sed -n 's/^ *0000\([0-9]*\) *init *crt0.*$$/\1/p' <$(<:.bin=.map) ) ; \
+	RUNADDR=$$( sed -n 's/^ *0000\([0-9A-F]*\) *cpc_run_address  *.*$$/\1/p' <$(<:.bin=.map) ) ; \
+	if [[ -z "$$RUNADDR" ]] ; then \
+	RUNADDR=$$( sed -n 's/^ *0000\([0-9A-F]*\) *_main  *.*$$/\1/p' <$(<:.bin=.map) ) ; \
+	fi ; \
+	if [[ -z "$$RUNADDR" ]] ; then \
+	echo "Cannot figure out run address. Aborting." ; exit 1 ; \
+	fi ; \
 	source $(CDTC_ROOT)/tool/idsk/build_config.inc ; \
 	iDSK $@.tmp -n $(patsubst %,-i %, $(filter %.bin,$^)) -e $${RUNADDR} -c $${LOADADDR} -t 1 && mv -vf $@.tmp $@ ; \
 	)

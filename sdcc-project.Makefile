@@ -38,9 +38,9 @@ ihx: $(EXENAME).ihx
 # Conjure up compiler
 ########################################################################
 
-SDCC_ACCESS=$(CDTC_ROOT)/tool/sdcc/build_config.inc
+CDTC_ENV_FOR_SDCC=$(CDTC_ROOT)/tool/sdcc/build_config.inc
 
-$(SDCC_ACCESS):
+$(CDTC_ENV_FOR_SDCC):
 	( export LC_ALL=C ; $(MAKE) -C "$(@D)" build_config.inc ; )
 
 ########################################################################
@@ -48,20 +48,20 @@ $(SDCC_ACCESS):
 ########################################################################
 
 # FIXME change code loc project must choose it
-%.rel: %.c Makefile $(SDCC_ACCESS)
+%.rel: %.c Makefile $(CDTC_ENV_FOR_SDCC)
 	( SDCCARGS="" ; \
 	if grep -E '^#include .cpc(rs|wyz)lib.h.' $< ; then echo "Uses cpcrslib and/or cpcwyzlib: $<" ; SDCCARGS="$${SDCCARGS} -I$(CDTC_ROOT)/tool/cpcrslib/cpcrslib_SDCC.installtree/include" ; fi ; \
 	. "$(CDTC_ROOT)"/tool/sdcc/build_config.inc ; set -xv ; sdcc -mz80 $${SDCCARGS} -c $< ; )
 
-%.rel: %.s Makefile $(SDCC_ACCESS)
-	( . $(SDCC_ACCESS) ; set -xv ; sdasz80 -l -o -s $@ $< ; )
+%.rel: %.s Makefile $(CDTC_ENV_FOR_SDCC)
+	( . $(CDTC_ENV_FOR_SDCC) ; set -xv ; sdasz80 -l -o -s $@ $< ; )
 
 # "--data-loc 0" ensures data area is computed by linker.
-$(EXENAME).ihx: $(RELS) Makefile $(SDCC_ACCESS)
+$(EXENAME).ihx: $(RELS) Makefile $(CDTC_ENV_FOR_SDCC)
 	( set -xv ; SDCCARGS="--code-loc $$(printf 0x%x $(CODELOC)) --data-loc 0" ; \
 	if grep -H '^#include .cpcrslib.h.' $(SRCS) ; then echo "This executable depends on cpcrslib: $@" ; SDCCARGS="$${SDCCARGS} -l$(CDTC_ROOT)/tool/cpcrslib/cpcrslib_SDCC.installtree/lib/cpcrslib.lib" ; fi ; \
 	if grep -H '^#include .cpcwyzlib.h.' $(SRCS) ; then echo "This executable depends on cpcwyzlib: $@" ; SDCCARGS="$${SDCCARGS} -l$(CDTC_ROOT)/tool/cpcrslib/cpcrslib_SDCC.installtree/lib/cpcwyzlib.lib" ; fi ; \
-	 . $(SDCC_ACCESS) ; sdcc -mz80 --no-std-crt0 -Wl-u $(filter %.rel,$^) $${SDCCARGS} $(LDFLAGS) -o "$@" ; )
+	 . $(CDTC_ENV_FOR_SDCC) ; sdcc -mz80 --no-std-crt0 -Wl-u $(filter %.rel,$^) $${SDCCARGS} $(LDFLAGS) -o "$@" ; )
 
 # For aggressive optimization add :
 # --max-allocs-per-node 100000000
@@ -72,25 +72,25 @@ $(EXENAME).ihx: $(RELS) Makefile $(SDCC_ACCESS)
 # Conjure up hex2bin
 ########################################################################
 
-HEX2BIN_ACCESS=$(CDTC_ROOT)/tool/hex2bin/build_config.inc
+CDTC_ENV_FOR_HEX2BIN=$(CDTC_ROOT)/tool/hex2bin/build_config.inc
 
-$(HEX2BIN_ACCESS):
+$(CDTC_ENV_FOR_HEX2BIN):
 	( export LC_ALL=C ; $(MAKE) -C "$(@D)" build_config.inc ; )
 
 ########################################################################
 # Use hex2bin
 ########################################################################
 
-%.bin.log %.bin: %.ihx $(HEX2BIN_ACCESS)
-	( . $(HEX2BIN_ACCESS) ; hex2bin -e "bin" -p 00 "$*.ihx" | tee "$*.bin.log" ; )
+%.bin.log %.bin: %.ihx $(CDTC_ENV_FOR_HEX2BIN)
+	( . $(CDTC_ENV_FOR_HEX2BIN) ; hex2bin -e "bin" -p 00 "$*.ihx" | tee "$*.bin.log" ; )
 
 ########################################################################
 # Conjure up tool to insert file in dsk image
 ########################################################################
 
-IDSK_ACCESS=$(CDTC_ROOT)/tool/idsk/build_config.inc
+CDTC_ENV_FOR_IDSK=$(CDTC_ROOT)/tool/idsk/build_config.inc
 
-$(IDSK_ACCESS):
+$(CDTC_ENV_FOR_IDSK):
 	( export LC_ALL=C ; $(MAKE) -C "$(@D)" ; )
 
 ########################################################################
@@ -99,7 +99,7 @@ $(IDSK_ACCESS):
 
 # Create a new DSK file with all binaries.
 # FIXME supports only one binary.
-$(DSKNAME): $(BINS) $(IDSK_ACCESS) Makefile
+$(DSKNAME): $(BINS) $(CDTC_ENV_FOR_IDSK) Makefile
 #	./iDSK $@ -n -i $< -t 1 -e 6000 -c 6000 -i a.bas -t 0 -l
 #	./iDSK $@ -n -i $< -t 1 -e 6000 -c 6000 -l
 # WARNING : addresses are in hex without prefix, no warning on overflow
@@ -112,7 +112,7 @@ $(DSKNAME): $(BINS) $(IDSK_ACCESS) Makefile
 	if [[ -z "$$RUNADDR" ]] ; then \
 	echo "Cannot figure out run address. Aborting." ; exit 1 ; \
 	fi ; \
-	source $(IDSK_ACCESS) ; \
+	source $(CDTC_ENV_FOR_IDSK) ; \
 	iDSK $@.tmp -n $(patsubst %,-i %, $(filter %.bin,$^)) -e $${RUNADDR} -c $${LOADADDR} -t 1 && mv -vf $@.tmp $@ ; \
 	)
 	@echo
@@ -130,9 +130,9 @@ $(DSKNAME): $(BINS) $(IDSK_ACCESS) Makefile
 ########################################################################
 
 # pseudo-target 2cdt is used to say "I need 2cdt compiled in PATH."
-2CDT_ACCESS=$(CDTC_ROOT)/tool/2cdt/build_config.inc
+CDTC_ENV_FOR_2CDT=$(CDTC_ROOT)/tool/2cdt/build_config.inc
 
-$(2CDT_ACCESS):
+$(CDTC_ENV_FOR_2CDT):
 	( export LC_ALL=C ; $(MAKE) -C "$(@D)" ; )
 
 ########################################################################
@@ -151,7 +151,7 @@ $(CDTNAME): $(BINS) 2cdt Makefile
 	if [[ -z "$$RUNADDR" ]] ; then \
 	echo "Cannot figure out run address. Aborting." ; exit 1 ; \
 	fi ; \
-	source $(2CDT_ACCESS) ; \
+	source $(CDTC_ENV_FOR_2CDT) ; \
 	2cdt -n -X 0x$${RUNADDR} -L 0x$${LOADADDR} -r $(EXENAME) $< $@ ; \
 	)
 	@echo

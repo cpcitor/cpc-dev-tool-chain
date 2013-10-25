@@ -54,8 +54,9 @@ $(CDTC_ROOT)/tool/sdcc/build_config.inc:
 %.rel: %.s Makefile sdcc
 	( . $(CDTC_ROOT)/tool/sdcc/build_config.inc ; set -xv ; sdasz80 -l -o -s $@ $< ; )
 
+# "--data-loc 0" ensures data area is computed by linker.
 $(EXENAME).ihx: $(RELS) Makefile sdcc
-	( set -xv ; SDCCARGS="--code-loc $$(printf 0x%x $(CODELOC)) " ; \
+	( set -xv ; SDCCARGS="--code-loc $$(printf 0x%x $(CODELOC)) --data-loc 0" ; \
 	if grep -H '^#include .cpcrslib.h.' $(SRCS) ; then echo "This executable depends on cpcrslib: $@" ; SDCCARGS="$${SDCCARGS} -l$(CDTC_ROOT)/tool/cpcrslib/cpcrslib_SDCC.installtree/lib/cpcrslib.lib" ; fi ; \
 	 . $(CDTC_ROOT)/tool/sdcc/build_config.inc ; sdcc -mz80 --no-std-crt0 $${SDCCARGS} $(filter %.rel,$^) $(LDFLAGS) -o "$@" ; )
 

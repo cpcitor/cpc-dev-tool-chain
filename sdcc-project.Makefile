@@ -20,7 +20,14 @@ BINS=$(patsubst %.ihx,%.bin,$(IHXS))
 
 TARGETS=$(DSKNAME) $(BINS) $(OPTS)
 
+########################################################################
+# Common targets
+########################################################################
+
 all: $(TARGETS)
+
+dsk: $(DSKNAME)
+cdt: $(CDTNAME)
 
 test:
 	@echo EXENAME=$(EXENAME)

@@ -201,5 +201,5 @@ dep: $(DEPS)
 # Debug the makefile
 ########################################################################
 $(foreach v,                                        \
-  $(filter-out $(VARIABLES_AT_MAKEFILE_START) VARIABLES_AT_MAKEFILE_START,$(.VARIABLES)), \
+  $(sort $(filter-out $(VARIABLES_AT_MAKEFILE_START) VARIABLES_AT_MAKEFILE_START,$(.VARIABLES))), \
   $(info $(v) = $($(v))))

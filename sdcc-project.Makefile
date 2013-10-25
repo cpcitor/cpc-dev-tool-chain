@@ -1,5 +1,6 @@
 SHELL=/bin/bash
 
+VARIABLES_AT_MAKEFILE_START := $(.VARIABLES)
 DSKNAME=target.dsk
 
 -include cdtc_project.conf
@@ -159,3 +160,10 @@ headers: $(GENHRDS)
 
 dep: $(DEPS)
 	@echo $(DEPS)
+
+########################################################################
+# Debug the makefile
+########################################################################
+$(foreach v,                                        \
+  $(filter-out $(VARIABLES_AT_MAKEFILE_START) VARIABLES_AT_MAKEFILE_START,$(.VARIABLES)), \
+  $(info $(v) = $($(v))))

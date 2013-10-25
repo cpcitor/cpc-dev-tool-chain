@@ -43,11 +43,9 @@ $(EXENAME).ihx: $(RELS)
 # Conjure up compiler
 ########################################################################
 
-# pseudo-target sdcc is used to say "I need sdcc compiled in PATH."
-.PHONY: sdcc
-sdcc: $(CDTC_ROOT)/tool/sdcc/build_config.inc
+SDCC_ACCESS=$(CDTC_ROOT)/tool/sdcc/build_config.inc
 
-$(CDTC_ROOT)/tool/sdcc/build_config.inc:
+$(SDCC_ACCESS):
 	( export LC_ALL=C ; $(MAKE) -C "$(@D)" build_config.inc ; )
 
 ########################################################################
@@ -55,20 +53,20 @@ $(CDTC_ROOT)/tool/sdcc/build_config.inc:
 ########################################################################
 
 # FIXME change code loc project must choose it
-%.rel: %.c Makefile sdcc
+%.rel: %.c Makefile $(SDCC_ACCESS)
 	( SDCCARGS="" ; \
 	if grep -E '^#include .cpc(rs|wyz)lib.h.' $< ; then echo "Uses cpcrslib and/or cpcwyzlib: $<" ; SDCCARGS="$${SDCCARGS} -I$(CDTC_ROOT)/tool/cpcrslib/cpcrslib_SDCC.installtree/include" ; fi ; \
 	. "$(CDTC_ROOT)"/tool/sdcc/build_config.inc ; set -xv ; sdcc -mz80 $${SDCCARGS} -c $< ; )
 
-%.rel: %.s Makefile sdcc
-	( . $(CDTC_ROOT)/tool/sdcc/build_config.inc ; set -xv ; sdasz80 -l -o -s $@ $< ; )
+%.rel: %.s Makefile $(SDCC_ACCESS)
+	( . $(SDCC_ACCESS) ; set -xv ; sdasz80 -l -o -s $@ $< ; )
 
 # "--data-loc 0" ensures data area is computed by linker.
-$(EXENAME).ihx: $(RELS) Makefile sdcc
+$(EXENAME).ihx: $(RELS) Makefile $(SDCC_ACCESS)
 	( set -xv ; SDCCARGS="--code-loc $$(printf 0x%x $(CODELOC)) --data-loc 0" ; \
 	if grep -H '^#include .cpcrslib.h.' $(SRCS) ; then echo "This executable depends on cpcrslib: $@" ; SDCCARGS="$${SDCCARGS} -l$(CDTC_ROOT)/tool/cpcrslib/cpcrslib_SDCC.installtree/lib/cpcrslib.lib" ; fi ; \
 	if grep -H '^#include .cpcwyzlib.h.' $(SRCS) ; then echo "This executable depends on cpcwyzlib: $@" ; SDCCARGS="$${SDCCARGS} -l$(CDTC_ROOT)/tool/cpcrslib/cpcrslib_SDCC.installtree/lib/cpcwyzlib.lib" ; fi ; \
-	 . $(CDTC_ROOT)/tool/sdcc/build_config.inc ; sdcc -mz80 --no-std-crt0 -Wl-u $(filter %.rel,$^) $${SDCCARGS} $(LDFLAGS) -o "$@" ; )
+	 . $(SDCC_ACCESS) ; sdcc -mz80 --no-std-crt0 -Wl-u $(filter %.rel,$^) $${SDCCARGS} $(LDFLAGS) -o "$@" ; )
 
 # For aggressive optimization add :
 # --max-allocs-per-node 100000000
@@ -79,29 +77,25 @@ $(EXENAME).ihx: $(RELS) Makefile sdcc
 # Conjure up hex2bin
 ########################################################################
 
-# pseudo-target hex2bin is used to say "I need hex2bin compiled in PATH."
-.PHONY: hex2bin
-hex2bin: $(CDTC_ROOT)/tool/hex2bin/build_config.inc
+HEX2BIN_ACCESS=$(CDTC_ROOT)/tool/hex2bin/build_config.inc
 
-$(CDTC_ROOT)/tool/hex2bin/build_config.inc:
+$(HEX2BIN_ACCESS):
 	( export LC_ALL=C ; $(MAKE) -C "$(@D)" build_config.inc ; )
 
 ########################################################################
 # Use hex2bin
 ########################################################################
 
-%.bin.log %.bin: %.ihx hex2bin
-	( . $(CDTC_ROOT)/tool/hex2bin/build_config.inc ; hex2bin -e "bin" -p 00 "$*.ihx" | tee "$*.bin.log" ; )
+%.bin.log %.bin: %.ihx $(HEX2BIN_ACCESS)
+	( . $(HEX2BIN_ACCESS) ; hex2bin -e "bin" -p 00 "$*.ihx" | tee "$*.bin.log" ; )
 
 ########################################################################
 # Conjure up tool to insert file in dsk image
 ########################################################################
 
-# pseudo-target sdcc is used to say "I need sdcc compiled in PATH."
-.PHONY: idsk
-idsk: $(CDTC_ROOT)/tool/idsk/build_config.inc
+IDSK_ACCESS=$(CDTC_ROOT)/tool/idsk/build_config.inc
 
-$(CDTC_ROOT)/tool/idsk/build_config.inc:
+$(IDSK_ACCESS):
 	( export LC_ALL=C ; $(MAKE) -C "$(@D)" ; )
 
 ########################################################################
@@ -110,7 +104,7 @@ $(CDTC_ROOT)/tool/idsk/build_config.inc:
 
 # Create a new DSK file with all binaries.
 # FIXME supports only one binary.
-$(DSKNAME): $(BINS) idsk Makefile
+$(DSKNAME): $(BINS) $(IDSK_ACCESS) Makefile
 #	./iDSK $@ -n -i $< -t 1 -e 6000 -c 6000 -i a.bas -t 0 -l
 #	./iDSK $@ -n -i $< -t 1 -e 6000 -c 6000 -l
 # WARNING : addresses are in hex without prefix, no warning on overflow
@@ -123,7 +117,7 @@ $(DSKNAME): $(BINS) idsk Makefile
 	if [[ -z "$$RUNADDR" ]] ; then \
 	echo "Cannot figure out run address. Aborting." ; exit 1 ; \
 	fi ; \
-	source $(CDTC_ROOT)/tool/idsk/build_config.inc ; \
+	source $(IDSK_ACCESS) ; \
 	iDSK $@.tmp -n $(patsubst %,-i %, $(filter %.bin,$^)) -e $${RUNADDR} -c $${LOADADDR} -t 1 && mv -vf $@.tmp $@ ; \
 	)
 	@echo
@@ -141,10 +135,9 @@ $(DSKNAME): $(BINS) idsk Makefile
 ########################################################################
 
 # pseudo-target 2cdt is used to say "I need 2cdt compiled in PATH."
-.PHONY: 2cdt
-2cdt: $(CDTC_ROOT)/tool/2cdt/build_config.inc
+2CDT_ACCESS=$(CDTC_ROOT)/tool/2cdt/build_config.inc
 
-$(CDTC_ROOT)/tool/2cdt/build_config.inc:
+$(2CDT_ACCESS):
 	( export LC_ALL=C ; $(MAKE) -C "$(@D)" ; )
 
 ########################################################################
@@ -162,7 +155,7 @@ $(CDTNAME): $(BINS) 2cdt Makefile
 	if [[ -z "$$RUNADDR" ]] ; then \
 	echo "Cannot figure out run address. Aborting." ; exit 1 ; \
 	fi ; \
-	source $(CDTC_ROOT)/tool/idsk/build_config.inc ; \
+	source $(2CDT_ACCESS) ; \
 	2cdt -n -X 0x$${RUNADDR} -L 0x$${LOADADDR} -r $(EXENAME) $< $@ ; \
 	)
 	@echo

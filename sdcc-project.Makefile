@@ -58,7 +58,7 @@ $(CDTC_ROOT)/tool/sdcc/build_config.inc:
 $(EXENAME).ihx: $(RELS) Makefile sdcc
 	( set -xv ; SDCCARGS="--code-loc $$(printf 0x%x $(CODELOC)) --data-loc 0" ; \
 	if grep -H '^#include .cpcrslib.h.' $(SRCS) ; then echo "This executable depends on cpcrslib: $@" ; SDCCARGS="$${SDCCARGS} -l$(CDTC_ROOT)/tool/cpcrslib/cpcrslib_SDCC.installtree/lib/cpcrslib.lib" ; fi ; \
-	 . $(CDTC_ROOT)/tool/sdcc/build_config.inc ; sdcc -mz80 --no-std-crt0 $${SDCCARGS} $(filter %.rel,$^) $(LDFLAGS) -o "$@" ; )
+	 . $(CDTC_ROOT)/tool/sdcc/build_config.inc ; sdcc -mz80 --no-std-crt0 -Wl-u $(filter %.rel,$^) $${SDCCARGS} $(LDFLAGS) -o "$@" ; )
 
 # For aggressive optimization add :
 # --max-allocs-per-node 100000000

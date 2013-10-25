@@ -24,11 +24,15 @@ TARGETS=$(DSKNAME) $(BINS) $(OPTS)
 # Common targets
 ########################################################################
 
+default: $(BINS)
+
 all: $(TARGETS)
 
+bin: $(BINS)
 dsk: $(DSKNAME)
 cdt: $(CDTNAME)
 
+ihx: $(EXENAME).ihx
 test:
 	@echo EXENAME=$(EXENAME)
 	@echo SRCS=$(SRCS)

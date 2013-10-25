@@ -33,15 +33,6 @@ dsk: $(DSKNAME)
 cdt: $(CDTNAME)
 
 ihx: $(EXENAME).ihx
-test:
-	@echo EXENAME=$(EXENAME)
-	@echo SRCS=$(SRCS)
-	@echo SRSS=$(SRSS)
-	@echo RELS=$(RELS)
-	@echo IHXS=$(IHXS)
-	@echo BINS=$(BINS)
-
-$(EXENAME).ihx: $(RELS)
 
 ########################################################################
 # Conjure up compiler
@@ -148,6 +139,7 @@ $(2CDT_ACCESS):
 # Insert file in CDT tape image
 ########################################################################
 
+# FIXME DRY LOADADDR
 # FIXME support only one bin
 $(CDTNAME): $(BINS) 2cdt Makefile
 	( set -exv ; \

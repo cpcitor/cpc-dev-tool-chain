@@ -35,7 +35,7 @@ Optional: you can open and adjust the generated `cdtc_project.conf`.
 
 Open an editor or just copy-paste this line:
 
-	{ echo "#include <stdio.h>" ; echo 'int main() { printf("Hello World.\n"); while (1) {} ; return 0; }' ; } >hello.c
+	{ echo "#include <stdio.h>" ; echo "int main() { printf(\"Hello World, hello $USER.\\n\"); while (1) {} ; return 0; }" ; } >hello.c
 
 Let's check the result.
 
@@ -44,7 +44,7 @@ Let's check the result.
 It should look like:
 
     #include <stdio.h>
-    int main() { printf("Hello World.\n"); while (1) {} ; return 0; }
+    int main() { printf("Hello World, hello cpcitor.\n"); while (1) {} ; return 0; }
 
 ## Compile
 

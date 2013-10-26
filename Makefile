@@ -13,6 +13,9 @@ hello_world_using_z88dk: hello_world_using_z88dk/Makefile
 hello_world_using_sdcc: hello_world_using_sdcc/Makefile
 	LC_ALL=C $(MAKE) -C $@
 
+hello_world_using_sdcc-all: hello_world_using_sdcc/Makefile
+	LC_ALL=C $(MAKE) -C $(<D) all
+
 cpcrslib: tool/cpcrslib/Makefile
 	LC_ALL=C $(MAKE) -C $(<D)
 
@@ -22,4 +25,4 @@ cpcrslib-all: tool/cpcrslib/Makefile
 #distclean:
 #	( find . -type d -print -exec bash -c "cd '{}' ; make clean ; make mrproper ; make distclean" \; ; )
 
-sdcc-all: hello_world_using_sdcc cpcrslib-all
+sdcc-all: hello_world_using_sdcc-all cpcrslib-all

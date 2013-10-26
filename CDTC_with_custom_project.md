@@ -25,6 +25,11 @@ It outputs:
 
     Current dir is : /home/joe/my_cdtc_project
     Proceeding with : .
+    Generating new cdtc_project.conf
+    Auto-generated PROJNAME=mycdtcpr
+    Setting in cdtc_project.conf CDTC_ROOT=/my-path/cpc-dev-tool-chain
+
+Optional: you can open and adjust the generated `cdtc_project.conf`.
 
 ## Create a C source
 
@@ -53,9 +58,9 @@ It ends with this :
     ************************************************************************
     ************************************************************************
     **************** Current directory is: /home/joe/my_cdtc_project
-    **************** Image ready: in sdccproj.dsk
+    **************** Image ready: in mycdtcpr.dsk
     ************************************************************************
-    **************** Fire up your favorite emulator and run from it: sdccproj.bin
+    **************** Fire up your favorite emulator and run from it: mycdtcpr.bin
     ************************************************************************
     ************************************************************************
 

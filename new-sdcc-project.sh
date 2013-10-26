@@ -62,12 +62,15 @@ proceed_with_one_item ()
 
         if ! [[ -e cdtc_project.conf ]]
         then
+                echo "Generating new cdtc_project.conf"
                 {
                         echo "PROJNAME=$PROJNAME"
                 } >cdtc_project.conf.tmp
+                echo "Auto-generated PROJNAME=$PROJNAME"
                 mv -f cdtc_project.conf.tmp cdtc_project.conf
         fi
 
+        echo "Setting in cdtc_project.conf CDTC_ROOT=${CDTC_ROOT}"
         {
                 echo "CDTC_ROOT=${CDTC_ROOT}"
                 [[ -e cdtc_project.conf ]] && grep -v "^CDTC_ROOT" cdtc_project.conf

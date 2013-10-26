@@ -44,7 +44,16 @@ ihx: $(PROJNAME).ihx
 CDTC_ENV_FOR_CPC_PUTCHAR=$(CDTC_ROOT)/tool/cdtc_stdio/cdtc_stdio.lib $(CDTC_ROOT)/tool/cdtc_stdio/putchar_cpc.rel
 
 $(CDTC_ENV_FOR_CPC_PUTCHAR):
-	( export LC_ALL=C ; $(MAKE) -C "$(@D)" lib ; )
+	( export LC_ALL=C ; $(MAKE) -C "$(@D)" lib putchar_cpc.rel ; )
+
+########################################################################
+# Conjure up cpcrslib
+########################################################################
+
+CDTC_ENV_FOR_CPCRSLIB=$(CDTC_ROOT)/tool/cpcrslib/cpcrslib_SDCC.installtree/.installed
+
+$(CDTC_ENV_FOR_CPCRSLIB):
+	( export LC_ALL=C ; $(MAKE) -C "$(dir $(@D))" ; )
 
 ########################################################################
 # Conjure up compiler
@@ -62,7 +71,7 @@ $(CDTC_ENV_FOR_SDCC):
 # FIXME change code loc project must choose it
 %.rel: %.c Makefile $(CDTC_ENV_FOR_SDCC)
 	( SDCCARGS="" ; \
-	if grep -E '^#include .cpc(rs|wyz)lib.h.' $< ; then echo "Uses cpcrslib and/or cpcwyzlib: $<" ; SDCCARGS="$${SDCCARGS} -I$(CDTC_ROOT)/tool/cpcrslib/cpcrslib_SDCC.installtree/include" ; fi ; \
+	if grep -E '^#include .cpc(rs|wyz)lib.h.' $< ; then echo "Uses cpcrslib and/or cpcwyzlib: $<" ; $(MAKE) $(CDTC_ENV_FOR_CPCRSLIB) ; SDCCARGS="$${SDCCARGS} -I$(CDTC_ROOT)/tool/cpcrslib/cpcrslib_SDCC.installtree/include" ; fi ; \
 	. "$(CDTC_ROOT)"/tool/sdcc/build_config.inc ; set -xv ; sdcc -mz80 $${SDCCARGS} -c $< ; )
 
 %.rel: %.s Makefile $(CDTC_ENV_FOR_SDCC)
@@ -75,8 +84,8 @@ $(PROJNAME).ihx: $(RELS) Makefile $(CDTC_ENV_FOR_SDCC)
 	( set -xv ; SDCCARGS="--code-loc $$(printf 0x%x $(CODELOC)) --data-loc 0" ; \
 	if [[ -n "$(SRCS)" ]] ; then \
 	if grep -H '^#include .stdio.h.' $(SRCS) ; then echo "This executable depends on stdio(putchar): $@" ; $(MAKE) $(CDTC_ENV_FOR_CPC_PUTCHAR) ; SDCCARGS="$${SDCCARGS} $(CDTC_ROOT)/tool/cdtc_stdio/putchar_cpc.rel" ; fi ; \
-	if grep -H '^#include .cpcrslib.h.' $(SRCS) ; then echo "This executable depends on cpcrslib: $@" ; SDCCARGS="$${SDCCARGS} -l$(CDTC_ROOT)/tool/cpcrslib/cpcrslib_SDCC.installtree/lib/cpcrslib.lib" ; fi ; \
-	if grep -H '^#include .cpcwyzlib.h.' $(SRCS) ; then echo "This executable depends on cpcwyzlib: $@" ; SDCCARGS="$${SDCCARGS} -l$(CDTC_ROOT)/tool/cpcrslib/cpcrslib_SDCC.installtree/lib/cpcwyzlib.lib" ; fi ; \
+	if grep -H '^#include .cpcrslib.h.' $(SRCS) ; then echo "This executable depends on cpcrslib: $@" ; $(MAKE) $(CDTC_ENV_FOR_CPCRSLIB) ; SDCCARGS="$${SDCCARGS} -l$(CDTC_ROOT)/tool/cpcrslib/cpcrslib_SDCC.installtree/lib/cpcrslib.lib" ; fi ; \
+	if grep -H '^#include .cpcwyzlib.h.' $(SRCS) ; then echo "This executable depends on cpcwyzlib: $@" ; $(MAKE) $(CDTC_ENV_FOR_CPCRSLIB) ; SDCCARGS="$${SDCCARGS} -l$(CDTC_ROOT)/tool/cpcrslib/cpcrslib_SDCC.installtree/lib/cpcwyzlib.lib" ; fi ; \
 	fi ; \
 	. $(CDTC_ENV_FOR_SDCC) ; sdcc -mz80 --no-std-crt0 -Wl-u $(filter %.rel,$^) $${SDCCARGS} $(LDFLAGS) -o "$@" ; )
 

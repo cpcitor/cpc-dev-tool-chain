@@ -25,7 +25,7 @@ cpcrslib-all: tool/cpcrslib/Makefile
 #distclean:
 #	( find . -type d -print -exec bash -c "cd '{}' ; make clean ; make mrproper ; make distclean" \; ; )
 
-sdcc-all: hello_world_using_sdcc-all cpcrslib-all
+sdcc-all: test-custom-project hello_world_using_sdcc-all cpcrslib-all
 
 test-custom-project:
 	( maintainer-tools/test_custom_project.sh ; )

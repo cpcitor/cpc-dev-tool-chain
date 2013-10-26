@@ -10,7 +10,7 @@ This is a portable toolchain for C/ASM development targetting the Amstrad CPC pl
 
 ### What does it do ?
 
-* It takes C and/or assembly source code and use your modern computer to automatically produces a **ready-to-run disk image** for an Amstrad CPC or emulator.
+* It takes your project's C and/or assembly source code and use your modern computer to automatically produces a **ready-to-run disk or tape image** for an Amstrad CPC or emulator.
 * You can edit source and get another image, at will.
 * Eventually it will allow you to edit your graphics/music/whatever in your preferred editor, save, get another image, run.
 
@@ -39,9 +39,9 @@ This is a portable toolchain for C/ASM development targetting the Amstrad CPC pl
 #### Programming in C for the CPC is not very easy and documented
 
 * There are **two** main **compilers** with different way of doing things.
-* **Several tools** have to be installed (compiler, binary converter, disk image manager).
-* There are several **output formats** (regular file on disk, cpm replacement boot sector, ROM, tape, cartridge for CPC+).
-* Manualy setups are possible following several tutorials
+* **Several tools** have to be installed (compiler, binary converter, disk/tape image manager and more converters).
+* There are several **output formats** on CPC side (regular file on disk, cpm replacement boot sector, ROM, tape, cartridge for CPC+).
+* Manual setups are possible following several tutorials
  * often **specific to a development platform** (Windows only or Linux only)
  * asking to **manually install** in specific directories,
  * asking to **change system settings**
@@ -58,11 +58,11 @@ This is a portable toolchain for C/ASM development targetting the Amstrad CPC pl
  * just build (nothing to think about)
  * run.
 
-#### cpc-dev-tool-chain tries to ease installation and use
+### cpc-dev-tool-chain tries to ease installation and use
 
 cpc-dev-tool-chain tries to follow the best practices common with current operating systems.
 
-##### Installation style
+#### Installation style
 
 * **No manual** file copy.
 * **No reboot**/logout/login.
@@ -76,39 +76,40 @@ The toolchain is intended to be so easy to get running that you may even conside
 #### Use style
 
 * No manual file copy ever.
-* It's meant to separate cleanly project-specific areas and toolchain-specific areas. Eventually you'll be able to use same toolchain instance to build several projects.
+* It's meant to separate cleanly project-specific areas and toolchain-specific areas. You can use the same toolchain instance to build several projects.
 * **Open**: it's all editable text files. Like standing on the shoulder of giants, you can benefit from what it offers without constraint: modify/adjust whatever you want and **use it as a basis for your projects.**
 
 ### Can you give more details ?
 
 Prerequisites:
 
-* a Linux-like environment (Windows users will want to install cygwin) with a compiled and widespread tools. This may change in the future (e.g. mingw32, msys, gnuwin32).
-* C source code (a "Hello World" is provided).
+* A Linux-like environment with a few widespread tools. Windows users have to install cygwin. This may change in the future (hint: by using Linux to build native Windows binaries and installer using mingw32, msys, gnuwin32 -- any volunteer ?).
+* C source code (a "Hello World" is provided as well as examples from cpcrslib).
 
 How to run:
 
 * open a command line, go to the top directory, run make
-* currently you have two targets :
+* currently you have these targets :
 
         make hello_world_using_z88dk
 		make hello_world_using_sdcc
+		make cpcrslib
 
-What it does:
+What they do:
 
-* (first time only), get from the internet and compile needed tools (currently z88dk, iDSK, sdcc, hex2bin, as needed)
-* compile your project from source to executable
+* (first time only), get from the internet and compile needed tools (currently z88dk, iDSK, sdcc, hex2bin, cpcrslib, 2cdt, playtzx, as needed)
+* compile the project from source to executable
 
 Output produced:
 
-* disk image to run on Amstrad CPC platform (or emulator)
+* disk (DSK) or tape image (CDT, VOC) to run on Amstrad CPC platform (or emulator)
 * a message tells you where the image is.
 
 ### Details about needed software
 
 The only dependencies are software that is widespread and easily obtainable on any system.
 
-### Linux
+#### Linux
 
 * There are a few dependencies on very widespread tools.
 * Software that is specific to CPC is automatically fetched and compiled from the Internet.
@@ -116,16 +117,16 @@ The only dependencies are software that is widespread and easily obtainable on a
 For the widespread tools, use your distribution's package manager, for example on Debian/Ubuntu/derivatives :
 
     APT="sudo apt-get --no-install-recommends --assume-yes install"
-    ${APT:?} wget make patch gcc	# common tools
-    ${APT:?} gzip libmodern-perl-perl	# for z88dk
-    ${APT:?} bzip2	# for hex2bin and sdcc
-    ${APT:?} g++ bison flex libboost-dev	# for sdcc
-    ${APT:?} unrar	# for cpcrslib
-	uname -m | grep 64 && ${APT:?} libc6-i386
+    ${APT:?} wget make patch gcc               # common tools
+    ${APT:?} gzip libmodern-perl-perl          # for z88dk
+    ${APT:?} bzip2                             # for hex2bin and sdcc
+    ${APT:?} g++ bison flex libboost-dev       # for sdcc
+    ${APT:?} unrar                             # for cpcrslib
+    uname -m | grep 64 && ${APT:?} libc6-i386
 
 The last command tests if you are on a 64bit platform because in that case, `hex2bin` is still a 32-bit executable. If your installation is really bare (unlikely, unless you work in a chroot) you might miss the 32-bit libc.
 
-### Windows
+#### Windows
 
 At the moment, Window should work using cygwin.  Install cygwin and when the installer asks you what packages you want, be sure to than the following packages names are selected:
 

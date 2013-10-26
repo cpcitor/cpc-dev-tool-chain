@@ -97,6 +97,7 @@ clean:
 
 mrproper:
 	-rm -f $(BUILD_TARGET_FILE)
+	-rm -f $(TARGETS)
 	-rm -rf $(EXTRACT_DIR_NAME) ._$(EXTRACT_DIR_NAME) *~
 	-rm -f $(PRODUCT_NAME)
 

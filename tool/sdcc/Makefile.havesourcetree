@@ -4,7 +4,9 @@ SDCCSOURCETREE:=$(shell cat sdcc_srctree.ref || echo ERROR)
 SDCCBUILDTREE:=$(SDCCSOURCETREE).buildtree
 SDCCINSTALLTREE:=$(SDCCSOURCETREE).installtree
 
-default: build_config.inc
+TARGETS=build_config.inc
+
+default: $(TARGETS)
 
 test:
 	@echo -e "SDCCSOURCETREE=\\t$(SDCCSOURCETREE)"
@@ -56,7 +58,7 @@ clean:
 	-rm -f $(SDCCBUILDTREE)/.built
 
 mrproper: clean
-	-rm -f build_config.inc
+	-rm -f $(TARGETS)
 	-rm -rf $(SDCCSOURCETREE) $(SDCCBUILDTREE) $(SDCCINSTALLTREE) *.ref
 
 distclean: mrproper

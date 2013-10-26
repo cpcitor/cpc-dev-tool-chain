@@ -87,7 +87,7 @@ cpcrslib_SDCC/examples/.configured: cpcrslib_SDCC/.unpacked Makefile
 	@echo "**************** You can go in any sample directory (path above) and type make."
 	@echo "************************************************************************"
 
-cpcrslib_SDCC/examples/.built: cpcrslib_SDCC/examples/.configured Makefile
+cpcrslib_SDCC/examples/.built: cpcrslib_SDCC/examples/.configured cpcrslib_SDCC.buildtree/.built Makefile
 	@echo "************************************************************************"
 	@echo "**************** Building samples in : $(@D)"
 	@echo "************************************************************************"

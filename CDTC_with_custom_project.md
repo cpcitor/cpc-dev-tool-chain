@@ -72,8 +72,22 @@ Open dsk in an emulator (or transfer to real CPC as you wish).
 
 Run program:
 
-	run"sdccproj
+	run"mycdtcpr
 
 See result:
 
 ![Hello World!](cdtc_hello_works.png)
+
+## What now ?
+
+* Try `make clean` to clean up the build area.
+* Open and adjust the generated `cdtc_project.conf`.
+* If you're curious open look at the generated files in the directory.
+* Add `#include <cpcrslib.h>` to your project, start using cpcrslib.
+ * Remove `#include <stdio.h>`, replace `printf()` with `cpc_PrintStr()`, see how program shrinks from 4k to 1k.
+* See source code (C and ASM)
+ * in `cpc-dev-tool-chain/hello_world_using_sdcc`.
+ * of cpcrslib projects in `cpc-dev-tool-chain/tool/cpcrslib/cpcrslib_SDCC/examples`.
+ * of cpcrslib in `cpc-dev-tool-chain/tool/cpcrslib/cpcrslib_SDCC/SDCC`.
+* Change them, compile, run.
+* Your imagination is the limit!

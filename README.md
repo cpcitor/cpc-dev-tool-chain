@@ -139,6 +139,10 @@ At the moment, Window should work using cygwin.  Install cygwin and when the ins
 
 `make` is a tool to automate build steps. `patch` is to adjust iDSK source code (and possibly others in the future). `gcc` is the native compiler, to compile CPC compiler and tools. `wget` is used on first run to automatically get CPC-specific software from the Internet. `bison`, `flex` and `libboost-dev` are needed to compile sdcc. `unrar` is for `cpcrslib`.
 
+### How do I work with my own project ?
+
+* [CDTC with custom project](CDTC_with_custom_project.md)
+
 ### Tested platforms
 
 * Ubuntu 12.10 64-bits

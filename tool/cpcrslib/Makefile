@@ -27,7 +27,6 @@ cpcrslib_SDCC/examples/.configured: cpcrslib_SDCC/.unpacked
 	@echo "**************** Configuring samples in : $(@D)"
 	@echo "************************************************************************"
 	( set -e ; \
-	function ifexists() { if [[ -e "$$1" ]] ; then echo "$$1" ; echo >&2 "$$1 exists, keeping" ; else echo >&2 "$$1 does not exist, skipping" ; fi ; } ; \
 	cd $(@D) ; \
 	for EXAMPLE in */ ; \
 	do \

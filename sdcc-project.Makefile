@@ -3,20 +3,20 @@ SHELL=/bin/bash
 VARIABLES_AT_MAKEFILE_START := $(.VARIABLES)
 
 -include cdtc_project.conf
-#EXENAME:=$(shell date +%Hh%Mm%S )
-EXENAME?=sdccproj
+#PROJNAME:=$(shell date +%Hh%Mm%S )
+PROJNAME?=sdccproj
 LDFLAGS?=
 CODELOC?=0x4000
-DSKNAME?=$(EXENAME).dsk
-CDTNAME?=$(EXENAME).cdt
-VOCNAME?=$(EXENAME).voc
+DSKNAME?=$(PROJNAME).dsk
+CDTNAME?=$(PROJNAME).cdt
+VOCNAME?=$(PROJNAME).voc
 
 SRCS := $(wildcard *.c)
 SRSS := $(wildcard *.s)
 
 RELS=$(patsubst %.c,%.rel,$(SRCS)) $(patsubst %.s,%.rel,$(SRSS))
 
-IHXS=$(EXENAME).ihx
+IHXS=$(PROJNAME).ihx
 BINS=$(patsubst %.ihx,%.bin,$(IHXS))
 
 TARGETS=$(DSKNAME) $(BINS) $(OPTS)
@@ -34,7 +34,7 @@ dsk: $(DSKNAME)
 cdt: $(CDTNAME)
 voc: $(VOCNAME)
 
-ihx: $(EXENAME).ihx
+ihx: $(PROJNAME).ihx
 
 ########################################################################
 # Conjure up compiler
@@ -59,7 +59,7 @@ $(CDTC_ENV_FOR_SDCC):
 	( . $(CDTC_ENV_FOR_SDCC) ; set -xv ; sdasz80 -l -o -s $@ $< ; )
 
 # "--data-loc 0" ensures data area is computed by linker.
-$(EXENAME).ihx: $(RELS) Makefile $(CDTC_ENV_FOR_SDCC)
+$(PROJNAME).ihx: $(RELS) Makefile $(CDTC_ENV_FOR_SDCC)
 	( set -xv ; SDCCARGS="--code-loc $$(printf 0x%x $(CODELOC)) --data-loc 0" ; \
 	if grep -H '^#include .cpcrslib.h.' $(SRCS) ; then echo "This executable depends on cpcrslib: $@" ; SDCCARGS="$${SDCCARGS} -l$(CDTC_ROOT)/tool/cpcrslib/cpcrslib_SDCC.installtree/lib/cpcrslib.lib" ; fi ; \
 	if grep -H '^#include .cpcwyzlib.h.' $(SRCS) ; then echo "This executable depends on cpcwyzlib: $@" ; SDCCARGS="$${SDCCARGS} -l$(CDTC_ROOT)/tool/cpcrslib/cpcrslib_SDCC.installtree/lib/cpcwyzlib.lib" ; fi ; \
@@ -153,7 +153,7 @@ $(CDTNAME): $(BINS) $(CDTC_ENV_FOR_2CDT) Makefile
 	echo "Cannot figure out run address. Aborting." ; exit 1 ; \
 	fi ; \
 	source $(CDTC_ENV_FOR_2CDT) ; \
-	2cdt -n -X 0x$${RUNADDR} -L 0x$${LOADADDR} -r $(EXENAME) $< $@ ; \
+	2cdt -n -X 0x$${RUNADDR} -L 0x$${LOADADDR} -r $(PROJNAME) $< $@ ; \
 	)
 	@echo
 	@echo "************************************************************************"

@@ -73,7 +73,7 @@ cpcrslib_SDCC/examples/.configured: cpcrslib_SDCC/.unpacked Makefile
 	echo "************************************************************************" ; \
 	( \
 		cd "$${EXAMPLE}" ; \
-		echo EXENAME=$$( echo "$${EXAMPLE}" | tr -d -c 'A-Za-z0-9_' | grep -o '^........' ; ) ; \
+		echo PROJNAME=$$( echo "$${EXAMPLE}" | tr -d -c 'A-Za-z0-9_' | grep -o '^........' ; ) ; \
 		echo CODELOC=0x4000 ; \
 		rm -f crt0* putchar* ; \
 	) >"$${EXAMPLE}"/cdtc_project.conf ; \

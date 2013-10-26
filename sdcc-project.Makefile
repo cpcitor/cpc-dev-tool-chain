@@ -38,6 +38,15 @@ lib: $(PROJNAME).lib
 ihx: $(PROJNAME).ihx
 
 ########################################################################
+# Conjure up cpc-specific putchar
+########################################################################
+
+CDTC_ENV_FOR_CPC_PUTCHAR=$(CDTC_ROOT)/tool/cdtc_stdio/cdtc_stdio.lib
+
+$(CDTC_ENV_FOR_CPC_PUTCHAR):
+	( export LC_ALL=C ; $(MAKE) -C "$(@D)" lib ; )
+
+########################################################################
 # Conjure up compiler
 ########################################################################
 
@@ -59,14 +68,17 @@ $(CDTC_ENV_FOR_SDCC):
 %.rel: %.s Makefile $(CDTC_ENV_FOR_SDCC)
 	( . $(CDTC_ENV_FOR_SDCC) ; set -xv ; sdasz80 -l -o -s $@ $< ; )
 
+# If the project does "#include <stdio.h>" we link our putchar implementation. In theory someone might include stdio and prefer his own putchar implementation. If this happens to you, please tell, or even better offer a patch.
+
 # "--data-loc 0" ensures data area is computed by linker.
-$(PROJNAME).ihx: $(RELS) Makefile $(CDTC_ENV_FOR_SDCC)
+$(PROJNAME).ihx: $(RELS) Makefile $(CDTC_ENV_FOR_SDCC) $(CDTC_ENV_FOR_CPC_PUTCHAR)
 	( set -xv ; SDCCARGS="--code-loc $$(printf 0x%x $(CODELOC)) --data-loc 0" ; \
 	if [[ -n "$(SRCS)" ]] ; then \
+	if grep -H '^#include .stdio.h.' $(SRCS) ; then echo "This executable depends on stdio(putchar): $@" ; SDCCARGS="$${SDCCARGS} $(CDTC_ROOT)/tool/cdtc_stdio/putchar_cpc.rel" ; fi ; \
 	if grep -H '^#include .cpcrslib.h.' $(SRCS) ; then echo "This executable depends on cpcrslib: $@" ; SDCCARGS="$${SDCCARGS} -l$(CDTC_ROOT)/tool/cpcrslib/cpcrslib_SDCC.installtree/lib/cpcrslib.lib" ; fi ; \
 	if grep -H '^#include .cpcwyzlib.h.' $(SRCS) ; then echo "This executable depends on cpcwyzlib: $@" ; SDCCARGS="$${SDCCARGS} -l$(CDTC_ROOT)/tool/cpcrslib/cpcrslib_SDCC.installtree/lib/cpcwyzlib.lib" ; fi ; \
 	fi ; \
-	 . $(CDTC_ENV_FOR_SDCC) ; sdcc -mz80 --no-std-crt0 -Wl-u $(filter %.rel,$^) $${SDCCARGS} $(LDFLAGS) -o "$@" ; )
+	. $(CDTC_ENV_FOR_SDCC) ; sdcc -mz80 --no-std-crt0 -Wl-u $(filter %.rel,$^) $${SDCCARGS} $(LDFLAGS) -o "$@" ; )
 
 $(PROJNAME).lib: $(RELS) Makefile $(CDTC_ENV_FOR_SDCC)
 	 ( . $(CDTC_ENV_FOR_SDCC) ; set -euxv ; sdar rc "$@" $(filter %.rel,$^) ; )

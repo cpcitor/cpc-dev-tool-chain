@@ -3,7 +3,17 @@ SHELL=/bin/bash
 TARGETLIBS=cpcrslib.lib cpcwyzlib.lib
 export CDTC_ROOT:=$(shell cd ../../ ; pwd ; )
 
-all: cpcrslib_SDCC.installtree/.installed cpcrslib_SDCC/examples/.configured
+.PHONY: cpcrslib examples all
+
+default: cpcrslib
+	@echo "Notice: in $$PWD default target builds lib only. Consider issuing: 'make examples'"
+
+all: cpcrslib examples
+
+cpcrslib: cpcrslib_SDCC.installtree/.installed
+
+examples: cpcrslib cpcrslib_SDCC/examples/.built
+
 
 ########################################################################
 
@@ -20,33 +30,6 @@ cpcrslib_SDCC/.unpacked: cpcrslib_SDCC_11.03.2012.rar
 	( set -e ; mkdir -p $(@D) ; cd $(@D) ; unrar x ../$< ; cd - ; touch $@ ; )
 	@echo "************************************************************************"
 	@echo "**************** Source extracted to : $(@D)"
-	@echo "************************************************************************"
-
-cpcrslib_SDCC/examples/.configured: cpcrslib_SDCC/.unpacked
-	@echo "************************************************************************"
-	@echo "**************** Configuring samples in : $(@D)"
-	@echo "************************************************************************"
-	( set -e ; \
-	cd $(@D) ; \
-	for EXAMPLE in */ ; \
-	do \
-	echo "************************************************************************" ; \
-	echo "**************** Configuring sample in : $${EXAMPLE}" ; \
-	echo "************************************************************************" ; \
-	( \
-		cd "$${EXAMPLE}" ; \
-		echo EXENAME=$$( echo "$${EXAMPLE}" | tr -d -c 'A-Za-z0-9_' | grep -o '^........' ; ) ; \
-		echo CODELOC=0x4000 ; \
-		rm -f crt0* putchar* ; \
-	) >"$${EXAMPLE}"/cdtc_project.conf ; \
-	$(CDTC_ROOT)/new-sdcc-project.sh "$${EXAMPLE}" ; \
-	done ; \
-	)
-	touch $@
-	@echo "************************************************************************"
-	@echo "**************** Configured samples in : $(@D)"
-	@echo "************************************************************************"
-	@echo "**************** You can go in any sample directory (path above) and type make."
 	@echo "************************************************************************"
 
 cpcrslib_SDCC.buildtree/.built: cpcrslib_SDCC/.unpacked
@@ -74,6 +57,61 @@ cpcrslib_SDCC.installtree/.installed: cpcrslib_SDCC.buildtree/.built
 	@echo "************************************************************************"
 	@echo "**************** Install success in : $(@D) target $(@F)"
 	@echo "************************************************************************"
+
+########################################################################
+
+cpcrslib_SDCC/examples/.configured: cpcrslib_SDCC/.unpacked Makefile
+	@echo "************************************************************************"
+	@echo "**************** Configuring samples in : $(@D)"
+	@echo "************************************************************************"
+	( set -e ; \
+	cd $(@D) ; \
+	for EXAMPLE in */ ; \
+	do \
+	echo "************************************************************************" ; \
+	echo "**************** Configuring sample in : $${EXAMPLE}" ; \
+	echo "************************************************************************" ; \
+	( \
+		cd "$${EXAMPLE}" ; \
+		echo EXENAME=$$( echo "$${EXAMPLE}" | tr -d -c 'A-Za-z0-9_' | grep -o '^........' ; ) ; \
+		echo CODELOC=0x4000 ; \
+		rm -f crt0* putchar* ; \
+	) >"$${EXAMPLE}"/cdtc_project.conf ; \
+	$(CDTC_ROOT)/new-sdcc-project.sh "$${EXAMPLE}" ; \
+	done ; \
+	)
+	touch $@
+	@echo "************************************************************************"
+	@echo "**************** Configured samples in : $(@D)"
+	@echo "************************************************************************"
+	@echo "**************** You can go in any sample directory (path above) and type make."
+	@echo "************************************************************************"
+
+cpcrslib_SDCC/examples/.built: cpcrslib_SDCC/examples/.configured Makefile
+	@echo "************************************************************************"
+	@echo "**************** Building samples in : $(@D)"
+	@echo "************************************************************************"
+	( set -e ; \
+	cd $(@D) ; \
+	for EXAMPLE in */ ; \
+	do \
+	echo "************************************************************************" ; \
+	echo "**************** Building sample in : $${EXAMPLE}" ; \
+	echo "************************************************************************" ; \
+	( \
+		cd "$${EXAMPLE}" ; \
+		$(MAKE) dsk ; \
+	) ; \
+	done ; \
+	)
+	touch $@
+	@echo "************************************************************************"
+	@echo "**************** Built samples in : $(@D)"
+	@echo "************************************************************************"
+	@echo "**************** You can go in any sample directory (path above) and type make."
+	@echo "************************************************************************"
+
+########################################################################
 
 clean:
 	-( set -e ; cd cpcrslib_SDCC.buildtree ; $(MAKE) clean ; )

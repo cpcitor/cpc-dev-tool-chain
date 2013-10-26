@@ -58,8 +58,20 @@ proceed_with_one_item ()
 
         mv -f Makefile.tmp Makefile
 
-        { echo "CDTC_ROOT=${CDTC_ROOT}" ; [[ -e cdtc_project.conf ]] && grep -v "^CDTC_ROOT" cdtc_project.conf ; } >cdtc_project.conf.tmp
+        PROJNAME="$(basename "$PWD" | sed 's/[^a-zA-Z0-9]*//g' | tr 'A-Z' 'a-z' | sed -n 's/^\(........\).*$/\1/p' )"
 
+        if ! [[ -e cdtc_project.conf ]]
+        then
+                {
+                        echo "PROJNAME=$PROJNAME"
+                } >cdtc_project.conf.tmp
+                mv -f cdtc_project.conf.tmp cdtc_project.conf
+        fi
+
+        {
+                echo "CDTC_ROOT=${CDTC_ROOT}"
+                [[ -e cdtc_project.conf ]] && grep -v "^CDTC_ROOT" cdtc_project.conf
+        } >cdtc_project.conf.tmp
         mv -f cdtc_project.conf.tmp cdtc_project.conf
 
         return 0

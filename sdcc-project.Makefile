@@ -184,7 +184,7 @@ $(VOCNAME): $(CDTNAME)
 ########################################################################
 
 clean:
-	-rm -f *.lk *.noi *.rel *.asm *.ihx *.lst *.map *.sym $(TARGETS)
+	-rm -f *.lk *.noi *.rel *.asm *.ihx *.lst *.map *.sym *.rst *.bin.log *.lib $(TARGETS)
 
 distclean: clean
 

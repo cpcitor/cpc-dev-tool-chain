@@ -5,7 +5,7 @@ displayhelp:
 	@echo
 	@sed -n 's/^\([a-z0-9_-]*\):.*$$/make \1/p' Makefile
 
-.PHONY: hello_world_using_z88dk hello_world_using_sdcc cpcrslib cpcrslib-all sdcc-all
+.PHONY: hello_world_using_z88dk hello_world_using_sdcc hello_world_using_sdcc-all cpcrslib cpcrslib-all sdcc-all test-custom-project
 
 hello_world_using_z88dk: hello_world_using_z88dk/Makefile
 	LC_ALL=C $(MAKE) -C $@
@@ -26,3 +26,6 @@ cpcrslib-all: tool/cpcrslib/Makefile
 #	( find . -type d -print -exec bash -c "cd '{}' ; make clean ; make mrproper ; make distclean" \; ; )
 
 sdcc-all: hello_world_using_sdcc-all cpcrslib-all
+
+test-custom-project:
+	( maintainer-tools/test_custom_project.sh ; )

@@ -9,3 +9,5 @@ README.html
 #*#
 .#*
 *.html
+*.disabled
+*.bak

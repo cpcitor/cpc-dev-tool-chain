@@ -58,7 +58,7 @@ proceed_with_one_item ()
 
         mv -f Makefile.tmp Makefile
 
-        { echo "CDTC_ROOT=${CDTC_ROOT}" ; grep -v "^CDTC_ROOT" cdtc_project.conf ; } >cdtc_project.conf.tmp
+        { echo "CDTC_ROOT=${CDTC_ROOT}" ; [[ -e cdtc_project.conf ]] && grep -v "^CDTC_ROOT" cdtc_project.conf ; } >cdtc_project.conf.tmp
 
         mv -f cdtc_project.conf.tmp cdtc_project.conf
 

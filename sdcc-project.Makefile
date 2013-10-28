@@ -56,12 +56,12 @@ $(CDTC_ENV_FOR_CPCRSLIB):
 	( export LC_ALL=C ; $(MAKE) -C "$(dir $(@D))" ; )
 
 ########################################################################
-# Conjure up cfw
+# Conjure up cfwi
 ########################################################################
 
-CDTC_ENV_FOR_CFW=$(CDTC_ROOT)/cpclib/c_on_cpcfirmware/cfw.lib
+CDTC_ENV_FOR_CFWI=$(CDTC_ROOT)/cpclib/cfwi/cfwi.lib
 
-$(CDTC_ENV_FOR_CFW):
+$(CDTC_ENV_FOR_CFWI):
 	( export LC_ALL=C ; $(MAKE) -C "$(@D)" lib ; )
 
 ########################################################################
@@ -81,7 +81,7 @@ $(CDTC_ENV_FOR_SDCC):
 %.rel: %.c Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf
 	( SDCCARGS="" ; \
 	if grep -E '^#include .cpc(rs|wyz)lib.h.' $< ; then echo "Uses cpcrslib and/or cpcwyzlib: $<" ; $(MAKE) $(CDTC_ENV_FOR_CPCRSLIB) ; SDCCARGS="$${SDCCARGS} -I$(CDTC_ROOT)/cpclib/cpcrslib/cpcrslib_SDCC.installtree/include" ; fi ; \
-	if grep -E '^#include .amsgraph.h.' $< ; then echo "Uses cfw: $<" ; $(MAKE) $(CDTC_ENV_FOR_CFW) ; SDCCARGS="$${SDCCARGS} -I$(CDTC_ROOT)/cpclib/c_on_cpcfirmware" ; fi ; \
+	if grep -E '^#include .cfwi/.*\.h.' $< ; then echo "Uses cfwi: $<" ; $(MAKE) $(CDTC_ENV_FOR_CFWI) ; SDCCARGS="$${SDCCARGS} -I$(abspath $(CDTC_ROOT)/cpclib/cfwi/include/)" ; fi ; \
 	. "$(CDTC_ROOT)"/tool/sdcc/build_config.inc ; set -xv ; sdcc -mz80 $${SDCCARGS} $(CFLAGS) -c $< ; )
 
 %.rel: %.s Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf
@@ -96,7 +96,7 @@ $(PROJNAME).ihx: $(RELS) Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf
 	if grep -H '^#include .stdio.h.' $(SRCS) ; then echo "This executable depends on stdio(putchar): $@" ; $(MAKE) $(CDTC_ENV_FOR_CPC_PUTCHAR) ; SDCCARGS="$${SDCCARGS} $(CDTC_ROOT)/cpclib/cdtc_stdio/putchar_cpc.rel" ; fi ; \
 	if grep -H '^#include .cpcrslib.h.' $(SRCS) ; then echo "This executable depends on cpcrslib: $@" ; $(MAKE) $(CDTC_ENV_FOR_CPCRSLIB) ; SDCCARGS="$${SDCCARGS} -l$(CDTC_ROOT)/cpclib/cpcrslib/cpcrslib_SDCC.installtree/lib/cpcrslib.lib" ; fi ; \
 	if grep -H '^#include .cpcwyzlib.h.' $(SRCS) ; then echo "This executable depends on cpcwyzlib: $@" ; $(MAKE) $(CDTC_ENV_FOR_CPCRSLIB) ; SDCCARGS="$${SDCCARGS} -l$(CDTC_ROOT)/cpclib/cpcrslib/cpcrslib_SDCC.installtree/lib/cpcwyzlib.lib" ; fi ; \
-	if grep -H '^#include .amsgraph.h.' $(SRCS) ; then echo "This executable depends on cfw: $@" ; $(MAKE) $(CDTC_ENV_FOR_CFW) ; SDCCARGS="$${SDCCARGS} -l$(abspath $(CDTC_ENV_FOR_CFW))" ; fi ; \
+	if grep -H '^#include .cfwi/.*\.h.' $(SRCS) ; then echo "This executable depends on cfwi: $@" ; $(MAKE) $(CDTC_ENV_FOR_CFWI) ; SDCCARGS="$${SDCCARGS} -l$(abspath $(CDTC_ENV_FOR_CFWI))" ; fi ; \
 	fi ; \
 	. $(CDTC_ENV_FOR_SDCC) ; sdcc -mz80 --no-std-crt0 -Wl-u $(LDFLAGS) $(filter crt0.rel,$^) $(filter %.rel,$(filter-out crt0.rel,$^)) $${SDCCARGS} -o "$@" ; )
 

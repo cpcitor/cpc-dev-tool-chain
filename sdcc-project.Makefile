@@ -136,6 +136,9 @@ $(DSKNAME): $(BINS) $(CDTC_ENV_FOR_IDSK) Makefile
 	LOADADDR=$$( sed -n 's/^Lowest address  = 0000\([0-9]*\).*$$/\1/p' <$(<).log ) ; \
 	RUNADDR=$$( sed -n 's/^ *0000\([0-9A-F]*\) *cpc_run_address  *.*$$/\1/p' <$(<:.bin=.map) ) ; \
 	if [[ -z "$$RUNADDR" ]] ; then \
+	RUNADDR=$$( sed -n 's/^ *0000\([0-9A-F]*\) *init  *.*$$/\1/p' <$(<:.bin=.map) ) ; \
+	fi ; \
+	if [[ -z "$$RUNADDR" ]] ; then \
 	RUNADDR=$$( sed -n 's/^ *0000\([0-9A-F]*\) *_main  *.*$$/\1/p' <$(<:.bin=.map) ) ; \
 	fi ; \
 	if [[ -z "$$RUNADDR" ]] ; then \

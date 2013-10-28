@@ -16,10 +16,10 @@ hello_world_using_sdcc: hello_world_using_sdcc/Makefile
 hello_world_using_sdcc-all: hello_world_using_sdcc/Makefile
 	LC_ALL=C $(MAKE) -C $(<D) all
 
-cpcrslib: tool/cpcrslib/Makefile
+cpcrslib: cpclib/cpcrslib/Makefile
 	LC_ALL=C $(MAKE) -C $(<D)
 
-cpcrslib-all: tool/cpcrslib/Makefile
+cpcrslib-all: cpclib/cpcrslib/Makefile
 	LC_ALL=C $(MAKE) -C $(<D) all
 
 #distclean:

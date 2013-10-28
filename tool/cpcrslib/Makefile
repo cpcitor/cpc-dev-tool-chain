@@ -10,7 +10,7 @@ default: cpcrslib
 
 all: cpcrslib examples
 
-cpcrslib: cpcrslib_SDCC.installtree/.installed
+cpcrslib: cpcrslib_SDCC.installtree/.installed cpcrslib_SDCC/examples/.configured
 
 examples: cpcrslib cpcrslib_SDCC/examples/.built
 

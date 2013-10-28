@@ -1,6 +1,6 @@
-PROJNAME=cdtc_stdio
-CDTC_ROOT=../../
-
-cdtc_stdio_default: lib
-
-include ../../sdcc-project.Makefile
+# THIS_FILE_WILL_BE_OVERWRITTEN_BY_CDTC
+-include cdtc_project.conf
+-include $(CDTC_ROOT)/sdcc-project.Makefile
+failure:
+	@echo 'Cannot locate cpc-dev-tool-chain main directory.'
+	@false

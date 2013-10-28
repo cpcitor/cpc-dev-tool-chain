@@ -1,6 +1,6 @@
 *.cpc
 *.tmp
-#*#
+\#*#
 .#*
 *.html
 *.disabled
@@ -33,3 +33,5 @@ download
 *.tgz
 *.tmp
 *.voc
+
+printer.txt

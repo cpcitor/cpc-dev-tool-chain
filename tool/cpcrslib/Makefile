@@ -73,6 +73,7 @@ cpcrslib_SDCC/examples/.configured: cpcrslib_SDCC/.unpacked Makefile
 	echo "************************************************************************" ; \
 	( \
 		cd "$${EXAMPLE}" ; \
+		grep -q -e "--fomit-frame-pointer" make.bat && echo "CFLAGS=--fomit-frame-pointer" ; \
 		echo PROJNAME=$$( echo "$${EXAMPLE}" | tr -d -c 'A-Za-z0-9_' | grep -o '^........' ; ) ; \
 		echo CODELOC=0x4000 ; \
 		rm -f crt0* putchar* ; \

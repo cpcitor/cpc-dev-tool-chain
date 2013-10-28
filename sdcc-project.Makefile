@@ -11,8 +11,8 @@ DSKNAME?=$(PROJNAME).dsk
 CDTNAME?=$(PROJNAME).cdt
 VOCNAME?=$(PROJNAME).voc
 
-SRCS := $(wildcard *.c)
-SRSS := $(wildcard *.s)
+SRCS := $(wildcard *.c src/*.c)
+SRSS := $(wildcard *.s src/*.s)
 
 RELS=$(patsubst %.c,%.rel,$(SRCS)) $(patsubst %.s,%.rel,$(SRSS))
 
@@ -226,6 +226,7 @@ $(VOCNAME): $(CDTNAME)
 
 clean:
 	-rm -f *.lk *.noi *.rel *.asm *.ihx *.lst *.map *.sym *.rst *.bin.log *.lib $(TARGETS)
+	-rm -f src/*.lk src/*.noi src/*.rel src/*.asm src/*.ihx src/*.lst src/*.map src/*.sym src/*.rst src/*.bin.log
 
 distclean: clean
 

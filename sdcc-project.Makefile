@@ -69,18 +69,18 @@ $(CDTC_ENV_FOR_SDCC):
 ########################################################################
 
 # FIXME change code loc project must choose it
-%.rel: %.c Makefile $(CDTC_ENV_FOR_SDCC)
+%.rel: %.c Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf
 	( SDCCARGS="" ; \
 	if grep -E '^#include .cpc(rs|wyz)lib.h.' $< ; then echo "Uses cpcrslib and/or cpcwyzlib: $<" ; $(MAKE) $(CDTC_ENV_FOR_CPCRSLIB) ; SDCCARGS="$${SDCCARGS} -I$(CDTC_ROOT)/tool/cpcrslib/cpcrslib_SDCC.installtree/include" ; fi ; \
 	. "$(CDTC_ROOT)"/tool/sdcc/build_config.inc ; set -xv ; sdcc -mz80 $${SDCCARGS} $(CFLAGS) -c $< ; )
 
-%.rel: %.s Makefile $(CDTC_ENV_FOR_SDCC)
+%.rel: %.s Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf
 	( . $(CDTC_ENV_FOR_SDCC) ; set -xv ; sdasz80 -l -o -s $@ $< ; )
 
 # If the project does "#include <stdio.h>" we link our putchar implementation. In theory someone might include stdio and prefer his own putchar implementation. If this happens to you, please tell, or even better offer a patch.
 
 # "--data-loc 0" ensures data area is computed by linker.
-$(PROJNAME).ihx: $(RELS) Makefile $(CDTC_ENV_FOR_SDCC)
+$(PROJNAME).ihx: $(RELS) Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf
 	( set -xv ; SDCCARGS="--code-loc $$(printf 0x%x $(CODELOC)) --data-loc 0" ; \
 	if [[ -n "$(SRCS)" ]] ; then \
 	if grep -H '^#include .stdio.h.' $(SRCS) ; then echo "This executable depends on stdio(putchar): $@" ; $(MAKE) $(CDTC_ENV_FOR_CPC_PUTCHAR) ; SDCCARGS="$${SDCCARGS} $(CDTC_ROOT)/tool/cdtc_stdio/putchar_cpc.rel" ; fi ; \
@@ -89,7 +89,7 @@ $(PROJNAME).ihx: $(RELS) Makefile $(CDTC_ENV_FOR_SDCC)
 	fi ; \
 	. $(CDTC_ENV_FOR_SDCC) ; sdcc -mz80 --no-std-crt0 -Wl-u $(LDFLAGS) $(filter crt0.rel,$^) $(filter %.rel,$(filter-out crt0.rel,$^)) $${SDCCARGS} -o "$@" ; )
 
-$(PROJNAME).lib: $(RELS) Makefile $(CDTC_ENV_FOR_SDCC)
+$(PROJNAME).lib: $(RELS) Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf
 	 ( . $(CDTC_ENV_FOR_SDCC) ; set -euxv ; sdar rc "$@" $(filter %.rel,$^) ; )
 
 # For aggressive optimization add :

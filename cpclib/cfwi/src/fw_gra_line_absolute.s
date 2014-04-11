@@ -23,5 +23,5 @@ _fw_gra_line_absolute::
 
         ld      h,b
         ld      l,c
-        call    0xBBF6  ; GRA LlNE ABSOLUTE
+        call    0xBBF6  ; GRA LINE ABSOLUTE
         ret

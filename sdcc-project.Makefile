@@ -219,7 +219,7 @@ $(CDTC_ENV_FOR_PLAYTZX):
 # Insert file in CDT tape image
 ########################################################################
 
-$(VOCNAME): $(CDTNAME)
+$(VOCNAME): $(CDTNAME) $(CDTC_ENV_FOR_PLAYTZX)
 	( . $(CDTC_ENV_FOR_PLAYTZX) ; playtzx -voc $< $@ ; )
 
 ########################################################################

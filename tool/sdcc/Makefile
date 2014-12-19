@@ -7,7 +7,7 @@ all: $(TARGETS)
 ########################################################################
 
 # Tested release
-URL_RELEASE=http://sourceforge.net/projects/sdcc/files/sdcc/3.3.0/sdcc-src-3.3.0.tar.bz2/download
+URL_RELEASE=http://sourceforge.net/projects/sdcc/files/sdcc/3.4.0/sdcc-src-3.4.0.tar.bz2/download
 #http://dl.sourceforge.net/project/sdcc/sdcc/3.3.0/sdcc-src-3.3.0.tar.bz2
 
 URL_DOWNLOAD=$(URL_RELEASE)

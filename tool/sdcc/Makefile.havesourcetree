@@ -54,7 +54,7 @@ build_config.inc: $(SDCCINSTALLTREE)/.installed Makefile
 
 clean:
 	-rm -f *~
-	-$(MAKE) $(SDCCBUILDTREE) clean
+	-$(MAKE) -C $(SDCCBUILDTREE) clean
 	-rm -f $(SDCCBUILDTREE)/.built
 
 mrproper: clean

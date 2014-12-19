@@ -31,7 +31,7 @@ build_config.inc: $(HEX2BINBUILDTREE)/.built
 
 clean:
 	-rm -f *~
-	-$(MAKE) $(HEX2BINBUILDTREE) clean
+	-$(MAKE) -C $(HEX2BINBUILDTREE) clean
 	-rm -f $(HEX2BINBUILDTREE)/.built
 
 mrproper: clean

@@ -35,3 +35,8 @@ download
 *.voc
 
 printer.txt
+*.dump*_*.dot
+*~HEAD
+*~junk
+*~Junk
+

@@ -149,6 +149,7 @@ At the moment, Window should work using cygwin.  Install cygwin and when the ins
 
 * Ubuntu 12.10 64-bits
 * Ubuntu 13.10 64-bits
+* Ubuntu 14.10 64-bits
 * Debian 7.1 Wheezy 64-bits
 
 Test and report on your platform, I'll be happy to help.

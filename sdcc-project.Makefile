@@ -11,8 +11,8 @@ DSKNAME?=$(PROJNAME).dsk
 CDTNAME?=$(PROJNAME).cdt
 VOCNAME?=$(PROJNAME).voc
 
-SRCS := $(wildcard *.c src/*.c)
-SRSS := $(wildcard *.s src/*.s)
+SRCS := $(wildcard *.c src/*.c platform_sdcc/*.c)
+SRSS := $(wildcard *.s src/*.s platform_sdcc/*.s)
 
 RELS=$(patsubst %.c,%.rel,$(SRCS)) $(patsubst %.s,%.rel,$(SRSS))
 
@@ -79,10 +79,10 @@ $(CDTC_ENV_FOR_SDCC):
 
 # FIXME change code loc project must choose it
 %.rel: %.c Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf
-	( SDCCARGS="" ; \
+	( SDCCARGS="-Iplatform_sdcc" ; \
 	if grep -E '^#include .cpc(rs|wyz)lib.h.' $< ; then echo "Uses cpcrslib and/or cpcwyzlib: $<" ; $(MAKE) $(CDTC_ENV_FOR_CPCRSLIB) ; SDCCARGS="$${SDCCARGS} -I$(CDTC_ROOT)/cpclib/cpcrslib/cpcrslib_SDCC.installtree/include" ; fi ; \
 	if grep -E '^#include .cfwi/.*\.h.' $< ; then echo "Uses cfwi: $<" ; $(MAKE) $(CDTC_ENV_FOR_CFWI) ; SDCCARGS="$${SDCCARGS} -I$(abspath $(CDTC_ROOT)/cpclib/cfwi/include/)" ; fi ; \
-	. "$(CDTC_ROOT)"/tool/sdcc/build_config.inc ; set -xv ; sdcc -mz80 $${SDCCARGS} $(CFLAGS) -c $< ; )
+	. "$(CDTC_ROOT)"/tool/sdcc/build_config.inc ; set -xv ; sdcc -mz80 $${SDCCARGS} $(CFLAGS) -c $< -o $@ ; )
 
 %.rel: %.s Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf
 	( . $(CDTC_ENV_FOR_SDCC) ; set -xv ; sdasz80 -l -o -s $@ $< ; )
@@ -98,7 +98,7 @@ $(PROJNAME).ihx: $(RELS) Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf
 	if grep -H '^#include .cpcwyzlib.h.' $(SRCS) ; then echo "This executable depends on cpcwyzlib: $@" ; $(MAKE) $(CDTC_ENV_FOR_CPCRSLIB) ; SDCCARGS="$${SDCCARGS} -l$(CDTC_ROOT)/cpclib/cpcrslib/cpcrslib_SDCC.installtree/lib/cpcwyzlib.lib" ; fi ; \
 	if grep -H '^#include .cfwi/.*\.h.' $(SRCS) ; then echo "This executable depends on cfwi: $@" ; $(MAKE) $(CDTC_ENV_FOR_CFWI) ; SDCCARGS="$${SDCCARGS} -l$(abspath $(CDTC_ENV_FOR_CFWI))" ; fi ; \
 	fi ; \
-	. $(CDTC_ENV_FOR_SDCC) ; sdcc -mz80 --no-std-crt0 -Wl-u $(LDFLAGS) $(filter crt0.rel,$^) $(filter %.rel,$(filter-out crt0.rel,$^)) $${SDCCARGS} -o "$@" ; )
+	. $(CDTC_ENV_FOR_SDCC) ; sdcc -mz80 --no-std-crt0 -Wl-u $(LDFLAGS) $(LDLIBS) $(filter crt0.rel,$^) $(filter %.rel,$(filter-out crt0.rel,$^)) $${SDCCARGS} -o "$@" ; )
 
 $(PROJNAME).lib: $(RELS) Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf
 	 ( . $(CDTC_ENV_FOR_SDCC) ; set -euxv ; sdar rc "$@" $(filter %.rel,$^) ; )
@@ -234,8 +234,7 @@ distclean: clean
 ########################################################################
 
 
-HDRS := $(wildcard *.h)
-SRCS := $(wildcard *.c)
+HDRS := $(wildcard *.h platform_sdcc/*.h)
 GENHRDS := $(SRCS:.c=.h)
 
 indent:

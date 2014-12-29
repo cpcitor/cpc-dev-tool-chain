@@ -18,6 +18,7 @@ RELS=$(patsubst %.c,%.rel,$(SRCS)) $(patsubst %.s,%.rel,$(SRSS))
 
 IHXS=$(PROJNAME).ihx
 BINS=$(patsubst %.ihx,%.bin,$(IHXS))
+BINAMSDOSS=$(patsubst %.bin,%.binamsdos,$(BINS))
 
 TARGETS=$(DSKNAME) $(BINS) $(OPTS)
 
@@ -127,7 +128,7 @@ $(CDTC_ENV_FOR_HEX2BIN):
 	( . $(CDTC_ENV_FOR_HEX2BIN) ; hex2bin -e "bin" -p 00 "$*.ihx" | tee "$*.bin.log" ; )
 
 ########################################################################
-# Conjure up tool to insert file in dsk image
+# Conjure up iDSK ( tool to insert file in dsk image )
 ########################################################################
 
 CDTC_ENV_FOR_IDSK=$(CDTC_ROOT)/tool/idsk/build_config.inc
@@ -135,13 +136,49 @@ CDTC_ENV_FOR_IDSK=$(CDTC_ROOT)/tool/idsk/build_config.inc
 $(CDTC_ENV_FOR_IDSK):
 	( export LC_ALL=C ; $(MAKE) -C "$(@D)" ; )
 
+########################################################################
+# Conjure up addhead
+########################################################################
+
+CDTC_ENV_FOR_ADDHEAD=$(CDTC_ROOT)/tool/addhead/build_config.inc
+
+$(CDTC_ENV_FOR_ADDHEAD):
+	( export LC_ALL=C ; $(MAKE) -C "$(@D)" build_config.inc ; )
+
+########################################################################
+# Use addhead
+########################################################################
+
+%.binamsdos.log %.binamsdos: %.bin $(CDTC_ENV_FOR_ADDHEAD)
+	( set -exv ; \
+	LOADADDR=$$( sed -n 's/^Lowest address  = 0000\([0-9]*\).*$$/\1/p' <$(<).log ) ; \
+	RUNADDR=$$( sed -n 's/^ *0000\([0-9A-F]*\) *cpc_run_address  *.*$$/\1/p' <$*.map ) ; \
+	if [[ -z "$$RUNADDR" ]] ; then \
+	RUNADDR=$$( sed -n 's/^ *0000\([0-9A-F]*\) *init  *.*$$/\1/p' <$*.map ) ; \
+	fi ; \
+	if [[ -z "$$RUNADDR" ]] ; then \
+	RUNADDR=$$( sed -n 's/^ *0000\([0-9A-F]*\) *_main  *.*$$/\1/p' <$*.map ) ; \
+	fi ; \
+	if [[ -z "$$RUNADDR" ]] ; then \
+	echo "Cannot figure out run address. Aborting." ; exit 1 ; \
+	fi ; \
+	. $(CDTC_ENV_FOR_ADDHEAD) ; \
+	addhead -a -t "binary" "$*.bin" "$*.binamsdos" -x '&'$${RUNADDR} -s '&'$${LOADADDR} | tee "$*.binamsdos.log" ; \
+	)
+
+########################################################################
+# Conjure up cpcxfs ( tool to insert file in dsk image )
+########################################################################
+
 CDTC_ENV_FOR_CPCXFS=$(CDTC_ROOT)/tool/cpcxfs/build_config.inc
 
 $(CDTC_ENV_FOR_CPCXFS):
 	( export LC_ALL=C ; $(MAKE) -C "$(@D)" ; )
 
+ifdef PREFER_IDSK_OVER_CPCXFS
+
 ########################################################################
-# Insert file in dsk image
+# Insert file in dsk image using iDSK
 ########################################################################
 
 # Create a new DSK file with all binaries.
@@ -175,26 +212,17 @@ $(DSKNAME): $(BINS) $(CDTC_ENV_FOR_IDSK) Makefile
 	@echo "************************************************************************"
 	@echo "************************************************************************"
 
+else
+
+########################################################################
+# Insert file in dsk image using cpcxfs
+########################################################################
+
 # Create a new DSK file with all binaries.
-# FIXME supports only one binary.
-xxxdisabledxxx$(DSKNAME): $(BINS) $(CDTC_ENV_FOR_CPCXFS) Makefile
-#	./iDSK $@ -n -i $< -t 1 -e 6000 -c 6000 -i a.bas -t 0 -l
-#	./iDSK $@ -n -i $< -t 1 -e 6000 -c 6000 -l
-# WARNING : addresses are in hex without prefix, no warning on overflow
+$(DSKNAME): $(BINAMSDOSS) $(CDTC_ENV_FOR_CPCXFS) Makefile
 	( set -exv ; \
-	LOADADDR=$$( sed -n 's/^Lowest address  = 0000\([0-9]*\).*$$/\1/p' <$(<).log ) ; \
-	RUNADDR=$$( sed -n 's/^ *0000\([0-9A-F]*\) *cpc_run_address  *.*$$/\1/p' <$(<:.bin=.map) ) ; \
-	if [[ -z "$$RUNADDR" ]] ; then \
-	RUNADDR=$$( sed -n 's/^ *0000\([0-9A-F]*\) *init  *.*$$/\1/p' <$(<:.bin=.map) ) ; \
-	fi ; \
-	if [[ -z "$$RUNADDR" ]] ; then \
-	RUNADDR=$$( sed -n 's/^ *0000\([0-9A-F]*\) *_main  *.*$$/\1/p' <$(<:.bin=.map) ) ; \
-	fi ; \
-	if [[ -z "$$RUNADDR" ]] ; then \
-	echo "Cannot figure out run address. Aborting." ; exit 1 ; \
-	fi ; \
-	source $(CDTC_ENV_FOR_IDSK) ; \
-	cpcxfs -f -nd $@.tmp -b -p $(patsubst %,-i %, $(filter %.bin,$^)) ; \
+	source $(CDTC_ENV_FOR_CPCXFS) ; \
+	cpcxfs -f -nd $@.tmp -b $(patsubst %,-p %, $(filter %.binamsdos,$^)) \
 	&& mv -vf $@.tmp $@ ; \
 	)
 	@echo
@@ -206,6 +234,8 @@ xxxdisabledxxx$(DSKNAME): $(BINS) $(CDTC_ENV_FOR_CPCXFS) Makefile
 	@echo "**************** Fire up your favorite emulator and run from it: $(BINS)"
 	@echo "************************************************************************"
 	@echo "************************************************************************"
+
+endif
 
 ########################################################################
 # Conjure up tool to insert file in CDT tape image

@@ -1,8 +1,8 @@
-Only in addhead.patched/: .patched
-Only in addhead.patched/: addhead
+Only in addhead.patched: .patched
+Only in addhead.patched: addhead
 diff -ur addhead/addhead.c addhead.patched/addhead.c
 --- addhead/addhead.c	2014-02-08 13:59:02.000000000 +0100
-+++ addhead.patched/addhead.c	2014-12-29 20:06:05.277340464 +0100
++++ addhead.patched/addhead.c	2014-12-29 20:32:22.073373981 +0100
 @@ -129,7 +129,8 @@
  	OPERATION_UNKNOWN = 0,
  	OPERATION_ADD_HEADER,
@@ -28,7 +28,7 @@ diff -ur addhead/addhead.c addhead.patched/addhead.c
 +
 +	nStart = pData[CPC_DISC_HEADER_LOCATION_LOW] + 
 +		( pData[CPC_DISC_HEADER_LOCATION_HIGH] << 8 );
-+	printf("Start address: 0x%x\n", nStart);
++	printf("Start address (bytes %d %d): 0x%x\n", CPC_DISC_HEADER_LOCATION_LOW, CPC_DISC_HEADER_LOCATION_HIGH, nStart);
 +
 +	nExec = pData[CPC_DISC_HEADER_EXECUTION_ADDRESS_LOW] + 
 +		( pData[CPC_DISC_HEADER_EXECUTION_ADDRESS_HIGH] << 8 );
@@ -114,6 +114,6 @@ diff -ur addhead/addhead.c addhead.patched/addhead.c
  					}
  				}
  			}
-Only in addhead.patched/: addhead.c~
-Only in addhead.patched/: addhead.o
-Only in addhead.patched/: opth.o
+Only in addhead.patched: addhead.c~
+Only in addhead.patched: addhead.o
+Only in addhead.patched: opth.o

@@ -13,7 +13,7 @@ all: $(TARGETS)
 PRODUCT_NAME=iDSK
 URL_RELEASE=http://sid.cpc.free.fr/iDSK.0.13-src.tgz
 
-# If the and of the URL does not make a suitable file name, set ARCHIVE_NAME to a suitable file name.
+# If the end of the URL does not make a suitable file name, set ARCHIVE_NAME to a suitable file name.
 # Example : URL ends in /download -> define ARCHIVE_NAME to something suitable
 # Example : URL ends in foo.tar.gz -> do not define ARCHIVE_NAME
 #ARCHIVE_NAME=$(PRODUCT_NAME)_latest.tgz

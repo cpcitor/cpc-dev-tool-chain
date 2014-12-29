@@ -133,6 +133,11 @@ CDTC_ENV_FOR_IDSK=$(CDTC_ROOT)/tool/idsk/build_config.inc
 $(CDTC_ENV_FOR_IDSK):
 	( export LC_ALL=C ; $(MAKE) -C "$(@D)" ; )
 
+CDTC_ENV_FOR_CPCXFS=$(CDTC_ROOT)/tool/cpcxfs/build_config.inc
+
+$(CDTC_ENV_FOR_CPCXFS):
+	( export LC_ALL=C ; $(MAKE) -C "$(@D)" ; )
+
 ########################################################################
 # Insert file in dsk image
 ########################################################################
@@ -157,6 +162,38 @@ $(DSKNAME): $(BINS) $(CDTC_ENV_FOR_IDSK) Makefile
 	fi ; \
 	source $(CDTC_ENV_FOR_IDSK) ; \
 	iDSK $@.tmp -n $(patsubst %,-i %, $(filter %.bin,$^)) -e $${RUNADDR} -c $${LOADADDR} -t 1 && mv -vf $@.tmp $@ ; \
+	)
+	@echo
+	@echo "************************************************************************"
+	@echo "************************************************************************"
+	@echo "**************** Current directory is: $(PWD) "
+	@echo "**************** Image ready: in $@ "
+	@echo "************************************************************************"
+	@echo "**************** Fire up your favorite emulator and run from it: $(BINS)"
+	@echo "************************************************************************"
+	@echo "************************************************************************"
+
+# Create a new DSK file with all binaries.
+# FIXME supports only one binary.
+xxxdisabledxxx$(DSKNAME): $(BINS) $(CDTC_ENV_FOR_CPCXFS) Makefile
+#	./iDSK $@ -n -i $< -t 1 -e 6000 -c 6000 -i a.bas -t 0 -l
+#	./iDSK $@ -n -i $< -t 1 -e 6000 -c 6000 -l
+# WARNING : addresses are in hex without prefix, no warning on overflow
+	( set -exv ; \
+	LOADADDR=$$( sed -n 's/^Lowest address  = 0000\([0-9]*\).*$$/\1/p' <$(<).log ) ; \
+	RUNADDR=$$( sed -n 's/^ *0000\([0-9A-F]*\) *cpc_run_address  *.*$$/\1/p' <$(<:.bin=.map) ) ; \
+	if [[ -z "$$RUNADDR" ]] ; then \
+	RUNADDR=$$( sed -n 's/^ *0000\([0-9A-F]*\) *init  *.*$$/\1/p' <$(<:.bin=.map) ) ; \
+	fi ; \
+	if [[ -z "$$RUNADDR" ]] ; then \
+	RUNADDR=$$( sed -n 's/^ *0000\([0-9A-F]*\) *_main  *.*$$/\1/p' <$(<:.bin=.map) ) ; \
+	fi ; \
+	if [[ -z "$$RUNADDR" ]] ; then \
+	echo "Cannot figure out run address. Aborting." ; exit 1 ; \
+	fi ; \
+	source $(CDTC_ENV_FOR_IDSK) ; \
+	cpcxfs -f -nd $@.tmp -b -p $(patsubst %,-i %, $(filter %.bin,$^)) ; \
+	&& mv -vf $@.tmp $@ ; \
 	)
 	@echo
 	@echo "************************************************************************"

@@ -1,0 +1,56 @@
+Only in cpcxfs.patched/: .patched
+diff -ur cpcxfs/src/cpcfs.c cpcxfs.patched/src/cpcfs.c
+--- cpcxfs/src/cpcfs.c	2013-12-23 12:01:44.000000000 +0100
++++ cpcxfs.patched/src/cpcfs.c	2014-12-29 18:18:27.977203207 +0100
+@@ -12,6 +12,7 @@
+ 
+ 
+ #include "cpcfs.h"
++#include "libgen.h"// for basename
+ 
+ /***********
+   Variables
+@@ -60,7 +61,7 @@
+ DirEntry *directory = (DirEntry*)NULL;
+ 
+ /* KT - adjusted stamp */
+-char stamp[] = "Compiled: " __DATE__ " "  __TIME__ "  by Kevin Thacker.";
++char stamp[] = "Compiled: " __DATE__ " "  __TIME__ "  by a user of cpc-dev-tool-chain.";
+ char copyright[] = "Original code (C) Dec. 1995 Derik van ZÅtphen";
+ 
+ 
+@@ -542,8 +543,24 @@
+ 	/* system */
+ 	dpb_list_add_item(&dpb_list,"System Format", "system", &system_dpb);
+ 
++#define LOG_STR(VAR) fprintf(stderr, #VAR "=%s\n", VAR);
+ 
+-	parse_def_file("cpmdisks.def");
++	{
++#define PATHSIZE 1024
++		char runspec[PATHSIZE];
++		ssize_t bytesinrunspec = readlink("/proc/self/exe", runspec, PATHSIZE-1);
++		runspec[bytesinrunspec]=(char)0;
++		LOG_STR(runspec);
++		char *rundir = dirname(runspec);
++		char *cpcxfsdir = dirname(rundir);
++		char defpath[PATHSIZE];
++		LOG_STR(runspec);
++		LOG_STR(rundir);
++		LOG_STR(cpcxfsdir);
++		snprintf(defpath, PATHSIZE-1, "%s/%s", cpcxfsdir, "cpmdisks.def");
++		LOG_STR(defpath);		
++		parse_def_file(defpath);
++	}
+ 										  
+ 	ui_main (argc,argv);
+ 	
+Only in cpcxfs.patched/src: cpcfs.c~
+Only in cpcxfs.patched/src: cpcfs.o
+Binary files cpcxfs/src/cpcxfs and cpcxfs.patched/src/cpcxfs differ
+Only in cpcxfs.patched/src: fs.o
+Only in cpcxfs.patched/src: match.o
+Only in cpcxfs.patched/src: readdef.o
+Only in cpcxfs.patched/src: tools.o
+Only in cpcxfs.patched/src: ui.o
+Only in cpcxfs.patched/src: unix.o

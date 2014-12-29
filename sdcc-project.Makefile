@@ -37,6 +37,8 @@ voc: $(VOCNAME)
 lib: $(PROJNAME).lib
 ihx: $(PROJNAME).ihx
 
+.PHONY: default all bin dsk cdt voc lib ihx
+
 ########################################################################
 # Conjure up cpc-specific putchar
 ########################################################################

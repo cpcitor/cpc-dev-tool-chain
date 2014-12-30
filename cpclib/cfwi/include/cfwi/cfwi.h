@@ -5,5 +5,6 @@
 #include "fw_gra.h"
 #include "fw_km.h"
 #include "fw_scr.h"
+#include "fw_kl.h"
 
 #endif /* __CFWI_H__ */

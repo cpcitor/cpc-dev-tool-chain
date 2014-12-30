@@ -11,7 +11,7 @@ all: $(TARGETS)
 ########################################################################
 
 PRODUCT_NAME=2cdt
-URL_RELEASE=http://cpctech.cpc-live.com/download/2cdt.zip
+URL_RELEASE=http://cpctech.cpc-live.com/download/${PRODUCT_NAME}.zip
 
 # If the and of the URL does not make a suitable file name, set ARCHIVE_NAME to a suitable file name.
 # Example : URL ends in /download -> define ARCHIVE_NAME to something suitable

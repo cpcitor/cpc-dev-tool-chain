@@ -11,6 +11,8 @@
 *.bak
 *.bin
 *.bin.log
+*.binamsdos
+*.binamsdos.log
 build_config.inc
 *.buildtree/
 *.cdt

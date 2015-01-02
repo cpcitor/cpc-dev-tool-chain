@@ -11,4 +11,3 @@ void fw_kl_event_disable(void);
 void fw_kl_event_enable(void);
 
 #endif /* __FW_KL_H__ */
-void fw_kl_time_please(void);

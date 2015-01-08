@@ -64,8 +64,9 @@ $(CDTC_ENV_FOR_CPCRSLIB):
 
 CDTC_ENV_FOR_CFWI=$(CDTC_ROOT)/cpclib/cfwi/cfwi.lib
 
+.PHONY: $(CDTC_ENV_FOR_CFWI)
 $(CDTC_ENV_FOR_CFWI):
-	( export LC_ALL=C ; $(MAKE) -C "$(@D)" lib ; )
+	( export LC_ALL=C ; $(MAKE) -C "$(@D)" ; )
 
 ########################################################################
 # Conjure up compiler

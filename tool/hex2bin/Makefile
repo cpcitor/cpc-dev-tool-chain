@@ -29,6 +29,8 @@ hex2bin_srctree.ref: hex2bin_tarball.ref
 	@echo "************************************************************************"
 	( set -o pipefail ; tar jxvf "$$( cat $< )" | grep -o '^[^/]*' | uniq >$@.tmp ; )
 	if [[ $$( cat $@.tmp | wc -l ) != 1 ]] ; then echo "Error figuring out name of extracted directory. Found:" ; cat $@.tmp ; exit 1 ; fi
+	mv -vf "$$(cat $@.tmp)/hex2bin" "$$(cat $@.tmp)/hex2bin.i386" || echo "Could not move away i386-only precompiled binaries. Hope that's ok."
+	mv -vf "$$(cat $@.tmp)/mot2bin" "$$(cat $@.tmp)/mot2bin.i386" || echo "Could not move away i386-only precompiled binaries. Hope that's ok."
 	mv -vf $@.tmp $@
 	@echo "************************************************************************"
 	@echo "**************** Source extracted to : $$(cat $@)"

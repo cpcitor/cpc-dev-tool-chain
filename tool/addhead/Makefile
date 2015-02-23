@@ -63,7 +63,7 @@ $(EXTRACT_DIR_NAME)/.patched: $(PATCHNAME) $(EXTRACT_DIR_NAME)/.unpacked
 	@echo "************************************************************************"
 	@echo "**************** Patching source in: $^"
 	@echo "************************************************************************"
-	patch -p0 < $<
+	#patch -p0 < $< # Disabled for now as patch is not needed for most uses. Fixes issue https://github.com/cpcitor/cpc-dev-tool-chain/issues/1 
 	touch $@
 	@echo "************************************************************************"
 	@echo "**************** Source patched in: $(@D)"

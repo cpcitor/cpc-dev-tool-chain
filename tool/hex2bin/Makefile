@@ -18,7 +18,7 @@ hex2bin.downloadlog.txt:
 hex2bin_tarball.ref: hex2bin.downloadlog.txt
 	grep -i -o 'hex2bin-[^:/]*.tar.bz2' $< | uniq >$@.tmp
 	mv -vf $@.tmp $@
-	mv -vf $<.downloadeddata $$(cat $@)
+	mv -vf $<.downloadeddata $$(cat $@) || echo "Assuming downloaded data is already in place."
 	@echo "************************************************************************"
 	@echo "**************** Source archive was downloaded to : $$(cat $@)"
 	@echo "************************************************************************"

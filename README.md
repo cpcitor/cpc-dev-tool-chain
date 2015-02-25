@@ -90,8 +90,12 @@ Prerequisites:
 
 How to run:
 
-* open a command line, go to the top directory, run make
-* currently you have these targets :
+* get a copy of the project, for example:
+
+        git clone https://github.com/cpcitor/cpc-dev-tool-chain.git
+
+* open a command line, go to the top directory, optionally run make to get a list of targets
+* currently you have these targets:
 
         make hello_world_using_z88dk
 		make hello_world_using_sdcc
@@ -99,7 +103,7 @@ How to run:
 
 What they do:
 
-* (first time only), get from the internet and compile needed tools (currently z88dk, iDSK, sdcc, hex2bin, cpcrslib, 2cdt, playtzx, as needed)
+* (first time only), get from the internet and compile needed tools (currently sdcc or z88dk, hex2bin, cpcxfs or iDSK, cpcrslib, 2cdt, playtzx, as needed)
 * compile the project from source to executable
 
 Output produced:
@@ -116,7 +120,7 @@ The only dependencies are software that is widespread and easily obtainable on a
 * There are a few dependencies on very widespread tools.
 * Software that is specific to CPC is automatically fetched and compiled from the Internet.
 
-For the widespread tools, use your distribution's package manager, for example on Debian/Ubuntu/derivatives :
+For the widespread tools, use your distribution's package manager, for example on Debian/Ubuntu/derivatives:
 
     APT="sudo apt-get --no-install-recommends --assume-yes install"
     ${APT:?} wget make patch gcc               # common tools
@@ -164,7 +168,7 @@ These would be possible only with your help:
 * rules to automatically convert resources files into formats suitable for inclusions in projects (e.g. PNG image)
 * run emulator automatically ?
 * cleanly separate portable C and platform-compiler-output-specific parts, to ease not getting trapped in a particular toolset
-* offer multi-platform build : run your portable C part as an actual native app (makes sense only if most app logic is in portable C)
+* offer multi-platform build: run your portable C part as an actual native app (makes sense only if most app logic is in portable C)
 
 
 ### Credits

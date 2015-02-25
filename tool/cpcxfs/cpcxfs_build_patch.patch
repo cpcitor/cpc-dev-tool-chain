@@ -49,6 +49,19 @@ Only in cpcxfs.patched/src: cpcfs.c~
 Only in cpcxfs.patched/src: cpcfs.o
 Binary files cpcxfs/src/cpcxfs and cpcxfs.patched/src/cpcxfs differ
 Only in cpcxfs.patched/src: fs.o
+diff -ur cpcxfs/src/makefile.lnx cpcxfs.patched/src/makefile.lnx
+--- cpcxfs/src/makefile.lnx	2013-12-30 11:07:52.000000000 +0100
++++ cpcxfs.patched/src/makefile.lnx	2015-02-24 12:15:04.546030448 +0100
+@@ -28,7 +28,8 @@
+ LDARGS  = $(LDOPT)
+ 
+ ifdef LINUX_VER
+-LDARGS += -ltermcap
++LDARGS += -lncurses
++# LDARGS += -ltermcap
+ # LDARGS += -lreadline -lhistory -ltermcap
+ endif
+ 
 Only in cpcxfs.patched/src: match.o
 Only in cpcxfs.patched/src: readdef.o
 Only in cpcxfs.patched/src: tools.o

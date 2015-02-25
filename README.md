@@ -132,14 +132,16 @@ The last command tests if you are on a 64bit platform because in that case, `hex
 
 At the moment, Window should work using cygwin.  Install cygwin and when the installer asks you what packages you want, be sure to than the following packages names are selected:
 
+* `git` (unless you use github or any other way to get the framework)
 * `make`
 * `patch`
-* `gcc`
+* `gcc`, `gcc-core`, `gcc-g++`
 * `wget`
-* `bison`, `flex`, `libboost-dev`
+* `bison`, `flex`, `libboost-devel`
 * `unrar`
+* `libncurses-devel`, `ioperm`
 
-`make` is a tool to automate build steps. `patch` is to adjust iDSK source code (and possibly others in the future). `gcc` is the native compiler, to compile CPC compiler and tools. `wget` is used on first run to automatically get CPC-specific software from the Internet. `bison`, `flex` and `libboost-dev` are needed to compile sdcc. `unrar` is for `cpcrslib`.
+`make` is a tool to automate build steps. `patch` is to adjust iDSK source code (and possibly others in the future). `gcc` is the native compiler, to compile CPC compiler and tools. `wget` is used on first run to automatically get CPC-specific software from the Internet. `bison`, `flex` and `libboost-dev` are needed to compile sdcc. `unrar` is for `cpcrslib`. `libncurses-devel` provides `termcap.h` needed by cpcxfs.
 
 ### How do I work with my own project ?
 
@@ -163,3 +165,8 @@ These would be possible only with your help:
 * run emulator automatically ?
 * cleanly separate portable C and platform-compiler-output-specific parts, to ease not getting trapped in a particular toolset
 * offer multi-platform build : run your portable C part as an actual native app (makes sense only if most app logic is in portable C)
+
+
+### Credits
+
+* Thanks to ronaldo / Cheesetea (ronaldo@cheesetea.com) for testing on cygwin, reporting issues and offering fixes.

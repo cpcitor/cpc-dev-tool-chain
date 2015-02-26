@@ -17,17 +17,30 @@ examples: cpcrslib cpcrslib_SDCC/examples/.built
 
 ########################################################################
 
-cpcrslib_SDCC_11.03.2012.rar:
-	wget -S http://cpcrslib.googlecode.com/files/cpcrslib%20SDCC%2011.03.2012.rar -O $@.tmp && mv $@.tmp $@
+PRODUCT_NAME=cpcrslib_SDCC
+URL_RELEASE=https://cpcrslib.googlecode.com/files/cpcrslib%20SDCC%2012.08.2013.zip
+
+# If the and of the URL does not make a suitable file name, set ARCHIVE_NAME to a suitable file name.
+# Example: URL ends in /download -> define ARCHIVE_NAME to something suitable
+# Example: URL ends in foo.tar.gz -> do not define ARCHIVE_NAME
+ARCHIVE_NAME=$(PRODUCT_NAME)_latest.zip
+
+URL_DOWNLOAD=$(URL_RELEASE)
+
+ARCHIVE_NAME?=$(notdir $(URL_DOWNLOAD))
+
+$(ARCHIVE_NAME):
+	wget -S $(URL_RELEASE) -O $@.tmp
+	mv -vf $@.tmp $@
 	@echo "************************************************************************"
 	@echo "**************** Source archive was downloaded to : $(@)"
 	@echo "************************************************************************"
 
-cpcrslib_SDCC/.unpacked: cpcrslib_SDCC_11.03.2012.rar
+cpcrslib_SDCC/.unpacked: $(ARCHIVE_NAME)
 	@echo "************************************************************************"
 	@echo "**************** Extracting source from : $^"
 	@echo "************************************************************************"
-	( set -e ; mkdir -p $(@D) ; cd $(@D) ; unrar x ../$< ; cd - ; touch $@ ; )
+	( set -e ; mkdir -p $(@D) ; cd $(@D) ; unzip ../$< ; cd - ; touch $@ ; )
 	@echo "************************************************************************"
 	@echo "**************** Source extracted to : $(@D)"
 	@echo "************************************************************************"

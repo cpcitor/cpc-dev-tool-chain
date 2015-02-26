@@ -40,3 +40,5 @@ printer.txt
 *~junk
 *~Junk
 
+*.binamsdos
+*.binamsdos.log

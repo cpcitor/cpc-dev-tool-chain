@@ -60,7 +60,7 @@ cpcrslib_SDCC.buildtree/.built: cpcrslib_SDCC/.unpacked
 
 cpcrslib_SDCC.installtree/.installed: cpcrslib_SDCC.buildtree/.built
 	@echo "************************************************************************"
-	@echo "**************** Installing in : $(@D) target $(@F)"
+	@echo "**************** Installing in: $(@D) target $(@F)"
 	@echo "************************************************************************"
 	( set -e ; mkdir -p $(@D) ; cd $(@D) ; \
 	mkdir -p include ; cp ../cpcrslib_SDCC/SDCC/*.h include/ ;  \

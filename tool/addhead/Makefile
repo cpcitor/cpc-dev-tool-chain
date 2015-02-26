@@ -14,8 +14,8 @@ PRODUCT_NAME=addhead
 URL_RELEASE=http://cpctech.cpc-live.com/download/${PRODUCT_NAME}.zip
 
 # If the and of the URL does not make a suitable file name, set ARCHIVE_NAME to a suitable file name.
-# Example : URL ends in /download -> define ARCHIVE_NAME to something suitable
-# Example : URL ends in foo.tar.gz -> do not define ARCHIVE_NAME
+# Example: URL ends in /download -> define ARCHIVE_NAME to something suitable
+# Example: URL ends in foo.tar.gz -> do not define ARCHIVE_NAME
 #ARCHIVE_NAME=$(PRODUCT_NAME)_latest.tgz
 
 # You must set EXTRACT_DIR_NAME to match archive content.

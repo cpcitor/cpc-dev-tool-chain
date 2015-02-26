@@ -77,7 +77,7 @@ $(BUILD_TARGET_FILE): $(EXTRACT_DIR_NAME)/.patched
 	@echo "************************************************************************"
 	@echo "**************** Configuring and build in: $^"
 	@echo "************************************************************************"
-	( set -e ; cd $(BUILD_DIR) ;_ALL=C $(MAKE) --print-directory -f makefile.lnx ; )
+	( set -e ; cd $(BUILD_DIR) ; LC_ALL=C $(MAKE) --print-directory -f makefile.lnx ; )
 	@echo "************************************************************************"
 	@echo "**************** Configured and built in: $(@D)"
 	@echo "************************************************************************"

@@ -18,7 +18,7 @@ examples: cpcrslib cpcrslib_SDCC/examples/.built
 ########################################################################
 
 PRODUCT_NAME=cpcrslib_SDCC
-URL_RELEASE=https://cpcrslib.googlecode.com/files/cpcrslib%20SDCC%2012.08.2013.zip
+URL_RELEASE=http://sourceforge.net/projects/cpcrslib/files/latest/download
 
 # If the and of the URL does not make a suitable file name, set ARCHIVE_NAME to a suitable file name.
 # Example: URL ends in /download -> define ARCHIVE_NAME to something suitable

@@ -4,6 +4,8 @@ VARIABLES_AT_MAKEFILE_START := $(.VARIABLES)
 
 TARGETS=build_config.inc
 
+.PHONY: all
+
 all: $(TARGETS)
 
 ########################################################################

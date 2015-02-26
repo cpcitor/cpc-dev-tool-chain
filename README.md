@@ -127,7 +127,6 @@ For the widespread tools, use your distribution's package manager, for example o
     ${APT:?} gzip libmodern-perl-perl          # for z88dk
     ${APT:?} bzip2                             # for hex2bin and sdcc
     ${APT:?} g++ bison flex libboost-dev       # for sdcc
-    ${APT:?} unrar                             # for cpcrslib
     uname -m | grep 64 && ${APT:?} libc6-i386
 
 The last command tests if you are on a 64bit platform because in that case, `hex2bin` is still a 32-bit executable. If your installation is really bare (unlikely, unless you work in a chroot) you might miss the 32-bit libc.
@@ -142,10 +141,9 @@ At the moment, Window should work using cygwin.  Install cygwin and when the ins
 * `gcc`, `gcc-core`, `gcc-g++`
 * `wget`
 * `bison`, `flex`, `libboost-devel`
-* `unrar`
 * `libncurses-devel`, `ioperm`
 
-`make` is a tool to automate build steps. `patch` is to adjust iDSK source code (and possibly others in the future). `gcc` is the native compiler, to compile CPC compiler and tools. `wget` is used on first run to automatically get CPC-specific software from the Internet. `bison`, `flex` and `libboost-dev` are needed to compile sdcc. `unrar` is for `cpcrslib`. `libncurses-devel` provides `termcap.h` needed by cpcxfs.
+`make` is a tool to automate build steps. `patch` is to adjust iDSK source code (and possibly others in the future). `gcc` is the native compiler, to compile CPC compiler and tools. `wget` is used on first run to automatically get CPC-specific software from the Internet. `bison`, `flex` and `libboost-dev` are needed to compile sdcc. `libncurses-devel` provides `termcap.h` needed by cpcxfs.
 
 ### How do I work with my own project ?
 

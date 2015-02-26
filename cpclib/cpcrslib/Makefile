@@ -134,4 +134,4 @@ mrproper: #clean
 	-rm -rf cpcrslib_SDCC cpcrslib_SDCC.buildtree cpcrslib_SDCC.installtree ._cpcrslib_SDCC *~
 
 distclean: mrproper
-	-rm -f cpcrslib_SDCC_11.03.2012.rar
+	-rm -f $(ARCHIVE_NAME)

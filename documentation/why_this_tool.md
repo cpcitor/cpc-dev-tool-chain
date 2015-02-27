@@ -24,4 +24,6 @@
  * just build (nothing to think about)
  * run.
 
+Suggested next step: [How to install](how_to_install.md)
+
 [Back to main documentation](../README.md)

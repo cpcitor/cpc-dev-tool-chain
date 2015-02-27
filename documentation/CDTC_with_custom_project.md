@@ -1,9 +1,12 @@
+[Back to main documentation](../README.md)
+
 Tutorial: using cpc-dev-tool-chain with a custom project
 ==============================================
 
 ## Preamble
 
 Let's name your CDTC installation location once and for all.
+Open a shell. We are assuming that you are using `bash`.
 Adjust the line below to fit your installation.
 
 	export MY_CDTC_ROOT=/my-path/cpc-dev-tool-chain
@@ -23,8 +26,8 @@ One line:
 
 It outputs:
 
-    Current dir is : /home/joe/my_cdtc_project
-    Proceeding with : .
+    Current dir is: /home/joe/my_cdtc_project
+    Proceeding with: .
     Generating new cdtc_project.conf
     Auto-generated PROJNAME=mycdtcpr
     Setting in cdtc_project.conf CDTC_ROOT=/my-path/cpc-dev-tool-chain
@@ -53,7 +56,7 @@ Again, one line:
 	make dsk
 
 Many lines scroll, especially the first time to fetch+compile some tools.
-It ends with this :
+It ends with this:
 
     ************************************************************************
     ************************************************************************
@@ -91,3 +94,5 @@ See result:
  * of cpcrslib in `cpc-dev-tool-chain/tool/cpcrslib/cpcrslib_SDCC/SDCC`.
 * Change them, compile, run.
 * Your imagination is the limit!
+
+[Back to main documentation](../README.md)

@@ -27,7 +27,7 @@ Type "cmd".
 
 ![FIXME alt text img/09h17m55s_451573309.png](img/09h17m55s_451573309.png)
 
-Drag-n-drop the `` icon onto the window.  This will automatically type the correct path.
+Drag-n-drop the `setup-x86` icon onto the window.  This will automatically type the correct path.
 
 ![Drag-n-drop](img/09h18m45s_599936216.png)
 
@@ -56,3 +56,6 @@ Press Enter.  The needed packages will automatically download and install.
 ![FIXME alt text img/09h23m23s_869659126.png](img/09h23m23s_869659126.png)
 
 Congratulations, your Windows is ready to host `cpc-dev-tool-chain`.
+
+[Back to main install instructions](../how_to_install.md)
+[Back to main documentation](../../README.md)

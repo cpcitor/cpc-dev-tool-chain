@@ -80,6 +80,7 @@ At the moment, Window should work using cygwin.  Install cygwin and when the ins
 * `patch`
 * `gcc`, `gcc-core`, `gcc-g++`
 * `wget`
+* `unzip`
 * `bison`, `flex`, `libboost-devel`
 * `libncurses-devel`, `ioperm`
 

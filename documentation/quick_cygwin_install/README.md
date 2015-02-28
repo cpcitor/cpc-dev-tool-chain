@@ -3,7 +3,7 @@
 
 ### How to quickly get all prerequisites on Cygwin
 
-Download setup-x86.exe from cygwin.com and store in any location (Windows suggests your desktop folder).
+Download [setup-x86.exe from cygwin.com](https://cygwin.com/setup-x86.exe) and store in any location (Windows suggests your desktop folder).
 
 (Optional: store it or move it after download to some folder of your choice, e.g. a new empty folder. The installer will keep a cache of downloaded files, by default next to the installer. This might help if for any reason you'd like to start over without downloading again.)
 

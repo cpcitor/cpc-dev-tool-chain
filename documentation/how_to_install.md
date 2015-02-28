@@ -52,6 +52,8 @@ For the widespread tools, use your distribution's package manager, for example o
 
 #### Windows
 
+**For the impatient: [quick step-by-step instructions for Windows](quick_cygwin_install/README.md).**
+
 Windows can run the needed software using a compatibility layer named cygwin.  Cygwin is mainly a DLL emulating features that Windows does not offer, some precompiled software and an installer.
 
 Install cygwin and when the installer asks you what packages you want, be sure to than the following packages names are selected:

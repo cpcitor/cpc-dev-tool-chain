@@ -1,3 +1,8 @@
+* [Next: install instructions -> After system preparation](../how_to_install.md#after-system-preparation)
+* [Back to main documentation](../../README.md)
+
+### How to quickly get all prerequisites on Cygwin
+
 Download setup-x86.exe from cygwin.com and store in any location (Windows suggests your desktop folder).
 
 (Optional: store it or move it after download to some folder of your choice, e.g. a new empty folder. The installer will keep a cache of downloaded files, by default next to the installer. This might help if for any reason you'd like to start over without downloading again.)
@@ -57,5 +62,7 @@ Press Enter.  The needed packages will automatically download and install.
 
 Congratulations, your Windows is ready to host `cpc-dev-tool-chain`.
 
-[Back to main install instructions](../how_to_install.md)
-[Back to main documentation](../../README.md)
+### Next
+
+* [Next: install instructions -> After system preparation](../how_to_install.md#after-system-preparation)
+* [Back to main documentation](../../README.md)

@@ -26,11 +26,11 @@ Optional at step below: select any package you may need for your own use of Cygw
 Now a base cygwin system is installed.  We'll run a command line to install packages needed by `cpc-dev-tool-chain`.
 In start menu choose "Run..."
 
-![FIXME alt text img/09h17m55s_048931610.png](img/09h17m55s_048931610.png)
+![Choose "Run..."](img/09h17m55s_048931610.png)
 
 Type "cmd".
 
-![FIXME alt text img/09h17m55s_451573309.png](img/09h17m55s_451573309.png)
+![Type "cmd"](img/09h17m55s_451573309.png)
 
 Drag-n-drop the `setup-x86` icon onto the window.  This will automatically type the correct path.
 
@@ -50,15 +50,15 @@ Now select the text below and use right click, key shortcut, whatever, to copy i
 
 Right click in terminal then select "paste".
 
-![FIXME alt text img/09h19m25s_916488745.png](img/09h19m25s_916488745.png)
+![Paste in terminal](img/09h19m25s_916488745.png)
 
 The result will be a complete command line, like below.
 
-![FIXME alt text img/09h19m41s_894913094.png](img/09h19m41s_894913094.png)
+![Complete command line](img/09h19m41s_894913094.png)
 
 Press Enter.  The needed packages will automatically download and install.
 
-![FIXME alt text img/09h23m23s_869659126.png](img/09h23m23s_869659126.png)
+![Everything gets installed quickly.](img/09h23m23s_869659126.png)
 
 Congratulations, your Windows is ready to host `cpc-dev-tool-chain`.
 

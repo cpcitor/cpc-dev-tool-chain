@@ -75,7 +75,7 @@ $(BUILD_TARGET_FILE): $(EXTRACT_DIR_NAME)/.patched
 	@echo "************************************************************************"
 	@echo "**************** Configuring and build in: $^"
 	@echo "************************************************************************"
-	( set -e ; cd $(EXTRACT_DIR_NAME)/2cdt ; $(MAKE) --print-directory ; )
+	( set -e ; cd $(EXTRACT_DIR_NAME) ; $(MAKE) --print-directory ; )
 	@echo "************************************************************************"
 	@echo "**************** Configured and built in: $(@D)"
 	@echo "************************************************************************"
@@ -84,7 +84,7 @@ build_config.inc: $(BUILD_TARGET_FILE) Makefile
 	(set -eu ; \
 	{ \
 	echo "# with bash do \"source\" this file." ; \
-	cd "$(<D)" ; \
+	cd "../$(<D)" ; \
 	echo "export PATH=\"\$${PATH}:$$PWD\"" ; \
 	} >$@ ; )
 

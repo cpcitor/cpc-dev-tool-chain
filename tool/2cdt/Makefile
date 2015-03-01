@@ -23,7 +23,7 @@ EXTRACT_DIR_NAME=$(PRODUCT_NAME)
 
 # If only one generated executable file, set BUILD_TARGET_FILE to path to it.
 # It several generated executable files, do not set BUILD_TARGET_FILE.
-BUILD_TARGET_FILE=$(EXTRACT_DIR_NAME)/2cdt/2cdt
+BUILD_TARGET_FILE=$(EXTRACT_DIR_NAME)/2cdt
 
 URL_DOWNLOAD=$(URL_RELEASE)
 
@@ -41,8 +41,8 @@ $(EXTRACT_DIR_NAME)/.unpacked: $(ARCHIVE_NAME)
 	@echo "**************** Extracting source from: $^"
 	@echo "************************************************************************"
 	unzip $<
-	rm -f 2cdt/2cdt/src/*.o
-	mv -vf 2cdt/2cdt/2cdt 2cdt/2cdt/2cdt.x86-elf-linux || echo "Could not move away Linux-x86-only precompiled binaries. Hope that's ok."
+	#rm -f 2cdt/src/*.o # release at 2014-01-03 no longer includes binaries or object files.
+	#mv -vf 2cdt/2cdt 2cdt/2cdt.x86-elf-linux || echo "Could not move away Linux-x86-only precompiled binaries. Hope that's ok."
 	touch $@
 	@echo "************************************************************************"
 	@echo "**************** Source extracted to: $(@D)"
@@ -77,7 +77,7 @@ $(BUILD_TARGET_FILE): $(EXTRACT_DIR_NAME)/.patched
 	@echo "************************************************************************"
 	@echo "**************** Configuring and build in: $^"
 	@echo "************************************************************************"
-	( set -e ; cd $(EXTRACT_DIR_NAME)/2cdt ; $(MAKE) --print-directory ; )
+	( set -e ; cd $(EXTRACT_DIR_NAME) ; $(MAKE) --print-directory ; )
 	@echo "************************************************************************"
 	@echo "**************** Configured and built in: $(@D)"
 	@echo "************************************************************************"

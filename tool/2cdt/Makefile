@@ -41,6 +41,8 @@ $(EXTRACT_DIR_NAME)/.unpacked: $(ARCHIVE_NAME)
 	@echo "**************** Extracting source from: $^"
 	@echo "************************************************************************"
 	unzip $<
+	rm -f 2cdt/2cdt/src/*.o
+	mv -vf 2cdt/2cdt/2cdt 2cdt/2cdt/2cdt.x86-elf-linux || echo "Could not move away Linux-x86-only precompiled binaries. Hope that's ok."
 	touch $@
 	@echo "************************************************************************"
 	@echo "**************** Source extracted to: $(@D)"

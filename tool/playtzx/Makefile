@@ -11,7 +11,7 @@ all: $(TARGETS)
 ########################################################################
 
 PRODUCT_NAME=playtzx
-URL_RELEASE=ftp://ftp.worldofspectrum.org/pub/sinclair/tools/unix/playtzx-0.12c.tar.gz
+URL_RELEASE=http://www.worldofspectrum.org/pub/sinclair/tools/unix/playtzx-0.12c.tar.gz
 
 # If the and of the URL does not make a suitable file name, set ARCHIVE_NAME to a suitable file name.
 # Example : URL ends in /download -> define ARCHIVE_NAME to something suitable

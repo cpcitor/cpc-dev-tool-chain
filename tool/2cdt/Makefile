@@ -86,7 +86,7 @@ build_config.inc: $(BUILD_TARGET_FILE) Makefile
 	(set -eu ; \
 	{ \
 	echo "# with bash do \"source\" this file." ; \
-	cd "$(<D)" ; \
+	cd "../$(<D)" ; \
 	echo "export PATH=\"\$${PATH}:$$PWD\"" ; \
 	} >$@ ; )
 

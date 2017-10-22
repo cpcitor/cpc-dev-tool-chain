@@ -46,12 +46,18 @@ This is a portable toolchain for C/ASM development targetting the Amstrad CPC pl
 
 ### Tested platforms
 
+* Debian 7.1 Wheezy 64-bits
 * Ubuntu 12.10 64-bits
 * Ubuntu 13.10 64-bits
 * Ubuntu 14.04 64-bits
-* Debian 7.1 Wheezy 64-bits
+* Ubuntu 16.04 64-bits
+* Reported to work on Windows 7: [How to install cpc-dev-tool-chain on Windows 7 - YouTube](https://www.youtube.com/watch?v=FQ4ToK9ry5U)
 
-Test and report on your platform, I'll be happy to help.
+If you encounter any trouble (even minor) on your platform, please report and I'll be happy to help.
+
+Until you report, trouble remains.
+Once you report, trouble is known, can be fixed for everyone, all will benefit.
+
 
 ### Credits
 

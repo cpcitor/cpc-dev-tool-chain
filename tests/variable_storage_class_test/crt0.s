@@ -82,7 +82,7 @@ init:
 
 	;; Short answer: not confirmed, so not done.
 
-	;; SDCC's default crt0 defines a _init symbol that does "ld a,#0 ; rst 0x08".
+	;; SDCC's default crt0 defines a _exit symbol that does "ld a,#0 ; rst 0x08".
 	;; This is supposed to allow the C-level exit() function to do what people expect.
 	;; This won't work on the CPC.
 
@@ -123,12 +123,13 @@ init:
 
 	;; Compiler does not assume that compiled output can be a RAM.
 
-	;; Indeed, if all compiled data lands in a ROM so is
+	;; Indeed, if all compiled data lands in a ROM so do
  	;; initialization values. Then we must copy them to RAM.
 
-	;; What SDCC does: run-time access to initialized global
-	;; variables is through area named _INITIALIZED (should be
-	;; somewhere in RAM).
+	;; What SDCC does: dedicate an area named _INITIALIZED to
+	;; run-time access to initialized global variables.  This
+	;; assumes we instruct the linker to put such an area
+	;; somewhere in RAM.
 
 	;; Initial values of initialized global variables are provided
 	;; in another region named _INITIALIZER.
@@ -151,14 +152,17 @@ init:
 	;; allocate both area in an absolute fashion to the same
 	;; address. No wasted bytes, no copy.
 
-	;; Note that using unitialized global variable and
-        ;; initializing them in a function does not solve: the same
-        ;; amount of memory is wasted anyway, it has to be maintained
-        ;; manually.
+        ;; One might think: why bother, I'll just won't use
+        ;; initialized global variables syntax at C level, and
+        ;; initialize my variables in C function code.  This works but
+        ;; (1) makes code use even more bytes (2) forces poor style at
+        ;; C source level.
 
-	;; Using function-local variables is worse: they are accessed
-        ;; through the stack which is slower (FIXME unless some SDCC
-        ;; compilation tricks are used ?).
+	;; One might think: let's just use function-local C variables.
+        ;; This is elegant in source code, but worse in generated
+        ;; assembly code size and performance because function-local C
+        ;; variables are accessed through the stack which is slower
+        ;; because of extra indirection level.
 
 	;; Conclusion
 
@@ -176,12 +180,12 @@ init:
 	.globl s__INITIALIZER
 
 gsinit::
-	ld	bc, #l__INITIALIZER
+	ld	bc, #l__INITIALIZER ;; We'll copy that many bytes.
 	ld	a, b
 	or	a, c
-	jr	Z, gsinit_next
-	ld	de, #s__INITIALIZED
-	ld	hl, #s__INITIALIZER
+	jr	Z, gsinit_next      ;; If nothing to copy, don't
+	ld	de, #s__INITIALIZED ;; set destination address
+	ld	hl, #s__INITIALIZER ;; set source address
 	ldir
 gsinit_next:
 

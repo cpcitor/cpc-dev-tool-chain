@@ -11,8 +11,9 @@ DSKNAME?=$(PROJNAME).dsk
 CDTNAME?=$(PROJNAME).cdt
 VOCNAME?=$(PROJNAME).voc
 
-SRCS := $(wildcard *.c src/*.c platform_sdcc/*.c)
-SRSS := $(wildcard *.s src/*.s platform_sdcc/*.s)
+# https://stackoverflow.com/questions/40558385/gnu-make-wildcard-no-longer-gives-sorted-output-is-there-any-control-switch
+SRCS := $(sort $(wildcard *.c src/*.c platform_sdcc/*.c))
+SRSS := $(sort $(wildcard *.s src/*.s platform_sdcc/*.s))
 
 RELS=$(patsubst %.c,%.rel,$(SRCS)) $(patsubst %.s,%.rel,$(SRSS))
 

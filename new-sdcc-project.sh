@@ -50,10 +50,11 @@ proceed_with_one_item ()
         {
                 echo "# ${OVERWRITABLE_MARKER}"
                 echo "-include cdtc_project.conf"
+                echo "-include cdtc_local_machine.conf"
                 echo "-include \$(CDTC_ROOT)/sdcc-project.Makefile"
                 echo "failure:"
                 echo -e "\011@echo 'Cannot locate cpc-dev-tool-chain main directory.'"
-                echo -e "\011@echo 'Hint: edit cdtc_project.conf and adjust line CDTC_ROOT=/path/to/cpc-dev-tool-chain'"
+                echo -e "\011@echo 'Hint: edit (or create) cdtc_local_machine.conf and adjust line CDTC_ROOT=/path/to/cpc-dev-tool-chain'"
                 echo -e "\011@echo 'If you don't have a clue: this project appears to rely on cpc-dev-tool-chain for compilation.'"
                 echo -e "\011@echo 'See https://github.com/cpcitor/cpc-dev-tool-chain for instructions.'"
                 echo -e "\011@false"
@@ -61,7 +62,7 @@ proceed_with_one_item ()
 
         mv -f Makefile.tmp Makefile
 
-        PROJNAME="$(basename "$PWD" | sed 's/[^a-zA-Z0-9]*//g' | tr 'A-Z' 'a-z' | sed -n 's/^\(........\).*$/\1/p' )"
+        PROJNAME="$(basename "$PWD" | sed 's/[^a-zA-Z0-9]*//g' | tr 'A-Z' 'a-z' | sed 's/^\(........\).*$/\1/' )"
 
         if ! [[ -e cdtc_project.conf ]]
         then
@@ -73,12 +74,20 @@ proceed_with_one_item ()
                 mv -f cdtc_project.conf.tmp cdtc_project.conf
         fi
 
-        echo "Setting in cdtc_project.conf CDTC_ROOT=${CDTC_ROOT}"
+        echo "Setting in cdtc_local_machine.conf CDTC_ROOT=${CDTC_ROOT}"
         {
+                if [[ -e cdtc_local_machine.conf ]] then
+                        grep -v "^CDTC_ROOT" cdtc_local_machine.conf
+                else
+                        echo "# This file in Makefile syntax is intended to contain only variables"
+                        echo "# that are specific to this machine.  Do not distribute this file or put it"
+                        echo "# in version control, as its content will not be relevant on other machines."
+                        echo "# and would cause errors."
+                fi
                 echo "CDTC_ROOT=${CDTC_ROOT}"
-                [[ -e cdtc_project.conf ]] && grep -v "^CDTC_ROOT" cdtc_project.conf
-        } >cdtc_project.conf.tmp
-        mv -f cdtc_project.conf.tmp cdtc_project.conf
+        } >cdtc_local_machine.conf.tmp
+
+        mv -f cdtc_local_machine.conf.tmp cdtc_local_machine.conf
 
         return 0
 }

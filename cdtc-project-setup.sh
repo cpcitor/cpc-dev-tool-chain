@@ -54,8 +54,14 @@ proceed_with_one_item ()
 
         {
                 echo "# ${OVERWRITABLE_MARKER}"
+                echo "# local.makefile is intended for your local custom makefiles rules (if any)."
+                echo "# local.makefile comes first to allow to customize default target."
+                echo "-include local.Makefile"
+                echo "# cdtc_project.conf sets project parameters."
                 echo "-include cdtc_project.conf"
+                echo "# cdtc_local_machine.conf is for stuff specific to this machine, like path to cpc-dev-tool-chain."
                 echo "-include cdtc_local_machine.conf"
+                echo "# sdcc-project.Makefile is the main default makefile inside cpc-dev-tool-chain."
                 echo "-include \$(CDTC_ROOT)/sdcc-project.Makefile"
                 echo "fail_for_cannot_locate_cdtc:"
                 echo -e "\011@echo 'Cannot locate cpc-dev-tool-chain main directory.'"

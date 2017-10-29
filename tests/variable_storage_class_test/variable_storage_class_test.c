@@ -52,10 +52,12 @@ int int_initialized = 42;
 
 
 
-// sdcc puts a (global or static) int initialized to INITIALIZED area
+// sdcc puts a (global or static) const int initialized to CODE area and, if non-static, create a global symbol.
 static const int static_const_int_initialized = 42;
 const int const_int_initialized = 42;
 
+//	.globl _const_int_initialized
+// 	.area _CODE
 // _static_const_int_initialized:
 // 	.dw #0x002A
 // _const_int_initialized:

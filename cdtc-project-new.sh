@@ -45,7 +45,7 @@ proceed_with_one_item ()
                 echo "There's already a makefile in: $1"
                 if grep -q "$OVERWRITABLE_MARKER" Makefile
                 then
-                        echo "Notice: will overwrite old generated Makefile in: $1"
+                        echo "Notice: found overwritable old generated Makefile, overwriting : $1"
                 else
                         echo "There's already a makefile that I should probably not overwrite in: $1"
                         return 1

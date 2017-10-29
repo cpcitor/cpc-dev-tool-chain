@@ -57,11 +57,13 @@ proceed_with_one_item ()
                 echo "-include cdtc_project.conf"
                 echo "-include cdtc_local_machine.conf"
                 echo "-include \$(CDTC_ROOT)/sdcc-project.Makefile"
-                echo "failure:"
+                echo "fail_for_cannot_locate_cdtc:"
                 echo -e "\011@echo 'Cannot locate cpc-dev-tool-chain main directory.'"
-                echo -e "\011@echo 'Hint: edit (or create) cdtc_local_machine.conf and adjust line CDTC_ROOT=/path/to/cpc-dev-tool-chain'"
-                echo -e "\011@echo 'If you don't have a clue: this project appears to rely on cpc-dev-tool-chain for compilation.'"
-                echo -e "\011@echo 'See https://github.com/cpcitor/cpc-dev-tool-chain for instructions.'"
+                echo -e "\011@echo 'Explanation: this project appears to rely on cpc-dev-tool-chain for compilation.'"
+                echo -e "\011@echo 'You can get a copy from https://github.com/cpcitor/cpc-dev-tool-chain'"
+                echo -e "\011@echo 'Then run:'"
+                echo -e "\011@echo '/path/to/cpc-dev-tool-chain/cdtc-project-setup.sh $PWD'"
+                echo -e "\011@echo 'Then you can run \"make\" here and the project should build.'"
                 echo -e "\011@false"
         } >Makefile.tmp
 

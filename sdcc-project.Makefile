@@ -86,7 +86,7 @@ $(CDTC_ENV_FOR_SDCC):
 	( SDCCARGS="-Iplatform_sdcc" ; \
 	if grep -E '^#include .cpc(rs|wyz)lib.h.' $< ; then echo "Uses cpcrslib and/or cpcwyzlib: $<" ; $(MAKE) $(CDTC_ENV_FOR_CPCRSLIB) ; SDCCARGS="$${SDCCARGS} -I$(CDTC_ROOT)/cpclib/cpcrslib/cpcrslib_SDCC.installtree/include" ; fi ; \
 	if grep -E '^#include .cfwi/.*\.h.' $< ; then echo "Uses cfwi: $<" ; $(MAKE) $(CDTC_ENV_FOR_CFWI) ; SDCCARGS="$${SDCCARGS} -I$(abspath $(CDTC_ROOT)/cpclib/cfwi/include/)" ; fi ; \
-	. "$(CDTC_ROOT)"/tool/sdcc/build_config.inc ; set -xv ; sdcc -mz80 $${SDCCARGS} $(CFLAGS) -c $< -o $@ ; )
+	. "$(CDTC_ROOT)"/tool/sdcc/build_config.inc ; set -xv ; sdcc -mz80 --allow-unsafe-read --std-sdcc99 $${SDCCARGS} $(CFLAGS) -c $< -o $@ ; )
 
 %.rel: %.s Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf
 	( . $(CDTC_ENV_FOR_SDCC) ; set -xv ; sdasz80 -l -o -s $@ $< ; )

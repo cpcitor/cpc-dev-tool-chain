@@ -2,11 +2,16 @@
 
 set -eu
 
-usage() {
+usage()
+{
         echo "Take a directory full of source code and make a reference to cpc-dev-tool-chain so that it can build it."
         echo
         echo "Usage: $0 (directoryname)*"
-        echo "Notice: directoryname can be just '.' to mean 'current directory'."
+        echo
+        echo "Directoryname can be just '.' to mean 'current directory'."
+        echo
+        echo "This script can be run on an existing project.  It will then update the"
+        echo "reference to this copy of cpc-dev-tool-chain, keeping your parameters."
 }
 
 if [ "$#" == "0" ]

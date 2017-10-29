@@ -82,7 +82,8 @@ proceed_with_one_item ()
 
         echo "Setting in cdtc_local_machine.conf CDTC_ROOT=${CDTC_ROOT}"
         {
-                if [[ -e cdtc_local_machine.conf ]] then
+                if [[ -e cdtc_local_machine.conf ]]
+                then
                         grep -v "^CDTC_ROOT" cdtc_local_machine.conf
                 else
                         echo "# This file in Makefile syntax is intended to contain only variables"

@@ -77,7 +77,12 @@ proceed_with_one_item ()
                 echo "Auto-generated PROJNAME=$PROJNAME"
                 mv -f cdtc_project.conf.tmp cdtc_project.conf
         else
-                echo "cdtc_project.conf exists already. Not changing it."
+                echo "cdtc_project.conf exists already. Not setting PROJNAME etc in it."
+        fi
+
+        if grep -q "^CDTC_ROOT" cdtc_project.conf
+        then
+                grep -v "^CDTC_ROOT" cdtc_project.conf >cdtc_project.conf.tmp && mv -vf cdtc_project.conf.tmp cdtc_project.conf
         fi
 
         echo "Setting in cdtc_local_machine.conf CDTC_ROOT=${CDTC_ROOT}"

@@ -68,10 +68,16 @@ proceed_with_one_item ()
         then
                 echo "Generating new cdtc_project.conf"
                 {
+                        echo "# This file in Makefile syntax is intended to project-related variables"
+                        echo "# like project name, compilation flags and the like."
+                        echo "# If you use version control (you should anyway), "
+                        echo "# include this file in your versioned project history."
                         echo "PROJNAME=$PROJNAME"
                 } >cdtc_project.conf.tmp
                 echo "Auto-generated PROJNAME=$PROJNAME"
                 mv -f cdtc_project.conf.tmp cdtc_project.conf
+        else
+                echo "cdtc_project.conf exists already. Not changing it."
         fi
 
         echo "Setting in cdtc_local_machine.conf CDTC_ROOT=${CDTC_ROOT}"

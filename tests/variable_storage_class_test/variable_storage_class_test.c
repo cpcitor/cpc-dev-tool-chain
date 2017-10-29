@@ -69,6 +69,23 @@ const int const_int_initialized = 42;
 //const int const_int_uninitialized;
 
 
+// What about unused const ?
+// SDCC treats them just like used const: put it in code and, if non-static, create a global symbol.
+// Non-static const might be used by other modules, which totally makes sense.
+// Not sure about unused static const.  Either SDCC author just didn't
+// think about it, or it might be useful with some linking hacks?
+
+static const int static_const_int_initialized_unused = 686;
+const int const_int_initialized_unused = 686;
+
+
+//	.globl _const_int_initialized_unused
+// 	.area _CODE
+// _static_const_int_initialized_unused:
+// 	.dw #0x02ae
+// _const_int_initialized_unused:
+// 	.dw #0x02ae
+
 
 
 

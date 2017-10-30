@@ -30,11 +30,13 @@ $SOURCETREE_ABS/configure --prefix="${INSTALLTREE_ABS}" \
         --disable-r2k-port \
         --disable-r3ka-port \
         --disable-gbz80-port \
+        --disable-tlcs90-port \
         --disable-ds390-port \
         --disable-ds400-port \
         --disable-pic14-port \
         --disable-pic16-port \
         --disable-hc08-port \
-        --disable-s08-port
+        --disable-s08-port \
+        --disable-stm8-port
 
 # exit code will tell if we succeeded.

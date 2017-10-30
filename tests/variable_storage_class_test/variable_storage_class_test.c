@@ -87,7 +87,14 @@ const int const_int_initialized_unused = 686;
 // 	.dw #0x02ae
 
 
+typedef struct test_t
+{
+        char field_a;
+        char field_b;
+} test_t;
 
+test_t global_testinstance_initialized = { 8, 13 };
+const test_t const_global_testinstance_initialized = { 8, 13 };
 
 int main() {
 
@@ -96,6 +103,8 @@ int local_int_initialized = 42;
 
 const int const_local_int_uninitialized;
 const int const_local_int_initialized = 42;
+
+test_t local_testinstance_initialized = { 42, 64 };
 
 #define PRINT_VAR(x) printf( "%d\t= " #x "\r\n", x);
 #define PRINT_PTR(x) printf( "%p\t<- " #x "\r\n", &x);

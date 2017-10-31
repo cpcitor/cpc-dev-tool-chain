@@ -29,7 +29,6 @@
 	_fw_txt_cur_off == 0xBB84
 	_fw_txt_place_cursor == 0xBB8A
 	_fw_txt_remove_cursor == 0xBB8D
-        _fw_txt_set_cursor == 0xBB75
 
         _fw_txt_clear_window == 0xBB6C
 

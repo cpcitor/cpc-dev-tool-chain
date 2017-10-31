@@ -2,7 +2,7 @@
 
 _fw_km_read_key::
         call    0xBB1B  ; KM READ KEY
-        ld      l,#1
+        ld      l,a
         ret     c
         ld      l,#0
         ret

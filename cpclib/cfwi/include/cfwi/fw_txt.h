@@ -20,6 +20,7 @@ void fw_txt_set_column(int8_t column);
 void fw_txt_set_row(int8_t row);
 void fw_txt_set_cursor(int8_t row, int8_t column);
 void fw_txt_output(unsigned char c);
+void fw_txt_wr_char(unsigned char c);
 
 void fw_txt_win_enable(unsigned char left, unsigned char right, unsigned char top, unsigned char bottom);
 void fw_txt_clear_window();

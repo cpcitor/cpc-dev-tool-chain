@@ -11,6 +11,10 @@ BUILDTREE="$1"
 INSTALLTREE="$2"
 SOURCETREE="$3"
 
+shift
+shift
+shift
+
 cd "$SOURCETREE"
 SOURCETREE_ABS="$PWD"
 cd -
@@ -37,6 +41,7 @@ $SOURCETREE_ABS/configure --prefix="${INSTALLTREE_ABS}" \
         --disable-pic16-port \
         --disable-hc08-port \
         --disable-s08-port \
-        --disable-stm8-port
+        --disable-stm8-port \
+        "$@"
 
 # exit code will tell if we succeeded.

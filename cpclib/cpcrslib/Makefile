@@ -18,7 +18,7 @@ examples: cpcrslib cpcrslib_SDCC/examples/.built
 ########################################################################
 
 PRODUCT_NAME=cpcrslib_SDCC
-URL_RELEASE=http://sourceforge.net/projects/cpcrslib/files/latest/download
+URL_RELEASE=https://sourceforge.net/projects/cpcrslib/files/cpcrslib_SDCC/cpcrslib_SDCC.zip/download
 
 # If the and of the URL does not make a suitable file name, set ARCHIVE_NAME to a suitable file name.
 # Example: URL ends in /download -> define ARCHIVE_NAME to something suitable
@@ -40,7 +40,7 @@ cpcrslib_SDCC/.unpacked: $(ARCHIVE_NAME)
 	@echo "************************************************************************"
 	@echo "**************** Extracting source from: $^"
 	@echo "************************************************************************"
-	( set -e ; mkdir -p $(@D) ; cd $(@D) ; unzip ../$< ; cd - ; touch $@ ; )
+	( set -e ; mkdir -p $(@D) ; cd $(@D) ; unzip ../$< ; [[ -e cpcrslib_SDCC ]] && { mv -vf cpcrslib_SDCC SDCC ; } ; cd - ; touch $@ ; )
 	@echo "************************************************************************"
 	@echo "**************** Source extracted to: $(@D)"
 	@echo "************************************************************************"

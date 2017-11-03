@@ -31,6 +31,6 @@ cd "${PROJDIRNAME:?}"
 
 make
 
-{ echo "#include <cpcrslib.h>" ; echo "int main() { cpc_PrintStr(\"Hello World, hello $USER.\\n\"); while (1) {} ; return 0; }" ; } >hello.c
+#{ echo "#include <cpcrslib.h>" ; echo "int main() { cpc_PrintStr(\"Hello World, hello $USER.\\n\"); while (1) {} ; return 0; }" ; } >hello.c
 
-make
+#make

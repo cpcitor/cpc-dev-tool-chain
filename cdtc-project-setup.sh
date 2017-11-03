@@ -91,8 +91,8 @@ proceed_with_one_item ()
                         echo "# CODELOC=0x1000"
                         echo '# Override keyword below allows things like MAKE CFLAGS="-DNDEBUG=1"'
                         echo "# Ref https://stackoverflow.com/questions/2129391/append-to-gnu-make-variables-via-command-line"
-                        echo "# override CFLAGS := -I$(abspath $(CDTC_ROOT)/cpclib/cfwi/include/) $(CFLAGS)"
-                        echo "# override LDLIBS := -l$(abspath $(CDTC_ENV_FOR_CFWI) ) $(CFLAGS)"
+                        echo "# override CFLAGS := -I\$(abspath \$(CDTC_ROOT)/cpclib/cfwi/include/) \$(CFLAGS)"
+                        echo "# override LDLIBS := -l\$(abspath \$(CDTC_ENV_FOR_CFWI) ) \$(CFLAGS)"
                 } >cdtc_project.conf.tmp
                 echo "Auto-generated PROJNAME=$PROJNAME"
                 mv -f cdtc_project.conf.tmp cdtc_project.conf

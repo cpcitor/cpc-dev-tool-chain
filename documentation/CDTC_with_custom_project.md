@@ -22,7 +22,7 @@ The location below is just an example
 
 One line:
 
-	${MY_CDTC_ROOT}/new-sdcc-project.sh .
+	${MY_CDTC_ROOT}/cdtc-project-setup.sh .
 
 It outputs:
 

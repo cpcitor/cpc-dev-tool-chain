@@ -25,7 +25,7 @@ mkdir "${PROJDIRNAME:?}"
 
 cd "${PROJDIRNAME:?}"
 
-"${CDTC_ROOT}"/new-sdcc-project.sh .
+"${CDTC_ROOT}"/cdtc-project-setup.sh .
 
 { echo "#include <stdio.h>" ; echo "int main() { printf(\"Hello World, hello $USER.\\n\"); while (1) {} ; return 0; }" ; } >hello.c
 

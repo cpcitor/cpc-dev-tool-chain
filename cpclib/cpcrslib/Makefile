@@ -91,7 +91,7 @@ cpcrslib_SDCC/examples/.configured: cpcrslib_SDCC/.unpacked Makefile
 		echo CODELOC=0x4000 ; \
 		rm -f crt0* putchar* ; \
 	) >"$${EXAMPLE}"/cdtc_project.conf ; \
-	$(CDTC_ROOT)/new-sdcc-project.sh "$${EXAMPLE}" ; \
+	$(CDTC_ROOT)/cdtc-project-setup.sh "$${EXAMPLE}" ; \
 	done ; \
 	)
 	touch $@

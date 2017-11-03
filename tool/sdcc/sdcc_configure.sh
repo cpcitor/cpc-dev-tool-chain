@@ -42,6 +42,7 @@ $SOURCETREE_ABS/configure --prefix="${INSTALLTREE_ABS}" \
         --disable-hc08-port \
         --disable-s08-port \
         --disable-stm8-port \
+        --disable-ucsim \
         "$@"
 
 # exit code will tell if we succeeded.

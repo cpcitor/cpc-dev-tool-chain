@@ -12,7 +12,7 @@ URL_RELEASE=http://sourceforge.net/projects/sdcc/files/sdcc/3.6.0/sdcc-src-3.6.0
 URL_DOWNLOAD=$(URL_RELEASE)
 
 sdcc.downloadlog.txt:
-	wget -S $(URL_RELEASE) -O $@.downloadeddata 2>&1 | tee $@.tmp
+	set -o pipefail ; wget -c -S $(URL_RELEASE) -O $@.downloadeddata 2>&1 | tee $@.tmp
 	mv -vf $@.tmp $@
 
 sdcc_tarball.ref: sdcc.downloadlog.txt

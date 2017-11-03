@@ -35,8 +35,8 @@ sdcc_srctree.ref: sdcc_tarball.ref
 	@echo "************************************************************************"
 
 distclean:
-	[[ -f sdcc_srctree.ref ]] && $(MAKE) -f Makefile.havesourcetree $(MAKECMDGOALS)
+	if [[ -f sdcc_srctree.ref ]] ; then $(MAKE) -f Makefile.havesourcetree $(MAKECMDGOALS) ; fi
 	rm -rf *.ref
 
-%: sdcc_srctree.ref
+default test build_config.inc clean mrproper: sdcc_srctree.ref
 	$(MAKE) -f Makefile.havesourcetree $(MAKECMDGOALS)

@@ -4,7 +4,7 @@
 
 VPATH = $(CPCRSLIB_SRCTREE)
 
-TARGETS=cpcrslib.lib cpcwyzlib.lib
+TARGETS=cpcrslib.lib
 
 .PHONY : all
 all: $(TARGETS)
@@ -27,13 +27,10 @@ $(CDTC_ROOT)/tool/sdcc/build_config.inc:
 %.rel: %.s sdcc
 	( . "$(CDTC_ROOT)"/tool/sdcc/build_config.inc ; set -xv ; sdasz80 -o $@ $< ; )
 
-SRSS=cpcrslib.s GphStr.s Sprites.s Keyboard.s UnExoOpt.s Uncrunch.s GphStrStd.s TileMap.s Wyz.s
+SRSS=$(wildcard $(VPATH)/src/*/cpc_*.s)
 RELS=$(patsubst %.s,%.rel,$(SRSS))
 
-cpcrslib.lib: $(filter-out Wyz.rel,$(RELS)) sdcc
-	( . "$(CDTC_ROOT)"/tool/sdcc/build_config.inc ; set -xv ; sdar rc $@ $(filter %.rel,$^) ; )
-
-cpcwyzlib.lib: $(filter Wyz.rel,$(RELS)) sdcc
+cpcrslib.lib: $(RELS) sdcc
 	( . "$(CDTC_ROOT)"/tool/sdcc/build_config.inc ; set -xv ; sdar rc $@ $(filter %.rel,$^) ; )
 
 clean:

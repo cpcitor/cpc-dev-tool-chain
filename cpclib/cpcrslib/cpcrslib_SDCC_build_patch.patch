@@ -1,0 +1,35 @@
+diff -urw cpcrslib_SDCC/src/tilemap/cpc_TileMapV.s cpcrslib_SDCC_patched/src/tilemap/cpc_TileMapV.s
+--- cpcrslib_SDCC/src/tilemap/cpc_TileMapV.s	2015-09-15 09:03:10.000000000 +0200
++++ cpcrslib_SDCC_patched/src/tilemap/cpc_TileMapV.s	2017-11-05 12:40:13.680202767 +0100
+@@ -1,7 +1,7 @@
+ .module tilemap
+ 
+-.include "tilemap.s"
+-.include "tilemapC.h"
++.include "TileMap.s"
++.include "TileMapC.h"
+ 
+ 
+ ; Define your tile data at the end of this file
+diff -urw cpcrslib_SDCC/src/utils/cpc_DisableFirmware.s cpcrslib_SDCC_patched/src/utils/cpc_DisableFirmware.s
+--- cpcrslib_SDCC/src/utils/cpc_DisableFirmware.s	2015-08-22 21:22:48.000000000 +0200
++++ cpcrslib_SDCC_patched/src/utils/cpc_DisableFirmware.s	2017-11-05 12:40:38.656371314 +0100
+@@ -1,6 +1,6 @@
+ .module utils
+ 
+-.include "firmware.s"
++.include "Firmware.s"
+ 
+ .globl _cpc_DisableFirmware
+ 
+diff -urw cpcrslib_SDCC/src/utils/cpc_EnableFirmware.s cpcrslib_SDCC_patched/src/utils/cpc_EnableFirmware.s
+--- cpcrslib_SDCC/src/utils/cpc_EnableFirmware.s	2015-08-22 21:19:30.000000000 +0200
++++ cpcrslib_SDCC_patched/src/utils/cpc_EnableFirmware.s	2017-11-05 12:40:45.536417728 +0100
+@@ -1,6 +1,6 @@
+ .module utils
+ 
+-.include "firmware.s"
++.include "Firmware.s"
+ 
+ .globl 	_cpc_EnableFirmware
+ 

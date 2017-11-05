@@ -1,6 +1,6 @@
 SHELL=/bin/bash
 
-TARGETLIBS=cpcrslib.lib cpcwyzlib.lib
+TARGETLIBS=cpcrslib.lib
 export CDTC_ROOT:=$(shell cd ../../ ; pwd ; )
 
 .PHONY: cpcrslib examples all
@@ -25,6 +25,9 @@ URL_RELEASE=https://sourceforge.net/projects/cpcrslib/files/cpcrslib_SDCC/cpcrsl
 # Example: URL ends in foo.tar.gz -> do not define ARCHIVE_NAME
 ARCHIVE_NAME=$(PRODUCT_NAME)_latest.zip
 
+# You must set EXTRACT_DIR_NAME to match archive content.
+EXTRACT_DIR_NAME=$(PRODUCT_NAME)
+
 URL_DOWNLOAD=$(URL_RELEASE)
 
 ARCHIVE_NAME?=$(notdir $(URL_DOWNLOAD))
@@ -36,22 +39,49 @@ $(ARCHIVE_NAME):
 	@echo "**************** Source archive was downloaded to: $(@)"
 	@echo "************************************************************************"
 
-cpcrslib_SDCC/.unpacked: $(ARCHIVE_NAME)
+$(EXTRACT_DIR_NAME)/.unpacked: $(ARCHIVE_NAME)
 	@echo "************************************************************************"
 	@echo "**************** Extracting source from: $^"
 	@echo "************************************************************************"
-	( set -e ; mkdir -p $(@D) ; cd $(@D) ; unzip ../$< ; [[ -e cpcrslib_SDCC ]] && { mv -vf cpcrslib_SDCC SDCC ; } ; cd - ; touch $@ ; )
+	unzip $<
+	touch $@
 	@echo "************************************************************************"
 	@echo "**************** Source extracted to: $(@D)"
 	@echo "************************************************************************"
 
-cpcrslib_SDCC.buildtree/.built: cpcrslib_SDCC/.unpacked
+PATCHNAME=$(EXTRACT_DIR_NAME)_build_patch.patch
+
+ifeq ($(wildcard $(PATCHNAME)),)
+$(EXTRACT_DIR_NAME)/.patched: $(EXTRACT_DIR_NAME)/.unpacked
+	@echo "************************************************************************"
+	@echo "**************** No patch to apply to: $^"
+	@echo "************************************************************************"
+	touch $@
+	@echo "************************************************************************"
+	@echo "**************** Source patched in: $(@D)"
+	@echo "************************************************************************"
+else
+$(EXTRACT_DIR_NAME)/.patched: $(PATCHNAME) $(EXTRACT_DIR_NAME)/.unpacked
+	@echo "************************************************************************"
+	@echo "**************** Patching source in: $^"
+	@echo "************************************************************************"
+	patch -p0 < $<
+	touch $@
+	@echo "************************************************************************"
+	@echo "**************** Source patched in: $(@D)"
+	@echo "************************************************************************"
+endif
+
+#BUILD_TARGET_FILE?=$(EXTRACT_DIR_NAME)/.built
+#$(BUILD_TARGET_FILE): $(EXTRACT_DIR_NAME)/.patched
+
+cpcrslib_SDCC.buildtree/.built: $(EXTRACT_DIR_NAME)/.patched
 	@echo "************************************************************************"
 	@echo "**************** Building in: $(@D) target $(@F)"
 	@echo "************************************************************************"
 	( set -e ; \
 	mkdir -p $(@D) ; \
-	LC_ALL=C $(MAKE) --print-directory -f ../cpcrslib_SDCC_SDCC.Makefile -C $(@D) $(TARGET) CPCRSLIB_SRCTREE=../$(<D)/SDCC ; \
+	LC_ALL=C $(MAKE) --print-directory -C $(@D) -f ../cpcrslib_SDCC_SDCC.Makefile $(TARGET) CPCRSLIB_SRCTREE=../$(<D) ; \
 	touch "$@" ; \
 	)
 	@echo "************************************************************************"
@@ -63,7 +93,7 @@ cpcrslib_SDCC.installtree/.installed: cpcrslib_SDCC.buildtree/.built
 	@echo "**************** Installing in: $(@D) target $(@F)"
 	@echo "************************************************************************"
 	( set -e ; mkdir -p $(@D) ; cd $(@D) ; \
-	mkdir -p include ; cp ../cpcrslib_SDCC/SDCC/*.h include/ ;  \
+	mkdir -p include ; cp ../cpcrslib_SDCC/src/cpcrslib/*.h include/ ;  \
 	mkdir -p lib ; cp ../cpcrslib_SDCC.buildtree/*.lib lib/ ; \
 	cd - ; touch "$@" \
 	)

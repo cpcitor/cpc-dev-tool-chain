@@ -8,7 +8,7 @@ export CDTC_ROOT:=$(shell cd ../../ ; pwd ; )
 .PHONY: cpcrslib examples all
 
 default: cpcrslib
-	@echo "Notice: in $$PWD default target builds lib only. Consider issuing: 'make examples'"
+	@echo "Notice: in $$PWD default target builds lib only. Consider issuing: 'cd $$PWD ; make examples'"
 
 all: cpcrslib examples
 

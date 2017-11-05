@@ -2,7 +2,7 @@ SHELL=/bin/bash
 
 VARIABLES_AT_MAKEFILE_START := $(.VARIABLES)
 
-TARGETLIBS=cpcrslib.lib
+TARGETLIBS=cpcrslib.lib cpcwyzlib
 export CDTC_ROOT:=$(shell cd ../../ ; pwd ; )
 
 .PHONY: cpcrslib examples all
@@ -12,9 +12,6 @@ default: cpcrslib
 
 all: cpcrslib examples
 
-cpcrslib: cpcrslib_SDCC.installtree/.installed cpcrslib_SDCC/examples/.configured
-
-examples: cpcrslib cpcrslib_SDCC/examples/.built
 
 
 ########################################################################
@@ -22,15 +19,21 @@ examples: cpcrslib cpcrslib_SDCC/examples/.built
 ########################################################################
 
 PRODUCT_NAME=cpcrslib_SDCC
-URL_RELEASE=https://sourceforge.net/projects/cpcrslib/files/cpcrslib_SDCC/cpcrslib_SDCC.zip/download
+
+URL_RELEASE=https://github.com/cpcitor/cpcrslib/archive/master.zip
+# EXTRACT_DIR_NAME must match the name of extracted directory.
+EXTRACT_DIR_NAME=cpcrslib-master
+EXTRACT_DIR_NAME?=$(PRODUCT_NAME)
+
+cpcrslib: cpcrslib_SDCC.installtree/.installed $(EXTRACT_DIR_NAME)/examples/.configured
+
+examples: cpcrslib $(EXTRACT_DIR_NAME)/examples/.built
 
 # If the and of the URL does not make a suitable file name, set ARCHIVE_NAME to a suitable file name.
 # Example: URL ends in /download -> define ARCHIVE_NAME to something suitable
 # Example: URL ends in foo.tar.gz -> do not define ARCHIVE_NAME
 ARCHIVE_NAME=$(PRODUCT_NAME)_latest.zip
 
-# You must set EXTRACT_DIR_NAME to match archive content.
-EXTRACT_DIR_NAME=$(PRODUCT_NAME)
 
 URL_DOWNLOAD=$(URL_RELEASE)
 
@@ -48,6 +51,10 @@ $(EXTRACT_DIR_NAME)/.unpacked: $(ARCHIVE_NAME)
 	@echo "**************** Extracting source from: $^"
 	@echo "************************************************************************"
 	unzip $<
+# 	@echo "************************************************************************"
+# 	@echo "**************** Cleaning conflicting files (generated files with info local to the machine): $^"
+# 	@echo "************************************************************************"
+# 	find cpcrslib_SDCC -type f -not -iname "*.s" -not -iname "*.c" -not -iname "*.h" -not -iname "*.bat" -not -iname LICENSE -not -iname "*.txt" -print0 | xargs -0 rm -v
 	touch $@
 	@echo "************************************************************************"
 	@echo "**************** Source extracted to: $(@D)"
@@ -85,7 +92,7 @@ cpcrslib_SDCC.buildtree/.built: $(EXTRACT_DIR_NAME)/.patched
 	@echo "************************************************************************"
 	( set -e ; \
 	mkdir -p $(@D) ; \
-	LC_ALL=C $(MAKE) --print-directory -C $(@D) -f ../cpcrslib_SDCC_SDCC.Makefile $(TARGET) CPCRSLIB_SRCTREE=../$(<D) ; \
+	( export LC_ALL="C" ; $(MAKE) --print-directory -C $(@D) -f ../cpcrslib_SDCC_SDCC.Makefile $(TARGET) CPCRSLIB_SRCTREE=../$(<D) ; ) ; \
 	touch "$@" ; \
 	)
 	@echo "************************************************************************"
@@ -97,7 +104,7 @@ cpcrslib_SDCC.installtree/.installed: cpcrslib_SDCC.buildtree/.built
 	@echo "**************** Installing in: $(@D) target $(@F)"
 	@echo "************************************************************************"
 	( set -e ; mkdir -p $(@D) ; cd $(@D) ; \
-	mkdir -p include ; cp ../cpcrslib_SDCC/src/cpcrslib/*.h include/ ;  \
+	mkdir -p include ; cp ../$(EXTRACT_DIR_NAME)/src/cpcrslib/*.h include/ ;  \
 	mkdir -p lib ; cp ../cpcrslib_SDCC.buildtree/*.lib lib/ ; \
 	cd - ; touch "$@" \
 	)
@@ -107,7 +114,7 @@ cpcrslib_SDCC.installtree/.installed: cpcrslib_SDCC.buildtree/.built
 
 ########################################################################
 
-cpcrslib_SDCC/examples/.configured: cpcrslib_SDCC/.unpacked Makefile
+$(EXTRACT_DIR_NAME)/examples/.configured: $(EXTRACT_DIR_NAME)/.unpacked Makefile
 	@echo "************************************************************************"
 	@echo "**************** Configuring samples in: $(@D)"
 	@echo "************************************************************************"
@@ -135,7 +142,7 @@ cpcrslib_SDCC/examples/.configured: cpcrslib_SDCC/.unpacked Makefile
 	@echo "**************** You can go in any sample directory (path above) and type make."
 	@echo "************************************************************************"
 
-cpcrslib_SDCC/examples/.built: cpcrslib_SDCC/examples/.configured cpcrslib_SDCC.buildtree/.built Makefile
+$(EXTRACT_DIR_NAME)/examples/.built: $(EXTRACT_DIR_NAME)/examples/.configured cpcrslib_SDCC.buildtree/.built Makefile
 	@echo "************************************************************************"
 	@echo "**************** Building samples in: $(@D)"
 	@echo "************************************************************************"
@@ -165,7 +172,7 @@ clean:
 	-( set -e ; cd cpcrslib_SDCC.buildtree ; $(MAKE) clean ; )
 
 mrproper: #clean
-	-rm -rf cpcrslib_SDCC cpcrslib_SDCC.buildtree cpcrslib_SDCC.installtree ._cpcrslib_SDCC *~
+	-rm -rf $(EXTRACT_DIR_NAME) cpcrslib_SDCC.buildtree cpcrslib_SDCC.installtree ._cpcrslib_SDCC *~
 
 distclean: mrproper
 	-rm -f $(ARCHIVE_NAME)

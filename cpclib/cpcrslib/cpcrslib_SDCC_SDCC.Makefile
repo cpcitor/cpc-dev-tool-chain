@@ -4,7 +4,7 @@
 
 VPATH = $(CPCRSLIB_SRCTREE)
 
-TARGETS=cpcrslib.lib
+TARGETS=cpcrslib.lib cpcwyzlib.lib
 
 .PHONY : all
 all: $(TARGETS)
@@ -31,6 +31,9 @@ SRSS=$(wildcard $(VPATH)/src/*/cpc_*.s)
 RELS=$(patsubst %.s,%.rel,$(SRSS))
 
 cpcrslib.lib: $(RELS) sdcc
+	( . "$(CDTC_ROOT)"/tool/sdcc/build_config.inc ; set -xv ; sdar rc $@ $(filter %.rel,$^) ; )
+
+cpcwyzlib.lib: $(VPATH)/src/cpcwyzlib/Wyz.rel sdcc
 	( . "$(CDTC_ROOT)"/tool/sdcc/build_config.inc ; set -xv ; sdar rc $@ $(filter %.rel,$^) ; )
 
 clean:

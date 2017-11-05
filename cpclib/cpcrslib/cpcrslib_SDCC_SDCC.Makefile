@@ -1,3 +1,5 @@
+VARIABLES_AT_MAKEFILE_START := $(.VARIABLES)
+
 # This is a machine-readable version of [cpcrslibSDCC - cpcrslib - How to use cpcrslib in SDCC. - CPC libraries for z88dk and SDCC - Google Project Hosting](http://code.google.com/p/cpcrslib/wiki/cpcrslibSDCC)
 
 # It is intended to be used from SDCC subdirectory extracted from cpcrslib_SDCC_11.03.2012.rar
@@ -41,3 +43,10 @@ clean:
 
 mrproper:
 	-rm -f $(RELS) $(TARGETS)
+
+########################################################################
+# Debug the makefile
+########################################################################
+$(foreach v,                                        \
+  $(filter-out $(VARIABLES_AT_MAKEFILE_START) VARIABLES_AT_MAKEFILE_START,$(.VARIABLES)), \
+  $(info $(v) = $($(v))))

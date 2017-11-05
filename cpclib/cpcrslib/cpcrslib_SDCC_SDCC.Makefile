@@ -37,4 +37,4 @@ clean:
 	-rm -f $(RELS)
 
 mrproper:
-	-rm -f $(RELS) ($TARGETS)
+	-rm -f $(RELS) $(TARGETS)

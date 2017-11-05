@@ -1,5 +1,7 @@
 SHELL=/bin/bash
 
+VARIABLES_AT_MAKEFILE_START := $(.VARIABLES)
+
 TARGETLIBS=cpcrslib.lib
 export CDTC_ROOT:=$(shell cd ../../ ; pwd ; )
 
@@ -15,6 +17,8 @@ cpcrslib: cpcrslib_SDCC.installtree/.installed cpcrslib_SDCC/examples/.configure
 examples: cpcrslib cpcrslib_SDCC/examples/.built
 
 
+########################################################################
+# Variables to adjust at each new integrated project
 ########################################################################
 
 PRODUCT_NAME=cpcrslib_SDCC
@@ -165,3 +169,10 @@ mrproper: #clean
 
 distclean: mrproper
 	-rm -f $(ARCHIVE_NAME)
+
+########################################################################
+# Debug the makefile
+########################################################################
+$(foreach v,                                        \
+  $(filter-out $(VARIABLES_AT_MAKEFILE_START) VARIABLES_AT_MAKEFILE_START,$(.VARIABLES)), \
+  $(info $(v) = $($(v))))

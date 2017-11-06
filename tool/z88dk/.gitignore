@@ -1,3 +1,4 @@
 z88dk
 *.tgz
 build_config.inc
+*.zip

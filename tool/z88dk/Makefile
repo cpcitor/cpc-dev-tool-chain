@@ -11,14 +11,14 @@ all: $(TARGETS)
 ########################################################################
 
 PRODUCT_NAME=z88dk
-URL_RELEASE=http://sourceforge.net/projects/z88dk/files/z88dk/1.10/z88dk-1.10.1.tgz/download
+URL_RELEASE=https://sourceforge.net/projects/z88dk/files/z88dk/1.99B/z88dk-src-1.99B.zip/download
 #URL_LATESTRELEASE=http://sourceforge.net/projects/z88dk/files/latest/download?source=files
 #URL_NIGHTLY=http://nightly.z88dk.org/z88dk-latest.tgz
 
 # If the and of the URL does not make a suitable file name, set ARCHIVE_NAME to a suitable file name.
 # Example : URL ends in /download -> define ARCHIVE_NAME to something suitable
 # Example : URL ends in foo.tar.gz -> do not define ARCHIVE_NAME
-ARCHIVE_NAME=$(PRODUCT_NAME)_latest.tgz
+ARCHIVE_NAME=$(PRODUCT_NAME).zip
 
 # You must set EXTRACT_DIR_NAME to match archive content.
 EXTRACT_DIR_NAME=$(PRODUCT_NAME)
@@ -42,7 +42,8 @@ $(EXTRACT_DIR_NAME)/.unpacked: $(ARCHIVE_NAME)
 	@echo "************************************************************************"
 	@echo "**************** Extracting source from: $^"
 	@echo "************************************************************************"
-	tar zxvf $<
+	unzip $<
+	chmod -c a+x $(@D)/*.sh
 	touch $@
 	@echo "************************************************************************"
 	@echo "**************** Source extracted to: $(@D)"

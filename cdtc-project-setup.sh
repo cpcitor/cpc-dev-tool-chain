@@ -63,12 +63,16 @@ proceed_with_one_item ()
                 echo "-include cdtc_local_machine.conf"
                 echo "# sdcc-project.Makefile is the main default makefile inside cpc-dev-tool-chain."
                 echo "-include \$(CDTC_ROOT)/sdcc-project.Makefile"
+		echo
+		echo "mkfile_path := \$(abspath \$(lastword \$(MAKEFILE_LIST)))"
+		echo "current_dir := \$(dir \$(mkfile_path))"
+
                 echo "fail_for_cannot_locate_cdtc:"
                 echo -e "\011@echo 'Cannot locate cpc-dev-tool-chain main directory.'"
                 echo -e "\011@echo 'Explanation: this project appears to rely on cpc-dev-tool-chain for compilation.'"
                 echo -e "\011@echo 'You can get a copy from https://github.com/cpcitor/cpc-dev-tool-chain'"
                 echo -e "\011@echo 'Then run:'"
-                echo -e "\011@echo '/path/to/cpc-dev-tool-chain/cdtc-project-setup.sh $PWD'"
+                echo -e "\011@echo '/path/to/cpc-dev-tool-chain/cdtc-project-setup.sh \$(current_dir)'"
                 echo -e "\011@echo 'Then you can run \"make\" here and the project should build.'"
                 echo -e "\011@false"
         } >Makefile.tmp

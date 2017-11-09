@@ -10,6 +10,7 @@ CODELOC?=0x4000
 DSKNAME?=$(PROJNAME).dsk
 CDTNAME?=$(PROJNAME).cdt
 VOCNAME?=$(PROJNAME).voc
+AUNAME?=$(PROJNAME).au
 
 # https://stackoverflow.com/questions/40558385/gnu-make-wildcard-no-longer-gives-sorted-output-is-there-any-control-switch
 SRCS := $(sort $(wildcard *.c src/*.c platform_sdcc/*.c))
@@ -35,11 +36,12 @@ bin: $(BINS)
 dsk: $(DSKNAME)
 cdt: $(CDTNAME)
 voc: $(VOCNAME)
+au: $(AUNAME)
 
 lib: $(PROJNAME).lib
 ihx: $(PROJNAME).ihx
 
-.PHONY: default all bin dsk cdt voc lib ihx
+.PHONY: default all bin dsk cdt voc au lib ihx
 
 ########################################################################
 # Conjure up cpc-specific putchar
@@ -278,7 +280,7 @@ $(CDTNAME): $(BINS) $(CDTC_ENV_FOR_2CDT) Makefile
 	@echo "************************************************************************"
 
 ########################################################################
-# Conjure up tool to convert CDT to voc
+# Conjure up tool to convert .cdt to .voc or .au
 ########################################################################
 
 CDTC_ENV_FOR_PLAYTZX=$(CDTC_ROOT)/tool/playtzx/build_config.inc
@@ -292,6 +294,9 @@ $(CDTC_ENV_FOR_PLAYTZX):
 
 $(VOCNAME): $(CDTNAME) $(CDTC_ENV_FOR_PLAYTZX)
 	( . $(CDTC_ENV_FOR_PLAYTZX) ; playtzx -voc $< $@ ; )
+
+$(AUNAME): $(CDTNAME) $(CDTC_ENV_FOR_PLAYTZX)
+	( . $(CDTC_ENV_FOR_PLAYTZX) ; playtzx -au $< $@ ; )
 
 ########################################################################
 

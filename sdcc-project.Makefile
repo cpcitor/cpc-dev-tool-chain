@@ -172,6 +172,13 @@ $(CDTC_ENV_FOR_ADDHEAD):
 	addhead -a -t "binary" "$*.bin" "$*.binamsdos" -x '&'$${RUNADDR} -s '&'$${LOADADDR} | tee "$*.binamsdos.log" ; \
 	)
 
+# This rule would require a CPC BASIC file in binary form without a header. Not common these days.
+%.basamsdos.log %.basamsdos: %.bas $(CDTC_ENV_FOR_ADDHEAD)
+	( set -exv ; \
+	. $(CDTC_ENV_FOR_ADDHEAD) ; \
+	addhead -a -t "basic" "$*.bas" "$*.basamsdos" | tee "$*.basamsdos.log" ; \
+	)
+
 ########################################################################
 # Conjure up cpcxfs ( tool to insert file in dsk image )
 ########################################################################

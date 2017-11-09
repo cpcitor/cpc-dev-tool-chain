@@ -1,5 +1,7 @@
 SHELL=/bin/bash
 
+VARIABLES_AT_MAKEFILE_START := $(.VARIABLES)
+
 SDCCSOURCETREE:=$(shell cat sdcc_srctree.ref || echo ERROR)
 SDCCBUILDTREE:=$(SDCCSOURCETREE).buildtree
 SDCCINSTALLTREE:=$(SDCCSOURCETREE).installtree
@@ -63,3 +65,10 @@ mrproper: clean
 
 distclean: mrproper
 # we do nothing more but our caller does
+
+########################################################################
+# Debug the makefile
+########################################################################
+$(foreach v,                                        \
+  $(sort $(filter-out $(VARIABLES_AT_MAKEFILE_START) VARIABLES_AT_MAKEFILE_START,$(.VARIABLES))), \
+  $(info $(v) = $($(v))))

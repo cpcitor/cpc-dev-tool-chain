@@ -1,5 +1,7 @@
 SHELL=/bin/bash
 
+VARIABLES_AT_MAKEFILE_START := $(.VARIABLES)
+
 TARGETS=build_config.inc
 
 all: $(TARGETS)
@@ -40,3 +42,10 @@ distclean:
 
 default test build_config.inc clean mrproper: sdcc_srctree.ref
 	$(MAKE) -f Makefile.havesourcetree $(MAKECMDGOALS)
+
+########################################################################
+# Debug the makefile
+########################################################################
+$(foreach v,                                        \
+  $(sort $(filter-out $(VARIABLES_AT_MAKEFILE_START) VARIABLES_AT_MAKEFILE_START,$(.VARIABLES))), \
+  $(info $(v) = $($(v))))

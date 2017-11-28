@@ -172,6 +172,12 @@ $(CDTC_ENV_FOR_ADDHEAD):
 	addhead -a -t "binary" "$*.bin" "$*.binamsdos" -x '&'$${RUNADDR} -s '&'$${LOADADDR} | tee "$*.binamsdos.log" ; \
 	)
 
+%.cpcascii: %.txt
+	( recode ../CRLF <$^ >$@.tmp && mv -vf $@.tmp $@ ; )
+
+%.cpcascii: %.bas.txt
+	( recode ../CRLF <$^ >$@.tmp && mv -vf $@.tmp $@ ; )
+
 # This rule would require a CPC BASIC file in binary form without a header. Not common these days.
 %.basamsdos.log %.basamsdos: %.bas $(CDTC_ENV_FOR_ADDHEAD)
 	( set -exv ; \

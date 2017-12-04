@@ -28,4 +28,6 @@ void fw_txt_set_paper(uint8_t p);
 void fw_txt_win_enable(unsigned char left, unsigned char right, unsigned char top, unsigned char bottom);
 void fw_txt_clear_window();
 
+void fw_txt_set_m_table(void *buffer, bool disable, uint8_t lowest_affected_character);
+
 #endif /* __FW_TXT_H__ */

@@ -175,7 +175,7 @@ void fw_km_char_return (unsigned char c) __z88dk_fastcall;
     KM WAIT CHAR
 
 */
-unsigned char fw_km_set_expand(unsigned char token, unsigned char string_length, unsigned char* string);
+uint8_t fw_km_set_expand(uint8_t token, uint8_t string_length, unsigned char* string);
 
 /** 
 
@@ -208,7 +208,7 @@ unsigned char fw_km_set_expand(unsigned char token, unsigned char string_length,
     KM READ CHAR
     KM SET EXPAND
 */
-uint16_t fw_km_get_expand(unsigned char token, unsigned char char_number);
+uint16_t fw_km_get_expand(uint8_t token, uint8_t char_number);
 
 
 unsigned char fw_km_wait_key (void);

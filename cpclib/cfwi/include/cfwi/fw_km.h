@@ -246,7 +246,26 @@ uint16_t fw_km_get_expand(uint8_t token, uint8_t char_number);
 */
 uint8_t fw_km_exp_buffer(unsigned char *buffer, uint16_t buffer_bytecount);
 
-
+/** 8: KM WAIT KEY
+    #BB18
+    Wait for next key from the keyboard.
+    Action:
+    Try to get a key from the key buffer. This routine waits until a key is found if no key
+    is immediately available.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    Carry true. A contains the character or expansion token.
+    Other flags corrupt. All registers preserved.
+    Notes:
+    The next key is read from the key buffer and translated using the appropriate key
+    translation table. Expansion tokens are not expanded but are passed out for the user to
+    deal with, as are normal characters. Other Key Manager tokens (shift lock, caps lock
+    and ignore) are obeyed but are not passed out.
+    Related entries:
+    KM READ KEY
+    KM WAIT CHAR
+*/
 unsigned char fw_km_wait_key (void);
 
 /** Contrary to the firmware which sets carry to tell if return value is valid, C wrapper return 0 if no valid value. */

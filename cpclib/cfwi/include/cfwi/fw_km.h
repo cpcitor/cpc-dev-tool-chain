@@ -392,6 +392,79 @@ uint16_t fw_km_test_key(uint8_t key_number) __z88dk_fastcall;
 */
 uint16_t fw_km_get_state(void);
 
+enum fw_joystick_bits
+{
+	fw_joystick_bit_up = 0,
+	fw_joystick_bit_down = 1,
+	fw_joystick_bit_left = 2,
+	fw_joystick_bit_right = 3,
+	fw_joystick_bit_fire_2 = 4,
+	fw_joystick_bit_fire_1 = 5,
+	fw_joystick_bit_spare = 6,
+};
+
+/* for WORD in up down left right fire_2 fire_1 spare ; do echo "fw_joystick_mask_$WORD = 1 << fw_joystick_bit_$WORD," ; done */
+
+enum fw_joystick_masks
+{
+	fw_joystick_mask_up = 1 << fw_joystick_bit_up,
+	fw_joystick_mask_down = 1 << fw_joystick_bit_down,
+	fw_joystick_mask_left = 1 << fw_joystick_bit_left,
+	fw_joystick_mask_right = 1 << fw_joystick_bit_right,
+	fw_joystick_mask_fire_2 = 1 << fw_joystick_bit_fire_2,
+	fw_joystick_mask_fire_1 = 1 << fw_joystick_bit_fire_1,
+	fw_joystick_mask_spare = 1 << fw_joystick_bit_spare,
+};
+
+#define HAS_JOY_STATE_BIT(state, bitname) ((state && fw_joystick_mask_ xstr(#bitname))!=0)
+
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    #### CFWI-specific information: ####
+
+    Use like this:
+
+    uint16_t returned_value = fw_km_get_state();
+    bool joystick_1_state = (returned_value & ff);
+    bool joystick_0_state = (returned_value>>8);
+
+    // You can use fw_joystick_mask_*
+    // or this macro:
+    if (HAS_JOY_STATE_BIT(joystick_0_state, up))
+    {
+    // player pressed up
+    }
+
+    12: KM GET JOYSTICK #BB24
+    Fetch current state of the joystick(s).
+    Action:
+    Ask what the current states of the joysticks are. These are read from the key state map
+    rather than by accessing the keyboard hardware.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    H contains the state of joystick 0. L contains the state of joystick 1. A contains the
+    state of joystick 0.
+    Flags corrupt. All other registers preserved.
+    Notes:
+    In normal operation the key state map is updated by the key scanning routine every
+    fiftieth of a second so the state returned may be slightly out of date.
+    The joystick states are bit significant as follows:
+    Bit 0 Up.
+    Bit 1 Down.
+    Bit 2 Left.
+    Bit 3 Right.
+    Bit 4 Fire 2.
+    Bit 5 Fire 1.
+    Bit 6 Spare joystick button (usually unconnected).
+    Bit 7 Always zero.
+    If a bit is set then the appropriate button is pressed.
+    Joystick 1 is indistinguishable from certain keys on the keyboard (see Appendix 1).
+    Related entries:
+    KM TEST KEY
+*/
+uint16_t fw_km_get_joystick(void);
+
 void fw_km_disarm_break(void);
 void fw_km_break_event(void);
 void fw_km_flush(void);

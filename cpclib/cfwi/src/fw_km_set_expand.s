@@ -7,9 +7,9 @@ _fw_km_set_expand::
         inc     hl
         ld      c,(hl)		; length of the string
 	inc	hl
-	ld	a,(hl)		; address of the string.
+	ld	a,(hl)		; address of the string, LSB
 	inc	hl
-	ld	h,(hl)		; buffer address LSB
+	ld	h,(hl)		; address of the string, MSB
 	ld	l,a
 	call 	0xbb0f
         ld      l,#0

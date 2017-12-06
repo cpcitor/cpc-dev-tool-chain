@@ -2,6 +2,7 @@
 #define __FW_KM_H__
 
 #include <stdbool.h>
+#include <stdint.h>
 
 /** 0: KM INITIALISE
     #BB00
@@ -175,6 +176,40 @@ void fw_km_char_return (unsigned char c) __z88dk_fastcall;
 
 */
 unsigned char fw_km_set_expand(unsigned char token, unsigned char string_length, unsigned char* string);
+
+/** 
+
+    #### CFWI-specific information: ####
+    
+    since C cannot handle carry flag, this routine returns a byte
+    value if a character was returned, and any value outside range
+    0-255 if not.
+    
+    6: KM GET EXPAND
+    #BB12
+    Get a character from an expansion string.
+    Action:
+    Read a character from an expansion string. The characters in the string are numbered
+    starting from 0.
+    Entry conditions:
+    A contains an expansion token.
+    L contains the character number.
+    Exit conditions:
+    If the character was found:
+    Carry true. A contains the character.
+    If the token was invalid or the string was not long enough:
+    Carry false. A corrupt.
+    Always:
+    DE and other flags corrupt. All other registers preserved.
+    Notes:
+    The characters in the expansion string are not expanded (or otherwise dealt with). It is
+    therefore possible to put any character into an expansion string.
+    Related entries:
+    KM READ CHAR
+    KM SET EXPAND
+*/
+uint16_t fw_km_get_expand(unsigned char token, unsigned char char_number);
+
 
 unsigned char fw_km_wait_key (void);
 

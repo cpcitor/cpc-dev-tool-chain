@@ -7,6 +7,8 @@
 	_fw_km_initialise == 0xBB00
 	_fw_km_reset == 0xBB03
 
+	_fw_km_get_state == 0xBB21
+	
 	_fw_km_disarm_break == 0xBB48
 	_fw_km_break_event == 0xBB4B
 

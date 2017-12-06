@@ -361,6 +361,37 @@ uint16_t fw_km_read_key (void);
 */
 uint16_t fw_km_test_key(uint8_t key_number) __z88dk_fastcall;
 
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    #### CFWI-specific information: ####
+    
+    Use like this:
+
+    uint16_t returned_value = fw_km_get_state();
+    bool shift_lock_state = (returned_value & 1);
+    bool caps_lock_state = ((returned_value>>8) & 1);
+
+    11: KM GET STATE
+    #BB21
+    Fetch Caps Lock and Shift Lock states.
+    Action:
+    Ask if the keyboard is currently shift locked or caps locked.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    L contains the shift lock state. H contains the caps lock state.
+    AF corrupt. All other registers preserved.
+    Notes:
+    The lock states are:
+    #00 means the lock is off
+    #FF means the lock is on
+    The default lock states are off.
+    Related entries:
+    KM SET LOCKS
+    KM TEST KEY
+*/
+uint16_t fw_km_get_state(void);
+
 void fw_km_disarm_break(void);
 void fw_km_break_event(void);
 void fw_km_flush(void);

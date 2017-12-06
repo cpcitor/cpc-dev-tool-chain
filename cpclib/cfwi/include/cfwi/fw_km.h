@@ -211,6 +211,42 @@ uint8_t fw_km_set_expand(uint8_t token, uint8_t string_length, unsigned char* st
 uint16_t fw_km_get_expand(uint8_t token, uint8_t char_number);
 
 
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    #### CFWI-specific information: ####
+
+    since C cannot handle carry flag, this routine returns zero if
+    operation went okay, non-zeroon failure.
+
+    7: KM EXP BUFFER
+    #BB15
+    Allocate a buffer for expansion strings.
+    Action:
+    Set the address and length of the expansion buffer. Initialize the buffer with the
+    default expansion strings.
+    Entry conditions:
+    DE contains the address of the buffer. HL contains the length of the buffer.
+    Exit conditions:
+    If the buffer is OK:
+    Carry true.
+    If the buffer is too short.
+    Carry false.
+    Always:
+    A,BC,DE,HL and other flags corrupt. All other registers preserved.
+    Notes:
+    The buffer must not be located underneath a ROM and it must be at least 49 bytes
+    long (i.e. have sufficient space for the default expansion strings). If the new buffer is
+    too short then the old buffer is left unchanged.
+    The default expansion strings are given in Appendix IV.
+    Any expansion string currently being read is discarded.
+    This routine enables interrupts.
+    Related entries:
+    KM GET EXPAND
+    KM SET EXPAND
+*/
+uint8_t fw_km_exp_buffer(unsigned char *buffer, uint16_t buffer_bytecount);
+
+
 unsigned char fw_km_wait_key (void);
 
 /** Contrary to the firmware which sets carry to tell if return value is valid, C wrapper return 0 if no valid value. */

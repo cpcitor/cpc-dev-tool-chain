@@ -1,0 +1,4 @@
+# TODO
+
+* easily build automated test targets with basic loader etc.
+

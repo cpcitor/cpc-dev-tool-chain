@@ -1,0 +1,2 @@
+-include cdtc_project.conf
+-include $(CDTC_ROOT)/sdcc-project.Makefile

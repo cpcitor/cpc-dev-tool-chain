@@ -7,8 +7,7 @@ _cfwi_txt_str0_output::
         ld      hl,#2
         add     hl,sp
         ld      e,(hl)
-        ld      hl,#3
-        add     hl,sp
+        inc     hl
         ld      d,(hl)
 
 cputs$:

@@ -1,7 +1,14 @@
 	;; This file gathers calls for which no actual wrapper (no additional code) is needed.
 	;; This is because the firmware behavior already matches what SDCC expects. Just defining a symbol is enough.
 
-	;; void function(void)
+	;; Most have the simplest prototype: void function(void)
+	;; But not all. For example, fw_km_get_state
+
+	_fw_km_initialise == 0xBB00
+	_fw_km_reset == 0xBB03
+
+	_fw_km_disarm_break == 0xBB48
+	_fw_km_break_event == 0xBB4B
 
 	_fw_gra_initialise == 0xBBBA
 	_fw_gra_reset == 0xBBBD
@@ -13,12 +20,7 @@
 	_fw_cas_out_abandon == 0xBC92
 
 	_fw_kl_scan_needed == 0xB92A
-
-	_fw_km_initialise == 0xBB00
-	_fw_km_reset == 0xBB03
-	_fw_km_disarm_break == 0xBB48
-	_fw_km_break_event == 0xBB4B
-
+	
 	_fw_txt_initialise == 0xBB4E
 	_fw_txt_reset == 0xBB51
 	_fw_txt_vdu_enable == 0xBB54

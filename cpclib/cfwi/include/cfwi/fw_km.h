@@ -7,7 +7,7 @@ void fw_km_initialise(void);
 void fw_km_reset(void);
 
 unsigned char fw_km_wait_char (void);
-int fw_km_read_char (void);
+unsigned char fw_km_read_char (void);
 
 unsigned char fw_km_wait_key (void);
 

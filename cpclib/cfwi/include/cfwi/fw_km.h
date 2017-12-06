@@ -8,6 +8,7 @@ void fw_km_reset(void);
 
 unsigned char fw_km_wait_char (void);
 unsigned char fw_km_read_char (void);
+void fw_km_char_return (unsigned char c) __z88dk_fastcall;
 
 unsigned char fw_km_wait_key (void);
 

@@ -268,8 +268,45 @@ uint8_t fw_km_exp_buffer(unsigned char *buffer, uint16_t buffer_bytecount);
 */
 unsigned char fw_km_wait_key (void);
 
-/** Contrary to the firmware which sets carry to tell if return value is valid, C wrapper return 0 if no valid value. */
-int fw_km_read_key (void);
+/** 
+    #### CFWI-specific information: ####
+    
+    since C cannot handle carry flag, this routine returns a byte
+    value if a character was returned, and any value outside range
+    0-255 if not.
+
+    9: KM READ KEY
+    #BB1B
+    Test if a key is available from the keyboard.
+    Action:
+    Try to get a key from the key buffer. This routine does not wait if no key is available
+    immediately.
+    Entry conditions:
+    No conditions.
+    Exit conditions.
+    If a key was available:
+    Carry true.
+    A contains the character or expansion token.
+    If no key was available:
+    Carry false. A corrupt.
+    Always:
+    Other flags corrupt. All other registers preserved.
+    Notes:
+    The next key is read from the key buffer and translated using the appropriate key
+    translation table. Expansion tokens are not expanded but are passed out for the user to
+    deal with, as are normal characters. Other Key Manager tokens (shift lock, caps lock
+    and ignore) are obeyed but are not passed out.
+    This routine will always return a key if one is available. It is therefore possible to
+    flush out the key buffer by calling KM READ KEY repeatedly until it claim no key is
+    available. Note, however, that the 'put back' character or a partially read expansion
+    string is ignored. It is advisable to use KM READ CHAR to flush these out when
+    emptying the Key Manager buffers, or, in V1.1 firmware, to call KM FLUSH.
+    Related entries:
+    KM FLUSH
+    KM READ CHAR
+    KM WAIT KEY
+*/
+uint16_t fw_km_read_key (void);
 
 void fw_km_disarm_break(void);
 void fw_km_break_event(void);

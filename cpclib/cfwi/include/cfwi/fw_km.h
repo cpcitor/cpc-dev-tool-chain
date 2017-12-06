@@ -136,6 +136,46 @@ unsigned char fw_km_read_char (void);
 */
 void fw_km_char_return (unsigned char c) __z88dk_fastcall;
 
+/** 
+    #### CFWI-specific information: ####
+
+    since C cannot handle carry flag, this routine returns zero if
+    expansion is okay, non-zero if expansion failed.
+    
+    5: KM SET EXPAND
+    #BB0F
+    Set an expansion string.
+    Action:
+    Set the expansion string associated with an expansion token.
+    Entry conditions:
+    B contains the expansion token for the expansion to set. C contains the length of the
+    string. HL contains the address of the string.
+    Exit conditions:
+    If the expansion is OK:
+    Carry true.
+    If the string was too long or the token was invalid:
+    Carry false.
+    Always:
+    A,BC,DE,HL and other flags corrupt. All other registers preserved.
+    Notes:
+    The string to be set may lie anywhere in RAM. Expansion strings cannot be set
+    directly from ROM.
+    The characters in the string are not expanded (or otherwise dealt with). It is therefore
+    possible to put any character into an expansion string.
+    If there is insufficient room in the expansion buffer for the new string then no change
+    is made to the expansions.
+    If the string set is currently being used to generate characters (by KM READ CHAR
+    or KM WAIT CHAR) then the unread portion of the string is discarded. The next
+    character will be read from the key buffer.
+    This routine enables interrupts.
+    Related entries:
+    KM GET EXPAND
+    KM READ CHAR
+    KM WAIT CHAR
+
+*/
+unsigned char fw_km_set_expand(unsigned char token, unsigned char string_length, unsigned char* string);
+
 unsigned char fw_km_wait_key (void);
 
 /** Contrary to the firmware which sets carry to tell if return value is valid, C wrapper return 0 if no valid value. */

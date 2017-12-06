@@ -308,6 +308,59 @@ unsigned char fw_km_wait_key (void);
 */
 uint16_t fw_km_read_key (void);
 
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+ 
+    #### CFWI-specific information: ####
+    
+    since C cannot handle zero flag, value is returned like this:
+    
+    uint16_t returned_value = fw_km_test_key(mykey);
+    if (returned_value & 0ff)
+    {
+    // key pressed
+    bool modifier_control = (returned_value & 0x80);
+    bool modifier_shift = (returned_value & 0x20);
+    }
+    else
+    {
+    // key not pressed
+    }
+
+
+    10: KM TEST KEY
+    #BB1E
+    Test if a key is pressed.
+    Action:
+    Test if a particular key or joystick button is pressed. This is done using the key state
+    map rather then by accessing the keyboard hardware.
+    Entry conditions:
+    A contains the key number.
+    Exit conditions:
+    If the key is pressed:
+    Zero false.
+    If the key is not pressed:
+    Zero true.
+    Always:
+    Carry false. C contains the current shift and control state.
+    A,HL and other flags corrupt. All other registers preserved.
+    Notes:
+    The shift and control states are automatically read when a key is scanned. If bit 7 is
+    set then the control key is pressed and if bit 5 is set then one of the shift keys is
+    pressed.
+    The key number is not checked. An invalid key number will generate the correct shift
+    and control states but the state of the key tested will be meaningless.
+    The key state map which this routine tests is updated by the keyboard scanning
+    routine. Normally this run is every fiftieth of a second and so the state may be out of
+    date by that much. The key debouncing requires that a key should be released for two
+    scans of the keyboard before it is marked as released in the key state map; the
+    pressing of a key is detected immediately.
+    Related entries:
+    KM GET JOYSTICK
+    KM GET STATE
+    KM READ KEY
+*/
+uint16_t fw_km_test_key(uint8_t key_number) __z88dk_fastcall;
+
 void fw_km_disarm_break(void);
 void fw_km_break_event(void);
 void fw_km_flush(void);

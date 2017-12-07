@@ -567,6 +567,42 @@ uint8_t fw_km_get_translate(uint8_t key_number) __z88dk_fastcall;
 */
 void fw_km_set_shift(uint8_t key_number, uint8_t new_translation);
 
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    KM GET SHIFT
+    #BB30
+    Get entry from shifted key translation table.
+    Action:
+    Ask what character or token a key will be translated to when control is not pressed
+    but shift is pressed or shift lock is on.
+    Entry conditions:
+    A contains a key number.
+    Exit conditions:
+    A contains the current translation.
+    HL and flags corrupt. All other registers preserved.
+    Notes:
+    The key number is not checked. If it is invalid (greater than 79) then the translation
+    returned is meaningless.
+    Most values in the table are treated as characters and are passed back to the user.
+    However, there are certain special values:
+    #80..#9F are the expansion tokens and are expanded to character strings when KM
+    READ CHAR or KM WAIT CHAR is called although they are passed back like any
+    other character when KM READ KEY or KM TEST KEY is called.
+    #FD is the caps lock token and causes the caps lock to toggle (turn on if off and vice
+    versa).
+    #FE is the shift lock token and causes the shift lock to toggle (turn on if off and vice
+    versa).
+    #FF is the ignore token and means the key should be thrown away.
+    Characters #E0..#FC have special meanings to the BASIC to do with editing,
+    cursoring and breaks.
+    See Appendix II for a full listing of the default translation tables.
+    Related entries:
+    KM GET CONTROL
+    KM GET SHIFT
+    KM SET TRANSLATE
+*/
+uint8_t fw_km_get_shift(uint8_t key_number) __z88dk_fastcall;
+
 void fw_km_disarm_break(void);
 void fw_km_break_event(void);
 void fw_km_flush(void);

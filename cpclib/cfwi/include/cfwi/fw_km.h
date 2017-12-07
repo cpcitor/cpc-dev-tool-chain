@@ -758,6 +758,36 @@ uint8_t fw_km_set_repeat(uint8_t key_number, enum fw_byte_all_or_nothing repeat_
 */
 void fw_km_set_delay(uint8_t startup_delay, uint8_t repeat_speed);
 
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    #### CFWI-specific information: ####
+
+    Use like this:
+
+    uint16_t returned_value = fw_km_get_delay();
+    uint8_t startup_delay = (returned_value>>8);
+    uint8_t repeat_speed = (returned_value & ff);
+
+    22: KM GET DELAY
+    #BB42
+    Get start up delay and repeat speed.
+    Action:
+    Ask the time before keys first repeat (start up delay) and the time between repeats
+    (repeat speed).
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    H contains the start up delay. L contains the repeat speed.
+    AF corrupt. All other registers preserved.
+    Notes:
+    Both delays are given in scans of the keyboard. The keyboard is scanned every fiftieth
+    of a second.
+    A repeat speed or start up delay of 0 means 256.
+    Related entries:
+    KM SET DELAY
+*/
+uint16_t fw_km_get_delay();
+
 void fw_km_disarm_break(void);
 void fw_km_break_event(void);
 void fw_km_flush(void);

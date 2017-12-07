@@ -727,6 +727,36 @@ uint8_t fw_km_set_repeat(uint8_t key_number, enum fw_byte_all_or_nothing repeat_
 */
 /*enum fw_byte_all_or_nothing fw_km_get_repeat(uint8_t key_number) __z88dk_fastcall;*/
 
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    21: KM SET DELAY
+    #BB3F
+    Set start delay and repeat speed.
+    Action:
+    Set the time before keys first repeat (start up delay) and the time between repeats
+    (repeat speed).
+    Entry conditions:
+    H contains the new start up delay. L contains the new repeat speed.
+    Exit conditions:
+    AF corrupt. All other registers preserved.
+    Notes:
+    Both delays are given in scans of the keyboard. The keyboard is scanned every fiftieth
+    of a second.
+    A start up delay or repeat speed of 0 is taken to mean 256.
+    The default start up delay is 30 scans (0.6 seconds) and the default repeat speed is 2
+    scans (0.04 seconds or 25 characters a second).
+    Note that a key is prevented from repeating (by the key scanner) if the key buffer is
+    not empty. Thus the actual repeat speed is the slower of the supplied repeat speed and
+    the rate at which characters are removed from the buffer. This is intended to prevent
+    the user from getting too far ahead of a program that is running sluggishly.
+    The start up delay and repeat speed apply to all keys on the keyboard that are set to
+    repeat.
+    Related entries:
+    KM GET DELAY
+    KM SET REPEAT
+
+*/
+void fw_km_set_delay(uint8_t startup_delay, uint8_t repeat_speed);
 
 void fw_km_disarm_break(void);
 void fw_km_break_event(void);

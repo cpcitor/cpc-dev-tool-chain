@@ -700,6 +700,34 @@ uint8_t fw_km_get_control(uint8_t key_number) __z88dk_fastcall;
 */
 uint8_t fw_km_set_repeat(uint8_t key_number, enum fw_byte_all_or_nothing repeat_allowed);
 
+/** WARNING BROKEN
+
+    20: KM GET REPEAT
+    #BB3C
+    Ask if a key is allowed to repeat.
+    Action:
+    Test the entry in the repeating key map that says whether a key is allowed to repeat or
+    not.
+    Entry conditions:
+
+    BROKEN FIXME DOES NOT MAKE SENSE
+
+    If the key is allowed to repeat:
+    Zero false.
+    If the key is not allowed to repeat:
+    Zero true.
+    Always
+    Carry false. A,HL and other flags corrupt. All other registers preserved.
+    Notes:
+    The key number is not checked. If it is invalid (greater than 79) then the repeat state
+    returned is meaningless.
+    The default repeating keys are listed in Appendix III.
+    Related entries:
+    KM SET REPEAT
+*/
+/*enum fw_byte_all_or_nothing fw_km_get_repeat(uint8_t key_number) __z88dk_fastcall;*/
+
+
 void fw_km_disarm_break(void);
 void fw_km_break_event(void);
 void fw_km_flush(void);

@@ -788,8 +788,95 @@ void fw_km_set_delay(uint8_t startup_delay, uint8_t repeat_speed);
 */
 uint16_t fw_km_get_delay();
 
+/** 23: KM ARM BREAKS #BB45
+    Allow break events to be generated.
+    Action:
+    Arm the break mechanism. The next call of KM BREAK EVENT will generate a
+    break event.
+    Entry conditions:
+    DE contains the address of the break event routine. C contains the ROM select
+    address for this routine.
+    Exit conditions:
+    AF,BC,DE and HL corrupt. All other registers preserved.
+    Notes:
+    The break mechanism can be disarmed by calling KM DISARM BREAK (or KM
+    RESET).
+    This routine enables interrupts.
+    Related entries:
+    KM BREAK EVENT
+    KM DISARM BREAK
+*/
+// TODO KM_ARM_BREAKS
+
+/** 24: KM DISARM BREAK #BB48
+Prevent break events from being generated.
+Action:
+Disarm the break mechanism. From now on the generation of break events by KM
+BREAK EVENT will be suppressed.
+Entry conditions:
+No conditions.
+Exit conditions:
+AF and HL corrupt. All other registers preserved.
+Notes:
+Break events can be rearmed by calling KM ARM BREAK.
+The default state of the break mechanism is disarmed, thus calling KM RESET will
+also disarm breaks.
+This routine enables interrupts.
+Related entries:
+KM ARM BREAK
+KM BREAK EVENT
+*/
 void fw_km_disarm_break(void);
+
+/** 25: KM BREAK EVENT #BB4B
+    Generate a break event (if armed).
+    Action:
+    Try to generate a break event.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    AF and HL corrupt. All other registers preserved.
+    Notes:
+    If the break mechanism is disarmed then no action is taken. Otherwise a break event
+    is generated and a special marker is placed into the key buffer. This marker generates
+    a break event token (#EF) when read from the buffer. The break mechanism is
+    automatically disarmed after generating a break event so that multiple breaks can be
+    avoided.
+    This routine may run from the interrupt path and thus does not and should not enable
+    interrupts. Note, however, that using a LOW JUMP to call the routine (as the
+    firmware jumpblock is set to do) does enable interrupts and so the jumpblock may not
+    be used directly from interrupt routines.
+    Related entries:
+    KM ARM BREAK
+    KM DISARM BREAK
+*/
 void fw_km_break_event(void);
+
+#ifdef FW_V11_AND_ABOVE
+
+/** 191: KM FLUSH
+    #BD3D
+    Flush the keyboard buffers.
+    Action:
+    Discard all pending keys from the key buffer, the 'put back' character and any current
+    expansion string.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    AF corrupt. All other registers preserved.
+    Notes:
+    This routine is not available on V1.0 firmware.
+    The next character that will be returned by KM READ CHAR (or a similar routine)
+    after KM FLUSH is called will be the first character that the user types after the call
+    of KM FLUSH since all the pending characters will have been discarded.
+    On V1.0 firmware the effect of this routine can be simulated by repeatedly calling
+    KM READ CHAR until it comes back with carry false.
+    Related entries:
+    KM READ CHAR
+    KM READ KEY
+*/
 void fw_km_flush(void);
+
+#endif FW_V11_AND_ABOVE
 
 #endif /* __FW_KM_H__ */

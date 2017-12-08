@@ -4,6 +4,9 @@ VARIABLES_AT_MAKEFILE_START := $(.VARIABLES)
 
 SDCC = time sdcc
 
+# optional include because inner projects don't have a cdtc_local_machine.conf
+-include cdtc_local_machine.conf
+-include local.Makefile
 -include cdtc_project.conf
 #PROJNAME:=$(shell date +%Hh%Mm%S )
 PROJNAME?=sdccproj

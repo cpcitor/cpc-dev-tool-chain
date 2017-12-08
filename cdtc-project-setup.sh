@@ -78,8 +78,8 @@ proceed_with_one_item ()
                 echo "# Below is fallback code: in case the main cpc-dev-tool-chain"
                 echo "# directory was not found, explain what to do."
                 echo ""
-		echo "mkfile_path := \$(abspath \$(lastword \$(MAKEFILE_LIST)))"
-		echo "current_dir := \$(dir \$(mkfile_path))"
+                echo "mkfile_path := \$(abspath \$(lastword \$(MAKEFILE_LIST)))"
+                echo "current_dir := \$(dir \$(mkfile_path))"
 
                 echo "fail_for_cannot_locate_cdtc:"
                 echo -e "\011@echo 'Cannot locate cpc-dev-tool-chain main directory.'"

@@ -1,5 +1,8 @@
 SHELL=/bin/bash
 
+where-am-i = $(lastword $(MAKEFILE_LIST))
+THIS_MAKEFILE := $(call where-am-i)
+
 VARIABLES_AT_MAKEFILE_START := $(.VARIABLES)
 
 SDCC = time sdcc
@@ -33,7 +36,22 @@ TARGETS=$(DSKNAME) $(BINS) $(OPTS)
 # Common targets
 ########################################################################
 
-default: $(BINS)
+default:
+	@echo "########################################################################"
+	@echo "GOOD! This project will use your cpc-dev-tool-chain copy there:"
+	@echo "$$PWD"
+	@echo "########################################################################"
+	@echo "This message won't appear if you define a \`local.Makefile\` starting with your preferred default rule."
+	@echo ""
+	@echo "Choose target among the following:"
+	@echo ""
+	@sed -n 's/^\([a-z0-9_-]*\):.*$$/make \1/p' $(THIS_MAKEFILE)
+	@echo
+	@echo "########################################################################"
+	@echo "Exiting without performing any build. Happy hacking!"
+	@echo "########################################################################"
+	@exit 0
+
 
 all: $(TARGETS)
 

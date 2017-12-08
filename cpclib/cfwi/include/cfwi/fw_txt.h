@@ -101,6 +101,43 @@ void fw_txt_vdu_enable(void);
 */
 void fw_txt_vdu_disable(void);
 
+/** 30: TXT OUTPUT
+    #BB5A
+    Output a character or control code to the Text VDU.
+    Action:
+    Output characters to the screen and obey control codes (characters #00..#1F). Works
+    on the currently selected stream.
+    Entry conditions:
+    A contains the character to send.
+    Exit conditions:
+    All registers and flags preserved.
+    Notes:
+    This routine calls the TXT OUT ACTION indirection to do the work of printing the
+    character or obeying the control code described below.
+    Control codes may take up to 9 parameters. These are the characters sent following
+    the initial control code. The characters sent are stored in the control code buffer until
+    sufficient have been received to make up all the parameters. The control code buffer
+    is only long enough to accept 9 parameter characters.
+    There is only one control code buffer for all streams. It is therefore possible to get
+    unpredictable results if the output stream is changed midway through sending a
+    control code sequence.
+    If the VDU is disabled then no characters will be printed on the screen. In V1.0
+    firmware all control codes will still be obeyed but in V1.1 firmware only those codes
+    marked in the control code table as to be obeyed when the VDU is disabled will be
+    obeyed (see section 4.7).
+    If the graphic character write mode is enabled then all characters and control codes
+    are printed using the Graphics VDU routine, GRA WR CHAR, and are not obeyed.
+    Characters are written in the same way that TXT WR CHAR writes characters.
+    Related entries:
+    GRA WR CHAR
+    TXT OUT ACTION
+    TXT SET GRAPHIC
+    TXT VDU DISABLE
+    TXT VDU ENABLE
+    TXT WR CHAR
+*/
+void fw_txt_output(unsigned char c);
+
 void fw_txt_cur_enable(void);
 void fw_txt_cur_disable(void);
 void fw_txt_cur_on(void);
@@ -113,7 +150,7 @@ void fw_txt_undraw_cursor(void);
 void fw_txt_set_column(int8_t column);
 void fw_txt_set_row(int8_t row);
 void fw_txt_set_cursor(int8_t row, int8_t column);
-void fw_txt_output(unsigned char c);
+
 void fw_txt_wr_char(unsigned char c);
 
 void fw_txt_set_pen(uint8_t p);

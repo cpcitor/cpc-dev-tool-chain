@@ -877,6 +877,6 @@ void fw_km_break_event(void);
 */
 void fw_km_flush(void);
 
-#endif FW_V11_AND_ABOVE
+#endif /* FW_V11_AND_ABOVE */
 
 #endif /* __FW_KM_H__ */

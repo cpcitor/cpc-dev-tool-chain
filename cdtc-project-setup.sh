@@ -31,7 +31,7 @@ OVERWRITABLE_MARKER="THIS_FILE_WILL_BE_OVERWRITTEN_BY_CDTC"
 proceed_with_one_item ()
 {
         set -eu
-        echo "Current dir is : $PWD"
+	echo "--------------------------------"
         echo "Proceeding with : $1"
         cd "$1" || {
                 echo "Not a directory I can go into : $1"
@@ -139,11 +139,20 @@ proceed_with_one_item ()
 
         mv -f cdtc_local_machine.conf.tmp cdtc_local_machine.conf
 
+        echo "Job done with: $1"
+	echo "--------------------------------"
         return 0
 }
+
+echo "================================"
+echo "${0##*/}: starting"
+echo "Current dir is : $PWD"
 
 while [ "$#" -gt 0 ]
 do
         proceed_with_one_item "$1" || echo "Failed for $1"
         shift
 done
+
+echo "${0##*/}: clean exit."
+echo "================================"

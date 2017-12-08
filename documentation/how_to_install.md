@@ -63,8 +63,8 @@ Install cygwin and when the installer asks you what packages you want, be sure t
 * `patch`
 * `gcc`, `gcc-core`, `gcc-g++`
 * `wget`
-* `unzip`
 * `bison`, `flex`, `libboost-devel`
+* `unzip`
 * `libncurses-devel`, `ioperm`
 * `texinfo`
 
@@ -78,28 +78,34 @@ Windows command line is not very programmer-friendly.  Fortunately, a drag-n-dro
 
 Once your computer has the prerequisites, you only have to get a copy of `cpc-dev-tool-chain` and a project to compile.
 
-As a sample project, a "Hello World" is provided as well as examples from cpcrslib.
+#### Get cpc-dev-tool-chain itself
 
 * get a copy of `cpc-dev-tool-chain`, for example:
 
         git clone https://github.com/cpcitor/cpc-dev-tool-chain.git
 
+#### Build a project
+
+Building any project (sample or yours) is enough to trigger fetch-from-the-internet and compile of needed tools (cross-compiler, conversion tools, etc).  This is done once and kept for future use.
+
+As a sample project, a "Hello World" is provided as well as examples from cpcrslib.
+
 * open a command line, go to the top directory, optionally run make to get a list of targets
 * currently you have these targets:
 
-        make hello_world_using_z88dk
 		make hello_world_using_sdcc
+		make hello_world_using_sdcc-all
 		make cpcrslib
+		make cpcrslib-all
 
-What they do:
+* `make hello_world_using_sdcc-all` builds `hello_world_using_sdcc/hellosdc.dsk`
+* `make cpcrslib-all` builds a number of `DSK` files in `cpclib/cpcrslib/cpcrslib-master/examples/*/*.dsk`
 
-* (first time only), get from the internet and compile needed tools (currently sdcc or z88dk, hex2bin, cpcxfs or iDSK, cpcrslib, 2cdt, playtzx, as needed)
-* compile the project from source to executable
+When compiling, a message tells you where the image is (path, name).
 
-Output produced:
+You can run those images on an emulator or transfer to a real CPC.
 
-* disk (DSK) or tape image (CDT, VOC) to run on Amstrad CPC platform (or emulator). Try e.g. `make dsk`, `make voc`.
-* a message tells you where the image is.
+You can also build `cdt` files, then `wav` `voc` or `au` audio files that you can play onto a real CPC (either via a good old tape, or via an audio cable from your PC to your CPC.  Just cd into the project directory and issue `make dsk`, `make wav`, etc.
 
 Suggested next step: [CDTC with custom project](CDTC_with_custom_project.md)
 

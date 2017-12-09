@@ -706,7 +706,21 @@ uint8_t fw_km_get_control(uint8_t key_number) __z88dk_fastcall;
 */
 uint8_t fw_km_set_repeat(uint8_t key_number, enum fw_byte_all_or_nothing repeat_allowed);
 
-/** WARNING BROKEN
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    #### CFWI-specific information: ####
+
+    since C cannot handle zero flag, value is returned like this:
+
+    uint16_t returned_value = fw_km_get_repeat(mykey);
+    if (returned_value & 0ff)
+    {
+    // key is allowed to repeat
+    }
+    else
+    {
+    // key is not allowed to repeat
+    }
 
     20: KM GET REPEAT
     #BB3C
@@ -731,7 +745,7 @@ uint8_t fw_km_set_repeat(uint8_t key_number, enum fw_byte_all_or_nothing repeat_
     Related entries:
     KM SET REPEAT
 */
-/*enum fw_byte_all_or_nothing fw_km_get_repeat(uint8_t key_number) __z88dk_fastcall;*/
+enum fw_byte_all_or_nothing fw_km_get_repeat(uint8_t key_number) __z88dk_fastcall;
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 

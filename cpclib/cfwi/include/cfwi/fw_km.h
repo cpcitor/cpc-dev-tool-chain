@@ -4,6 +4,12 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+/**
+    TODO stronger typing
+
+    * enum key_number with all hardware keys
+*/
+
 /** Some functions expect or return a byte with only two possible values. */
 enum fw_byte_all_or_nothing
 {

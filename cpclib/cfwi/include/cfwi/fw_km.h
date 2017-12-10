@@ -93,7 +93,24 @@ void fw_km_reset(void);
 */
 unsigned char fw_km_wait_char (void);
 
-/** 3: KM READ CHAR
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    #### CFWI-specific information: ####
+    
+    since C cannot handle carry flag, value is returned like this:
+    
+    uint16_t returned_value = fw_km_read_char();
+    if (returned_value & 0xff00)
+    {
+    // a character was read
+    unsigned char c = returned_value;
+    }
+    else
+    {
+    // no character was read
+    }
+
+    3: KM READ CHAR
     #BB09
     Test if a character is available from the keyboard.
     Action: Try to get a character from the key buffer or the current expansion string.
@@ -125,7 +142,7 @@ unsigned char fw_km_wait_char (void);
     KM READ KEY
     KM WAIT CHAR
 */
-unsigned char fw_km_read_char (void);
+uint16_t fw_km_read_char (void);
 
 /** 4: KM CHAR RETURN #BB0C
     Return a single character to the keyboard for next time.

@@ -2,7 +2,8 @@
 
 _fw_km_read_char::
         call    0xBB09  ; KM READ CHAR
-        ld      l,#1
+	ld 	h,#0
         ret     c
-        ld      l,#0
+        dec 	h
+        ld      l,a
         ret

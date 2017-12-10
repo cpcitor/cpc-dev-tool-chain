@@ -465,6 +465,39 @@ enum fw_joystick_masks
 */
 uint16_t fw_km_get_joystick(void);
 
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    13: KM SET TRANSLATE #BB27
+    Set entry in normal key translate table.
+    Action:
+    Set what character or token a key will be translated to when neither shift nor control
+    is pressed.
+    Entry conditions:
+    A contains a key number. B contains the new translation.
+    Exit conditions:
+    AF and HL corrupt. All other registers preserved.
+    Notes:
+    If the key number is invalid (greater than 79) then no action is taken.
+    Most values in the table are treated as characters and are passed back to the user.
+    However, there are certain special values:
+    #80..#9F are the expansion tokens and are expanded to character strings when KM
+    READ CHAR or KM WAIT CHAR is called although they are passed back like any
+    other character when KM READ KEY or KM WAIT KEY is called.
+    #FD is the caps lock token and causes the caps lock to toggle (turn on if off and vice
+    versa).
+    #FE is the shift lock token and causes the shift lock to toggle (turn on if off and vice
+    versa).
+    #FF is the ignore token and means the key should be thrown away.
+    Characters #E0..#FC have special meanings to the BASIC to do with editing,
+    cursoring and breaks.
+    See Appendix II for a full listing of the default translation tables.
+    Related entries:
+    KM GET TRANSLATE
+    KM SET CONTROL
+    KM SET SHIFT
+*/
+void fw_km_set_translate(uint8_t key_number, uint8_t new_translation);
+
 void fw_km_disarm_break(void);
 void fw_km_break_event(void);
 void fw_km_flush(void);

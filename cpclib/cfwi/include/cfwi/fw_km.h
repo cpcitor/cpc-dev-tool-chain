@@ -229,7 +229,7 @@ uint16_t fw_km_get_expand(uint8_t token, uint8_t char_number);
     #### CFWI-specific information: ####
 
     since C cannot handle carry flag, this routine returns zero if
-    operation went okay, non-zeroon failure.
+    operation went okay, non-zero on failure.
 
     7: KM EXP BUFFER
     #BB15
@@ -328,7 +328,7 @@ uint16_t fw_km_read_key (void);
     since C cannot handle zero flag, value is returned like this:
     
     uint16_t returned_value = fw_km_test_key(mykey);
-    if (returned_value & 0ff)
+    if (returned_value & 0xff)
     {
     // key pressed
     bool modifier_control = (returned_value & 0x80);
@@ -713,7 +713,7 @@ uint8_t fw_km_set_repeat(uint8_t key_number, enum fw_byte_all_or_nothing repeat_
     since C cannot handle zero flag, value is returned like this:
 
     uint16_t returned_value = fw_km_get_repeat(mykey);
-    if (returned_value & 0ff)
+    if (returned_value & 0xff)
     {
     // key is allowed to repeat
     }

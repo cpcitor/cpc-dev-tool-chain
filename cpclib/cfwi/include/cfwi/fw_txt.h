@@ -136,7 +136,8 @@ void fw_txt_vdu_disable(void);
     TXT VDU ENABLE
     TXT WR CHAR
 */
-void fw_txt_output(unsigned char c);
+void fw_txt_output(unsigned char c) __z88dk_fastcall;
+
 
 void fw_txt_cur_enable(void);
 void fw_txt_cur_disable(void);

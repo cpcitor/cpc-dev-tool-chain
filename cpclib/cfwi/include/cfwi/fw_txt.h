@@ -138,6 +138,30 @@ void fw_txt_vdu_disable(void);
 */
 void fw_txt_output(unsigned char c) __z88dk_fastcall;
 
+/** 31: TXT WR CHAR #BB5D
+    Write a character to the screen.
+    Action:
+    Print a character on the screen at the cursor position of the currently selected stream.
+    Control codes (characters #00..#1F) are printed and not obeyed.
+    Entry conditions:
+    A contains the character to print.
+    Exit conditions:
+    AF, BC, DE and HL corrupt.
+    All other registers preserved.
+    Notes:
+    If the VDU is disabled then no character will be printed.
+    Before printing the character the cursor position is forced to lie within the text
+    window (see TXT VALIDATE). After printing the character the cursor is moved right
+    one character.
+    To put the character on the screen this routine calls the TXT WRITE CHAR
+    indirection.
+    Related entries:
+    GRA WR CHAR
+    TXT OUTPUT
+    TXT RD CHAR
+    TXT WRITE CHAR
+*/
+void fw_txt_wr_char(unsigned char c) __z88dk_fastcall;
 
 void fw_txt_cur_enable(void);
 void fw_txt_cur_disable(void);
@@ -152,7 +176,6 @@ void fw_txt_set_column(int8_t column);
 void fw_txt_set_row(int8_t row);
 void fw_txt_set_cursor(int8_t row, int8_t column);
 
-void fw_txt_wr_char(unsigned char c);
 
 void fw_txt_set_pen(uint8_t p);
 void fw_txt_set_paper(uint8_t p);

@@ -163,6 +163,66 @@ void fw_txt_output(unsigned char c) __z88dk_fastcall;
 */
 void fw_txt_wr_char(unsigned char c) __z88dk_fastcall;
 
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+ 
+    #### CFWI-specific information: ####
+    
+    since C cannot handle carry flag, value is returned like this:
+    
+    uint16_t returned_value = fw_txt_rd_char();
+    if (returned_value & 0xff00)
+    {
+    // a character was read
+    unsigned char c = returned_value;
+    }
+    else
+    {
+    // no character was read
+    }
+
+
+    32: TXT RD CHAR
+    #BB60
+    Read a character from the screen.
+    Action:
+    Read a character from the screen at the cursor position of the currently selected
+    stream.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    If a recognisable character was found:
+    Carry true.
+    A contains the character read.
+    If no recognisable character was found:
+    Carry false.
+    A contains zero.
+    Always:
+    Other flags corrupt.
+    All other registers preserved.
+    Notes:
+    In V1.1 firmware the cursor position is forced legal (inside the window) before the
+    character is read. This may cause the screen to roll. The same is not true in V1.0
+    firmware where the cursor position is not forced legal and steps must be taken to
+    avoid reading characters from outside the window.
+    The read is performed by comparing the matrix found on the screen with the matrices
+    used to generate characters. As a result changing a character matrix, changing the pen
+    or paper inks, or changing the screen (e.g. drawing a line through a character) may
+    make the character unreadable.
+    To actually read the character from the screen the TXT UNWRITE indirection is
+    called.
+    Special precautions are taken against generating inverse space (character #8F).
+    Initially the character is read assuming that the background to the character was
+    written in the current paper ink and treating any other ink as foreground. If this fails
+    to generate a recognisable character or it generates inverse space then another try is
+    made by assuming that the foreground to the character was written in the current pen
+    ink and treating any other ink as background.
+    The characters are scanned starting with #00 and finishing with #FF.
+    Related entries:
+    TXT UNWRITE
+    TXT WR CHAR
+*/
+uint16_t fw_txt_rd_char();
+
 void fw_txt_cur_enable(void);
 void fw_txt_cur_disable(void);
 void fw_txt_cur_on(void);

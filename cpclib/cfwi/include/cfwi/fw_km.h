@@ -4,6 +4,13 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+/** Some functions expect or return a byte with only two possible values. */
+enum fw_byte_all_or_nothing
+{
+	fw_byte_all = 0xff,
+	fw_byte_nothing = 0x00
+};
+
 /** 0: KM INITIALISE
     #BB00
     Initialize the Key Manager
@@ -175,7 +182,7 @@ void fw_km_char_return (unsigned char c) __z88dk_fastcall;
     KM WAIT CHAR
 
 */
-uint8_t fw_km_set_expand(uint8_t token, uint8_t string_length, unsigned char* string);
+enum fw_byte_all_or_nothing fw_km_set_expand(uint8_t token, uint8_t string_length, unsigned char* string);
 
 /** 
 
@@ -667,6 +674,31 @@ void fw_km_set_control(uint8_t key_number, uint8_t new_translation);
     KM SET TRANSLATE
 */
 uint8_t fw_km_get_control(uint8_t key_number) __z88dk_fastcall;
+
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    19: KM SET REPEAT #BB39
+    Set whether a key may repeat.
+    Action:
+    Set the entry in the repeating key map that determines whether a key is allowed to
+    repeat or not.
+    Entry conditions:
+    If the key is to be allowed to repeat:
+    B contains #FF.
+    If the key is not to be allowed to repeat:
+    B contains #00
+    Always:
+    A contains the key number.
+    Exit conditions:
+    AF,BC and HL corrupt. All other registers preserved.
+    Notes:
+    If the key number is invalid (greater than 79) then no action is taken.
+    The default repeating keys are listed in Appendix III.
+    Related entries:
+    KM GET REPEAT
+    KM SET DELAY
+*/
+uint8_t fw_km_set_repeat(uint8_t key_number, enum fw_byte_all_or_nothing repeat_allowed);
 
 void fw_km_disarm_break(void);
 void fw_km_break_event(void);

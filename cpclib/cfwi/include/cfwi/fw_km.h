@@ -298,12 +298,26 @@ uint8_t fw_km_exp_buffer(unsigned char *buffer, uint16_t buffer_bytecount);
 */
 unsigned char fw_km_wait_key (void);
 
-/** 
+/** CFWI_TEST_FLAGS: TESTED_APP_PASS
+
     #### CFWI-specific information: ####
     
     since C cannot handle carry flag, this routine returns a byte
     value if a character was returned, and any value outside range
     0-255 if not.
+ 
+    You can use it like this:
+    
+    uint16_t returned_value = fw_km_read_key();
+    if (returned_value & 0xff00)
+    {
+    // a character was read
+    unsigned char c = returned_value;
+    }
+    else
+    {
+    // no character was read
+    }
 
     9: KM READ KEY
     #BB1B

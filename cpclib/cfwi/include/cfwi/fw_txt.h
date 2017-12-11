@@ -366,6 +366,28 @@ void fw_txt_win_enable(uint8_t left, uint8_t right, uint8_t top, uint8_t bottom)
 */
 uint32_t fw_txt_get_window(void);
 
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    36: TXT CLEAR WINDOW #BB6C
+    Clear current window.
+    Action:
+    Clear the text window of the currently selected stream to the paper ink of the
+    currently selected stream.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    AF, BC, DE and HL corrupt.
+    All other registers preserved.
+    Notes:
+    The cursor is moved to the top left corner of the window.
+    Related entries:
+    GRA CLEAR WINDOW
+    SCR CLEAR
+    TXT SET PAPER
+    TXT WIN ENABLE
+*/
+void fw_txt_clear_window(void);
+
 void fw_txt_cur_enable(void);
 void fw_txt_cur_disable(void);
 void fw_txt_cur_on(void);
@@ -383,7 +405,6 @@ void fw_txt_set_cursor(int8_t row, int8_t column);
 void fw_txt_set_pen(uint8_t p);
 void fw_txt_set_paper(uint8_t p);
 
-void fw_txt_clear_window();
 
 void fw_txt_set_m_table(void *buffer, bool disable, uint8_t lowest_affected_character);
 

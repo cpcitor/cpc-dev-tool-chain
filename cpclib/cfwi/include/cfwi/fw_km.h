@@ -210,7 +210,21 @@ enum fw_byte_all_or_nothing fw_km_set_expand(uint8_t token, uint8_t string_lengt
     since C cannot handle carry flag, this routine returns a byte
     value if a character was returned, and any value outside range
     0-255 if not.
-    
+
+    You can use it like this:
+
+    uint16_t returned_value = fw_km_read_char();
+    if (UINT_AND_BYTE_1(returned_value))
+    {
+    // a character was read
+    unsigned char c = UINT_SELECT_BYTE_0(returned_value);
+    }
+    else
+    {
+    // no character was read
+    }
+
+
     6: KM GET EXPAND
     #BB12
     Get a character from an expansion string.

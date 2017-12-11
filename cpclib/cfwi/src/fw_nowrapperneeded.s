@@ -30,6 +30,9 @@
 	_fw_txt_reset == 0xBB51
 	_fw_txt_vdu_enable == 0xBB54
 	_fw_txt_vdu_disable == 0xBB57
+
+	_fw_txt_get_window == 0xBB69
+	
 	_fw_txt_cur_enable == 0xBB7B
 	_fw_txt_cur_disable == 0xBB7E
 	_fw_txt_cur_on == 0xBB81

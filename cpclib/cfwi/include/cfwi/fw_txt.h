@@ -267,6 +267,20 @@ uint16_t fw_txt_rd_char();
 */
 void fw_txt_set_graphic(bool enable) __z88dk_fastcall;
 
+/** FIXME UNUSED Values are zero-based:
+
+ * column values are between 0 and 19,39 or 79 included, depending on mode.
+ * line values are between 0 and 24, included.
+
+*/
+typedef struct fw_txt_window_t
+{
+	uint8_t top;
+	uint8_t left;
+	uint8_t bottom;
+	uint8_t right;
+} fw_txt_window_t;
+
 /** #### CFWI-specific information: ####
 
     Firmware documentation says number are signed, which seems to make little sense.
@@ -309,6 +323,48 @@ void fw_txt_set_graphic(bool enable) __z88dk_fastcall;
     CFWI_TEST_FLAGS: TESTED_APP_PASS
 */
 void fw_txt_win_enable(uint8_t left, uint8_t right, uint8_t top, uint8_t bottom);
+
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    #### CFWI-specific information: ####
+
+    since SDCC cannot return struct from a function, value is returned like this:
+
+    uint32_t returned_value = fw_txt_get_window();
+    uint8_t left = UINT_SELECT_BYTE_1(returned_value);
+    uint8_t right = UINT_SELECT_BYTE_3(returned_value);
+    uint8_t top = UINT_SELECT_BYTE_0(returned_value);
+    uint8_t bottom = UINT_SELECT_BYTE_2(returned_value);
+
+    35: TXT GET WINDOW #BB69
+    Get the size of the current window.
+    Action:
+    Get the boundaries of the window on the currently selected stream and whether it
+    covers the whole screen.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    If the window covers the whole screen:
+    Carry false.
+    If the window covers less than the whole screen:
+    Carry true.
+    Always:
+    H contains the leftmost column in the window.
+    D contains the rightmost column in the window.
+    L contains the topmost row in the window.
+    E contains the bottommost row in the window.
+    A corrupt.
+    All other registers preserved.
+    Notes:
+    The boundaries of the window are given in physical coordinates. i.e. Row 0, column 0
+    is the top left corner of the screen.
+    The boundaries returned by this routine may not be the same as those set when TXT
+    WIN ENABLE was called because the window is truncated to fit the screen.
+    Related entries:
+    TXT VALIDATE
+    TXT WIN ENABLE
+*/
+uint32_t fw_txt_get_window();
 
 void fw_txt_cur_enable(void);
 void fw_txt_cur_disable(void);

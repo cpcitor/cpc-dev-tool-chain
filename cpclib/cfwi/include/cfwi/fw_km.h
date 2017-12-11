@@ -308,11 +308,9 @@ enum fw_byte_all_or_nothing fw_km_exp_buffer(unsigned char *buffer, uint16_t buf
 */
 unsigned char fw_km_wait_key (void);
 
-/** CFWI_TEST_FLAGS: TESTED_APP_PASS
+/** #### CFWI-specific information: ####
 
-    #### CFWI-specific information: ####
-    
-    since C cannot handle carry flag, this routine returns a byte
+    Since C cannot handle carry flag, this routine returns a byte
     value if a character was returned, and any value outside range
     0-255 if not.
  
@@ -359,6 +357,10 @@ unsigned char fw_km_wait_key (void);
     KM FLUSH
     KM READ CHAR
     KM WAIT KEY
+
+
+
+    CFWI_TEST_FLAGS: TESTED_APP_PASS
 */
 uint16_t fw_km_read_key (void);
 

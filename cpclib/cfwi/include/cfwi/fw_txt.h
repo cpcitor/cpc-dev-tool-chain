@@ -699,7 +699,33 @@ enum fw_txt_validate_scroll_direction
 */
 uint32_t fw_txt_validate(void);
 
+/** 46: TXT PLACE CURSOR #BB8A
+    Put a cursor blob on the screen.
+    Action:
+    Put a cursor blob on the screen at the cursor position for the currently selected stream.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    AF corrupt.
+    All other registers preserved.
+    Notes:
+    TXT PLACE CURSOR is provided to allow the user to run multiple cursors in a
+    window. The indirection TXT DRAW CURSOR should be called for merely placing
+    the normal cursor blob on the screen. Higher level routines, such as TXT OUTPUT
+    and TXT SET CURSOR, automatically remove and place the normal cursor when
+    appropriate, the user must deal with any other cursors.
+    It is not safe to call TXT PLACE CURSOR twice at a particular screen position
+    without calling TXT REMOVE CURSOR in between because this may leave a
+    spurious cursor blob on the screen when the cursor position is moved.
+    The cursor position is forced to be inside the window before the cursor blob is drawn.
+    The cursor blob is an inverse patch formed by exclusive-oring the contents of the
+    screen at the cursor position with the exclusive-or of the current pen and paper inks.
+    Related entries:
+    TXT DRAW CURSOR
+    TXT REMOVE CURSOR
+*/
 void fw_txt_place_cursor(void);
+
 void fw_txt_remove_cursor(void);
 void fw_txt_draw_cursor(void);
 void fw_txt_undraw_cursor(void);

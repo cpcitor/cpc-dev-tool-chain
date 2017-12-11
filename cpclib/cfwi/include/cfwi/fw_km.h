@@ -95,10 +95,10 @@ unsigned char fw_km_wait_char (void);
     since C cannot handle carry flag, value is returned like this:
     
     uint16_t returned_value = fw_km_read_char();
-    if (returned_value & 0xff00)
+    if (UINT_AND_BYTE_1(returned_value))
     {
     // a character was read
-    unsigned char c = returned_value;
+    unsigned char c = UINT_SELECT_BYTE_0(returned_value);
     }
     else
     {
@@ -304,10 +304,10 @@ unsigned char fw_km_wait_key (void);
     You can use it like this:
     
     uint16_t returned_value = fw_km_read_key();
-    if (returned_value & 0xff00)
+    if (UINT_AND_BYTE_1(returned_value))
     {
     // a character was read
-    unsigned char c = returned_value;
+    unsigned char c = UINT_SELECT_BYTE_0(returned_value);
     }
     else
     {
@@ -407,8 +407,16 @@ uint16_t fw_km_test_key(uint8_t key_number) __z88dk_fastcall;
     Use like this:
 
     uint16_t returned_value = fw_km_get_state();
-    bool shift_lock_state = (returned_value & 1);
-    bool caps_lock_state = ((returned_value>>8) & 1);
+
+    if (UINT_SELECT_BYTE_0(returned_value))
+    {
+    // shift lock enabled
+    }
+
+    if (UINT_SELECT_BYTE_1(returned_value))
+    {
+    // caps lock enabled
+    }
 
     11: KM GET STATE
     #BB21
@@ -464,8 +472,8 @@ enum fw_joystick_masks
     Use like this:
 
     uint16_t returned_value = fw_km_get_state();
-    bool joystick_1_state = (returned_value & ff);
-    bool joystick_0_state = (returned_value>>8);
+    bool joystick_1_state = UINT_SELECT_BYTE_0(returned_value);
+    bool joystick_0_state = UINT_SELECT_BYTE_1(returned_value);
 
     // You can use fw_joystick_mask_*
     // or this macro:
@@ -739,7 +747,7 @@ uint8_t fw_km_set_repeat(uint8_t key_number, enum fw_byte_all_or_nothing repeat_
     since C cannot handle zero flag, value is returned like this:
 
     uint16_t returned_value = fw_km_get_repeat(mykey);
-    if (returned_value & 0xff)
+    if (UINT_SELECT_BYTE_0(returned_value))
     {
     // key is allowed to repeat
     }
@@ -811,8 +819,8 @@ void fw_km_set_delay(uint8_t startup_delay, uint8_t repeat_speed);
     Use like this:
 
     uint16_t returned_value = fw_km_get_delay();
-    uint8_t startup_delay = (returned_value>>8);
-    uint8_t repeat_speed = (returned_value & ff);
+    uint8_t startup_delay = UINT_SELECT_BYTE_1(returned_value);
+    uint8_t repeat_speed = UINT_SELECT_BYTE_0(returned_value);
 
     22: KM GET DELAY
     #BB42

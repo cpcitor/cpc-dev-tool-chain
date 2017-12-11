@@ -223,6 +223,33 @@ void fw_txt_wr_char(unsigned char c) __z88dk_fastcall;
 */
 uint16_t fw_txt_rd_char();
 
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    33: TXT SET GRAPHIC #BB63
+    Turn on or off the Graphics VDU write character option.
+    Action:
+    Enable or disable graphic character writing on the currently selected stream.
+    Entry conditions:
+    If graphic writing is to be turned on:
+    A must be non-zero.
+    If the graphic writing is to be turned off:
+    A must contain zero.
+    Exit conditions:
+    AF corrupt.
+    All other registers preserved.
+    Notes:
+    When graphic character writing is enabled then all characters sent to TXT OUTPUT
+    are printed using the Graphics VDU (see GRA WR CHAR) rather then the Text VDU
+    (see TXT WR CHAR). Also all control codes are printed rather than obeyed.
+    Characters sent to TXT WR CHAR will be printed as normal.
+    Character printing is not prevented by disabling the Text VDU (with TXT VDU
+    DISABLE) if graphic character writing is enabled.
+    Related entries:
+    GRA WR CHAR
+    TXT OUTPUT
+*/
+void fw_txt_set_graphic(bool enable) __z88dk_fastcall;
+
 void fw_txt_cur_enable(void);
 void fw_txt_cur_disable(void);
 void fw_txt_cur_on(void);

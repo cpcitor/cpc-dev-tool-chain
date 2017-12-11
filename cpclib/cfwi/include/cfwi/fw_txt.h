@@ -520,7 +520,29 @@ void fw_txt_set_cursor_oneparam(int16_t colum8h_row8l) __z88dk_fastcall;
 */
 uint32_t fw_txt_get_cursor();
 
+/** 41: TXT CUR ENABLE #BB7B
+    Allow cursor display - user.
+    Action:
+    Allow the cursor blob for the currently selected stream to be placed on the screen. The
+    cursor blob will be placed on the screen immediately unless the cursor is turned off
+    (see TXT CUR OFF).
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    AF corrupt.
+    All other registers preserved.
+    Notes:
+    Cursor enabling and disabling is intended for use by the user. It is also used when the
+    VDU is disabled (TXT VDU ENABLE and TXT VDU DISABLE).
+    Related entries:
+    TXT ASK STATE
+    TXT CUR DISABLE
+    TXT CUR ON
+    TXT DRAW CURSOR
+    TXT UNDRAW CURSOR
+*/
 void fw_txt_cur_enable(void);
+
 void fw_txt_cur_disable(void);
 void fw_txt_cur_on(void);
 void fw_txt_cur_off(void);

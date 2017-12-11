@@ -477,6 +477,49 @@ void fw_txt_set_row(int8_t row) __z88dk_fastcall;
 void fw_txt_set_cursor(int8_t row, int8_t column);
 void fw_txt_set_cursor_oneparam(int16_t colum8h_row8l) __z88dk_fastcall;
 
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    #### CFWI-specific information: ####
+
+    You can use it like this:
+
+    uint32_t returned_value = fw_txt_get_cursor();
+    uint8_t row = UINT_SELECT_BYTE_0(returned_value);
+    uint8_t column = UINT_SELECT_BYTE_1(returned_value);
+    uint8_t roll_count = UINT_SELECT_BYTE_2(returned_value);
+
+
+    40: TXT GET CURSOR #BB78
+    Ask current cursor position.
+    Action:
+    Get the current location of the cursor and a count of the number of times the window
+    of the currently selected stream has rolled.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    H contains the logical cursor column.
+    L contains the logical cursor row.
+    A contains the current roll count.
+    Flags corrupt.
+    All other registers preserved.
+    Notes:
+    The cursor position is given in logical coordinates. i.e. Row 1, column 1 is the top left
+    corner of the window.
+    The roll count passed out has no absolute meaning. It is decremented when the
+    window is rolled up and is incremented when the window is rolled down. It may be
+    used to determine whether the window has rolled by comparing it with a previous
+    value.
+    The position reported may not be inside the window and is, therefore, not necessarily
+    the position at which the next character will be printed. Use TXT VALIDATE to check
+    this.
+    Related entries:
+    TXT SET COLUMN
+    TXT SET CURSOR
+    TXT SET ROW
+    TXT VALIDATE
+*/
+uint32_t fw_txt_get_cursor();
+
 void fw_txt_cur_enable(void);
 void fw_txt_cur_disable(void);
 void fw_txt_cur_on(void);

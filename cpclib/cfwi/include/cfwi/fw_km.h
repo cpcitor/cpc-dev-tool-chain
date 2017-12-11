@@ -863,7 +863,7 @@ void fw_km_set_delay(uint8_t startup_delay, uint8_t repeat_speed);
     Related entries:
     KM SET DELAY
 */
-uint16_t fw_km_get_delay();
+uint16_t fw_km_get_delay(void);
 
 /** 23: KM ARM BREAKS #BB45
     Allow break events to be generated.

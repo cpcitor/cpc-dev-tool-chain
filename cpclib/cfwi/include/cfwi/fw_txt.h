@@ -238,7 +238,7 @@ void fw_txt_wr_char(unsigned char c) __z88dk_fastcall;
     TXT UNWRITE
     TXT WR CHAR
 */
-uint16_t fw_txt_rd_char();
+uint16_t fw_txt_rd_char(void);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -364,7 +364,7 @@ void fw_txt_win_enable(uint8_t left, uint8_t right, uint8_t top, uint8_t bottom)
     TXT VALIDATE
     TXT WIN ENABLE
 */
-uint32_t fw_txt_get_window();
+uint32_t fw_txt_get_window(void);
 
 void fw_txt_cur_enable(void);
 void fw_txt_cur_disable(void);

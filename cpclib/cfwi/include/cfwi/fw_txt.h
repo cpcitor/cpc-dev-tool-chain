@@ -267,7 +267,13 @@ uint16_t fw_txt_rd_char();
 */
 void fw_txt_set_graphic(bool enable) __z88dk_fastcall;
 
-/** 34: TXT WIN ENABLE #BB66
+/** #### CFWI-specific information: ####
+
+    Firmware documentation says number are signed, which seems to make little sense.
+    We declare them unsigned because SDCC generates simpler code.
+
+
+    34: TXT WIN ENABLE #BB66
     Set the size of the current text window.
     Action:
     Set the boundaries of the window on the currently selected stream. The edges are the
@@ -302,7 +308,7 @@ void fw_txt_set_graphic(bool enable) __z88dk_fastcall;
 
     CFWI_TEST_FLAGS: TESTED_APP_PASS
 */
-void fw_txt_win_enable(unsigned char left, unsigned char right, unsigned char top, unsigned char bottom);
+void fw_txt_win_enable(uint8_t left, uint8_t right, uint8_t top, uint8_t bottom);
 
 void fw_txt_cur_enable(void);
 void fw_txt_cur_disable(void);

@@ -30,6 +30,10 @@
     Related entries:
     SCR INITIALISE
     TXT RESET
+
+
+
+    CFWI_TEST_FLAGS: TESTED_APP_PASS
 */
 void fw_txt_initialise(void);
 
@@ -51,6 +55,10 @@ void fw_txt_initialise(void);
     Appendix VII).
     Related entries:
     TXT INITIALISE
+
+
+
+    CFWI_TEST_FLAGS: TESTED_APP_PASS
 */
 void fw_txt_reset(void);
 
@@ -135,6 +143,10 @@ void fw_txt_vdu_disable(void);
     TXT VDU DISABLE
     TXT VDU ENABLE
     TXT WR CHAR
+
+
+
+    CFWI_TEST_FLAGS: TESTED_APP_PASS
 */
 void fw_txt_output(unsigned char c) __z88dk_fastcall;
 
@@ -160,6 +172,10 @@ void fw_txt_output(unsigned char c) __z88dk_fastcall;
     TXT OUTPUT
     TXT RD CHAR
     TXT WRITE CHAR
+
+
+
+    CFWI_TEST_FLAGS: TESTED_APP_PASS
 */
 void fw_txt_wr_char(unsigned char c) __z88dk_fastcall;
 
@@ -280,6 +296,10 @@ void fw_txt_set_graphic(bool enable) __z88dk_fastcall;
     Related entries:
     TXT GET WINDOW
     TXT VALIDATE
+
+
+
+    CFWI_TEST_FLAGS: TESTED_APP_PASS
 */
 void fw_txt_win_enable(unsigned char left, unsigned char right, unsigned char top, unsigned char bottom);
 

@@ -4,18 +4,13 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#include "cfwi_byte_shuffling.h"
+
 /**
     TODO stronger typing
 
     * enum key_number with all hardware keys
 */
-
-/** Some functions expect or return a byte with only two possible values. */
-enum fw_byte_all_or_nothing
-{
-	fw_byte_all = 0xff,
-	fw_byte_nothing = 0x00
-};
 
 /** 0: KM INITIALISE
     #BB00

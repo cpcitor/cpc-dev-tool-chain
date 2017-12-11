@@ -543,7 +543,29 @@ uint32_t fw_txt_get_cursor();
 */
 void fw_txt_cur_enable(void);
 
+/** 42: TXT CUR DISABLE #BB7E
+    Disallow cursor display - user.
+    Action:
+    Prevent the cursor blob for the currently selected stream from being placed on the
+    screen. The cursor blob will be removed from the screen immediately if it is currently
+    there.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    AF corrupt.
+    All other registers preserved.
+    Notes:
+    Cursor enabling and disabling is intended for use by the user. It is also used when the
+    VDU is disabled (TXT VDU ENABLE and TXT VDU DISABLE).
+    Related entries:
+    TXT ASK STATE
+    TXT CUR ENABLE
+    TXT CUR OFF
+    TXT DRAW CURSOR
+    TXT UNDRAW CURSOR
+*/
 void fw_txt_cur_disable(void);
+
 void fw_txt_cur_on(void);
 void fw_txt_cur_off(void);
 void fw_txt_place_cursor(void);

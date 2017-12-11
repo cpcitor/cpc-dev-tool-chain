@@ -284,7 +284,7 @@ uint16_t fw_km_get_expand(uint8_t token, uint8_t char_number);
     KM GET EXPAND
     KM SET EXPAND
 */
-uint8_t fw_km_exp_buffer(unsigned char *buffer, uint16_t buffer_bytecount);
+enum fw_byte_all_or_nothing fw_km_exp_buffer(unsigned char *buffer, uint16_t buffer_bytecount);
 
 /** 8: KM WAIT KEY
     #BB18

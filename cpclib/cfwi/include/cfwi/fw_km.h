@@ -887,22 +887,22 @@ uint16_t fw_km_get_delay();
 // TODO KM_ARM_BREAKS
 
 /** 24: KM DISARM BREAK #BB48
-Prevent break events from being generated.
-Action:
-Disarm the break mechanism. From now on the generation of break events by KM
-BREAK EVENT will be suppressed.
-Entry conditions:
-No conditions.
-Exit conditions:
-AF and HL corrupt. All other registers preserved.
-Notes:
-Break events can be rearmed by calling KM ARM BREAK.
-The default state of the break mechanism is disarmed, thus calling KM RESET will
-also disarm breaks.
-This routine enables interrupts.
-Related entries:
-KM ARM BREAK
-KM BREAK EVENT
+    Prevent break events from being generated.
+    Action:
+    Disarm the break mechanism. From now on the generation of break events by KM
+    BREAK EVENT will be suppressed.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    AF and HL corrupt. All other registers preserved.
+    Notes:
+    Break events can be rearmed by calling KM ARM BREAK.
+    The default state of the break mechanism is disarmed, thus calling KM RESET will
+    also disarm breaks.
+    This routine enables interrupts.
+    Related entries:
+    KM ARM BREAK
+    KM BREAK EVENT
 */
 void fw_km_disarm_break(void);
 

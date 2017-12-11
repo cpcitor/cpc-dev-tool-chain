@@ -726,7 +726,37 @@ uint32_t fw_txt_validate(void);
 */
 void fw_txt_place_cursor(void);
 
+/** 47: TXT REMOVE CURSOR #BB8D
+    Take a cursor blob off the screen.
+    Action:
+    Take the cursor blob off the screen at the cursor position of the currently selected
+    stream.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    AF corrupt.
+    All other registers preserved.
+    Notes:
+    TXT REMOVE CURSOR is provided to allow the user to run multiple cursors in a
+    window. The indirection TXT UNDRAW CURSOR should be called for merely
+    removing the normal from the screen. Higher level routines, such as TXT OUTPUT
+    and TXT SET CURSOR, automatically remove and place the normal cursor when
+    appropriate, the user must deal with any other cursors.
+    TXT REMOVE CURSOR should only be used to remove a cursor placed on the
+    screen by calling TXT PLACE CURSOR. The cursor should be removed when the
+    cursor position is to be changed (rolling the window implicitly changes the cursor
+    position) or the screen is to read or written. Incorrect use of this routine may result in
+    a spurious cursor blob being generated.
+    The cursor position is forced to be inside the window before the cursor blob is
+    removed (this should not matter as TXT PLACE CURSOR has already done this).
+    The cursor blob is an inverse patch formed by exclusive-oring the contents of the
+    screen at the cursor position with the exclusive-or of the current pen and paper inks.
+    Related entries:
+    TXT PLACE CURSOR
+    TXT UNDRAW CURSOR
+*/
 void fw_txt_remove_cursor(void);
+
 void fw_txt_draw_cursor(void);
 void fw_txt_undraw_cursor(void);
 

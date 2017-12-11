@@ -91,9 +91,9 @@ unsigned char fw_km_wait_char (void);
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
     #### CFWI-specific information: ####
-    
+
     since C cannot handle carry flag, value is returned like this:
-    
+
     uint16_t returned_value = fw_km_read_char();
     if (UINT_AND_BYTE_1(returned_value))
     {
@@ -168,7 +168,7 @@ void fw_km_char_return (unsigned char c) __z88dk_fastcall;
 
     since C cannot handle carry flag, this routine returns zero if
     expansion is okay, non-zero if expansion failed.
-    
+
     5: KM SET EXPAND
     #BB0F
     Set an expansion string.
@@ -206,7 +206,7 @@ enum fw_byte_all_or_nothing fw_km_set_expand(uint8_t token, uint8_t string_lengt
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
     #### CFWI-specific information: ####
-    
+
     since C cannot handle carry flag, this routine returns a byte
     value if a character was returned, and any value outside range
     0-255 if not.
@@ -313,9 +313,9 @@ unsigned char fw_km_wait_key (void);
     Since C cannot handle carry flag, this routine returns a byte
     value if a character was returned, and any value outside range
     0-255 if not.
- 
+
     You can use it like this:
-    
+
     uint16_t returned_value = fw_km_read_key();
     if (UINT_AND_BYTE_1(returned_value))
     {
@@ -389,7 +389,6 @@ enum
     // key not pressed
     }
 
-
     10: KM TEST KEY
     #BB1E
     Test if a key is pressed.
@@ -427,7 +426,7 @@ uint16_t fw_km_test_key(uint8_t key_number) __z88dk_fastcall;
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
     #### CFWI-specific information: ####
-    
+
     Use like this:
 
     uint16_t returned_value = fw_km_get_state();

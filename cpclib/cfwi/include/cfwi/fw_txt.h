@@ -164,11 +164,11 @@ void fw_txt_output(unsigned char c) __z88dk_fastcall;
 void fw_txt_wr_char(unsigned char c) __z88dk_fastcall;
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
- 
+
     #### CFWI-specific information: ####
-    
+
     since C cannot handle carry flag, value is returned like this:
-    
+
     uint16_t returned_value = fw_txt_rd_char();
     if (returned_value & 0xff00)
     {

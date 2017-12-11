@@ -610,6 +610,95 @@ void fw_txt_cur_on(void);
 */
 void fw_txt_cur_off(void);
 
+enum fw_txt_validate_scroll_direction
+{
+	fw_txt_validate_scroll_direction_up = fw_byte_all,
+	fw_txt_validate_scroll_direction_down = fw_byte_nothing
+};
+
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    #### CFWI-specific information: ####
+
+    You can use it like this:
+
+    uint32_t returned_value = fw_txt_validate();
+    uint8_t destination_row = UINT_SELECT_BYTE_0(returned_value);
+    uint8_t destination_col = UINT_SELECT_BYTE_1(returned_value);
+    if (UINT_SELECT_BYTE_2(returned_value))
+    {
+    // would scroll
+    fw_txt_validate_scroll_direction scroll_direction = UINT_SELECT_BYTE_3(returned_value);
+    }
+    else
+    {
+    // would not scroll
+    }
+
+
+    You can use
+    C cannot handle carry flag, value is returned like this:
+
+    uint16_t returned_value = fw_txt_rd_char();
+    if (UINT_AND_BYTE_1(returned_value))
+    {
+    // a character was read
+    unsigned char c = UINT_SELECT_BYTE_0(returned_value);
+    }
+    else
+    {
+    // no character was read
+    }
+
+
+    45: TXT VALIDATE
+    #BB87
+    Check if a cursor position is within the window.
+    Action:
+    Check a screen position to see if it lies within the current window. If it does not then
+    determine the position where a character would be printed after applying the rules for
+    forcing the screen position inside the window.
+    Entry conditions:
+    H contains the logical column of the position to check.
+    L contains the logical row of the position to check.
+    Exit conditions:
+    If printing at the position would not cause the window to roll:
+    Carry true.
+    B corrupt.
+    If printing at the position would cause the window to roll up:
+    Carry false.
+    B contains #FF.
+    If printing at the position would cause the window to roll down:
+    Carry false.
+    B contains #00.
+    Always:
+    H contains the logical column at which a character would be printed.
+    L contains the logical row at which a character would be printed.
+    A and other flags corrupt.
+    All other registers preserved.
+    Notes:
+    The position on the screen are given in logical coordinates. i.e. Row 1, column 1 is
+    the top left corner of the window.
+    Before writing a character or putting the cursor blob on the screen the Text VDU
+    validates the current position, performs any required roll then writes at the
+    appropriate position.
+    The algorithm to work out the position to print at, from the position to check, is as
+    follows:
+    1/ If the position is right of the right edge of the window it is moved to the left edge
+    of the window on the next line.
+    2/ If the position is left of the left edge of the window it is moved to the right edge of
+    the window on the previous line.
+    3/ If the position is now above the top edge of the window then it is moved to the top
+    edge of the window and the window need rolling downwards.
+    4/ If the position is now below the bottom edge of the window it is moved to the
+    bottom edge of the window and the window needs rolling upwards.
+    Related entries:
+    SCR HW ROLL
+    SCR SW ROLL
+    TXT GET CURSOR
+*/
+uint32_t fw_txt_validate(void);
+
 void fw_txt_place_cursor(void);
 void fw_txt_remove_cursor(void);
 void fw_txt_draw_cursor(void);

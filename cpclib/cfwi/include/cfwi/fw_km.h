@@ -348,18 +348,25 @@ unsigned char fw_km_wait_key (void);
 */
 uint16_t fw_km_read_key (void);
 
+enum
+{
+	fw_km_test_key_control_mask = 0x80,
+	fw_km_test_key_shift_mask = 0x20,
+};
+
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
- 
+
     #### CFWI-specific information: ####
-    
+
     since C cannot handle zero flag, value is returned like this:
-    
+
     uint16_t returned_value = fw_km_test_key(mykey);
-    if (returned_value & 0xff)
+    if (UINT_AND_BYTE_1(returned_value))
     {
     // key pressed
-    bool modifier_control = (returned_value & 0x80);
-    bool modifier_shift = (returned_value & 0x20);
+    uint8_t code = UINT_SELECT_BYTE_0(returned_value);
+    bool modifier_control = (code & fw_km_test_key_control_mask);
+    bool modifier_shift = (code & fw_km_test_key_shift_mask);
     }
     else
     {

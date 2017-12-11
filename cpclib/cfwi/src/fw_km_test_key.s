@@ -3,8 +3,8 @@
 _fw_km_test_key::
 	ld 	a,l
         call    0xBB1E  ; KM TEST KEY
-	ld	h,c
-        ld      l,#0
+	ld	l,c
+        ld      h,#0
 	ret	z
-        dec 	l
+        dec 	h
         ret

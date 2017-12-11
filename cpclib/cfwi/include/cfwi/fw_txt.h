@@ -2,6 +2,7 @@
 #define __FW_TXT_H__
 
 #include <stdint.h>
+#include "cfwi_byte_shuffling.h"
 
 /** 26: TXT INITIALISE #BB4E
     Initialise the Text VDU.
@@ -186,10 +187,10 @@ void fw_txt_wr_char(unsigned char c) __z88dk_fastcall;
     since C cannot handle carry flag, value is returned like this:
 
     uint16_t returned_value = fw_txt_rd_char();
-    if (returned_value & 0xff00)
+    if (UINT_AND_BYTE_1(returned_value))
     {
     // a character was read
-    unsigned char c = returned_value;
+    unsigned char c = UINT_SELECT_BYTE_0(returned_value);
     }
     else
     {

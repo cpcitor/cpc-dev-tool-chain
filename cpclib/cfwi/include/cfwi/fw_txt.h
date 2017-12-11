@@ -441,6 +441,42 @@ void fw_txt_set_column(int8_t column) __z88dk_fastcall;
 */
 void fw_txt_set_row(int8_t row) __z88dk_fastcall;
 
+/** #### CFWI-specific information: ####
+
+    You can use the fw_txt_set_cursor_oneparam() variant for slightly
+    shorter generated ASM code (no need for wrapper in that case).
+    In most case don't bother just write short C source code.
+
+    39: TXT SET CURSOR #BB75
+    Set cursor position.
+    Action:
+    Move the current position of the currently selected stream to a new row and column.
+    The cursor blob will be removed from the current position and redrawn at the new
+    position (if the cursor is enabled and turned on).
+    Entry conditions:
+    H contains the required logical column.
+    L contains the required logical row.
+    Exit conditions:
+    AF and HL corrupt.
+    All other registers preserved.
+    Notes:
+    The required row is given in logical coordinates. i.e. Row 1, column 1 is the top left
+    corner of the window.
+    The cursor may be moved outside the window. However, it will be forced to lie inside
+    the window before any characters is written by the Text VDU (see TXT VALIDATE)
+    or the cursor blob is drawn.
+    Related entries:
+    TXT GET CURSOR
+    TXT SET COLUMN
+    TXT SET ROW
+
+
+
+    CFWI_TEST_FLAGS: TESTED_APP_PASS
+*/
+void fw_txt_set_cursor(int8_t row, int8_t column);
+void fw_txt_set_cursor_oneparam(int16_t colum8h_row8l) __z88dk_fastcall;
+
 void fw_txt_cur_enable(void);
 void fw_txt_cur_disable(void);
 void fw_txt_cur_on(void);
@@ -450,7 +486,6 @@ void fw_txt_remove_cursor(void);
 void fw_txt_draw_cursor(void);
 void fw_txt_undraw_cursor(void);
 
-void fw_txt_set_cursor(int8_t row, int8_t column);
 
 
 void fw_txt_set_pen(uint8_t p);

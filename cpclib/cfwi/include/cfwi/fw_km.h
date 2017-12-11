@@ -162,7 +162,8 @@ uint16_t fw_km_read_char (void);
 */
 void fw_km_char_return (unsigned char c) __z88dk_fastcall;
 
-/** 
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
     #### CFWI-specific information: ####
 
     since C cannot handle carry flag, this routine returns zero if
@@ -202,7 +203,7 @@ void fw_km_char_return (unsigned char c) __z88dk_fastcall;
 */
 enum fw_byte_all_or_nothing fw_km_set_expand(uint8_t token, uint8_t string_length, unsigned char* string);
 
-/** 
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
     #### CFWI-specific information: ####
     

@@ -250,6 +250,39 @@ uint16_t fw_txt_rd_char();
 */
 void fw_txt_set_graphic(bool enable) __z88dk_fastcall;
 
+/** 34: TXT WIN ENABLE #BB66
+    Set the size of the current text window.
+    Action:
+    Set the boundaries of the window on the currently selected stream. The edges are the
+    first and last character columns inside the window and the first and last character
+    rows inside the window.
+    Entry conditions:
+    H contains the physical column of one edge.
+    D contains the physical column of the other edge.
+    L contains the physical row of one edge.
+    E contains the physical row of the other edge.
+    Exit conditions:
+    AF, BC, DE and HL corrupt.
+    All other registers preserved.
+    Notes:
+    The edge positions are given in physical screen coordinates. i.e. Row 0, column 0 is
+    the top left corner of the screen and the coordinates are signed numbers.
+    The window is truncated, if necessary, so that it fits on the screen.
+    The left column of the window is taken to be the smaller of H and D. The top row of
+    the window is taken to be the smaller of L and E.
+    The cursor is moved to the top left corner of the window.
+    The window is not cleared.
+    If the window covers the whole screen then when the window is rolled the hardware
+    roll routine (see SCR HW ROLL) will be used. If the window covers less than the
+    whole screen the software roll routine (see SCR SW ROLL) will be used.
+    The default text window covers the whole screen and is set up when TXT
+    INITIALISE or SCR SET MODE is called.
+    Related entries:
+    TXT GET WINDOW
+    TXT VALIDATE
+*/
+void fw_txt_win_enable(unsigned char left, unsigned char right, unsigned char top, unsigned char bottom);
+
 void fw_txt_cur_enable(void);
 void fw_txt_cur_disable(void);
 void fw_txt_cur_on(void);
@@ -267,7 +300,6 @@ void fw_txt_set_cursor(int8_t row, int8_t column);
 void fw_txt_set_pen(uint8_t p);
 void fw_txt_set_paper(uint8_t p);
 
-void fw_txt_win_enable(unsigned char left, unsigned char right, unsigned char top, unsigned char bottom);
 void fw_txt_clear_window();
 
 void fw_txt_set_m_table(void *buffer, bool disable, uint8_t lowest_affected_character);

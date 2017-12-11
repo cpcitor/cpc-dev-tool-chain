@@ -566,7 +566,28 @@ void fw_txt_cur_enable(void);
 */
 void fw_txt_cur_disable(void);
 
+/** 43: TXT CUR ON
+    #BB81
+    Allow cursor display - system.
+    Action:
+    Allow the cursor blob for the currently selected stream to be placed on the screen. The
+    cursor blob will be placed on the screen immediately unless the cursor in disabled
+    (see TXT CUR DISABLE).
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    All registers and flags preserved.
+    Notes:
+    Turning the cursor on and off is intended for use by system ROMs.
+    Related entries:
+    TXT ASK STATE
+    TXT CUR ENABLE
+    TXT CUR OFF
+    TXT DRAW CURSOR
+    TXT UNDRAW CURSOR
+*/
 void fw_txt_cur_on(void);
+
 void fw_txt_cur_off(void);
 void fw_txt_place_cursor(void);
 void fw_txt_remove_cursor(void);

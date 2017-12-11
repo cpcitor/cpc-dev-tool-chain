@@ -414,6 +414,33 @@ void fw_txt_clear_window(void);
 */
 void fw_txt_set_column(int8_t column) __z88dk_fastcall;
 
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    38: TXT SET ROW
+    #BB72
+    Set cursor vertical position.
+    Action:
+    Move the current position of the currently selected stream to a new row. The cursor
+    blob will be removed from the current position and redrawn at the new position (if the
+    cursor is enabled and turned on).
+    Entry conditions:
+    A contains the required logical row for the cursor.
+    Exit conditions:
+    AF and HL corrupt.
+    All other registers preserved.
+    Notes:
+    The required row is given in logical coordinates. i.e. Row 1 is the topmost row of the
+    window.
+    The cursor may be moved outside the window. However, it will be forced to lie inside
+    the window before any characters is written by the Text VDU (see TXT VALIDATE)
+    or the cursor blob is drawn.
+    Related entries:
+    TXT GET CURSOR
+    TXT SET COLUMN
+    TXT SET CURSOR
+*/
+void fw_txt_set_row(int8_t row) __z88dk_fastcall;
+
 void fw_txt_cur_enable(void);
 void fw_txt_cur_disable(void);
 void fw_txt_cur_on(void);
@@ -423,7 +450,6 @@ void fw_txt_remove_cursor(void);
 void fw_txt_draw_cursor(void);
 void fw_txt_undraw_cursor(void);
 
-void fw_txt_set_row(int8_t row);
 void fw_txt_set_cursor(int8_t row, int8_t column);
 
 

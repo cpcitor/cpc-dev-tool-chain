@@ -757,12 +757,34 @@ void fw_txt_place_cursor(void);
 */
 void fw_txt_remove_cursor(void);
 
+/** 48: TXT SET PEN
+    #BB90
+    Set ink for writing characters.
+    Action:
+    Set the pen ink for the currently selected stream. This is the ink that is used for
+    writing characters (the foreground ink).
+    Entry conditions:
+    A contains ink to use.
+    Exit conditions:
+    AF and HL corrupt.
+    All other registers preserved.
+    Notes:
+    The ink is masked to bring it within the range of legal inks for the current screen
+    mode. That is with #0F in mode 0, #03 in mode 1 and #01 in mode 2.
+    The cursor blob will be redrawn using the new ink (if enabled).
+    Related entries:
+    GRA SET PEN
+    SCR SET INK
+    TXT GET PEN
+    TXT SET PAPER
+*/
+void fw_txt_set_pen(uint8_t p) __z88dk_fastcall;
+
 void fw_txt_draw_cursor(void);
 void fw_txt_undraw_cursor(void);
 
 
 
-void fw_txt_set_pen(uint8_t p);
 void fw_txt_set_paper(uint8_t p);
 
 

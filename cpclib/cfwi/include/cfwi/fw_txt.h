@@ -1054,6 +1054,49 @@ typedef union fw_txt_p_character_matrix_with_rom_indication_t
 */
 fw_txt_p_character_matrix_with_rom_indication_t *fw_txt_get_matrix(uint8_t character_number) __z88dk_fastcall;
 
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    #### CFWI-specific information: ####
+
+    Since C cannot handle carry flag, function returns 0xff if character could be defined, else 0.
+
+
+
+    56: TXT SET MATRIX #BBA8
+    Set a character matrix.
+    Action:
+    Set the matrix for a user defined character. If the character is not user defined then no
+    action is taken.
+    Entry conditions:
+    A contains the character whose matrix is to be set.
+    HL contains the address of the matrix to set.
+    Exit conditions:
+    If the character is user definable:
+    Carry true.
+    If the character is not user definable:
+    Carry false.
+    Always:
+    A, BC, DE, HL and other flags corrupt.
+    All other registers preserved.
+    Notes:
+    The matrix is stored as an 8 byte bit significant vector. The first byte describes the top
+    line of the character and the last byte the bottom line. Bit 7 of a byte refers to the
+    leftmost pixel of a line and bit 0 to the rightmost pixel. If a bit is set in the matrix
+    then the pixel should be written in the pen ink. If a bit is not set then the pixel should
+    either be written in the paper ink or left alone (depending whether the character write
+    mode is opaque or transparent currently).
+    The matrix is copied from the area given into the character matrix table without using
+    RAM LAMs thus the matrices can be set from ROM providing it is enabled. (Note
+    however that the jumpblock disables the upper ROM).
+    Altering a character matrix changes the matrix for all streams. It does not alter any
+    character on the screen; it changes what will be placed on the screen the next time the
+    character is written.
+    Related entries:
+    TXT GET MATRIX
+    TXT SET M TABLE
+*/
+enum fw_byte_all_or_nothing fw_txt_set_matrix(uint8_t character, fw_txt_character_matrix_t *matrix);
+
 void fw_txt_draw_cursor(void);
 void fw_txt_undraw_cursor(void);
 

@@ -990,6 +990,70 @@ void fw_txt_set_back(uint8_t is_transparent) __z88dk_fastcall;
 */
 uint8_t fw_txt_get_back(void);
 
+typedef uint8_t fw_txt_character_matrix_t[8];
+
+/** Can be used to decode output of fw_txt_validate(). */
+typedef union fw_txt_p_character_matrix_with_rom_indication_t
+{
+	struct
+	{
+		fw_txt_character_matrix_t *p_matrix;
+		enum fw_byte_all_or_nothing is_user_defined;
+	};
+	uint32_t as_uint32_t;
+} fw_txt_p_character_matrix_with_rom_indication_t;
+
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    #### CFWI-specific information: ####
+
+    Since C cannot handle carry flag, the information is returned like this:
+
+    uint8_t character_index = (uint8_t)'C';
+    fw_txt_p_character_matrix_with_rom_indication_t pcmwri;
+    pcmwri.as_uint32_t = fw_txt_get_matrix(character_index);
+    fw_txt_character_matrix_t *matrix = pcmwri.p_matrix;
+    if (pcmwri.is_user_defined) 
+    {
+    // is in RAM
+    }
+    else
+    {
+    // is in ROM
+    }
+
+
+    55: TXT GET MATRIX #BBA5
+    Get the address of a character matrix.
+    Action:
+    Calculate a pointer to the matrix for a character and determine if it is a user defined
+    matrix.
+    Entry conditions:
+    A contains the character whose matrix is to be found.
+    Exit conditions:
+    If the matrix in the user defined matrix table:
+    Carry true.
+    If the matrix is in the lower ROM:
+    Carry false.
+    Always:
+    HL contains the address of the matrix.
+    A and other flags corrupt.
+    All other registers preserved.
+    Notes:
+    The matrix may be in RAM or in ROM. The Text VDU assumes that the appropriate
+    ROMs are enabled or disabled when it calls this routine to get the matrix for a
+    character. (The lower ROM is on, the upper ROM is normally off).
+    The matrix is stored as an 8 byte bit significant vector. The first byte describes the top
+    line of the character and the last byte the bottom line. Bit 7 of a byte refers to the
+    leftmost pixel of a line and bit 0 to the rightmost pixel. If a bit is set in the matrix
+    then the pixel should be written in the pen ink. If the bit is not set then the pixel
+    should either be written in the paper ink or left alone (depending on the character
+    write mode).
+    Related entries:
+    TXT SET MATRIX
+*/
+fw_txt_p_character_matrix_with_rom_indication_t *fw_txt_get_matrix(uint8_t character_number) __z88dk_fastcall;
+
 void fw_txt_draw_cursor(void);
 void fw_txt_undraw_cursor(void);
 

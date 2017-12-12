@@ -967,6 +967,27 @@ void fw_txt_inverse(void);
 */
 void fw_txt_set_back(uint8_t is_transparent) __z88dk_fastcall;
 
+/** 54: TXT GET BACK #BBA2
+    Ask if background is being written.
+    Action:
+    Get the character write mode for the currently selected stream.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    If background is to be written (opaque mode):
+    A contains zero.
+    If background is not to be written (transparent mode):
+    A contains non-zero.
+    Always:
+    DE, HL and flags corrupt.
+    All registers preserved.
+    Notes:
+    This only applies to the Text VDU, the Graphics VDU always writes opaque.
+    Related entries:
+    TXT SET BACK
+*/
+uint8_t fw_txt_get_back(void);
+
 void fw_txt_draw_cursor(void);
 void fw_txt_undraw_cursor(void);
 

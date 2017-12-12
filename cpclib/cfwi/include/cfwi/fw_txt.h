@@ -895,6 +895,27 @@ uint8_t fw_txt_get_pen(void);
 */
 void fw_txt_set_paper(uint8_t p) __z88dk_fastcall;
 
+/** 51: TXT GET PAPER #BB99
+    Get ink for writing background.
+    Action:
+    Ask what the paper ink is set to for the currently selected stream. The ink used for
+    writing the background to characters and for clearing the text window.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    A contains the ink.
+    Flags corrupt.
+    All other registers preserved.
+    Notes:
+    This routine has no other effects.
+    Related entries:
+    GRA GET PAPER
+    SCR GET INK
+    TXT GET PEN
+    TXT SET PAPER
+*/
+uint8_t fw_txt_get_paper(void);
+
 void fw_txt_draw_cursor(void);
 void fw_txt_undraw_cursor(void);
 

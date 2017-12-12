@@ -267,24 +267,32 @@ uint16_t fw_txt_rd_char(void);
 */
 void fw_txt_set_graphic(bool enable) __z88dk_fastcall;
 
-/** FIXME UNUSED Values are zero-based:
+/** Used for fw_txt_win_enable() and to decode fw_txt_get_window().
 
  * column values are between 0 and 19,39 or 79 included, depending on mode.
  * line values are between 0 and 24, included.
 
 */
-typedef struct fw_txt_window_t
+typedef union fw_txt_window_t
 {
-	uint8_t top;
-	uint8_t left;
-	uint8_t bottom;
-	uint8_t right;
+	struct
+	{
+		uint8_t top;
+		uint8_t left;
+		uint8_t bottom;
+		uint8_t right;
+	};
+	uint32_t as_uint32_t;
 } fw_txt_window_t;
 
 /** #### CFWI-specific information: ####
 
     Firmware documentation says number are signed, which seems to make little sense.
     We declare them unsigned because SDCC generates simpler code.
+
+    Two variants are provided: one with wrapper, one with integer.
+    You can use either, as you see fit.
+
 
 
     34: TXT WIN ENABLE #BB66
@@ -326,6 +334,15 @@ void fw_txt_win_enable(uint8_t left, uint8_t right, uint8_t top, uint8_t bottom)
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
+    Use the fastcall variant like this:
+
+    fw_txt_window_t window_def = { 2, 2, 22, 37 }; // example values
+    fw_txt_win_enable__fastcall(window_def.as_uint32_t);
+ */
+    void fw_txt_win_enable__fastcall(uint32_t fw_txt_window_t_asint) __z88dk_fastcall;
+
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
     #### CFWI-specific information: ####
 
     since SDCC cannot return struct from a function, value is returned like this:
@@ -335,6 +352,12 @@ void fw_txt_win_enable(uint8_t left, uint8_t right, uint8_t top, uint8_t bottom)
     uint8_t right = UINT_SELECT_BYTE_3(returned_value);
     uint8_t top = UINT_SELECT_BYTE_0(returned_value);
     uint8_t bottom = UINT_SELECT_BYTE_2(returned_value);
+
+    or like this:
+
+    fw_txt_window_t window_spec;
+    window_spec.as_uint32_t = fw_txt_get_window();
+    printf("%d\n", window_spec.right);
 
     35: TXT GET WINDOW #BB69
     Get the size of the current window.

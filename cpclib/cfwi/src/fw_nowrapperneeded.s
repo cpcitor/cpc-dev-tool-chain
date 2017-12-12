@@ -31,6 +31,7 @@
 	_fw_txt_vdu_enable == 0xBB54
 	_fw_txt_vdu_disable == 0xBB57
 
+	_fw_txt_win_enable__fastcall == 0xBB66
 	_fw_txt_get_window == 0xBB69
 	_fw_txt_set_cursor__fastcall == 0xBB75
 	

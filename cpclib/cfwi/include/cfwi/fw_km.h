@@ -532,6 +532,9 @@ enum fw_joystick_masks
     Joystick 1 is indistinguishable from certain keys on the keyboard (see Appendix 1).
     Related entries:
     KM TEST KEY
+
+    TODO create a struct with joystick bits.
+    TODO create a union with both struct and uint16_t, for decoding.
 */
 uint16_t fw_km_get_joystick(void);
 

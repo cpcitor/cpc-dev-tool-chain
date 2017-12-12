@@ -937,6 +937,36 @@ uint8_t fw_txt_get_paper(void);
 */
 void fw_txt_inverse(void);
 
+/** 53: TXT SET BACK
+    #BB9F
+    Allow or disallow background being written.
+    Action:
+    Set character write mode to opaque or transparent for the currently selected stream.
+    Opaque mode writes background with the character. Transparent mode writes the
+    character on top of the current contents of the screen.
+    Entry conditions:
+    If the background is to be written (opaque mode):
+    A must be zero.
+    If background is not to be written (transparent mode):
+    A must be non-zero.
+    Exit conditions:
+    AF and HL corrupt.
+    All other registers preserved.
+    Notes:
+    Writing in transparent mode is intended for annotating diagrams and similar
+    applications. It can have unfortunate effects if it is used generally because overwriting
+    a character will not remove the character underneath thus creating an
+    incomprehensible jumble on the screen.
+    Setting the character write mode does not affect the Graphics VDU. In V1.1 firmware
+    the routine GRA SET BACK sets the equivalent graphics background write mode.
+    Related entries:
+    GRA SET BACK
+    TXT GET BACK
+    TXT WR CHAR
+    TXT WRITE CHAR
+*/
+void fw_txt_set_back(uint8_t is_transparent) __z88dk_fastcall;
+
 void fw_txt_draw_cursor(void);
 void fw_txt_undraw_cursor(void);
 

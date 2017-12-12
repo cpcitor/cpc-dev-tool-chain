@@ -916,6 +916,27 @@ void fw_txt_set_paper(uint8_t p) __z88dk_fastcall;
 */
 uint8_t fw_txt_get_paper(void);
 
+/** 52: TXT INVERSE #BB9C
+    Swap current pen and paper inks over.
+    Action:
+    Exchange the text pen and paper (foreground and background) inks for the currently
+    selected stream.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    AF and HL corrupt.
+    All other registers preserved.
+    Notes:
+    In V1.1 firmware the cursor blob is removed and replaced and so the current position
+    is forced legal (inside the window) which may cause the window to roll. In V1.0
+    firmware the cursor blob is not redrawn and so it should be on the screen when this
+    routine is called.
+    Related entries:
+    TXT SET PAPER
+    TXT SET PEN
+*/
+void fw_txt_inverse(void);
+
 void fw_txt_draw_cursor(void);
 void fw_txt_undraw_cursor(void);
 

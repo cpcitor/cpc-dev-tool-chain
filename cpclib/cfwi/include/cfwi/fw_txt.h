@@ -347,17 +347,19 @@ void fw_txt_win_enable(uint8_t left, uint8_t right, uint8_t top, uint8_t bottom)
 
     since SDCC cannot return struct from a function, value is returned like this:
 
+    fw_txt_window_t window_spec;
+    window_spec.as_uint32_t = fw_txt_get_window();
+    printf("%d\n", window_spec.right);
+
+    You can also decode values directly from the uint32_t be be aware
+    that it leads to inefficient code.
+
     uint32_t returned_value = fw_txt_get_window();
     uint8_t left = UINT_SELECT_BYTE_1(returned_value);
     uint8_t right = UINT_SELECT_BYTE_3(returned_value);
     uint8_t top = UINT_SELECT_BYTE_0(returned_value);
     uint8_t bottom = UINT_SELECT_BYTE_2(returned_value);
 
-    or like this:
-
-    fw_txt_window_t window_spec;
-    window_spec.as_uint32_t = fw_txt_get_window();
-    printf("%d\n", window_spec.right);
 
     35: TXT GET WINDOW #BB69
     Get the size of the current window.

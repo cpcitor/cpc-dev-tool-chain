@@ -32,7 +32,7 @@
 	_fw_txt_vdu_disable == 0xBB57
 
 	_fw_txt_get_window == 0xBB69
-	_fw_txt_set_cursor_oneparam == 0xBB75
+	_fw_txt_set_cursor__fastcall == 0xBB75
 	
 	_fw_txt_cur_enable == 0xBB7B
 	_fw_txt_cur_disable == 0xBB7E

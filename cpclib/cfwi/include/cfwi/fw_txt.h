@@ -500,11 +500,32 @@ void fw_txt_set_row(int8_t row) __z88dk_fastcall;
 void fw_txt_set_cursor(int8_t row, int8_t column);
 void fw_txt_set_cursor__fastcall(int16_t colum8h_row8l) __z88dk_fastcall;
 
+
+/** Can be used to decode output of fw_txt_get_cursor(). */
+typedef union fw_txt_cursor_pos_t
+{
+	struct
+	{
+		uint8_t row;
+		uint8_t column;
+		uint8_t roll_count;
+	};
+	uint32_t as_uint32_t;
+} fw_txt_cursor_pos_t;
+
+
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
     #### CFWI-specific information: ####
 
     You can use it like this:
+
+    fw_txt_cursor_pos_t cursor_pos;
+    cursor_pos.as_uint32_t = fw_txt_get_window();
+    printf("%d\n", cursor_pos.roll_count);
+    
+    You can also decode values directly from the uint32_t be be aware
+    that it leads to inefficient code.
 
     uint32_t returned_value = fw_txt_get_cursor();
     uint8_t row = UINT_SELECT_BYTE_0(returned_value);
@@ -633,6 +654,22 @@ void fw_txt_cur_on(void);
 */
 void fw_txt_cur_off(void);
 
+
+/** Can be used to decode output of fw_txt_validate(). */
+typedef union fw_txt_cursor_validation_t
+{
+	struct
+	{
+		uint8_t row;
+		uint8_t column;
+		/** 0xff if would scroll, else 0. */
+		uint8_t would_scroll;
+		/** 0xff if would scroll up, 0 if would scroll down. */
+		uint8_t scroll_direction;
+	};
+	uint32_t as_uint32_t;
+} fw_txt_cursor_validation_t;
+
 enum fw_txt_validate_scroll_direction
 {
 	fw_txt_validate_scroll_direction_up = fw_byte_all,
@@ -645,6 +682,29 @@ enum fw_txt_validate_scroll_direction
 
     You can use it like this:
 
+    fw_txt_cursor_validation_t cursor_validation;
+    cursor_validation.as_uint32_t = fw_txt_get_window();
+    printf("%d,%d ", cursor_validation.row, cursor_validation.column);
+    if (cursor_validation.would_scroll)
+    {
+    // would scroll
+    if (cursor_validation.scroll_direction)
+    {
+    // would scroll up
+    }
+    else
+    {
+    // would scroll down
+    }
+    }
+    else
+    {
+    // would not scroll
+    }
+
+    You can also decode values directly from the uint32_t be be aware
+    that it leads to inefficient code.
+
     uint32_t returned_value = fw_txt_validate();
     uint8_t destination_row = UINT_SELECT_BYTE_0(returned_value);
     uint8_t destination_col = UINT_SELECT_BYTE_1(returned_value);
@@ -656,21 +716,6 @@ enum fw_txt_validate_scroll_direction
     else
     {
     // would not scroll
-    }
-
-
-    You can use
-    C cannot handle carry flag, value is returned like this:
-
-    uint16_t returned_value = fw_txt_rd_char();
-    if (UINT_AND_BYTE_1(returned_value))
-    {
-    // a character was read
-    unsigned char c = UINT_SELECT_BYTE_0(returned_value);
-    }
-    else
-    {
-    // no character was read
     }
 
 

@@ -848,6 +848,28 @@ void fw_txt_remove_cursor(void);
 */
 void fw_txt_set_pen(uint8_t p) __z88dk_fastcall;
 
+/** 49: TXT GET PEN
+    #BB93
+    Get ink for writing characters.
+    Action:
+    Ask what the pen ink is set to for the currently selected stream. This is the ink used
+    for writing characters (foreground ink).
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    A contains the ink.
+    Flags corrupt.
+    All other registers preserved.
+    Notes:
+    This routine has no other effects.
+    Related entries:
+    GRA GET PEN
+    SCR GET INK
+    TXT GET PAPER
+    TXT SET PEN
+*/
+uint8_t fw_txt_get_pen(void);
+
 void fw_txt_draw_cursor(void);
 void fw_txt_undraw_cursor(void);
 

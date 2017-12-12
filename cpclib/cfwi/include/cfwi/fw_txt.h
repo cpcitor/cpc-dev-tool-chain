@@ -870,12 +870,36 @@ void fw_txt_set_pen(uint8_t p) __z88dk_fastcall;
 */
 uint8_t fw_txt_get_pen(void);
 
+/** 50: TXT SET PAPER #BB96
+    Set ink for writing text background.
+    Action:
+    Set the text paper ink for the currently selected stream. This is the ink used for
+    writing the background to characters and for clearing the text window.
+    Entry conditions:
+    A contains the ink to use.
+    Exit conditions:
+    AF and HL corrupt.
+    All other registers preserved.
+    Notes:
+    The ink is masked to bring it within the range of legal inks for the current screen
+    mode. That is with #0F in mode 0, #03 in mode 1 and #01 in mode 2.
+    The cursor blob will be redrawn using the new ink (if enabled).
+    This ink will be used when clearing areas of the text window (by TXT CLEAR
+    WINDOW and certain control codes).
+    This routine does not clear the text window.
+    Related entries:
+    GRA GET PAPER
+    SCR SET INK
+    TXT GET PAPER
+    TXT SET PEN
+*/
+void fw_txt_set_paper(uint8_t p) __z88dk_fastcall;
+
 void fw_txt_draw_cursor(void);
 void fw_txt_undraw_cursor(void);
 
 
 
-void fw_txt_set_paper(uint8_t p);
 
 
 void fw_txt_set_m_table(void *buffer, bool disable, uint8_t lowest_affected_character);

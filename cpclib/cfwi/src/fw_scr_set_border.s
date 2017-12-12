@@ -3,10 +3,8 @@
 _fw_scr_set_border::
         ld      hl,#2
         add     hl,sp
-        ld      a,(hl)
-        ld      c,a
+        ld      c,(hl)
 	inc 	hl
-	ld      a,(hl)
-	ld      b,a
+	ld      b,(hl)
         call    0xBC38  ; SCR SET BORDER
         ret

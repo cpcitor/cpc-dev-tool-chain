@@ -1,10 +1,30 @@
 #ifndef __CFWI_BYTE_SHUFFLING_H__
 #define __CFWI_BYTE_SHUFFLING_H__
 
+/**
+Optimization
+
+* Pass one 16bit or 32bit value instead of several via stack?  Indeed it avoids copy.  But stuffing the values is cumbersome and voids any benefit.  In other words, do it *only* if you already have a struct that makes sense.
+
+* When a function returns a 16bit value, stuff it into a union *only* if you already have a struct that makes sense.
+
+* When a function returns a 32bit value, *do* stuff it into a union, because accessing higher bytes of a 32bit int causes inefficient code.
+
+
+
+* Return 32bit value instead of several via stack?  Indeed it avoids copy.  But stuffing the values is cumbersome and voids any benefit.  In other words, do it *only* if you already have a struct that makes sense.
+
+
+ */
+
+/** UINT_SELECT_BYTE_0 is fast with a 16bit value, slow with a 32bit value. */
 #define UINT_SELECT_BYTE_0(n) ((uint8_t)( (n) & 0xff ))
-#define UINT_SELECT_BYTE_1(n) ((uint8_t)( ((n) >> 8) & 0xff ))
-#define UINT_SELECT_BYTE_2(n) ((uint8_t)( ((n) >> 16) & 0xff ))
-#define UINT_SELECT_BYTE_3(n) ((uint8_t)( ((n) >> 24) & 0xff ))
+/** UINT_SELECT_BYTE_1 is fast with a 16bit value, slow with a 32bit value. */
+#define UINT_SELECT_BYTE_1(n) ((uint8_t)( ((n) >> 8) & 0xff) )
+/** UINT_SELECT_BYTE_2 is slow. SDCC 3.6.0 generates a loop! */
+//#define UINT_SELECT_BYTE_2(n) ((uint8_t)( ((n) >> 16) & 0xff ))
+/** UINT_SELECT_BYTE_3 is slow. SDCC 3.6.0 generates a loop! */
+//#define UINT_SELECT_BYTE_3(n) ((uint8_t)( ((n) >> 24) & 0xff ))
 
 #define UINT_AND_BYTE_0(n) ( (n) & 0x000000ff )
 #define UINT_AND_BYTE_1(n) ( (n) & 0x0000ff00 )

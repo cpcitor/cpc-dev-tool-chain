@@ -1277,5 +1277,35 @@ typedef struct fw_txt_control_code_entry_t fw_txt_control_code_table_t[fw_txt_co
 */
 fw_txt_control_code_table_t *fw_txt_get_controls();
 
+/** 60: TXT STR SELECT #BBB4
+    Select a Text VDU stream.
+    Action:
+    Make a given stream the currently selected stream (if it isn't already).
+    Entry conditions:
+    A contains the required stream.
+    Exit conditions:
+    A contains the previously selected stream.
+    HL and flags corrupt.
+    All other registers preserved.
+    Notes:
+    The requested stream number is masked (with #07) to make it into a legal stream
+    number.
+    Many attributes of the Text VDU may be set independently on different streams. It is
+    important to ensure that the correct stream is selected when any of these are altered.
+    These attributes are:
+    Pen ink.
+    Paper ink.
+    Cursor position.
+    Window limits.
+    Cursor enable/disable.
+    Cursor on/off. VDU enable/disable.
+    Character write mode.
+    Graphics character write mode.
+    If the stream is already selected then this routine returns quickly. It is not
+    unreasonable to repeatedly select a stream (before each character sent, for example).
+    Related entries:
+    TXT OUTPUT
+*/
+uint8_t fw_txt_str_select();
 
 #endif /* __FW_TXT_H__ */

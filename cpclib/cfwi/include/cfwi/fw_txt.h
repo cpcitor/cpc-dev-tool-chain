@@ -1278,6 +1278,7 @@ typedef struct fw_txt_control_code_entry_t fw_txt_control_code_table_t[fw_txt_co
 fw_txt_control_code_table_t *fw_txt_get_controls();
 
 /** 60: TXT STR SELECT #BBB4
+
     Select a Text VDU stream.
     Action:
     Make a given stream the currently selected stream (if it isn't already).
@@ -1307,5 +1308,34 @@ fw_txt_control_code_table_t *fw_txt_get_controls();
     TXT OUTPUT
 */
 uint8_t fw_txt_str_select();
+
+/** 61: TXT SWAP STREAMS #BBB7
+    Swap the states of two streams.
+    Action:
+    The stream descriptors for two streams are exchanged. The currently selected stream
+    number remains the same (although its descriptor may have been altered).
+    Entry conditions:
+    B contains a stream number.
+    C contains another stream number.
+    Exit conditions:
+    AF, BC, DE and HL corrupt.
+    All other registers preserved.
+    Notes:
+    The stream numbers passed are masked (with #07) to that they are legal stream
+    numbers.
+    The attributes that are exchanged are:
+    Pen ink.
+    Paper ink.
+    Cursor position.
+    Window limits.
+    Cursor enable/disable.
+    Cursor on/off.
+    VDU enable/disable.
+    Character write mode.
+    Graphics character write mode.
+    Related entries:
+    TXT STR SELECT
+*/
+void fw_txt_swap_streams(uint8_t stream1, uint8_t stream2);
 
 #endif /* __FW_TXT_H__ */

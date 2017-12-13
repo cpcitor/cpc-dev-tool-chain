@@ -1224,6 +1224,58 @@ uint32_t fw_txt_set_m_table(fw_txt_character_matrix_t *buffer, bool disable, uin
 */
 uint32_t fw_txt_get_m_table();
 
+enum
+{
+	fw_txt_control_code_count = 32
+};
+
+struct fw_txt_control_code_entry_t
+{
+	uint8_t parameter_count;
+	void *routine;
+};
+
+typedef struct fw_txt_control_code_entry_t fw_txt_control_code_table_t[fw_txt_control_code_count];
+
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    59: TXT GET CONTROLS #BBB1
+    Fetch address of control code table.
+    Action:
+    Get the address of the control code table.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    HL contains the address of the control code table.
+    All other registers and flags preserved.
+    Notes:
+    All streams share one control code table so that any changes made to the table will
+    affect all streams.
+    The control code table has a 3 byte entry for each control code. The entries are stored
+    in ascending order, so the entry for #00 is first and that for #1F is last. The first byte
+    of each entry is the number of parameters the control code requires, the other two
+    bytes are the address of the routine to call to process the control code when all its
+    parameters have been received. The routine must be located in the central 32K of
+    RAM and it must obey the following interface:
+    Entry:
+    A contains the last character added to the buffer.
+    B contains the length of the buffer (including the control code).
+    C contains the same as A.
+    HL contains the address of the control code buffer (points at the control code).
+    Exit:
+    AF, BC, DE, HL corrupt.
+    All other registers preserved.
+    As the control buffer only has space to store 9 parameter characters the number of
+    parameters required should be limited to 9 or fewer.
+    The control code table is reinitialized to its default routines when TXT RESET is
+    called.
+    In V1.1 firmware the first byte of each entry also specifies whether the control codes
+    is to be disabled when the VDU is disabled or whether it is always to be obeyed. Bit 7
+    of the byte is set if the code is to be disabled.
+    Related entries:
+    TXT OUTPUT
+*/
+fw_txt_control_code_table_t *fw_txt_get_controls();
 
 
 #endif /* __FW_TXT_H__ */

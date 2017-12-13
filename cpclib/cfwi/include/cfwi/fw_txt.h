@@ -1176,4 +1176,54 @@ typedef union fw_txt_p_character_matrix_with_size_and_valid_t
 */
 uint32_t fw_txt_set_m_table(fw_txt_character_matrix_t *buffer, bool disable, uint8_t lowest_affected_character);
 
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    #### CFWI-specific information: ####
+
+    Since C cannot handle carry flag, the information is returned like this:
+
+    fw_txt_p_character_matrix_with_size_and_valid_t pcmwsav;
+    pcmwsav.as_uint32_t = fw_txt_get_m_table();
+    if (pcmwsav.is_valid)
+    {
+    fw_txt_character_matrix_t *matrix = pcmwsav.p_matrix;
+    printf("There are some defined characters from %d at address 0x%04x.\n",
+    pcmwsav.is_valid,  pcmwsav.p_matrix);
+    }
+    else
+    {
+    printf("There are no defined characters.\n",
+    }
+
+
+
+    58: TXT GET M TABLE #BBAE
+    Get user defined matrix table address.
+    Action:
+    Get the address of the current user defined matrix table and the first character in the
+    table.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    If there is no user defined matrix table:
+    Carry false.
+    A and HL corrupt.
+    If there is a user defined matrix table:
+    Carry true.
+    A contains the first character in the table.
+    HL contains the address of the start of the table.
+    Always:
+    Other flags corrupt.
+    All other registers preserved.
+    Notes:
+    The matrices for characters between the first character and 255 are stored in the table
+    in ascending order. Each matrix is 8 bytes long.
+    Related entries:
+    TXT GET MATRIX
+    TXT SET M TABLE
+*/
+uint32_t fw_txt_get_m_table();
+
+
+
 #endif /* __FW_TXT_H__ */

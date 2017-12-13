@@ -868,7 +868,7 @@ void fw_km_set_delay(uint8_t startup_delay, uint8_t repeat_speed);
 */
 uint16_t fw_km_get_delay(void);
 
-/** 23: KM ARM BREAKS #BB45
+/** 23: KM ARM BREAK #BB45
     Allow break events to be generated.
     Action:
     Arm the break mechanism. The next call of KM BREAK EVENT will generate a
@@ -886,7 +886,7 @@ uint16_t fw_km_get_delay(void);
     KM BREAK EVENT
     KM DISARM BREAK
 */
-// TODO KM_ARM_BREAKS
+// TODO KM_ARM_BREAK
 
 /** 24: KM DISARM BREAK #BB48
     Prevent break events from being generated.

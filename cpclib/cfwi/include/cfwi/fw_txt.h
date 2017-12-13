@@ -525,7 +525,7 @@ typedef union fw_txt_cursor_pos_t
     fw_txt_cursor_pos_t cursor_pos;
     cursor_pos.as_uint32_t = fw_txt_get_window();
     printf("%d\n", cursor_pos.roll_count);
-    
+
     You can also decode values directly from the uint32_t be be aware
     that it leads to inefficient code.
 
@@ -1013,7 +1013,7 @@ typedef union fw_txt_p_character_matrix_with_rom_indication_t
     fw_txt_p_character_matrix_with_rom_indication_t pcmwri;
     pcmwri.as_uint32_t = fw_txt_get_matrix(character_index);
     fw_txt_character_matrix_t *matrix = pcmwri.p_matrix;
-    if (pcmwri.is_user_defined) 
+    if (pcmwri.is_user_defined)
     {
     // is in RAM
     }

@@ -1101,9 +1101,79 @@ void fw_txt_draw_cursor(void);
 void fw_txt_undraw_cursor(void);
 
 
+/** Can be used to decode output of fw_txt_set_m_table(). */
+typedef union fw_txt_p_character_matrix_with_size_and_valid_t
+{
+	struct
+	{
+		fw_txt_character_matrix_t *p_matrix;
+		uint8_t lowest_character_defined;
+		enum fw_byte_all_or_nothing is_valid;
+	};
+	uint32_t as_uint32_t;
+} fw_txt_p_character_matrix_with_size_and_valid_t;
+
+/** #### CFWI-specific information: ####
+
+    Since C cannot handle carry flag, the information is returned like this:
+
+    fw_txt_character_matrix_t my_new_chars[16] = { ... }
+    fw_txt_p_character_matrix_with_size_and_valid_t pcmwsav;
+    pcmwsav.as_uint32_t = fw_txt_set_m_table(my_new_chars, 0, 256-16);
+    if (pcmwsav.is_valid)
+    {
+    fw_txt_character_matrix_t *matrix = pcmwsav.p_matrix;
+    printf("There were already some defined characters from %d at address 0x%04x.\n",
+    pcmwsav.is_valid,  pcmwsav.p_matrix);
+    }
+    else
+    {
+    printf("There were no defined characters.\n",
+    }
 
 
 
-void fw_txt_set_m_table(void *buffer, bool disable, uint8_t lowest_affected_character);
+    57: TXT SET M TABLE #BBAB
+    Set the user defined matrix table address.
+    Action:
+    Set the user defined matrix table and the number of characters in the table. The table
+    is initialized with the current matrix settings.
+    Entry conditions:
+    DE contains the first character in the table.
+    HL contains the address of the start of the new table.
+    Exit conditions:
+    If there was no user defined matrix table before:
+    Carry false.
+    A and HL corrupt.
+    If there was a user defined matrix table before:
+    Carry true.
+    A contains the first character in the old table.
+    HL contains the address of the old table.
+    Always:
+    BC, DE and other flags corrupt.
+    All other registers preserved.
+    Notes:
+    If the first character specified is in the range 0..255 then the matrices for all
+    characters between that character and character 255 are to be stored in the user
+    defined table.
+    If the first character specified is not in the range 0..255 then the user defined matrix
+    table is deemed to contain no matrices (and the table address passed is ignored).
+    The table must be (256 - first char) * 8 bytes long. The matrices are stored in the table
+    in ascending order. The table is initialized with the current matrix settings, whether
+    they were previously in RAM or in the ROM.
+    The table should not be located in RAM underneath a ROM.
+    It is permissible for the new and old matrix tables to overlap (thus allowing the table
+    to be extended or contracted) providing that matrices in the new table occupy an
+    address earlier to the address that they occupied in the old table.
+    All streams share the matrix table so any changes to it will be reflected on all streams.
+    Related entries:
+    TXT GET M TABLE
+    TXT SET MATRIX
+
+
+
+    CFWI_TEST_FLAGS: TESTED_APP_PASS
+*/
+uint32_t fw_txt_set_m_table(fw_txt_character_matrix_t *buffer, bool disable, uint8_t lowest_affected_character);
 
 #endif /* __FW_TXT_H__ */

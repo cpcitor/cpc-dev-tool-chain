@@ -339,7 +339,7 @@ void fw_txt_win_enable(uint8_t left, uint8_t right, uint8_t top, uint8_t bottom)
     fw_txt_window_t window_def = { 2, 2, 22, 37 }; // example values
     fw_txt_win_enable__fastcall(window_def.as_uint32_t);
  */
-    void fw_txt_win_enable__fastcall(uint32_t fw_txt_window_t_asint) __z88dk_fastcall;
+void fw_txt_win_enable__fastcall(uint32_t fw_txt_window_t_asint) __z88dk_fastcall;
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 

@@ -1,0 +1,230 @@
+<html>
+<style>
+/* Amstrad font inclusion */
+/* @font-face kit by Fonts2u (http://www.fonts2u.com) */
+@font-face {
+  font-family: "Amstrad";
+  font-style: normal;
+  font-weight: 400;
+  src: url("amstrad_cpc464.eot?") format("eot"),
+        url("amstrad_cpc464.woff") format("woff"),
+        url("amstrad_cpc464.ttf") format("truetype"),
+        url("amstrad_cpc464.svg") format("svg");
+}
+
+.cpc, .fw_call_name {
+  font-weight: normal;
+  font-family: "Amstrad", "Monospace";
+}
+
+.cdecl {
+  font-weight: normal;
+  font-family: "Monospace";
+}
+
+.fw_call_name
+{
+    color: #000080;
+    background-color: #FFFF00;
+}
+
+table {
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+th
+{
+    color: #FFFF00;
+    background-color: #000080;
+}
+th, td {
+    border: 1px solid grey;
+    padding: 4px;
+}
+tr:nth-child(even) {background-color: #f2f2f2;}
+</style>
+<h1>Firmware coverage in cpc-dev-tool-chain's CFWI (C-firmware interface)</h1>
+<h2>Global Statistics</h2>
+<p>Overall coverage percentage: 55%</p>
+<table>
+<tr><td>Total fw calls as per SOFT968 official documentation</td><td>201</td></tr>
+<tr><td>Total fw calls covered (made available to C)</td><td>111</td></tr>
+<tr><td>Total fw calls covered with C prototype and ASM symbol</td><td>55</td></tr>
+<tr><td>Total fw calls covered with C prototype and ASM wrapper</td><td>58</td></tr>
+<tr><td>Total fw calls covered both without <span style="font-weight: bold">and</span> with wrapper</td><td>2</td></tr>
+<tr><td>Total fw calls covered, filtering duplicate coverage</td><td>111</td></tr>
+<tr><td>Sanity check 111==111</td><td>PASS</td></tr>
+</table>
+<h2>Statistics per firmware packages</h2>
+<table>
+<tr><th>Package</th><th>Calls covered</th><th>Direct</th><th>Wrapper</th></tr>
+<tr><td><span class="fw_call_name">CAS</span></td><td>4</td><td>4</td><td>0</td></tr>
+<tr><td><span class="fw_call_name">GRA</span></td><td>19</td><td>4</td><td>15</td></tr>
+<tr><td><span class="fw_call_name">JRE</span></td><td>1</td><td>1</td><td>0</td></tr>
+<tr><td><span class="fw_call_name">KL</span></td><td>5</td><td>5</td><td>0</td></tr>
+<tr><td><span class="fw_call_name">KM</span></td><td>26</td><td>8</td><td>18</td></tr>
+<tr><td><span class="fw_call_name">LKJB</span></td><td>7</td><td>7</td><td>0</td></tr>
+<tr><td><span class="fw_call_name">MC</span></td><td>2</td><td>2</td><td>0</td></tr>
+<tr><td><span class="fw_call_name">SCR</span></td><td>7</td><td>4</td><td>3</td></tr>
+<tr><td><span class="fw_call_name">SOUND</span></td><td>2</td><td>2</td><td>0</td></tr>
+<tr><td><span class="fw_call_name">TXT</span></td><td>38</td><td>18</td><td>22</td></tr>
+</table>
+<h2>Details per firmware packages</h2>
+<h3>Package <span class="fw_call_name">CAS</span></h3>
+<table>
+<tr><th>Call</th><th>Direct</th><th>Wrapper</th><th>C-level prototype(s)</th></tr>
+<tr><td><span class="fw_call_name">CAS INITIALISE</span></td><td class="cdecl">	_fw_cas_initialise == 0xBC65</td><td class="cdecl"></td><td class="cdecl">void fw_cas_initialise(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">CAS IN ABANDON</span></td><td class="cdecl">	_fw_cas_in_abandon == 0xBC7D</td><td class="cdecl"></td><td class="cdecl">void fw_cas_in_abandon(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">CAS RETURN</span></td><td class="cdecl">	_fw_cas_return == 0xBC86</td><td class="cdecl"></td><td class="cdecl">void fw_cas_return(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">CAS OUT ABANDON</span></td><td class="cdecl">	_fw_cas_out_abandon == 0xBC92</td><td class="cdecl"></td><td class="cdecl">void fw_cas_out_abandon(void);<br /></td></tr>
+</table>
+<h3>Package <span class="fw_call_name">GRA</span></h3>
+<table>
+<tr><th>Call</th><th>Direct</th><th>Wrapper</th><th>C-level prototype(s)</th></tr>
+<tr><td><span class="fw_call_name">GRA LINE ABSOLUTE</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_line_absolute.s</td><td class="cdecl">void fw_gra_line_absolute(int x, int y);<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA PLOT ABSOLUTE</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_plot_absolute.s</td><td class="cdecl">void fw_gra_plot_absolute(int x, int y);<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA MOVE ABSOLUTE</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_move_absolute.s</td><td class="cdecl">void fw_gra_move_absolute(int x, int y);<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA TEST ABSOLUTE</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_test_absolute.s</td><td class="cdecl">void fw_gra_test_absolute(int x, int y);<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA LINE RELATIVE</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_line_relative.s</td><td class="cdecl">void fw_gra_line_relative(int x, int y);<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA PLOT RELATIVE</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_plot_relative.s</td><td class="cdecl">void fw_gra_plot_relative(int x, int y);<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA MOVE RELATIVE</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_move_relative.s</td><td class="cdecl">void fw_gra_move_relative(int x, int y);<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA TEST RELATIVE</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_test_relative.s</td><td class="cdecl">void fw_gra_test_relative(int x, int y);<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA SET PEN</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_set_pen.s</td><td class="cdecl">void fw_gra_set_pen(unsigned char pencolor);<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA GET PEN</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_get_pen.s</td><td class="cdecl">unsigned char fw_gra_get_pen(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA SET PAPER</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_set_paper.s</td><td class="cdecl">void fw_gra_set_paper(unsigned char papercolor);<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA GET PAPER</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_get_paper.s</td><td class="cdecl">unsigned char fw_gra_get_paper(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA WR CHAR</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_wr_char.s</td><td class="cdecl">void fw_gra_wr_char(char character);<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA INITIALISE</span></td><td class="cdecl">	_fw_gra_initialise == 0xBBBA</td><td class="cdecl"></td><td class="cdecl">void fw_gra_initialise(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA RESET</span></td><td class="cdecl">	_fw_gra_reset == 0xBBBD</td><td class="cdecl"></td><td class="cdecl">void fw_gra_reset(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA CLEAR WINDOW</span></td><td class="cdecl">	_fw_gra_clear_window == 0xBBDB</td><td class="cdecl"></td><td class="cdecl">void fw_gra_clear_window(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA DEFAULT</span></td><td class="cdecl">	_fw_gra_default == 0xBD43</td><td class="cdecl"></td><td class="cdecl">void fw_gra_default(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA WIN WIDTH</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_win_width.s</td><td class="cdecl">void fw_gra_win_width(int xleft, int xright);<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA WIN HEIGHT</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_win_height.s</td><td class="cdecl">void fw_gra_win_height(int ytop, int ybottom);<br /></td></tr>
+</table>
+<h3>Package <span class="fw_call_name">JRE</span></h3>
+<table>
+<tr><th>Call</th><th>Direct</th><th>Wrapper</th><th>C-level prototype(s)</th></tr>
+<tr><td><span class="fw_call_name">JRE JUMP RESTORE</span></td><td class="cdecl">	_fw_jre_jump_restore == 0xBD37</td><td class="cdecl"></td><td class="cdecl">void fw_jre_jump_restore(void);<br /></td></tr>
+</table>
+<h3>Package <span class="fw_call_name">KL</span></h3>
+<table>
+<tr><th>Call</th><th>Direct</th><th>Wrapper</th><th>C-level prototype(s)</th></tr>
+<tr><td><span class="fw_call_name">KL TIME PLEASE</span></td><td class="cdecl">	_fw_kl_time_please == 0xBD0D</td><td class="cdecl"></td><td class="cdecl">long int fw_kl_time_please (void);<br /></td></tr>
+<tr><td><span class="fw_call_name">KL SCAN NEEDED</span></td><td class="cdecl">	_fw_kl_scan_needed == 0xB92A</td><td class="cdecl"></td><td class="cdecl">void fw_kl_scan_needed(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">KL SYNC RESET</span></td><td class="cdecl">	_fw_kl_sync_reset == 0xBCF5</td><td class="cdecl"></td><td class="cdecl">void fw_kl_sync_reset(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">KL EVENT DISABLE</span></td><td class="cdecl">	_fw_kl_event_disable == 0xBD04</td><td class="cdecl"></td><td class="cdecl">void fw_kl_event_disable(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">KL EVENT ENABLE</span></td><td class="cdecl">	_fw_kl_event_enable == 0xBD07</td><td class="cdecl"></td><td class="cdecl">void fw_kl_event_enable(void);<br /></td></tr>
+</table>
+<h3>Package <span class="fw_call_name">KM</span></h3>
+<table>
+<tr><th>Call</th><th>Direct</th><th>Wrapper</th><th>C-level prototype(s)</th></tr>
+<tr><td><span class="fw_call_name">KM INITIALISE</span></td><td class="cdecl">	_fw_km_initialise == 0xBB00</td><td class="cdecl"></td><td class="cdecl">void fw_km_initialise(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">KM RESET</span></td><td class="cdecl">	_fw_km_reset == 0xBB03</td><td class="cdecl"></td><td class="cdecl">void fw_km_reset(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">KM WAIT CHAR</span></td><td class="cdecl"></td><td class="cdecl">fw_km_wait_char.s</td><td class="cdecl">unsigned char fw_km_wait_char (void);<br /></td></tr>
+<tr><td><span class="fw_call_name">KM READ CHAR</span></td><td class="cdecl"></td><td class="cdecl">fw_km_read_char.s</td><td class="cdecl">uint16_t fw_km_read_char (void);<br /></td></tr>
+<tr><td><span class="fw_call_name">KM CHAR RETURN</span></td><td class="cdecl"></td><td class="cdecl">fw_km_char_return.s</td><td class="cdecl">void fw_km_char_return (unsigned char c) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">KM SET EXPAND</span></td><td class="cdecl"></td><td class="cdecl">fw_km_set_expand.s</td><td class="cdecl">enum fw_byte_all_or_nothing fw_km_set_expand(uint8_t token, uint8_t string_length, unsigned char* string);<br /></td></tr>
+<tr><td><span class="fw_call_name">KM GET EXPAND</span></td><td class="cdecl"></td><td class="cdecl">fw_km_get_expand.s</td><td class="cdecl">uint16_t fw_km_get_expand(uint8_t token, uint8_t char_number);<br /></td></tr>
+<tr><td><span class="fw_call_name">KM EXP BUFFER</span></td><td class="cdecl"></td><td class="cdecl">fw_km_exp_buffer.s</td><td class="cdecl">enum fw_byte_all_or_nothing fw_km_exp_buffer(unsigned char *buffer, uint16_t buffer_bytecount);<br /></td></tr>
+<tr><td><span class="fw_call_name">KM WAIT KEY</span></td><td class="cdecl"></td><td class="cdecl">fw_km_wait_key.s</td><td class="cdecl">unsigned char fw_km_wait_key (void);<br /></td></tr>
+<tr><td><span class="fw_call_name">KM READ KEY</span></td><td class="cdecl"></td><td class="cdecl">fw_km_read_key.s</td><td class="cdecl">uint16_t fw_km_read_key (void);<br /></td></tr>
+<tr><td><span class="fw_call_name">KM TEST KEY</span></td><td class="cdecl"></td><td class="cdecl">fw_km_test_key.s</td><td class="cdecl">uint16_t fw_km_test_key(uint8_t key_number) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">KM GET STATE</span></td><td class="cdecl">	_fw_km_get_state == 0xBB21</td><td class="cdecl"></td><td class="cdecl">uint16_t fw_km_get_state(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">KM GET JOYSTICK</span></td><td class="cdecl">	_fw_km_get_joystick == 0xBB24</td><td class="cdecl"></td><td class="cdecl">uint16_t fw_km_get_joystick(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">KM SET TRANSLATE</span></td><td class="cdecl"></td><td class="cdecl">fw_km_set_translate.s</td><td class="cdecl">void fw_km_set_translate(uint8_t key_number, uint8_t new_translation);<br /></td></tr>
+<tr><td><span class="fw_call_name">KM GET TRANSLATE</span></td><td class="cdecl"></td><td class="cdecl">fw_km_get_translate.s</td><td class="cdecl">uint8_t fw_km_get_translate(uint8_t key_number) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">KM SET SHIFT</span></td><td class="cdecl"></td><td class="cdecl">fw_km_set_shift.s</td><td class="cdecl">void fw_km_set_shift(uint8_t key_number, uint8_t new_translation);<br /></td></tr>
+<tr><td><span class="fw_call_name">KM GET SHIFT</span></td><td class="cdecl"></td><td class="cdecl">fw_km_get_shift.s</td><td class="cdecl">uint8_t fw_km_get_shift(uint8_t key_number) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">KM SET CONTROL</span></td><td class="cdecl"></td><td class="cdecl">fw_km_set_control.s</td><td class="cdecl">void fw_km_set_control(uint8_t key_number, uint8_t new_translation);<br /></td></tr>
+<tr><td><span class="fw_call_name">KM GET CONTROL</span></td><td class="cdecl"></td><td class="cdecl">fw_km_get_control.s</td><td class="cdecl">uint8_t fw_km_get_control(uint8_t key_number) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">KM SET REPEAT</span></td><td class="cdecl"></td><td class="cdecl">fw_km_set_repeat.s</td><td class="cdecl">uint8_t fw_km_set_repeat(uint8_t key_number, enum fw_byte_all_or_nothing repeat_allowed);<br /></td></tr>
+<tr><td><span class="fw_call_name">KM GET REPEAT</span></td><td class="cdecl"></td><td class="cdecl">fw_km_get_repeat.s</td><td class="cdecl">enum fw_byte_all_or_nothing fw_km_get_repeat(uint8_t key_number) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">KM SET DELAY</span></td><td class="cdecl"></td><td class="cdecl">fw_km_set_delay.s</td><td class="cdecl">void fw_km_set_delay(uint8_t startup_delay, uint8_t repeat_speed);<br /></td></tr>
+<tr><td><span class="fw_call_name">KM GET DELAY</span></td><td class="cdecl">	_fw_km_get_delay == 0xBB42</td><td class="cdecl"></td><td class="cdecl">uint16_t fw_km_get_delay(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">KM DISARM BREAK</span></td><td class="cdecl">	_fw_km_disarm_break == 0xBB48</td><td class="cdecl"></td><td class="cdecl">void fw_km_disarm_break(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">KM BREAK EVENT</span></td><td class="cdecl">	_fw_km_break_event == 0xBB4B</td><td class="cdecl"></td><td class="cdecl">void fw_km_break_event(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">KM FLUSH</span></td><td class="cdecl">	_fw_km_flush == 0xBD3D</td><td class="cdecl"></td><td class="cdecl">void fw_km_flush(void);<br /></td></tr>
+</table>
+<h3>Package <span class="fw_call_name">LKJB</span></h3>
+<table>
+<tr><th>Call</th><th>Direct</th><th>Wrapper</th><th>C-level prototype(s)</th></tr>
+<tr><td><span class="fw_call_name">LKJB RESET ENTRY</span></td><td class="cdecl">	_fw_lkjb_reset_entry == 0x0000</td><td class="cdecl"></td><td class="cdecl">void fw_lkjb_reset_entry(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">LKJB LOW JUMP</span></td><td class="cdecl">	_fw_lkjb_low_jump == 0x0008</td><td class="cdecl"></td><td class="cdecl">void fw_lkjb_low_jump(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">LKJB SIDE CALL</span></td><td class="cdecl">	_fw_lkjb_side_call == 0x0010</td><td class="cdecl"></td><td class="cdecl">void fw_lkjb_side_call(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">LKJB FAR CALL</span></td><td class="cdecl">	_fw_lkjb_far_call == 0x0018</td><td class="cdecl"></td><td class="cdecl">void fw_lkjb_far_call(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">LKJB FIRM JUMP</span></td><td class="cdecl">	_fw_lkjb_firm_jump == 0x0028</td><td class="cdecl"></td><td class="cdecl">void fw_lkjb_firm_jump(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">LKJB INTERRUPT ENTRY</span></td><td class="cdecl">	_fw_lkjb_interrupt_entry == 0x0038</td><td class="cdecl"></td><td class="cdecl">void fw_lkjb_interrupt_entry(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">LKJB EXIT INTERRUPT</span></td><td class="cdecl">	_fw_lkjb_exit_interrupt == 0x003B</td><td class="cdecl"></td><td class="cdecl">void fw_lkjb_exit_interrupt(void);<br /></td></tr>
+</table>
+<h3>Package <span class="fw_call_name">MC</span></h3>
+<table>
+<tr><th>Call</th><th>Direct</th><th>Wrapper</th><th>C-level prototype(s)</th></tr>
+<tr><td><span class="fw_call_name">MC WAIT FLYBACK</span></td><td class="cdecl">	_fw_mc_wait_flyback == 0xBD19</td><td class="cdecl"></td><td class="cdecl">void fw_mc_wait_flyback(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">MC RESET PRINTER</span></td><td class="cdecl">	_fw_mc_reset_printer == 0xBD28</td><td class="cdecl"></td><td class="cdecl">void fw_mc_reset_printer(void);<br /></td></tr>
+</table>
+<h3>Package <span class="fw_call_name">SCR</span></h3>
+<table>
+<tr><th>Call</th><th>Direct</th><th>Wrapper</th><th>C-level prototype(s)</th></tr>
+<tr><td><span class="fw_call_name">SCR SET MODE</span></td><td class="cdecl"></td><td class="cdecl">fw_scr_set_mode.s</td><td class="cdecl">void fw_scr_set_mode(unsigned char x);<br /></td></tr>
+<tr><td><span class="fw_call_name">SCR INITIALISE</span></td><td class="cdecl">	_fw_scr_initialise == 0xBBFF</td><td class="cdecl"></td><td class="cdecl">void fw_scr_initialise(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">SCR RESET</span></td><td class="cdecl">	_fw_scr_reset == 0xBC02</td><td class="cdecl"></td><td class="cdecl">void fw_scr_reset(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">SCR CLEAR</span></td><td class="cdecl">	_fw_scr_clear == 0xBC14</td><td class="cdecl"></td><td class="cdecl">void fw_scr_clear(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">SCR MODE CLEAR</span></td><td class="cdecl">	_fw_scr_mode_clear == 0xBDEB</td><td class="cdecl"></td><td class="cdecl">void fw_scr_mode_clear(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">SCR SET INK</span></td><td class="cdecl"></td><td class="cdecl">fw_scr_set_ink.s</td><td class="cdecl">void fw_scr_set_ink( uint8_t pen, uint8_t color1, uint8_t color2 );<br /></td></tr>
+<tr><td><span class="fw_call_name">SCR SET BORDER</span></td><td class="cdecl"></td><td class="cdecl">fw_scr_set_border.s</td><td class="cdecl">void fw_scr_set_border( uint8_t color1, uint8_t color2 );<br /></td></tr>
+</table>
+<h3>Package <span class="fw_call_name">SOUND</span></h3>
+<table>
+<tr><th>Call</th><th>Direct</th><th>Wrapper</th><th>C-level prototype(s)</th></tr>
+<tr><td><span class="fw_call_name">SOUND RESET</span></td><td class="cdecl">	_fw_sound_reset == 0xBCA7</td><td class="cdecl"></td><td class="cdecl">void fw_sound_reset(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">SOUND CONTINUE</span></td><td class="cdecl">	_fw_sound_continue == 0xBCB9</td><td class="cdecl"></td><td class="cdecl">void fw_sound_continue(void);<br /></td></tr>
+</table>
+<h3>Package <span class="fw_call_name">TXT</span></h3>
+<table>
+<tr><th>Call</th><th>Direct</th><th>Wrapper</th><th>C-level prototype(s)</th></tr>
+<tr><td><span class="fw_call_name">TXT INITIALISE</span></td><td class="cdecl">	_fw_txt_initialise == 0xBB4E</td><td class="cdecl"></td><td class="cdecl">void fw_txt_initialise(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT RESET</span></td><td class="cdecl">	_fw_txt_reset == 0xBB51</td><td class="cdecl"></td><td class="cdecl">void fw_txt_reset(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT VDU ENABLE</span></td><td class="cdecl">	_fw_txt_vdu_enable == 0xBB54</td><td class="cdecl"></td><td class="cdecl">void fw_txt_vdu_enable(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT VDU DISABLE</span></td><td class="cdecl">	_fw_txt_vdu_disable == 0xBB57</td><td class="cdecl"></td><td class="cdecl">void fw_txt_vdu_disable(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT OUTPUT</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_output.s</td><td class="cdecl">void fw_txt_output(unsigned char c) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT WR CHAR</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_wr_char.s</td><td class="cdecl">void fw_txt_wr_char(unsigned char c) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT RD CHAR</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_rd_char.s</td><td class="cdecl">uint16_t fw_txt_rd_char(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT SET GRAPHIC</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_graphic.s</td><td class="cdecl">void fw_txt_set_graphic(bool enable) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT WIN ENABLE</span></td><td class="cdecl">	_fw_txt_win_enable__fastcall == 0xBB66</td><td class="cdecl">fw_txt_win_enable.s</td><td class="cdecl">void fw_txt_win_enable(uint8_t left, uint8_t right, uint8_t top, uint8_t bottom);<br />
+void fw_txt_win_enable__fastcall(uint32_t fw_txt_window_t_asint) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT WIN ENABLE</span></td><td class="cdecl">	_fw_txt_win_enable__fastcall == 0xBB66</td><td class="cdecl">fw_txt_win_enable.s</td><td class="cdecl">void fw_txt_win_enable(uint8_t left, uint8_t right, uint8_t top, uint8_t bottom);<br />
+void fw_txt_win_enable__fastcall(uint32_t fw_txt_window_t_asint) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT GET WINDOW</span></td><td class="cdecl">	_fw_txt_get_window == 0xBB69</td><td class="cdecl"></td><td class="cdecl">uint32_t fw_txt_get_window(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT CLEAR WINDOW</span></td><td class="cdecl">        _fw_txt_clear_window == 0xBB6C</td><td class="cdecl"></td><td class="cdecl">void fw_txt_clear_window(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT SET COLUMN</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_column.s</td><td class="cdecl">void fw_txt_set_column(int8_t column) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT SET ROW</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_row.s</td><td class="cdecl">void fw_txt_set_row(int8_t row) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT SET CURSOR</span></td><td class="cdecl">	_fw_txt_set_cursor__fastcall == 0xBB75</td><td class="cdecl">fw_txt_set_cursor.s</td><td class="cdecl">void fw_txt_set_cursor(int8_t row, int8_t column);<br />
+void fw_txt_set_cursor__fastcall(int16_t colum8h_row8l) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT SET CURSOR</span></td><td class="cdecl">	_fw_txt_set_cursor__fastcall == 0xBB75</td><td class="cdecl">fw_txt_set_cursor.s</td><td class="cdecl">void fw_txt_set_cursor(int8_t row, int8_t column);<br />
+void fw_txt_set_cursor__fastcall(int16_t colum8h_row8l) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT GET CURSOR</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_get_cursor.s</td><td class="cdecl">uint32_t fw_txt_get_cursor();<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT CUR ENABLE</span></td><td class="cdecl">	_fw_txt_cur_enable == 0xBB7B</td><td class="cdecl"></td><td class="cdecl">void fw_txt_cur_enable(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT CUR DISABLE</span></td><td class="cdecl">	_fw_txt_cur_disable == 0xBB7E</td><td class="cdecl"></td><td class="cdecl">void fw_txt_cur_disable(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT CUR ON</span></td><td class="cdecl">	_fw_txt_cur_on == 0xBB81</td><td class="cdecl"></td><td class="cdecl">void fw_txt_cur_on(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT CUR OFF</span></td><td class="cdecl">	_fw_txt_cur_off == 0xBB84</td><td class="cdecl"></td><td class="cdecl">void fw_txt_cur_off(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT VALIDATE</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_validate.s</td><td class="cdecl">uint32_t fw_txt_validate(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT PLACE CURSOR</span></td><td class="cdecl">	_fw_txt_place_cursor == 0xBB8A</td><td class="cdecl"></td><td class="cdecl">void fw_txt_place_cursor(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT REMOVE CURSOR</span></td><td class="cdecl">	_fw_txt_remove_cursor == 0xBB8D</td><td class="cdecl"></td><td class="cdecl">void fw_txt_remove_cursor(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT SET PEN</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_pen.s</td><td class="cdecl">void fw_txt_set_pen(uint8_t p) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT GET PEN</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_get_pen.s</td><td class="cdecl">uint8_t fw_txt_get_pen(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT SET PAPER</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_paper.s</td><td class="cdecl">void fw_txt_set_paper(uint8_t p) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT GET PAPER</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_get_paper.s</td><td class="cdecl">uint8_t fw_txt_get_paper(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT INVERSE</span></td><td class="cdecl">	_fw_txt_inverse == 0xBB9C</td><td class="cdecl"></td><td class="cdecl">void fw_txt_inverse(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT SET BACK</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_back.s</td><td class="cdecl">void fw_txt_set_back(uint8_t is_transparent) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT GET BACK</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_get_back.s</td><td class="cdecl">uint8_t fw_txt_get_back(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT SET MATRIX</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_matrix.s</td><td class="cdecl">enum fw_byte_all_or_nothing fw_txt_set_matrix(uint8_t character, fw_txt_character_matrix_t *matrix);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT DRAW CURSOR</span></td><td class="cdecl">	_fw_txt_draw_cursor == 0xBDCD</td><td class="cdecl"></td><td class="cdecl">void fw_txt_draw_cursor(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT UNDRAW CURSOR</span></td><td class="cdecl">	_fw_txt_undraw_cursor == 0xBDD0</td><td class="cdecl"></td><td class="cdecl">void fw_txt_undraw_cursor(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT SET M TABLE</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_m_table.s</td><td class="cdecl">uint32_t fw_txt_set_m_table(fw_txt_character_matrix_t *buffer, bool disable, uint8_t lowest_affected_character);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT GET M TABLE</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_get_m_table.s</td><td class="cdecl">uint32_t fw_txt_get_m_table();<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT STR SELECT</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_str_select.s</td><td class="cdecl">uint8_t fw_txt_str_select();<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT SWAP STREAMS</span></td><td class="cdecl"></td><td class="cdecl"></td><td class="cdecl">void fw_txt_swap_streams(uint8_t stream1, uint8_t stream2);<br /></td></tr>
+</table>
+<h2>Conclusion</h2>
+Happy hacking! Start there: <a href="https://github.com/cpcitor/cpc-dev-tool-chain" title="cpcitor/cpc-dev-tool-chain: A development toolchain to compile your C or assembly projects on a modern OS and run your compiled projects on an Amstrad CPC or emulator. Early stage, simple and already usable.">cpc-dev-tool-chain on GitHub.</a>
+</html>

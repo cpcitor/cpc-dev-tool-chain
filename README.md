@@ -17,6 +17,18 @@ This is a portable toolchain for C/ASM development targetting the Amstrad CPC pl
 * You can edit source and get another image, at will.
 * Eventually it will allow you to edit your graphics/music/whatever in your preferred editor, save, get another image, run.
 
+### C? But Amstrad did not provide a C-level API!
+
+Sure. But we made one.
+
+To be complete, there are options:
+
+* Use CFWI, our provided **thin** C-level API around CPC **firmware**.  Imagine most elements from amstrad CPC Basic available with the **ease of use of** C.  See [coverage statistics](https://cdn.rawgit.com/cpcitor/cpc-dev-tool-chain/master/cpclib/cfwi/coverage.html).
+* If you're after 2D sprite routines consider using a cousin project, [cpctelera](https://github.com/lronaldo/cpctelera "lronaldo/cpctelera: Astonishingly fast Amstrad CPC game engine for C developers").
+* From C call **your assembly routines**.  Assembly can call firmware or hardware directly.  As efficient as assembly can be!  Wolfenstein 3D (running on 16bit processor 80286) then Doom were fully written in C except one line drawing routine in assembly!
+
+You can mix-and-match options, like using firmware at initialization because it's easy, then switch to own routines or even pure ASM once hardware is initialized.
+
 ### Why would I want to use that ?
 
 * If you know to program in C and want to try that for the CPC without first learning all details of all tools.

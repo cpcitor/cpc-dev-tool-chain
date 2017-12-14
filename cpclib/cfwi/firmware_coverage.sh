@@ -84,7 +84,7 @@ cat <<EOF
 /* Amstrad font inclusion */
 /* @font-face kit by Fonts2u (http://www.fonts2u.com) */
 @font-face {
-  font-family: "../../font/amstrad";
+  font-family: "Amstrad";
   font-style: normal;
   font-weight: 400;
   src: url("../../font/amstrad_cpc464.eot") format("eot"),

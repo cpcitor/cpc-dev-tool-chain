@@ -373,6 +373,27 @@ void fw_gra_win_height(int16_t y1, int16_t y2);
 */
 void fw_gra_win_height__fastcall(int32_t fw_gra_y_y_coordinates_t_asint) __z88dk_fastcall;
 
+/** 73: GRA CLEAR WINDOW
+    #BBDB
+    Clear the graphics window.
+    Action:
+    Clear the graphics window to the graphics paper ink.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    AF, BC, DE and HL corrupt.
+    All other registers preserved.
+    Notes:
+    The current graphics position is moved to the origin of the user coordinates.
+    Related entries:
+    GRA SET PAPER
+    GRA WIN HEIGHT
+    GRA WIN WIDTH
+    SCR CLEAR
+    TXT CLEAR WINDOW
+*/
+void fw_gra_clear_window(void);
+
 
 void fw_gra_line_relative(int x, int y);
 void fw_gra_plot_relative(int x, int y);
@@ -388,7 +409,6 @@ unsigned char fw_gra_get_paper(void);
 
 void fw_gra_wr_char(char character);
 
-void fw_gra_clear_window(void);
 void fw_gra_default(void);
 
 #endif /* __FW_GRA_H__ */

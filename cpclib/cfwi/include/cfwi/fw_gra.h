@@ -3,11 +3,15 @@
 
 #include <stdint.h>
 
-/** Can be used:
+/** This structure (union/struct actually) was introduced to decode output of
+    fw_gra_ask_cursor().
+    
+    It is also a natural structure to hold coordinates.
 
- - as fastcall entry to firmware calls that expect X and Y coordinates,
-
- - to decode output of fw_gra_ask_cursor(). */
+    If you use is for that storage purpose, then it is natural to also
+    use the fastcall variants of drawing calls that expect X and Y
+    coordinates.
+*/
 typedef union fw_gra_x_y_coordinates_t
 {
 	struct

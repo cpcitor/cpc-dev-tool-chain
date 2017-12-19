@@ -267,11 +267,17 @@ uint16_t fw_txt_rd_char(void);
 */
 void fw_txt_set_graphic(bool enable) __z88dk_fastcall;
 
-/** Used for fw_txt_win_enable() and to decode fw_txt_get_window().
+/** This structure (union/struct actually) was introduced to decode
+    output of fw_txt_get_window().
 
- * column values are between 0 and 19,39 or 79 included, depending on mode.
- * line values are between 0 and 24, included.
+    It is also a natural structure to hold window definitions or other
+    rectangle coordinates (that fit in an unsigned byte).
 
+    If you use is for that storage purpose, then it is natural to also
+    use the fastcall variants of fw_txt_win_enable().
+
+    * column values are between 0 and 19,39 or 79 included, depending on mode.
+    * line values are between 0 and 24, included.
 */
 typedef union fw_txt_window_t
 {
@@ -333,6 +339,10 @@ typedef union fw_txt_window_t
 void fw_txt_win_enable(uint8_t left, uint8_t right, uint8_t top, uint8_t bottom);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    The fastcall variant may be useful if you already have a reason to
+    use the union/struct fw_txt_win_enable to store coordinates.  Else
+    it won't save you anything.
 
     Use the fastcall variant like this:
 

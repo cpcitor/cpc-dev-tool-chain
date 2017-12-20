@@ -394,12 +394,35 @@ void fw_gra_win_height__fastcall(int32_t fw_gra_y_y_coordinates_t_asint) __z88dk
 */
 void fw_gra_clear_window(void);
 
+/** 74: GRA SET PEN
+    #BBDE
+    Set the graphics plotting ink.
+    Action:
+    Set the graphics pen ink. This is the ink by the Graphics VDU for plotting points,
+    drawing lines and writing characters.
+    Entry conditions:
+    A contains the required ink.
+    Exit conditions:
+    AF corrupt.
+    All other registers preserved.
+    Notes:
+    The ink is masked to bring it in the range of inks for the current screen mode. In mode
+    0 the mask is #0F, in mode 1 it is #03 and in mode 2 it is #01.
+    In V1.1 firmware the graphics pen ink is taken to delimit the edge of the area to fill
+    when flood filling areas of the screen.
+    Related entries:
+    GRA GET PEN
+    GRA SET PAPER
+    SCR SET INK
+    TXT SET PEN
+*/
+void fw_gra_set_pen(unsigned char pencolor) __z88dk_fastcall;
+
 
 void fw_gra_line_relative(int x, int y);
 void fw_gra_plot_relative(int x, int y);
 void fw_gra_test_relative(int x, int y);
 
-void fw_gra_set_pen(unsigned char pencolor);
 
 unsigned char fw_gra_get_pen(void);
 

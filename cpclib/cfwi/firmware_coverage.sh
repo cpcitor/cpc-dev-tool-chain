@@ -75,6 +75,8 @@ TOTAL_FW_TWICE_COVERED_COUNT=$( list_c_covered_fw_calls_with_and_without_wrapper
 
 # Start output
 
+# save stdout and redirect to coverage.html
+exec 4<&1
 exec >coverage.html
 
 TITLE="Firmware coverage in cpc-dev-tool-chain's CFWI (C-firmware interface)"
@@ -247,14 +249,22 @@ echo '<p>Happy hacking! Start there: <a href="https://github.com/cpcitor/cpc-dev
 echo "</body>"
 echo "</html>"
 
+# restore stdout
+exec 1<&4
+
+for symbolname in $( list_c_function_names )
+do
+    NOWRAPPER_COUNT=$( nowrappers_lines | grep "_$symbolname " | wc -l )
+    WRAPPER_COUNT=$( list_fw_wrappers | grep "$symbolname\.s$" | wc -l )
+    TOTAL=$(( $NOWRAPPER_COUNT + $WRAPPER_COUNT ))
+
+    if [[ "$TOTAL" != "1" ]]
+    then
+	echo -e "$NOWRAPPER_COUNT + $WRAPPER_COUNT = $TOTAL\t$symbolname" >&2
+    fi
+done
+
 exit 0
-
-
-## Count functions implemented
-
-grep -i '^[a-z].* fw_.*;$' include/cfwi/*.h | sed 's/^\+//' | grep -o " fw_[^b][^ ]*" | sort | uniq | grep -o 'fw_[^_]*' | sort | uniq -c
-
-## Count wrappers
 
 ## Count functions updated since some commit
 

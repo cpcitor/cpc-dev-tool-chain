@@ -57,12 +57,12 @@ TOTAL_FW_NOWRAPPERS_COUNT=$( nowrappers_lines | wc -l )
 
 ### wrappers
 
-function list_fw_wrappers()
+function list_fw_wrapper_files()
 {
     ls -1b src/fw_*.s | grep -v fw_nowrapperneeded | sed 's|src/||'
 }
 
-TOTAL_FW_WRAPPERS_COUNT=$( list_fw_wrappers | wc -l )
+TOTAL_FW_WRAPPERS_COUNT=$( list_fw_wrapper_files | wc -l )
 
 ### both
 
@@ -210,7 +210,7 @@ do
     TRADINAME=$( c_style_names_to_html_fw_call_span "$package" )
     COVERED=$( list_c_function_names | in_package_count )
     NOWRAPPERS=$( nowrappers_lines | in_package_count )
-    WRAPPED=$( list_fw_wrappers | in_package_count )
+    WRAPPED=$( list_fw_wrapper_files | in_package_count )
     #TWICE=$( list_c_covered_fw_calls_with_and_without_wrapper | grep _${package}_ )
     #TWICE_FORMATTED=$( c_style_names_to_html_fw_call_span $TWICE )
     # <td>$TWICE_FORMATTED</td>
@@ -234,7 +234,7 @@ do
     do
 	TRADINAME=$( c_style_names_to_html_fw_call_span "$callname" )
 	NOWRAPPERS=$( nowrappers_lines | grep $callname )
-	WRAPPER=$( list_fw_wrappers | grep $callname )
+	WRAPPER=$( list_fw_wrapper_files | grep $callname )
 	PROTOTYPES=$( list_c_prototypes | grep $callname | sed 's|$|<br />|')
 	#TWICE=$( list_c_covered_fw_calls_with_and_without_wrapper | grep _${package}_ )
 	#TWICE_FORMATTED=$( c_style_names_to_html_fw_call_span $TWICE )
@@ -257,7 +257,7 @@ exec 1<&4
 for symbolname in $( list_c_function_names )
 do
     NOWRAPPER_COUNT=$( nowrappers_lines | grep "_$symbolname " | wc -l )
-    WRAPPER_COUNT=$( list_fw_wrappers | grep "$symbolname\.s$" | wc -l )
+    WRAPPER_COUNT=$( list_fw_wrapper_files | grep "$symbolname\.s$" | wc -l )
     TOTAL=$(( $NOWRAPPER_COUNT + $WRAPPER_COUNT ))
 
     if [[ "$TOTAL" != "1" ]]

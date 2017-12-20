@@ -149,7 +149,7 @@ function sanity_check_pass_fail()
 	fi
 	    )
     
-    html_out_variable "Sanity check $1==$2 ($3)" "$PASSFAIL"
+    html_out_variable "Sanity check $1==$2 <br/>$3" "$PASSFAIL"
 }
 
 function html_out_variable()

@@ -19,6 +19,8 @@
 	_fw_gra_reset == 0xBBBD
 	_fw_gra_move_absolute__fastcall == 0xBBC0
 	_fw_gra_move_relative__fastcall == 0xBBC3
+	_fw_gra_ask_cursor == 0xBBC6
+	
 	_fw_gra_clear_window == 0xBBDB
 
 	_fw_cas_initialise == 0xBC65

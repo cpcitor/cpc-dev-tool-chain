@@ -3,6 +3,11 @@
 
 #include <stdint.h>
 
+/** Can be used:
+
+ - as fastcall entry to firmware calls that expect X and Y coordinates,
+
+ - to decode output of fw_gra_ask_cursor(). */
 typedef union fw_gra_x_y_coordinates_t
 {
 	struct
@@ -135,6 +140,40 @@ void fw_gra_move_relative(int16_t x, int16_t y);
     fw_gra_move_relative__fastcall(window_def.as_uint32_t);
 */
 void fw_gra_move_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;
+
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    #### CFWI-specific information: ####
+
+    Since C cannot handle carry flag, the information is returned like this:
+
+    fw_gra_x_y_coordinates_t xy;
+    xy.as_uint32_t = fw_gra_ask_cursor();
+    printf("x=%d, y=%d", xy.x, xy.y);
+
+    66: GRA ASK CURSOR
+    #BBC6
+    Get the current position.
+    Action:
+    Ask where the current graphics position is.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    DE contains the user X coordinate.
+    HL contains the user Y coordinate.
+    AF corrupt.
+    All other registers preserved.
+    Notes:
+    The new position is given in user coordinates. i.e. Relative to the user origin.
+    The Graphics VDU plotting, testing and line drawing routines all move the current
+    graphics position to the point (or endpoint) specified automatically. Thus, the position
+    returned is probably where the last point was plotted or tested.
+    Related entries:
+    GRA MOVE ABSOLUTE
+    GRA MOVE RELATIVE
+*/
+uint32_t fw_gra_ask_cursor(void);
+
 
 void fw_gra_line_relative(int x, int y);
 void fw_gra_plot_relative(int x, int y);

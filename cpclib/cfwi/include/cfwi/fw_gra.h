@@ -418,13 +418,33 @@ void fw_gra_clear_window(void);
 */
 void fw_gra_set_pen(unsigned char pencolor) __z88dk_fastcall;
 
+/** 75: GRA GET PEN
+    #BBE1
+    Get the current graphics plotting ink.
+    Action:
+    Ask what the current graphics pen ink is set to. This is the ink used by the Graphics
+    VDU for plotting points, drawing lines and writing characters.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    A contains the ink.
+    Flags corrupt.
+    All other registers preserved.
+    Notes:
+    This routine has no other effects.
+    Related entries:
+    GRA GET PAPER
+    GRA SET PEN
+    SCR GET INK
+    TXT GET PEN
+*/
+unsigned char fw_gra_get_pen(void);
 
 void fw_gra_line_relative(int x, int y);
 void fw_gra_plot_relative(int x, int y);
 void fw_gra_test_relative(int x, int y);
 
 
-unsigned char fw_gra_get_pen(void);
 
 void fw_gra_set_paper(unsigned char papercolor);
 

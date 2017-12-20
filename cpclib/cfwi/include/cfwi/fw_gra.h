@@ -466,6 +466,28 @@ unsigned char fw_gra_get_pen(void);
 */
 void fw_gra_set_paper(uint8_t papercolor) __z88dk_fastcall;
 
+/** 77: GRA GET PAPER
+    #BBE7
+    Get the current graphics background ink.
+    Action:
+    Ask what the current graphics paper ink is set to.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    A contains the ink.
+    Flags corrupt.
+    All other registers preserved.
+    Notes:
+    The paper ink is the ink that is used for clearing the graphics window, and writing
+    background to characters. It is assumed to cover everywhere outside the graphics
+    window when testing points.
+    Related entries:
+    GRA GET PEN
+    GRA SET PAPER
+    SCR GET INK
+    TXT GET PAPER
+*/
+unsigned char fw_gra_get_paper(void);
 void fw_gra_line_relative(int x, int y);
 void fw_gra_plot_relative(int x, int y);
 void fw_gra_test_relative(int x, int y);
@@ -473,7 +495,6 @@ void fw_gra_test_relative(int x, int y);
 
 
 
-unsigned char fw_gra_get_paper(void);
 
 void fw_gra_wr_char(char character);
 

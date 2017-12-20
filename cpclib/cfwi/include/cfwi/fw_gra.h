@@ -178,6 +178,41 @@ void fw_gra_move_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z
 */
 uint32_t fw_gra_ask_cursor(void);
 
+/** 67: GRA SET ORIGIN
+    #BBC9
+    Set the origin of the user coordinates.
+    Action:
+    Set the location of the user origin and move the current position there.
+    Entry conditions:
+    DE contains the standard X coordinate of the origin.
+    HL contains the standard Y coordinate of the origin.
+    Exit conditions:
+    AF, BC, DE and HL corrupt.
+    All other registers preserved.
+    Notes:
+    The origin position is given is standard coordinates in which (0,0) is the bottom left
+    corner of the screen.
+    The default origin position is at (0,0). Whenever the screen mode is changed, by
+    calling SCR SET MODE, the origin is restored to its default position.
+    Related entries:
+    GRA FROM USER
+    GRA GET ORIGIN
+*/
+void fw_gra_set_origin(int16_t x, int16_t y);
+
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    The fastcall variant may be useful if you already have a reason to
+    use the union/struct fw_txt_win_enable to store coordinates.  Else
+    it won't save you anything.
+
+    Use the fastcall variant like this:
+
+    fw_gra_x_y_coordinates_t xy = { 85, 63 }; // example values
+    fw_gra_set_origin__fastcall(xy.as_uint32_t);
+*/
+void fw_gra_set_origin__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;
+
 
 void fw_gra_line_relative(int x, int y);
 void fw_gra_plot_relative(int x, int y);

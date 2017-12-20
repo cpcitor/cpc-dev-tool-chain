@@ -6,21 +6,21 @@ TOTAL_FW_CALL_COUNT=201
 
 ### C-level
 
-function list_prototypes() {
+function list_c_prototypes() {
     grep -ih '^[a-z].* fw_.*(.*).*;' include/cfwi/*.h
 }
 
-function list_function_names() {
-    list_prototypes | sed -n "s/^.* \(fw_[^(]*\)(.*$/\1/p"
+function list_c_function_names() {
+    list_c_prototypes | sed -n "s/^.* \(fw_[^(]*\)(.*$/\1/p"
 }
 
 ### firmware
 
-function list_fw_calls_covered() {
-    list_function_names | sed "s/__fastcall//" | uniq
+function list_c_covered_fw_calls() {
+    list_c_function_names | sed "s/__fastcall//" | uniq
 }
 
-TOTAL_FW_CALL_COVERED_COUNT=$( list_fw_calls_covered | wc -l )
+TOTAL_C_COVERED_FW_CALL_COUNT=$( list_c_covered_fw_calls | wc -l )
 
 function c_style_names_to_tradi_names()
 {
@@ -64,12 +64,12 @@ TOTAL_FW_WRAPPERS_COUNT=$( list_fw_wrappers | wc -l )
 
 ### both
 
-function list_fw_calls_covered_with_and_without_wrapper()
+function list_c_covered_fw_calls_with_and_without_wrapper()
 {
-    list_function_names | sed -n "s/^\(.*\)__fastcall$/\1/p"
+    list_c_function_names | sed -n "s/^\(.*\)__fastcall$/\1/p"
 }
 
-TOTAL_FW_TWICE_COVERED_COUNT=$( list_fw_calls_covered_with_and_without_wrapper | wc -l )
+TOTAL_FW_TWICE_COVERED_COUNT=$( list_c_covered_fw_calls_with_and_without_wrapper | wc -l )
 
 # Start output
 
@@ -144,16 +144,16 @@ echo "<h1>$TITLE</h1>"
 
 echo "<h2>Global Statistics</h2>"
 
-PERCENTAGE=$( echo "$TOTAL_FW_CALL_COVERED_COUNT 100 * $TOTAL_FW_CALL_COUNT / p" | dc )
+PERCENTAGE=$( echo "$TOTAL_C_COVERED_FW_CALL_COUNT 100 * $TOTAL_FW_CALL_COUNT / p" | dc )
 
 echo "<p>Overall coverage percentage: ${PERCENTAGE}%</p>"
 
 echo "<table>"
 
 html_out_variable "Total fw calls as per SOFT968 official documentation" "$TOTAL_FW_CALL_COUNT"
-html_out_variable "Total fw calls covered (made available to C)" "$TOTAL_FW_CALL_COVERED_COUNT"
-html_out_variable "Total fw calls covered with C prototype and ASM symbol" "$TOTAL_FW_NOWRAPPERS_COUNT"
-html_out_variable "Total fw calls covered with C prototype and ASM wrapper" "$TOTAL_FW_WRAPPERS_COUNT"
+html_out_variable "Total fw calls covered in C whatever the mean(s)" "$TOTAL_C_COVERED_FW_CALL_COUNT"
+html_out_variable "Total direct ASM symbols (not wrappers) count" "$TOTAL_FW_NOWRAPPERS_COUNT"
+html_out_variable "Total wrapper ASM wrapper count" "$TOTAL_FW_WRAPPERS_COUNT"
 html_out_variable "Total fw calls covered both without <span style=\"font-weight: bold\">and</span> with wrapper" "$TOTAL_FW_TWICE_COVERED_COUNT"
 
 SC_TOTAL_COVERED_WITH_AND_WITHOUT_WRAPPER_NODUPLICATE=$(( $TOTAL_FW_NOWRAPPERS_COUNT + $TOTAL_FW_WRAPPERS_COUNT - $TOTAL_FW_TWICE_COVERED_COUNT ))
@@ -161,16 +161,16 @@ SC_TOTAL_COVERED_WITH_AND_WITHOUT_WRAPPER_NODUPLICATE=$(( $TOTAL_FW_NOWRAPPERS_C
 html_out_variable "Total fw calls covered, filtering duplicate coverage" "$SC_TOTAL_COVERED_WITH_AND_WITHOUT_WRAPPER_NODUPLICATE"
 
 PASSFAIL=$(
-if [[ $SC_TOTAL_COVERED_WITH_AND_WITHOUT_WRAPPER_NODUPLICATE == $TOTAL_FW_CALL_COVERED_COUNT ]]
+if [[ $SC_TOTAL_COVERED_WITH_AND_WITHOUT_WRAPPER_NODUPLICATE == $TOTAL_C_COVERED_FW_CALL_COUNT ]]
 then
     echo PASS
 else
-    echo >&2 "WARNING: Sanity check fail $SC_TOTAL_COVERED_WITH_AND_WITHOUT_WRAPPER_NODUPLICATE != $TOTAL_FW_CALL_COVERED_COUNT"
+    echo >&2 "WARNING: Sanity check fail $SC_TOTAL_COVERED_WITH_AND_WITHOUT_WRAPPER_NODUPLICATE != $TOTAL_C_COVERED_FW_CALL_COUNT"
     echo FAIL
 fi
 	)
 
-html_out_variable "Sanity check $SC_TOTAL_COVERED_WITH_AND_WITHOUT_WRAPPER_NODUPLICATE==$TOTAL_FW_CALL_COVERED_COUNT" "$PASSFAIL"
+html_out_variable "Sanity check $SC_TOTAL_COVERED_WITH_AND_WITHOUT_WRAPPER_NODUPLICATE==$TOTAL_C_COVERED_FW_CALL_COUNT" "$PASSFAIL"
 
 echo "</table>"
 
@@ -179,7 +179,7 @@ echo "</table>"
 
 function list_packages()
 {
-    list_fw_calls_covered | sed -n 's/fw_\([^_]*\)_.*$/\1/p' | sort | uniq
+    list_c_covered_fw_calls | sed -n 's/fw_\([^_]*\)_.*$/\1/p' | sort | uniq
 }
 
 function in_package_count()
@@ -197,10 +197,10 @@ echo "<tr><th>Package</th><th>Calls covered</th><th>Direct</th><th>Wrapper</th><
 for package in $( list_packages )
 do
     TRADINAME=$( c_style_names_to_html_fw_call_span "$package" )
-    COVERED=$( list_function_names | in_package_count )
+    COVERED=$( list_c_function_names | in_package_count )
     NOWRAPPERS=$( nowrappers_lines | in_package_count )
     WRAPPED=$( list_fw_wrappers | in_package_count )
-    #TWICE=$( list_fw_calls_covered_with_and_without_wrapper | grep _${package}_ )
+    #TWICE=$( list_c_covered_fw_calls_with_and_without_wrapper | grep _${package}_ )
     #TWICE_FORMATTED=$( c_style_names_to_html_fw_call_span $TWICE )
     # <td>$TWICE_FORMATTED</td>
     echo "<tr><td>$TRADINAME</td><td>$COVERED</td><td>$NOWRAPPERS</td><td>$WRAPPED</td></tr>"
@@ -219,13 +219,13 @@ do
     echo "<table>"
     echo "<tr><th>Call</th><th>Direct</th><th>Wrapper</th><th>C-level prototype(s)</th></tr>"
 
-    for callname in $( list_fw_calls_covered | grep "^fw_${package}_" )
+    for callname in $( list_c_covered_fw_calls | grep "^fw_${package}_" )
     do
 	TRADINAME=$( c_style_names_to_html_fw_call_span "$callname" )
 	NOWRAPPERS=$( nowrappers_lines | grep $callname )
 	WRAPPED=$( list_fw_wrappers | grep $callname )
-	PROTOTYPES=$( list_prototypes | grep $callname | sed 's|$|<br />|')
-	#TWICE=$( list_fw_calls_covered_with_and_without_wrapper | grep _${package}_ )
+	PROTOTYPES=$( list_c_prototypes | grep $callname | sed 's|$|<br />|')
+	#TWICE=$( list_c_covered_fw_calls_with_and_without_wrapper | grep _${package}_ )
 	#TWICE_FORMATTED=$( c_style_names_to_html_fw_call_span $TWICE )
 	# <td>$TWICE_FORMATTED</td>
 	echo "<tr><td>$TRADINAME</td><td class=\"cdecl\">$NOWRAPPERS</td><td class=\"cdecl\">$WRAPPED</td><td class=\"cdecl\">$PROTOTYPES</td></tr>"

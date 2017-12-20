@@ -20,7 +20,7 @@ function list_c_covered_fw_calls() {
     list_c_function_names | sed "s/__fastcall//" | uniq
 }
 
-TOTAL_C_COVERED_FW_CALL_COUNT=$( list_c_covered_fw_calls | wc -l )
+TOTAL_C_DECLARED_FW_CALL_COUNT=$( list_c_covered_fw_calls | wc -l )
 
 function c_style_names_to_tradi_names()
 {
@@ -157,14 +157,14 @@ echo "<h1>$TITLE</h1>"
 
 echo "<h2>Global Statistics</h2>"
 
-PERCENTAGE=$( echo "$TOTAL_C_COVERED_FW_CALL_COUNT 100 * $TOTAL_FW_CALL_COUNT / p" | dc )
+PERCENTAGE=$( echo "$TOTAL_C_DECLARED_FW_CALL_COUNT 100 * $TOTAL_FW_CALL_COUNT / p" | dc )
 
 echo "<p>Overall coverage percentage: ${PERCENTAGE}%</p>"
 
 echo "<table>"
 
 html_out_variable "Total fw calls as per SOFT968 official documentation" "$TOTAL_FW_CALL_COUNT"
-html_out_variable "Total fw calls covered in C whatever the mean(s)" "$TOTAL_C_COVERED_FW_CALL_COUNT"
+html_out_variable "Total fw calls declared at C level" "$TOTAL_C_DECLARED_FW_CALL_COUNT"
 html_out_variable "Total direct ASM symbols (not wrappers) count" "$TOTAL_FW_NOWRAPPERS_COUNT"
 html_out_variable "Total wrapper ASM wrapper count" "$TOTAL_FW_WRAPPERS_COUNT"
 html_out_variable "Total fw calls covered both without <span style=\"font-weight: bold\">and</span> with wrapper" "$TOTAL_FW_TWICE_COVERED_COUNT"

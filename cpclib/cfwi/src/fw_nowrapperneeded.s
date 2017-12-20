@@ -26,6 +26,7 @@
 	_fw_gra_win_width__fastcall == 0xBBCF
 	_fw_gra_win_height__fastcall == 0xBBD2
 	_fw_gra_get_w_width == 0xBBD5
+	_fw_gra_get_w_height == 0xBBD8
 	_fw_gra_clear_window == 0xBBDB
 
 	_fw_gra_plot_absolute__fastcall == 0xBBEA

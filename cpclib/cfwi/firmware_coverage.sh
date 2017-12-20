@@ -75,12 +75,15 @@ TOTAL_FW_TWICE_COVERED_COUNT=$( list_fw_calls_covered_with_and_without_wrapper |
 
 exec >coverage.html
 
-echo "<html>"
-
-#echo '<link rel="stylesheet" href="coverage.css">'
+TITLE="Firmware coverage in cpc-dev-tool-chain's CFWI (C-firmware interface)"
 
 cat <<EOF
-<style>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>$TITLE</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style  type="text/css">
 /* Amstrad font inclusion */
 /* @font-face kit by Fonts2u (http://www.fonts2u.com) */
 @font-face {
@@ -124,7 +127,11 @@ th, td {
 }
 tr:nth-child(even) {background-color: #f2f2f2;}
 </style>
+</head>
+<body>
 EOF
+
+
 
 function html_out_variable()
 {
@@ -133,7 +140,7 @@ function html_out_variable()
 
 ## Sanity check
 
-echo "<h1>Firmware coverage in cpc-dev-tool-chain's CFWI (C-firmware interface)</h1>"
+echo "<h1>$TITLE</h1>"
 
 echo "<h2>Global Statistics</h2>"
 
@@ -223,13 +230,13 @@ do
 	echo "<tr><td>$TRADINAME</td><td class=\"cdecl\">$NOWRAPPERS</td><td class=\"cdecl\">$WRAPPED</td><td class=\"cdecl\">$PROTOTYPES</td></tr>"
     done
     echo "</table>"
-
 done
 
 echo "<h2>Conclusion</h2>"
 
-echo 'Happy hacking! Start there: <a href="https://github.com/cpcitor/cpc-dev-tool-chain" title="cpcitor/cpc-dev-tool-chain: A development toolchain to compile your C or assembly projects on a modern OS and run your compiled projects on an Amstrad CPC or emulator. Early stage, simple and already usable.">cpc-dev-tool-chain on GitHub.</a>'
+echo '<p>Happy hacking! Start there: <a href="https://github.com/cpcitor/cpc-dev-tool-chain" title="cpcitor/cpc-dev-tool-chain: A development toolchain to compile your C or assembly projects on a modern OS and run your compiled projects on an Amstrad CPC or emulator. Early stage, simple and already usable.">cpc-dev-tool-chain on GitHub.</a></p>'
 
+echo "</body>"
 echo "</html>"
 
 exit 0

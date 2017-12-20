@@ -31,6 +31,7 @@
 	_fw_gra_plot_relative__fastcall == 0xBBED
 	_fw_gra_test_absolute__fastcall == 0xBBF0
 	_fw_gra_test_relative__fastcall == 0xBBF3
+	_fw_gra_line_absolute__fastcall == 0xBBF6
 
 	_fw_cas_initialise == 0xBC65
 	_fw_cas_in_abandon == 0xBC7D

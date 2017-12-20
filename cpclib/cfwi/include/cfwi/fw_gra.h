@@ -602,7 +602,6 @@ void fw_gra_test_absolute(int16_t x, int16_t y);
 */
 void fw_gra_test_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;
 
-void fw_gra_line_relative(int x, int y);
 /** 81: GRA TEST RELATIVE
     #BBF3
     Test a point relative to the current position.
@@ -696,7 +695,58 @@ void fw_gra_line_absolute(int16_t x, int16_t y);
 */
 void fw_gra_line_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;
 
+/** 83: GRA LINE RELATIVE
+    #BBF9
+    Draw a line relative to the current position.
+    Action:
+    Move the current graphics position to the endpoint supplied. All points between this
+    position and the previous graphics position that lie inside the graphics window may be
+    plotted. Points that lie outside the graphics window are ignored.
+    Entry conditions:
+    DE contains the signed X offset of the endpoint.
+    HL contains the signed Y offset of the endpoint.
+    Exit conditions:
+    AF, BC, DE and HL corrupt.
+    All other registers preserved.
+    Notes:
+    The position of the end of the line is given in relative coordinates. i.e. Relative to the
+    current graphics position.
+    In V1.0 firmware the points will be plotted in the current graphics pen ink using the
+    current graphics write mode.
+    In V1.1 firmware the setting of the line mask determines how the pixels on the line
+    will be plotted. The line mask is bit significant and is used repeatedly in the order bit
+    7, bit 6 down to bit 0 for each pixel in the line. If the bit is one then the pixel is
+    plotted in the graphics pen ink using the current graphics write mode. If the bit is zero
+    then the action taken depends on the graphics background write mode. If the
+    background mode is opaque then the pixel is plotted in the graphics paper ink using
+    the current graphics write mode. If the background mode is transparent then the pixel
+    is not plotted.
+    In V1.1 firmware the first pixel of the line (that at the previous graphics position) is
+    not plotted if the first point plotting mode is set false.
+    This routine calls the GRA LINE indirection to draw the line. In its turn GRA LINE
+    calls the SCR WRITE indirection to write the pixels (for pixels in the graphics
+    window).
+    Related entries:
+    GRA LINE
+    GRA LINE ABSOLUTE
+    GRA SET BACK
+    GRA SET FIRST
+    GRA SET LINE MASK
+*/
+void fw_gra_line_relative(int16_t x, int16_t y);
 
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    The fastcall variant may be useful if you already have a reason to
+    use the union/struct fw_gra_x_y_coordinates_t to store coordinates.  Else
+    it won't save you anything.
+
+    Use the fastcall variant like this:
+
+    fw_gra_x_y_coordinates_t xy = { 85, 63 }; // example values
+    fw_gra_line_relative__fastcall(xy.as_uint32_t);
+*/
+void fw_gra_line_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;
 
 
 

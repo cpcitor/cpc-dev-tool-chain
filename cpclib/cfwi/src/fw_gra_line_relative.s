@@ -3,25 +3,17 @@
 _fw_gra_line_relative::
         ld      hl,#2
         add     hl,sp
-        ld      a,(hl)
-        ld      e,a
+        ld      e,(hl)
 
-        ld      hl,#3
-        add     hl,sp
-        ld      a,(hl)
-        ld      d,a
+        inc     hl
+        ld      d,(hl)
 
-        ld      hl,#4
-        add     hl,sp
+        inc     hl
         ld      a,(hl)
-        ld      c,a
 
-        ld      hl,#5
-        add     hl,sp
-        ld      a,(hl)
-        ld      b,a
+        inc     hl
+        ld      h,(hl)
 
-        ld      h,b
-        ld      l,c
-        call    0xBBF9  ; GRA LINE RELATIVE
-        ret
+        ld      l,a
+        jp      0xBBF9  ; GRA LINE RELATIVE
+

@@ -213,6 +213,35 @@ void fw_gra_set_origin(int16_t x, int16_t y);
 */
 void fw_gra_set_origin__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;
 
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    #### CFWI-specific information: ####
+
+    Since C cannot handle carry flag, the information is returned like this:
+
+    fw_gra_x_y_coordinates_t xy;
+    xy.as_uint32_t = fw_gra_get_origin();
+    printf("x=%d, y=%d", xy.x, xy.y);
+
+    68: GRA GET ORIGIN
+    #BBCC
+    Get the origin of the user coordinates.
+    Action:
+    Ask where the user coordinate origin is located.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    DE contains the standard X coordinate of the origin.
+    HL contains the standard Y coordinate of the origin.
+    All other registers preserved.
+    Notes:
+    The origin position is given is standard coordinates in which (0,0) is the bottom left
+    corner of the screen.
+    Related entries:
+    GRA SET ORIGIN
+*/
+uint32_t fw_gra_get_origin(void);
+
 
 void fw_gra_line_relative(int x, int y);
 void fw_gra_plot_relative(int x, int y);

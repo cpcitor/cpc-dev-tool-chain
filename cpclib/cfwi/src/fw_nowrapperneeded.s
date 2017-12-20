@@ -21,6 +21,7 @@
 	_fw_gra_move_relative__fastcall == 0xBBC3
 	_fw_gra_ask_cursor == 0xBBC6
 	_fw_gra_set_origin__fastcall == 0xBBC9
+	_fw_gra_get_origin == 0xBBCC
 	
 	_fw_gra_clear_window == 0xBBDB
 

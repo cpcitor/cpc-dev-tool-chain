@@ -165,16 +165,23 @@ echo "<h2>Global Statistics</h2>"
 
 PERCENTAGE=$( echo "$TOTAL_C_DECLARED_FW_CALL_COUNT 100 * $TOTAL_FW_CALL_COUNT / p" | dc )
 
-echo "<p>Overall coverage percentage: ${PERCENTAGE}%</p>"
-
 echo "<table>"
 
 html_out_variable "Total fw calls as per SOFT968 official documentation" "$TOTAL_FW_CALL_COUNT"
 html_out_variable "Total fw calls declared at C level" "$TOTAL_C_DECLARED_FW_CALL_COUNT"
+html_out_variable "Overall coverage percentage" "${PERCENTAGE}%"
+
+echo "</table>"
+
 
 html_out_variable "Total functions declared at C level" "$TOTAL_C_DECLARED_FW_FUNCTION_NAMES"
 html_out_variable "Total direct ASM symbols (not wrappers) count" "$TOTAL_FW_NOWRAPPER_COUNT"
 html_out_variable "Total ASM wrapper count" "$TOTAL_FW_WRAPPER_COUNT"
+
+echo "<h2>Firmware-call-level Statistics</h2>"
+
+echo "<table>"
+
 html_out_variable "Total fw calls covered both without <span style=\"font-weight: bold\">and</span> with wrapper" "$TOTAL_FW_TWICE_COVERED_COUNT"
 
 SC_TOTAL_COVERED_WITH_AND_WITHOUT_WRAPPER_NODUPLICATE=$(( $TOTAL_FW_NOWRAPPER_COUNT + $TOTAL_FW_WRAPPER_COUNT - $TOTAL_FW_TWICE_COVERED_COUNT ))

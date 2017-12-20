@@ -413,7 +413,7 @@ void fw_gra_clear_window(void);
     SCR SET INK
     TXT SET PEN
 */
-void fw_gra_set_pen(unsigned char pencolor) __z88dk_fastcall;
+void fw_gra_set_pen(uint8_t pencolor) __z88dk_fastcall;
 
 /** 75: GRA GET PEN
     #BBE1
@@ -435,7 +435,7 @@ void fw_gra_set_pen(unsigned char pencolor) __z88dk_fastcall;
     SCR GET INK
     TXT GET PEN
 */
-unsigned char fw_gra_get_pen(void);
+uint8_t fw_gra_get_pen(void);
 
 /** 76: GRA SET PAPER
     #BBE4
@@ -484,7 +484,7 @@ void fw_gra_set_paper(uint8_t papercolor) __z88dk_fastcall;
     SCR GET INK
     TXT GET PAPER
 */
-unsigned char fw_gra_get_paper(void);
+uint8_t fw_gra_get_paper(void);
 
 /** 78: GRA PLOT ABSOLUTE
     #BBEA

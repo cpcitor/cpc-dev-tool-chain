@@ -42,7 +42,7 @@ typedef union fw_gra_x_x_coordinates_t
 } fw_gra_x_x_coordinates_t;
 
 /** This structure (union/struct actually) was introduced to decode output of
-    fw_gra_get_w_width().
+    fw_gra_get_w_height().
     
     It is also a natural structure to hold coordinates.
 
@@ -390,7 +390,7 @@ void fw_gra_win_height__fastcall(int32_t fw_gra_y_y_coordinates_t_asint) __z88dk
     No conditions.
     Exit conditions:
     DE contains the standard X coordinate of the left edge of the window.
-    HL contains the standard Y coordinate of the right edge of the window.
+    HL contains the standard X coordinate of the right edge of the window.
     AF corrupt.
     All other registers preserved.
     Notes:

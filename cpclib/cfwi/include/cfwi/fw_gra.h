@@ -102,9 +102,42 @@ void fw_gra_line_absolute(int x, int y);
 void fw_gra_plot_absolute(int x, int y);
 void fw_gra_test_absolute(int x, int y);
 
+/** 65: GRA MOVE RELATIVE
+    #BBC3
+    Move relative to current position.
+    Action:
+    Move the current position to relative to its current position.
+    Entry conditions:
+    DE contains a signed X offset.
+    HL contains a signed Y offset.
+    Exit conditions:
+    AF, BC, DE and HL corrupt.
+    All other registers preserved.
+    Notes:
+    The new position can be outside the graphics window.
+    The Graphics VDU plotting, testing and line drawing routines all move the current
+    graphics position to the point (or endpoint) specified automatically.
+    Related entries:
+    GRA ASK CURSOR
+    GRA MOVE ABSOLUTE
+*/
+void fw_gra_move_relative(int16_t x, int16_t y);
+
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    The fastcall variant may be useful if you already have a reason to
+    use the union/struct fw_txt_win_enable to store coordinates.  Else
+    it won't save you anything.
+
+    Use the fastcall variant like this:
+
+    fw_gra_x_y_coordinates_t xy = { 85, 63 }; // example values
+    fw_gra_move_relative__fastcall(window_def.as_uint32_t);
+*/
+void fw_gra_move_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;
+
 void fw_gra_line_relative(int x, int y);
 void fw_gra_plot_relative(int x, int y);
-void fw_gra_move_relative(int x, int y);
 void fw_gra_test_relative(int x, int y);
 
 void fw_gra_set_pen(unsigned char pencolor);

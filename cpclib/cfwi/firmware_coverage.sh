@@ -131,7 +131,20 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <body>
 EOF
 
-
+function sanity_check_pass_fail()
+{
+    declare PASSFAIL=$(
+	if [[ "$1" == "$2" ]]
+	then
+	    echo PASS
+	else
+	    echo >&2 "WARNING: Sanity check fail $1 != $2 : $3"
+	    echo FAIL
+	fi
+	    )
+    
+    html_out_variable "Sanity check $1==$2 ($3)" "$PASSFAIL"
+}
 
 function html_out_variable()
 {
@@ -160,17 +173,7 @@ SC_TOTAL_COVERED_WITH_AND_WITHOUT_WRAPPER_NODUPLICATE=$(( $TOTAL_FW_NOWRAPPERS_C
 
 html_out_variable "Total fw calls covered, filtering duplicate coverage" "$SC_TOTAL_COVERED_WITH_AND_WITHOUT_WRAPPER_NODUPLICATE"
 
-PASSFAIL=$(
-if [[ $SC_TOTAL_COVERED_WITH_AND_WITHOUT_WRAPPER_NODUPLICATE == $TOTAL_C_COVERED_FW_CALL_COUNT ]]
-then
-    echo PASS
-else
-    echo >&2 "WARNING: Sanity check fail $SC_TOTAL_COVERED_WITH_AND_WITHOUT_WRAPPER_NODUPLICATE != $TOTAL_C_COVERED_FW_CALL_COUNT"
-    echo FAIL
-fi
-	)
-
-html_out_variable "Sanity check $SC_TOTAL_COVERED_WITH_AND_WITHOUT_WRAPPER_NODUPLICATE==$TOTAL_C_COVERED_FW_CALL_COUNT" "$PASSFAIL"
+sanity_check_pass_fail $SC_TOTAL_COVERED_WITH_AND_WITHOUT_WRAPPER_NODUPLICATE $TOTAL_C_DECLARED_FW_FUNCTION_NAMES
 
 echo "</table>"
 

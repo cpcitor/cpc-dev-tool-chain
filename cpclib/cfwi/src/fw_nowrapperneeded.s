@@ -23,6 +23,7 @@
 	_fw_gra_set_origin__fastcall == 0xBBC9
 	_fw_gra_get_origin == 0xBBCC
 	
+	_fw_gra_win_width__fastcall == 0xBBCF
 	_fw_gra_clear_window == 0xBBDB
 
 	_fw_cas_initialise == 0xBC65

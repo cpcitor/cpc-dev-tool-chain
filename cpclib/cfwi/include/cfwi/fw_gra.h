@@ -22,6 +22,25 @@ typedef union fw_gra_x_y_coordinates_t
 	uint32_t as_uint32_t;
 } fw_gra_x_y_coordinates_t;
 
+/** This structure (union/struct actually) was introduced to decode output of
+    fw_gra_get_w_width().
+    
+    It is also a natural structure to hold coordinates.
+
+    If you use is for that storage purpose, then it is natural to also
+    use the fastcall variants of drawing calls that expect X and X
+    coordinates, e.g. GRA WIN WIDTH.
+*/
+typedef union fw_gra_x_x_coordinates_t
+{
+	struct
+	{
+		int16_t x1;
+		int16_t x2;
+	};
+	uint32_t as_uint32_t;
+} fw_gra_x_x_coordinates_t;
+
 /** 62: GRA INITIALISE
     #BBBA
     Initialize the Graphics VDU.
@@ -242,6 +261,54 @@ void fw_gra_set_origin__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88d
 */
 uint32_t fw_gra_get_origin(void);
 
+/** 69: GRA WIN WIDTH
+    #BBCF
+    Set the right and left edges of the graphics window.
+    Action:
+    Set the horizontal position of the graphics window. The left and right edges are
+    respectively the first and last points that lie inside the window horizontally.
+    Entry conditions:
+    DE contains the standard X coordinate of one edge.
+    HL contains the standard X coordinate of the other edge.
+    Exit conditions:
+    AF, BC, DE and HL corrupt.
+    All registers preserved.
+    Notes:
+    The window edges are given in standard coordinates in which (0,0) is the bottom left
+    corner of the screen and coordinates are signed 16 bit numbers.
+    The left edge of the window is deemed to be the smaller of the two edges supplied.
+    The window will be truncated, if necessary, to make it fit the screen. The edges are
+    moved to screen byte boundaries so that the window only contains whole bytes (the
+    left edge is moved left, the right edge is moved right). This moves the coordinates of
+    the edges as follows in the various modes:
+    Mode Left Edge Right Edge
+    0 Multiple of 2 Multiple of 2 minus 1
+    1 Multiple of 4 Multiple of 4 minus 1
+    2 Multiple of 8 Multiple of 8 minus 1
+    The default window covers the whole screen. Whenever the screen mode is changed
+    the window is restored to its default size.
+    All Graphics VDU point plotting and line drawing routines test whether the points
+    they are about to plot lie inside the window; if they are not then the points are not
+    plotted.
+    Related entries:
+    GRA GET W WIDTH
+    GRA WIN HEIGHT
+*/
+void fw_gra_win_width(int16_t x1, int16_t x2);
+
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    The fastcall variant may be useful if you already have a reason to
+    use the union/struct fw_gra_x_x_coordinates_t to store
+    coordinates.  Else it won't save you anything.
+
+    Use the fastcall variant like this:
+
+    fw_gra_x_x_coordinates_t xx = { 85, 63 }; // example values
+    fw_gra_win_width__fastcall(xx.as_uint32_t);
+*/
+void fw_gra_win_width__fastcall(int32_t fw_gra_x_x_coordinates_t_asint) __z88dk_fastcall;
+
 
 void fw_gra_line_relative(int x, int y);
 void fw_gra_plot_relative(int x, int y);
@@ -260,7 +327,6 @@ void fw_gra_wr_char(char character);
 void fw_gra_clear_window(void);
 void fw_gra_default(void);
 
-void fw_gra_win_width(int xleft, int xright);
 void fw_gra_win_height(int ytop, int ybottom);
 
 #endif /* __FW_GRA_H__ */

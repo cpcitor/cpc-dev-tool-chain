@@ -62,7 +62,7 @@ function list_fw_wrapper_files()
     ls -1b src/fw_*.s | grep -v fw_nowrapperneeded | sed 's|src/||'
 }
 
-TOTAL_FW_WRAPPERS_COUNT=$( list_fw_wrapper_files | wc -l )
+TOTAL_FW_WRAPPER_COUNT=$( list_fw_wrapper_files | wc -l )
 
 ### both
 
@@ -174,10 +174,10 @@ html_out_variable "Total fw calls declared at C level" "$TOTAL_C_DECLARED_FW_CAL
 
 html_out_variable "Total functions declared at C level" "$TOTAL_C_DECLARED_FW_FUNCTION_NAMES"
 html_out_variable "Total direct ASM symbols (not wrappers) count" "$TOTAL_FW_NOWRAPPER_COUNT"
-html_out_variable "Total ASM wrapper count" "$TOTAL_FW_WRAPPERS_COUNT"
+html_out_variable "Total ASM wrapper count" "$TOTAL_FW_WRAPPER_COUNT"
 html_out_variable "Total fw calls covered both without <span style=\"font-weight: bold\">and</span> with wrapper" "$TOTAL_FW_TWICE_COVERED_COUNT"
 
-SC_TOTAL_COVERED_WITH_AND_WITHOUT_WRAPPER_NODUPLICATE=$(( $TOTAL_FW_NOWRAPPER_COUNT + $TOTAL_FW_WRAPPERS_COUNT - $TOTAL_FW_TWICE_COVERED_COUNT ))
+SC_TOTAL_COVERED_WITH_AND_WITHOUT_WRAPPER_NODUPLICATE=$(( $TOTAL_FW_NOWRAPPER_COUNT + $TOTAL_FW_WRAPPER_COUNT - $TOTAL_FW_TWICE_COVERED_COUNT ))
 
 html_out_variable "Total fw calls covered, filtering duplicate coverage" "$SC_TOTAL_COVERED_WITH_AND_WITHOUT_WRAPPER_NODUPLICATE"
 

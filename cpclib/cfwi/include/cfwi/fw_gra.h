@@ -1,6 +1,18 @@
 #ifndef  __FW_GRA_H__
 #define __FW_GRA_H__
 
+#include <stdint.h>
+
+typedef union fw_gra_x_y_coordinates_t
+{
+	struct
+	{
+		int16_t y;
+		int16_t x;
+	};
+	uint32_t as_uint32_t;
+} fw_gra_x_y_coordinates_t;
+
 /** 62: GRA INITIALISE
     #BBBA
     Initialize the Graphics VDU.
@@ -52,9 +64,42 @@ void fw_gra_initialise(void);
 */
 void fw_gra_reset(void);
 
+/** 64: GRA MOVE ABSOLUTE
+    #BBC0
+    Move to an absolute position.
+    Action:
+    Move the current position to an absolute position.
+    Entry conditions:
+    DE contains the required user X coordinate.
+    HL contains the required user Y coordinate.
+    Exit conditions:
+    AF, BC, DE and HL corrupt.
+    All other registers preserved.
+    Notes:
+    The new position is given in user coordinates. i.e. Relative to the user origin.
+    The new position can be outside the graphics window.
+    The Graphics VDU plotting, testing and line drawing routines all move the current
+    graphics position to the point (or endpoint) specified automatically.
+    Related entries:
+    GRA ASK CURSOR
+    GRA MOVE RELATIVE
+*/
+void fw_gra_move_absolute(int16_t x, int16_t y);
+
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    The fastcall variant may be useful if you already have a reason to
+    use the union/struct fw_txt_win_enable to store coordinates.  Else
+    it won't save you anything.
+
+    Use the fastcall variant like this:
+
+    fw_gra_x_y_coordinates_t xy = { 85, 63 }; // example values
+    fw_gra_move_absolute__fastcall(xy.as_uint32_t);
+*/
+void fw_gra_move_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;
 void fw_gra_line_absolute(int x, int y);
 void fw_gra_plot_absolute(int x, int y);
-void fw_gra_move_absolute(int x, int y);
 void fw_gra_test_absolute(int x, int y);
 
 void fw_gra_line_relative(int x, int y);

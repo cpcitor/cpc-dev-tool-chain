@@ -53,6 +53,11 @@ function nowrappers_lines()
     grep "^.*_fw_[a-z_]* *== *0x.*$" src/fw_nowrapperneeded.s
 }
 
+function list_fw_nowrapper_symbols()
+{
+    sed -n "s|^.*_\(fw_[a-z_]*\) *== *0x.*$|\1|p" src/fw_nowrapperneeded.s
+}
+
 TOTAL_FW_NOWRAPPER_COUNT=$( nowrappers_lines | wc -l )
 
 ### wrappers
@@ -63,6 +68,11 @@ function list_fw_wrapper_files()
 }
 
 TOTAL_FW_WRAPPER_COUNT=$( list_fw_wrapper_files | wc -l )
+
+function list_fw_wrapper_symbols()
+{
+    ls -1b src/fw_*.s | grep -v fw_nowrapperneeded | sed 's|src/\(.*\)\.s$|\1|'
+}
 
 ### both
 
@@ -150,6 +160,7 @@ function sanity_check_pass_fail()
 	    )
     
     html_out_variable "Sanity check $1==$2 <br/>$3" "$PASSFAIL"
+    return $RC
 }
 
 function html_out_variable()
@@ -173,10 +184,30 @@ html_out_variable "Overall coverage percentage" "${PERCENTAGE}%"
 
 echo "</table>"
 
+echo "<h2>Function/symbol-level Statistics</h2>"
+
+echo "<table>"
 
 html_out_variable "Total functions declared at C level" "$TOTAL_C_DECLARED_FW_FUNCTION_NAMES"
 html_out_variable "Total direct ASM symbols (not wrappers) count" "$TOTAL_FW_NOWRAPPER_COUNT"
 html_out_variable "Total ASM wrapper count" "$TOTAL_FW_WRAPPER_COUNT"
+
+SC_TOTAL_ASM_SYMBOL_COUNT=$(( $TOTAL_FW_WRAPPER_COUNT + $TOTAL_FW_NOWRAPPER_COUNT ))
+
+if sanity_check_pass_fail $SC_TOTAL_ASM_SYMBOL_COUNT $TOTAL_C_DECLARED_FW_FUNCTION_NAMES "(wrappers)+(no-wrappers)==(C function count)"
+then
+    FAILHINT=$( diff -u \
+	     <( list_c_function_names | sort ) \
+	     <( { list_fw_nowrapper_symbols ; list_fw_wrapper_symbols ; } | sort )
+	     )
+fi
+
+echo "</table>"
+
+if [[ -n "${FAILHINT:-}" ]]
+then
+    echo "<p>Hint: ${FAILHINT}</p>"
+fi
 
 echo "<h2>Firmware-call-level Statistics</h2>"
 

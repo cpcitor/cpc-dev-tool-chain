@@ -3,25 +3,16 @@
 _fw_gra_plot_absolute::
         ld      hl,#2
         add     hl,sp
-        ld      a,(hl)
-        ld      e,a
-        ld      hl,#3
-        add     hl,sp
-        ld      a,(hl)
-        ld      d,a
+        ld      e,(hl)
 
-        ld      hl,#4
-        add     hl,sp
+	inc	hl
+        ld      d,(hl)
+
+	inc	hl
         ld      a,(hl)
-        ld      c,a
 
-        ld      hl,#5
-        add     hl,sp
-        ld      a,(hl)
-        ld      b,a
+        inc     hl
+        ld      h,(hl)
 
-        ld      h,b
-        ld      l,c
-        call    0xBBEA  ; GRA PLOT ABSOLUTE
-
-        ret
+        ld      l,a
+        jp      0xBBEA  ; GRA PLOT ABSOLUTE

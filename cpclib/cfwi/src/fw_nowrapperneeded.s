@@ -27,6 +27,8 @@
 	_fw_gra_win_height__fastcall == 0xBBD2
 	_fw_gra_clear_window == 0xBBDB
 
+	_fw_gra_plot_absolute__fastcall == 0xBBEA
+
 	_fw_cas_initialise == 0xBC65
 	_fw_cas_in_abandon == 0xBC7D
 	_fw_cas_return == 0xBC86

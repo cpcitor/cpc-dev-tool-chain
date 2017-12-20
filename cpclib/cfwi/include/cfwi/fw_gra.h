@@ -526,8 +526,46 @@ void fw_gra_plot_absolute(int16_t x, int16_t y);
 */
 void fw_gra_plot_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;
 
+/** 79: GRA PLOT RELATIVE
+    #BBED
+    Plot a point relative to the current position.
+    Action:
+    The current graphic position is moved to the position supplied. If this lies inside the
+    graphics window then the point is plotted in the current graphics pen ink using the
+    current graphics write mode. If the point lies outside the graphics window then no
+    action is taken.
+    Entry conditions:
+    DE contains a signed X offset.
+    HL contains a signed Y offset.
+    Exit conditions:
+    AF, BC, DE and HL corrupt.
+    All other registers preserved.
+    Notes:
+    The position to plot at is given in relative coordinates. i.e. Relative to the current
+    graphics position.
+    This routine calls the GRA PLOT indirection to plot the point. In its turn GRA PLOT
+    calls the SCR WRITE indirection to set the pixel (if it is in the window).
+    Related entries:
+    GRA PLOT
+    GRA PLOT ABSOLUTE
+    GRA TEST RELATIVE
+*/
+void fw_gra_plot_relative(int16_t x, int16_t y);
+
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    The fastcall variant may be useful if you already have a reason to
+    use the union/struct fw_txt_win_enable to store coordinates.  Else
+    it won't save you anything.
+
+    Use the fastcall variant like this:
+
+    fw_gra_x_y_coordinates_t xy = { 85, 63 }; // example values
+    fw_gra_plot_relative__fastcall(xy.as_uint32_t);
+*/
+void fw_gra_plot_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;
+
 void fw_gra_line_relative(int x, int y);
-void fw_gra_plot_relative(int x, int y);
 void fw_gra_test_relative(int x, int y);
 
 

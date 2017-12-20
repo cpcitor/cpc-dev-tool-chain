@@ -28,6 +28,7 @@
 	_fw_gra_clear_window == 0xBBDB
 
 	_fw_gra_plot_absolute__fastcall == 0xBBEA
+	_fw_gra_plot_relative__fastcall == 0xBBED
 
 	_fw_cas_initialise == 0xBC65
 	_fw_cas_in_abandon == 0xBC7D

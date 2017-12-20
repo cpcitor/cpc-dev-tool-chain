@@ -140,10 +140,12 @@ function sanity_check_pass_fail()
     declare PASSFAIL=$(
 	if [[ "$1" == "$2" ]]
 	then
-	    echo PASS
+	    echo '<span style="background-color: #40FF40">PASS</span>'
+	    RC=1
 	else
 	    echo >&2 "WARNING: Sanity check fail $1 != $2 : $3"
-	    echo FAIL
+	    echo '<span style="background-color: #FF4040">FAIL</span>'
+	    RC=0
 	fi
 	    )
     

@@ -14,6 +14,8 @@ function list_c_function_names() {
     list_c_prototypes | sed -n "s/^.* \(fw_[^(]*\)(.*$/\1/p"
 }
 
+TOTAL_C_DECLARED_FW_FUNCTION_NAMES=$( list_c_function_names | wc -l )
+
 ### firmware
 
 function list_c_covered_fw_calls() {
@@ -165,6 +167,8 @@ echo "<table>"
 
 html_out_variable "Total fw calls as per SOFT968 official documentation" "$TOTAL_FW_CALL_COUNT"
 html_out_variable "Total fw calls declared at C level" "$TOTAL_C_DECLARED_FW_CALL_COUNT"
+
+html_out_variable "Total functions declared at C level" "$TOTAL_C_DECLARED_FW_FUNCTION_NAMES"
 html_out_variable "Total direct ASM symbols (not wrappers) count" "$TOTAL_FW_NOWRAPPERS_COUNT"
 html_out_variable "Total wrapper ASM wrapper count" "$TOTAL_FW_WRAPPERS_COUNT"
 html_out_variable "Total fw calls covered both without <span style=\"font-weight: bold\">and</span> with wrapper" "$TOTAL_FW_TWICE_COVERED_COUNT"

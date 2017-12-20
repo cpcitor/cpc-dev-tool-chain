@@ -604,7 +604,46 @@ void fw_gra_test_absolute(int16_t x, int16_t y);
 void fw_gra_test_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;
 
 void fw_gra_line_relative(int x, int y);
-void fw_gra_test_relative(int x, int y);
+/** 81: GRA TEST RELATIVE
+    #BBF3
+    Test a point relative to the current position.
+    Action:
+    The current graphic position is moved to the position supplied. If this lies inside the
+    graphics window then the pixel is read from the screen and the ink it is set to is
+    decoded and returned. If the position is outside the graphics window then the current
+    paper ink is returned.
+    Entry conditions:
+    DE contains a signed X offset.
+    HL contains a signed Y offset.
+    Exit conditions:
+    A contains the ink of the specified point (or the graphics paper ink).
+    BC, DE, HL and flags corrupt.
+    All other registers preserved.
+    Notes:
+    The position to test is given in relative coordinates. i.e. Relative to the current
+    graphics position.
+    This routine calls the GRA TEST indirection to test the point. In its turn GRA TEST
+    calls the SCR READ indirection to test the pixel (if it is in the window).
+    Related entries:
+    GRA PLOT RELATIVE
+    GRA TEST
+    GRA TEST ABSOLUTE
+*/
+void fw_gra_test_relative(int16_t x, int16_t y);
+
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    The fastcall variant may be useful if you already have a reason to
+    use the union/struct fw_gra_x_y_coordinates_t to store coordinates.  Else
+    it won't save you anything.
+
+    Use the fastcall variant like this:
+
+    fw_gra_x_y_coordinates_t xy = { 85, 63 }; // example values
+    fw_gra_test_relative__fastcall(xy.as_uint32_t);
+*/
+void fw_gra_test_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;
+
 
 
 

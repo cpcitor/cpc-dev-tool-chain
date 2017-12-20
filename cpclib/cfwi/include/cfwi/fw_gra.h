@@ -146,7 +146,6 @@ void fw_gra_move_absolute(int16_t x, int16_t y);
 */
 void fw_gra_move_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;
 void fw_gra_line_absolute(int x, int y);
-void fw_gra_test_absolute(int x, int y);
 
 /** 65: GRA MOVE RELATIVE
     #BBC3
@@ -564,6 +563,45 @@ void fw_gra_plot_relative(int16_t x, int16_t y);
     fw_gra_plot_relative__fastcall(xy.as_uint32_t);
 */
 void fw_gra_plot_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;
+
+/** 80: GRA TEST ABSOLUTE
+    #BBF0
+    Test a point at an absolute position.
+    Action:
+    The current graphic position is moved to the position supplied. If this lies inside the
+    graphics window then the pixel is read from the screen and the ink it is set to is
+    decoded and returned. If the position lies outside the graphics window then the
+    current paper ink is returned.
+    Entry conditions:
+    DE contains the user X coordinate to test at.
+    HL contains the user Y coordinate to test at.
+    Exit conditions:
+    A contains the ink of the specified point (or the graphics paper ink).
+    BC, DE, HL and flags corrupt.
+    All other registers preserved.
+    Notes:
+    The position to test is given in user coordinates. i.e. Relative to the user origin.
+    This routine calls the GRA TEST indirection to test the point. In its turn GRA TEST
+    calls the SCR READ indirection to test the pixel (if it is in the window).
+    Related entries:
+    GRA PLOT ABSOLUTE
+    GRA TEST
+    GRA TEST RELATIVE
+*/
+void fw_gra_test_absolute(int16_t x, int16_t y);
+
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    The fastcall variant may be useful if you already have a reason to
+    use the union/struct fw_gra_x_y_coordinates_t to store coordinates.  Else
+    it won't save you anything.
+
+    Use the fastcall variant like this:
+
+    fw_gra_x_y_coordinates_t xy = { 85, 63 }; // example values
+    fw_gra_test_absolute__fastcall(xy.as_uint32_t);
+*/
+void fw_gra_test_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;
 
 void fw_gra_line_relative(int x, int y);
 void fw_gra_test_relative(int x, int y);

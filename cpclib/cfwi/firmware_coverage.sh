@@ -174,7 +174,7 @@ html_out_variable "Total fw calls declared at C level" "$TOTAL_C_DECLARED_FW_CAL
 
 html_out_variable "Total functions declared at C level" "$TOTAL_C_DECLARED_FW_FUNCTION_NAMES"
 html_out_variable "Total direct ASM symbols (not wrappers) count" "$TOTAL_FW_NOWRAPPERS_COUNT"
-html_out_variable "Total wrapper ASM wrapper count" "$TOTAL_FW_WRAPPERS_COUNT"
+html_out_variable "Total ASM wrapper count" "$TOTAL_FW_WRAPPERS_COUNT"
 html_out_variable "Total fw calls covered both without <span style=\"font-weight: bold\">and</span> with wrapper" "$TOTAL_FW_TWICE_COVERED_COUNT"
 
 SC_TOTAL_COVERED_WITH_AND_WITHOUT_WRAPPER_NODUPLICATE=$(( $TOTAL_FW_NOWRAPPERS_COUNT + $TOTAL_FW_WRAPPERS_COUNT - $TOTAL_FW_TWICE_COVERED_COUNT ))

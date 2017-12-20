@@ -7,11 +7,11 @@ TOTAL_FW_CALL_COUNT=201
 ### C-level
 
 function list_c_prototypes() {
-    grep -ih '^[a-z].* fw_.*(.*).*;' include/cfwi/*.h
+    egrep -ih '^[a-z].* \*?fw_.*(.*).*;' include/cfwi/*.h
 }
 
 function list_c_function_names() {
-    list_c_prototypes | sed -n "s/^.* \(fw_[^(]*\)(.*$/\1/p"
+    list_c_prototypes | sed -n "s/^.* \**\(fw_[^(]*\)(.*$/\1/p"
 }
 
 TOTAL_C_DECLARED_FW_FUNCTION_NAMES=$( list_c_function_names | wc -l )

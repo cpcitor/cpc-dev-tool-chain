@@ -370,6 +370,42 @@ void fw_gra_win_height(int16_t y1, int16_t y2);
 */
 void fw_gra_win_height__fastcall(int32_t fw_gra_y_y_coordinates_t_asint) __z88dk_fastcall;
 
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    #### CFWI-specific information: ####
+
+    Since C cannot handle carry flag, the information is returned like this:
+
+    fw_gra_x_x_coordinates_t xx;
+    xx.as_uint32_t = fw_gra_get_w_width();
+    printf("x1=%d, x2=%d", xx.x1, xx.x2);
+
+    71: GRA GET W WIDTH
+    #BBD5
+    Get the left and right edges of the graphics window.
+    Action:
+    Ask the horizontal position of the graphics window. The left and right edges are
+    respectively the first and last points that lie inside the window horizontally.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    DE contains the standard X coordinate of the left edge of the window.
+    HL contains the standard Y coordinate of the right edge of the window.
+    AF corrupt.
+    All other registers preserved.
+    Notes:
+    The window edges are given in standard coordinates in which (0,0) is the bottom left
+    corner of the screen.
+    The edges may not be exactly the same as those that were set using GRA WIN
+    WIDTH as the window is truncated to fit the screen, and the edges are moved to
+    screen byte boundaries so that the window only contains whole bytes.
+    Related entries:
+    GRA GET W HEIGHT
+    GRA IN WIDTH
+*/
+uint32_t fw_gra_get_w_width();
+
+
 /** 73: GRA CLEAR WINDOW
     #BBDB
     Clear the graphics window.

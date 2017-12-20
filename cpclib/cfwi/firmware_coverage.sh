@@ -226,12 +226,12 @@ do
     do
 	TRADINAME=$( c_style_names_to_html_fw_call_span "$callname" )
 	NOWRAPPERS=$( nowrappers_lines | grep $callname )
-	WRAPPED=$( list_fw_wrappers | grep $callname )
+	WRAPPER=$( list_fw_wrappers | grep $callname )
 	PROTOTYPES=$( list_c_prototypes | grep $callname | sed 's|$|<br />|')
 	#TWICE=$( list_c_covered_fw_calls_with_and_without_wrapper | grep _${package}_ )
 	#TWICE_FORMATTED=$( c_style_names_to_html_fw_call_span $TWICE )
 	# <td>$TWICE_FORMATTED</td>
-	echo "<tr><td>$TRADINAME</td><td class=\"cdecl\">$NOWRAPPERS</td><td class=\"cdecl\">$WRAPPED</td><td class=\"cdecl\">$PROTOTYPES</td></tr>"
+	echo "<tr><td>$TRADINAME</td><td class=\"cdecl\">$NOWRAPPERS</td><td class=\"cdecl\">$WRAPPER</td><td class=\"cdecl\">$PROTOTYPES</td></tr>"
     done
     echo "</table>"
 done

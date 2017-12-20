@@ -136,8 +136,8 @@ void fw_gra_move_absolute(int16_t x, int16_t y);
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
     The fastcall variant may be useful if you already have a reason to
-    use the union/struct fw_txt_win_enable to store coordinates.  Else
-    it won't save you anything.
+    use the union/struct fw_gra_x_y_coordinates_t to store
+    coordinates.  Else it won't save you anything.
 
     Use the fastcall variant like this:
 
@@ -172,8 +172,8 @@ void fw_gra_move_relative(int16_t x, int16_t y);
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
     The fastcall variant may be useful if you already have a reason to
-    use the union/struct fw_txt_win_enable to store coordinates.  Else
-    it won't save you anything.
+    use the union/struct fw_gra_x_y_coordinates_t to store
+    coordinates.  Else it won't save you anything.
 
     Use the fastcall variant like this:
 
@@ -240,8 +240,8 @@ void fw_gra_set_origin(int16_t x, int16_t y);
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
     The fastcall variant may be useful if you already have a reason to
-    use the union/struct fw_txt_win_enable to store coordinates.  Else
-    it won't save you anything.
+    use the union/struct fw_gra_x_y_coordinates_t to store
+    coordinates.  Else it won't save you anything.
 
     Use the fastcall variant like this:
 
@@ -516,7 +516,7 @@ void fw_gra_plot_absolute(int16_t x, int16_t y);
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
     The fastcall variant may be useful if you already have a reason to
-    use the union/struct fw_txt_win_enable to store coordinates.  Else
+    use the union/struct fw_gra_x_y_coordinates_t to store coordinates.  Else
     it won't save you anything.
 
     Use the fastcall variant like this:
@@ -555,7 +555,7 @@ void fw_gra_plot_relative(int16_t x, int16_t y);
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
     The fastcall variant may be useful if you already have a reason to
-    use the union/struct fw_txt_win_enable to store coordinates.  Else
+    use the union/struct fw_gra_x_y_coordinates_t to store coordinates.  Else
     it won't save you anything.
 
     Use the fastcall variant like this:

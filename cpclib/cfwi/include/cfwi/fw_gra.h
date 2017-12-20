@@ -440,13 +440,38 @@ void fw_gra_set_pen(unsigned char pencolor) __z88dk_fastcall;
 */
 unsigned char fw_gra_get_pen(void);
 
+/** 76: GRA SET PAPER
+    #BBE4
+    Set the graphics background ink.
+    Action:
+    Set the graphics paper ink.
+    Entry conditions:
+    A contains the required ink.
+    Exit conditions:
+    AF corrupt.
+    All registers preserved.
+    Notes:
+    The ink is masked to bring it in the range of inks for the current screen mode. In mode
+    0 the mask is #0F, in mode 1 it is #03 and in mode 2 it is #01.
+    The paper ink is the ink that is used for clearing the graphics window, and writing the
+    background to characters. It is assumed to cover everywhere outside the graphics
+    window when testing points.
+    In V1.1 firmware the graphics paper ink is used to plot pixels corresponding to a zero
+    bit in the line mask when drawing lines.
+    Related entries:
+    GRA GET PAPER
+    GRA SET PEN
+    SCR GET INK
+    TXT SET PAPER
+*/
+void fw_gra_set_paper(uint8_t papercolor) __z88dk_fastcall;
+
 void fw_gra_line_relative(int x, int y);
 void fw_gra_plot_relative(int x, int y);
 void fw_gra_test_relative(int x, int y);
 
 
 
-void fw_gra_set_paper(unsigned char papercolor);
 
 unsigned char fw_gra_get_paper(void);
 

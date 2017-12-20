@@ -41,6 +41,25 @@ typedef union fw_gra_x_x_coordinates_t
 	uint32_t as_uint32_t;
 } fw_gra_x_x_coordinates_t;
 
+/** This structure (union/struct actually) was introduced to decode output of
+    fw_gra_get_w_width().
+    
+    It is also a natural structure to hold coordinates.
+
+    If you use is for that storage purpose, then it is natural to also
+    use the fastcall variants of drawing calls that expect Y and Y
+    coordinates, e.g. GRA WIN WIDTH.
+*/
+typedef union fw_gra_y_y_coordinates_t
+{
+	struct
+	{
+		int16_t y1;
+		int16_t y2;
+	};
+	uint32_t as_uint32_t;
+} fw_gra_y_y_coordinates_t;
+
 /** 62: GRA INITIALISE
     #BBBA
     Initialize the Graphics VDU.
@@ -309,6 +328,51 @@ void fw_gra_win_width(int16_t x1, int16_t x2);
 */
 void fw_gra_win_width__fastcall(int32_t fw_gra_x_x_coordinates_t_asint) __z88dk_fastcall;
 
+/** 70: GRA WIN HEIGHT
+    #BBD2
+    Set the top and bottom edges of the graphics window.
+    Action:
+    Set the vertical position of the graphics window. The top and bottom edges are
+    respectively the last and first points that lie inside the window vertically.
+    Entry conditions:
+    DE contains the standard Y coordinate of one edge.
+    HL contains the standard Y coordinate of the other edge.
+    Exit conditions:
+    AF, BC, DE and HL corrupt.
+    All registers preserved.
+    Notes:
+    The window edges are given in standard coordinates in which (0,0) is the bottom left
+    corner of the screen and coordinates are signed 16 bit numbers.
+    The top edge will be deemed to be the higher of the two edges supplied.
+    The window will be truncated, if necessary, to make it fit the screen. The edges will
+    be moved to lie on screen line boundaries so that only whole screen lines are included
+    in the window (the top edge will be moved up, the bottom edge will be moved down).
+    This moves the bottom edge to an even coordinate and the top edge to an odd
+    coordinate.
+    The default window covers the whole screen. Whenever the screen mode is changed
+    the window is restored to its default size.
+    All Graphics VDU point plotting and line drawing routines test whether the points
+    they are about to plot lie inside the window; if they are not then the points are not
+    plotted.
+    Related entries:
+    GRA GET W HEIGHT
+    GRA WIN WIDTH
+*/
+void fw_gra_win_height(int16_t y1, int16_t y2);
+
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    The fastcall variant may be useful if you already have a reason to
+    use the union/struct fw_gra_y_y_coordinates_t to store
+    coordinates.  Else it won't save you anything.
+
+    Use the fastcall variant like this:
+
+    fw_gra_y_y_coordinates_t yy = { 85, 63 }; // example values
+    fw_gra_win_height__fastcall(yy.as_uint32_t);
+*/
+void fw_gra_win_height__fastcall(int32_t fw_gra_y_y_coordinates_t_asint) __z88dk_fastcall;
+
 
 void fw_gra_line_relative(int x, int y);
 void fw_gra_plot_relative(int x, int y);
@@ -326,7 +390,5 @@ void fw_gra_wr_char(char character);
 
 void fw_gra_clear_window(void);
 void fw_gra_default(void);
-
-void fw_gra_win_height(int ytop, int ybottom);
 
 #endif /* __FW_GRA_H__ */

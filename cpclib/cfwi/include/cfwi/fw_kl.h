@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-long int fw_kl_time_please (void);
+long int fw_kl_time_please(void);
 
 void fw_kl_scan_needed(void);
 void fw_kl_sync_reset(void);

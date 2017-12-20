@@ -86,7 +86,7 @@ void fw_km_reset(void);
     KM READ CHAR
     KM WAIT KEY
 */
-unsigned char fw_km_wait_char (void);
+unsigned char fw_km_wait_char(void);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -137,7 +137,7 @@ unsigned char fw_km_wait_char (void);
     KM READ KEY
     KM WAIT CHAR
 */
-uint16_t fw_km_read_char (void);
+uint16_t fw_km_read_char(void);
 
 /** 4: KM CHAR RETURN #BB0C
     Return a single character to the keyboard for next time.
@@ -160,7 +160,7 @@ uint16_t fw_km_read_char (void);
     KM READ CHAR
     KM WAIT CHAR
 */
-void fw_km_char_return (unsigned char c) __z88dk_fastcall;
+void fw_km_char_return(unsigned char c) __z88dk_fastcall;
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -306,7 +306,7 @@ enum fw_byte_all_or_nothing fw_km_exp_buffer(unsigned char *buffer, uint16_t buf
     KM READ KEY
     KM WAIT CHAR
 */
-unsigned char fw_km_wait_key (void);
+unsigned char fw_km_wait_key(void);
 
 /** #### CFWI-specific information: ####
 
@@ -362,7 +362,7 @@ unsigned char fw_km_wait_key (void);
 
     CFWI_TEST_FLAGS: TESTED_APP_PASS
 */
-uint16_t fw_km_read_key (void);
+uint16_t fw_km_read_key(void);
 
 enum
 {

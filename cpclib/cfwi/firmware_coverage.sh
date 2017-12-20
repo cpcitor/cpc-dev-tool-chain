@@ -17,7 +17,7 @@ function list_function_names() {
 ### firmware
 
 function list_fw_calls_covered() {
-    list_function_names | sed "s/__fastcall//"
+    list_function_names | sed "s/__fastcall//" | uniq
 }
 
 TOTAL_FW_CALL_COVERED_COUNT=$( list_fw_calls_covered | wc -l )

@@ -818,10 +818,35 @@ void fw_gra_line_relative(int16_t x, int16_t y);
 */
 void fw_gra_line_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;
 
-
-
-
-void fw_gra_wr_char(char character);
+/** 84: GRA WR CHAR
+    #BBFC
+    Put a character on the screen at the current graphics position.
+    Action:
+    Write a character on the screen at the current graphics position.
+    Entry conditions:
+    A contains the character to write.
+    Exit conditions:
+    AF, BC, DE and HL corrupt.
+    All other registers preserved.
+    Notes:
+    The character is written with its top left corner being the current graphics position.
+    All characters are printed, even control codes (characters #00..#1F).
+    The current position is moved right by the width of the character (ready for another
+    character to be written). In mode 0 this move is 32 points right, in mode 1 the move is
+    16 points right and in mode 2 it is 8 points.
+    The character will be plotted in the graphics pen ink. In the case of V1.0 firmware, or
+    V1.1 firmware when the background write mode is set to opaque, the background to
+    the character will be plotted in the graphics paper ink. In the case of V1.1 firmware
+    when the background write mode is set transparent the background pixels are not
+    plotted. Pixels in the character that lie outside the graphics window will not be
+    plotted. The pixels are plotted using the SCR WRITE indirection so they are written
+    using the current graphics write mode.
+    Related entries:
+    GRA SET BACK
+    TXT SET GRAPHIC
+    TXT WR CHAR
+*/
+void fw_gra_wr_char(char character) __z88dk_fastcall;
 
 void fw_gra_default(void);
 

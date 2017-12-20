@@ -1,5 +1,9 @@
-<html>
-<style>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Firmware coverage in cpc-dev-tool-chain's CFWI (C-firmware interface)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style  type="text/css">
 /* Amstrad font inclusion */
 /* @font-face kit by Fonts2u (http://www.fonts2u.com) */
 @font-face {
@@ -43,23 +47,33 @@ th, td {
 }
 tr:nth-child(even) {background-color: #f2f2f2;}
 </style>
+</head>
+<body>
 <h1>Firmware coverage in cpc-dev-tool-chain's CFWI (C-firmware interface)</h1>
 <h2>Global Statistics</h2>
-<p>Overall coverage percentage: 55%</p>
 <table>
 <tr><td>Total fw calls as per SOFT968 official documentation</td><td>201</td></tr>
-<tr><td>Total fw calls covered (made available to C)</td><td>111</td></tr>
-<tr><td>Total fw calls covered with C prototype and ASM symbol</td><td>55</td></tr>
-<tr><td>Total fw calls covered with C prototype and ASM wrapper</td><td>58</td></tr>
-<tr><td>Total fw calls covered both without <span style="font-weight: bold">and</span> with wrapper</td><td>2</td></tr>
-<tr><td>Total fw calls covered, filtering duplicate coverage</td><td>111</td></tr>
-<tr><td>Sanity check 111==111</td><td>PASS</td></tr>
+<tr><td>Total fw calls declared at C level</td><td>114</td></tr>
+<tr><td>Overall coverage percentage</td><td>56%</td></tr>
+</table>
+<h2>Function/symbol-level Statistics</h2>
+<table>
+<tr><td>Total functions declared at C level</td><td>127</td></tr>
+<tr><td>Total direct ASM symbols (not wrappers) count</td><td>68</td></tr>
+<tr><td>Total ASM wrapper count</td><td>59</td></tr>
+<tr><td>Sanity check 127==127 <br/>(wrappers)+(no-wrappers)==(C function count)</td><td><span style="background-color: #40FF40">PASS</span></td></tr>
+</table>
+<h2>Firmware-call-level Statistics</h2>
+<table>
+<tr><td>Total fw calls covered both without <span style="font-weight: bold">and</span> with wrapper</td><td>13</td></tr>
+<tr><td>Total fw calls covered, filtering duplicate coverage</td><td>114</td></tr>
+<tr><td>Sanity check 114==114 <br/></td><td><span style="background-color: #40FF40">PASS</span></td></tr>
 </table>
 <h2>Statistics per firmware packages</h2>
 <table>
 <tr><th>Package</th><th>Calls covered</th><th>Direct</th><th>Wrapper</th></tr>
 <tr><td><span class="fw_call_name">CAS</span></td><td>4</td><td>4</td><td>0</td></tr>
-<tr><td><span class="fw_call_name">GRA</span></td><td>19</td><td>4</td><td>15</td></tr>
+<tr><td><span class="fw_call_name">GRA</span></td><td>33</td><td>17</td><td>16</td></tr>
 <tr><td><span class="fw_call_name">JRE</span></td><td>1</td><td>1</td><td>0</td></tr>
 <tr><td><span class="fw_call_name">KL</span></td><td>5</td><td>5</td><td>0</td></tr>
 <tr><td><span class="fw_call_name">KM</span></td><td>26</td><td>8</td><td>18</td></tr>
@@ -67,7 +81,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <tr><td><span class="fw_call_name">MC</span></td><td>2</td><td>2</td><td>0</td></tr>
 <tr><td><span class="fw_call_name">SCR</span></td><td>7</td><td>4</td><td>3</td></tr>
 <tr><td><span class="fw_call_name">SOUND</span></td><td>2</td><td>2</td><td>0</td></tr>
-<tr><td><span class="fw_call_name">TXT</span></td><td>38</td><td>18</td><td>22</td></tr>
+<tr><td><span class="fw_call_name">TXT</span></td><td>40</td><td>18</td><td>22</td></tr>
 </table>
 <h2>Details per firmware packages</h2>
 <h3>Package <span class="fw_call_name">CAS</span></h3>
@@ -81,25 +95,39 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <h3>Package <span class="fw_call_name">GRA</span></h3>
 <table>
 <tr><th>Call</th><th>Direct</th><th>Wrapper</th><th>C-level prototype(s)</th></tr>
-<tr><td><span class="fw_call_name">GRA LINE ABSOLUTE</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_line_absolute.s</td><td class="cdecl">void fw_gra_line_absolute(int x, int y);<br /></td></tr>
-<tr><td><span class="fw_call_name">GRA PLOT ABSOLUTE</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_plot_absolute.s</td><td class="cdecl">void fw_gra_plot_absolute(int x, int y);<br /></td></tr>
-<tr><td><span class="fw_call_name">GRA MOVE ABSOLUTE</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_move_absolute.s</td><td class="cdecl">void fw_gra_move_absolute(int x, int y);<br /></td></tr>
-<tr><td><span class="fw_call_name">GRA TEST ABSOLUTE</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_test_absolute.s</td><td class="cdecl">void fw_gra_test_absolute(int x, int y);<br /></td></tr>
-<tr><td><span class="fw_call_name">GRA LINE RELATIVE</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_line_relative.s</td><td class="cdecl">void fw_gra_line_relative(int x, int y);<br /></td></tr>
-<tr><td><span class="fw_call_name">GRA PLOT RELATIVE</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_plot_relative.s</td><td class="cdecl">void fw_gra_plot_relative(int x, int y);<br /></td></tr>
-<tr><td><span class="fw_call_name">GRA MOVE RELATIVE</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_move_relative.s</td><td class="cdecl">void fw_gra_move_relative(int x, int y);<br /></td></tr>
-<tr><td><span class="fw_call_name">GRA TEST RELATIVE</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_test_relative.s</td><td class="cdecl">void fw_gra_test_relative(int x, int y);<br /></td></tr>
-<tr><td><span class="fw_call_name">GRA SET PEN</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_set_pen.s</td><td class="cdecl">void fw_gra_set_pen(unsigned char pencolor);<br /></td></tr>
-<tr><td><span class="fw_call_name">GRA GET PEN</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_get_pen.s</td><td class="cdecl">unsigned char fw_gra_get_pen(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">GRA SET PAPER</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_set_paper.s</td><td class="cdecl">void fw_gra_set_paper(unsigned char papercolor);<br /></td></tr>
-<tr><td><span class="fw_call_name">GRA GET PAPER</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_get_paper.s</td><td class="cdecl">unsigned char fw_gra_get_paper(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">GRA WR CHAR</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_wr_char.s</td><td class="cdecl">void fw_gra_wr_char(char character);<br /></td></tr>
 <tr><td><span class="fw_call_name">GRA INITIALISE</span></td><td class="cdecl">	_fw_gra_initialise == 0xBBBA</td><td class="cdecl"></td><td class="cdecl">void fw_gra_initialise(void);<br /></td></tr>
 <tr><td><span class="fw_call_name">GRA RESET</span></td><td class="cdecl">	_fw_gra_reset == 0xBBBD</td><td class="cdecl"></td><td class="cdecl">void fw_gra_reset(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA MOVE ABSOLUTE</span></td><td class="cdecl">	_fw_gra_move_absolute__fastcall == 0xBBC0</td><td class="cdecl">fw_gra_move_absolute.s</td><td class="cdecl">void fw_gra_move_absolute(int16_t x, int16_t y);<br />
+void fw_gra_move_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA MOVE RELATIVE</span></td><td class="cdecl">	_fw_gra_move_relative__fastcall == 0xBBC3</td><td class="cdecl">fw_gra_move_relative.s</td><td class="cdecl">void fw_gra_move_relative(int16_t x, int16_t y);<br />
+void fw_gra_move_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA ASK CURSOR</span></td><td class="cdecl">	_fw_gra_ask_cursor == 0xBBC6</td><td class="cdecl"></td><td class="cdecl">uint32_t fw_gra_ask_cursor(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA SET ORIGIN</span></td><td class="cdecl">	_fw_gra_set_origin__fastcall == 0xBBC9</td><td class="cdecl">fw_gra_set_origin.s</td><td class="cdecl">void fw_gra_set_origin(int16_t x, int16_t y);<br />
+void fw_gra_set_origin__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA GET ORIGIN</span></td><td class="cdecl">	_fw_gra_get_origin == 0xBBCC</td><td class="cdecl"></td><td class="cdecl">uint32_t fw_gra_get_origin(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA WIN WIDTH</span></td><td class="cdecl">	_fw_gra_win_width__fastcall == 0xBBCF</td><td class="cdecl">fw_gra_win_width.s</td><td class="cdecl">void fw_gra_win_width(int16_t x1, int16_t x2);<br />
+void fw_gra_win_width__fastcall(int32_t fw_gra_x_x_coordinates_t_asint) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA WIN HEIGHT</span></td><td class="cdecl">	_fw_gra_win_height__fastcall == 0xBBD2</td><td class="cdecl">fw_gra_win_height.s</td><td class="cdecl">void fw_gra_win_height(int16_t y1, int16_t y2);<br />
+void fw_gra_win_height__fastcall(int32_t fw_gra_y_y_coordinates_t_asint) __z88dk_fastcall;<br /></td></tr>
 <tr><td><span class="fw_call_name">GRA CLEAR WINDOW</span></td><td class="cdecl">	_fw_gra_clear_window == 0xBBDB</td><td class="cdecl"></td><td class="cdecl">void fw_gra_clear_window(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA SET PEN</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_set_pen.s</td><td class="cdecl">void fw_gra_set_pen(unsigned char pencolor) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA GET PEN</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_get_pen.s</td><td class="cdecl">unsigned char fw_gra_get_pen(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA SET PAPER</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_set_paper.s</td><td class="cdecl">void fw_gra_set_paper(uint8_t papercolor) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA GET PAPER</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_get_paper.s</td><td class="cdecl">unsigned char fw_gra_get_paper(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA PLOT ABSOLUTE</span></td><td class="cdecl">	_fw_gra_plot_absolute__fastcall == 0xBBEA</td><td class="cdecl">fw_gra_plot_absolute.s</td><td class="cdecl">void fw_gra_plot_absolute(int16_t x, int16_t y);<br />
+void fw_gra_plot_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA PLOT RELATIVE</span></td><td class="cdecl">	_fw_gra_plot_relative__fastcall == 0xBBED</td><td class="cdecl">fw_gra_plot_relative.s</td><td class="cdecl">void fw_gra_plot_relative(int16_t x, int16_t y);<br />
+void fw_gra_plot_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA TEST ABSOLUTE</span></td><td class="cdecl">	_fw_gra_test_absolute__fastcall == 0xBBF0</td><td class="cdecl">fw_gra_test_absolute.s</td><td class="cdecl">void fw_gra_test_absolute(int16_t x, int16_t y);<br />
+void fw_gra_test_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA TEST RELATIVE</span></td><td class="cdecl">	_fw_gra_test_relative__fastcall == 0xBBF3</td><td class="cdecl">fw_gra_test_relative.s</td><td class="cdecl">void fw_gra_test_relative(int16_t x, int16_t y);<br />
+void fw_gra_test_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA LINE ABSOLUTE</span></td><td class="cdecl">	_fw_gra_line_absolute__fastcall == 0xBBF6</td><td class="cdecl">fw_gra_line_absolute.s</td><td class="cdecl">void fw_gra_line_absolute(int16_t x, int16_t y);<br />
+void fw_gra_line_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA LINE RELATIVE</span></td><td class="cdecl">	_fw_gra_line_relative__fastcall == 0xBBF9</td><td class="cdecl">fw_gra_line_relative.s</td><td class="cdecl">void fw_gra_line_relative(int16_t x, int16_t y);<br />
+void fw_gra_line_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">GRA WR CHAR</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_wr_char.s</td><td class="cdecl">void fw_gra_wr_char(char character);<br /></td></tr>
 <tr><td><span class="fw_call_name">GRA DEFAULT</span></td><td class="cdecl">	_fw_gra_default == 0xBD43</td><td class="cdecl"></td><td class="cdecl">void fw_gra_default(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">GRA WIN WIDTH</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_win_width.s</td><td class="cdecl">void fw_gra_win_width(int xleft, int xright);<br /></td></tr>
-<tr><td><span class="fw_call_name">GRA WIN HEIGHT</span></td><td class="cdecl"></td><td class="cdecl">fw_gra_win_height.s</td><td class="cdecl">void fw_gra_win_height(int ytop, int ybottom);<br /></td></tr>
 </table>
 <h3>Package <span class="fw_call_name">JRE</span></h3>
 <table>
@@ -109,7 +137,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <h3>Package <span class="fw_call_name">KL</span></h3>
 <table>
 <tr><th>Call</th><th>Direct</th><th>Wrapper</th><th>C-level prototype(s)</th></tr>
-<tr><td><span class="fw_call_name">KL TIME PLEASE</span></td><td class="cdecl">	_fw_kl_time_please == 0xBD0D</td><td class="cdecl"></td><td class="cdecl">long int fw_kl_time_please (void);<br /></td></tr>
+<tr><td><span class="fw_call_name">KL TIME PLEASE</span></td><td class="cdecl">	_fw_kl_time_please == 0xBD0D</td><td class="cdecl"></td><td class="cdecl">long int fw_kl_time_please(void);<br /></td></tr>
 <tr><td><span class="fw_call_name">KL SCAN NEEDED</span></td><td class="cdecl">	_fw_kl_scan_needed == 0xB92A</td><td class="cdecl"></td><td class="cdecl">void fw_kl_scan_needed(void);<br /></td></tr>
 <tr><td><span class="fw_call_name">KL SYNC RESET</span></td><td class="cdecl">	_fw_kl_sync_reset == 0xBCF5</td><td class="cdecl"></td><td class="cdecl">void fw_kl_sync_reset(void);<br /></td></tr>
 <tr><td><span class="fw_call_name">KL EVENT DISABLE</span></td><td class="cdecl">	_fw_kl_event_disable == 0xBD04</td><td class="cdecl"></td><td class="cdecl">void fw_kl_event_disable(void);<br /></td></tr>
@@ -120,14 +148,14 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <tr><th>Call</th><th>Direct</th><th>Wrapper</th><th>C-level prototype(s)</th></tr>
 <tr><td><span class="fw_call_name">KM INITIALISE</span></td><td class="cdecl">	_fw_km_initialise == 0xBB00</td><td class="cdecl"></td><td class="cdecl">void fw_km_initialise(void);<br /></td></tr>
 <tr><td><span class="fw_call_name">KM RESET</span></td><td class="cdecl">	_fw_km_reset == 0xBB03</td><td class="cdecl"></td><td class="cdecl">void fw_km_reset(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">KM WAIT CHAR</span></td><td class="cdecl"></td><td class="cdecl">fw_km_wait_char.s</td><td class="cdecl">unsigned char fw_km_wait_char (void);<br /></td></tr>
-<tr><td><span class="fw_call_name">KM READ CHAR</span></td><td class="cdecl"></td><td class="cdecl">fw_km_read_char.s</td><td class="cdecl">uint16_t fw_km_read_char (void);<br /></td></tr>
-<tr><td><span class="fw_call_name">KM CHAR RETURN</span></td><td class="cdecl"></td><td class="cdecl">fw_km_char_return.s</td><td class="cdecl">void fw_km_char_return (unsigned char c) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">KM WAIT CHAR</span></td><td class="cdecl"></td><td class="cdecl">fw_km_wait_char.s</td><td class="cdecl">unsigned char fw_km_wait_char(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">KM READ CHAR</span></td><td class="cdecl"></td><td class="cdecl">fw_km_read_char.s</td><td class="cdecl">uint16_t fw_km_read_char(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">KM CHAR RETURN</span></td><td class="cdecl"></td><td class="cdecl">fw_km_char_return.s</td><td class="cdecl">void fw_km_char_return(unsigned char c) __z88dk_fastcall;<br /></td></tr>
 <tr><td><span class="fw_call_name">KM SET EXPAND</span></td><td class="cdecl"></td><td class="cdecl">fw_km_set_expand.s</td><td class="cdecl">enum fw_byte_all_or_nothing fw_km_set_expand(uint8_t token, uint8_t string_length, unsigned char* string);<br /></td></tr>
 <tr><td><span class="fw_call_name">KM GET EXPAND</span></td><td class="cdecl"></td><td class="cdecl">fw_km_get_expand.s</td><td class="cdecl">uint16_t fw_km_get_expand(uint8_t token, uint8_t char_number);<br /></td></tr>
 <tr><td><span class="fw_call_name">KM EXP BUFFER</span></td><td class="cdecl"></td><td class="cdecl">fw_km_exp_buffer.s</td><td class="cdecl">enum fw_byte_all_or_nothing fw_km_exp_buffer(unsigned char *buffer, uint16_t buffer_bytecount);<br /></td></tr>
-<tr><td><span class="fw_call_name">KM WAIT KEY</span></td><td class="cdecl"></td><td class="cdecl">fw_km_wait_key.s</td><td class="cdecl">unsigned char fw_km_wait_key (void);<br /></td></tr>
-<tr><td><span class="fw_call_name">KM READ KEY</span></td><td class="cdecl"></td><td class="cdecl">fw_km_read_key.s</td><td class="cdecl">uint16_t fw_km_read_key (void);<br /></td></tr>
+<tr><td><span class="fw_call_name">KM WAIT KEY</span></td><td class="cdecl"></td><td class="cdecl">fw_km_wait_key.s</td><td class="cdecl">unsigned char fw_km_wait_key(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">KM READ KEY</span></td><td class="cdecl"></td><td class="cdecl">fw_km_read_key.s</td><td class="cdecl">uint16_t fw_km_read_key(void);<br /></td></tr>
 <tr><td><span class="fw_call_name">KM TEST KEY</span></td><td class="cdecl"></td><td class="cdecl">fw_km_test_key.s</td><td class="cdecl">uint16_t fw_km_test_key(uint8_t key_number) __z88dk_fastcall;<br /></td></tr>
 <tr><td><span class="fw_call_name">KM GET STATE</span></td><td class="cdecl">	_fw_km_get_state == 0xBB21</td><td class="cdecl"></td><td class="cdecl">uint16_t fw_km_get_state(void);<br /></td></tr>
 <tr><td><span class="fw_call_name">KM GET JOYSTICK</span></td><td class="cdecl">	_fw_km_get_joystick == 0xBB24</td><td class="cdecl"></td><td class="cdecl">uint16_t fw_km_get_joystick(void);<br /></td></tr>
@@ -192,14 +220,10 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <tr><td><span class="fw_call_name">TXT SET GRAPHIC</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_graphic.s</td><td class="cdecl">void fw_txt_set_graphic(bool enable) __z88dk_fastcall;<br /></td></tr>
 <tr><td><span class="fw_call_name">TXT WIN ENABLE</span></td><td class="cdecl">	_fw_txt_win_enable__fastcall == 0xBB66</td><td class="cdecl">fw_txt_win_enable.s</td><td class="cdecl">void fw_txt_win_enable(uint8_t left, uint8_t right, uint8_t top, uint8_t bottom);<br />
 void fw_txt_win_enable__fastcall(uint32_t fw_txt_window_t_asint) __z88dk_fastcall;<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT WIN ENABLE</span></td><td class="cdecl">	_fw_txt_win_enable__fastcall == 0xBB66</td><td class="cdecl">fw_txt_win_enable.s</td><td class="cdecl">void fw_txt_win_enable(uint8_t left, uint8_t right, uint8_t top, uint8_t bottom);<br />
-void fw_txt_win_enable__fastcall(uint32_t fw_txt_window_t_asint) __z88dk_fastcall;<br /></td></tr>
 <tr><td><span class="fw_call_name">TXT GET WINDOW</span></td><td class="cdecl">	_fw_txt_get_window == 0xBB69</td><td class="cdecl"></td><td class="cdecl">uint32_t fw_txt_get_window(void);<br /></td></tr>
 <tr><td><span class="fw_call_name">TXT CLEAR WINDOW</span></td><td class="cdecl">        _fw_txt_clear_window == 0xBB6C</td><td class="cdecl"></td><td class="cdecl">void fw_txt_clear_window(void);<br /></td></tr>
 <tr><td><span class="fw_call_name">TXT SET COLUMN</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_column.s</td><td class="cdecl">void fw_txt_set_column(int8_t column) __z88dk_fastcall;<br /></td></tr>
 <tr><td><span class="fw_call_name">TXT SET ROW</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_row.s</td><td class="cdecl">void fw_txt_set_row(int8_t row) __z88dk_fastcall;<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT SET CURSOR</span></td><td class="cdecl">	_fw_txt_set_cursor__fastcall == 0xBB75</td><td class="cdecl">fw_txt_set_cursor.s</td><td class="cdecl">void fw_txt_set_cursor(int8_t row, int8_t column);<br />
-void fw_txt_set_cursor__fastcall(int16_t colum8h_row8l) __z88dk_fastcall;<br /></td></tr>
 <tr><td><span class="fw_call_name">TXT SET CURSOR</span></td><td class="cdecl">	_fw_txt_set_cursor__fastcall == 0xBB75</td><td class="cdecl">fw_txt_set_cursor.s</td><td class="cdecl">void fw_txt_set_cursor(int8_t row, int8_t column);<br />
 void fw_txt_set_cursor__fastcall(int16_t colum8h_row8l) __z88dk_fastcall;<br /></td></tr>
 <tr><td><span class="fw_call_name">TXT GET CURSOR</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_get_cursor.s</td><td class="cdecl">uint32_t fw_txt_get_cursor();<br /></td></tr>
@@ -217,14 +241,17 @@ void fw_txt_set_cursor__fastcall(int16_t colum8h_row8l) __z88dk_fastcall;<br /><
 <tr><td><span class="fw_call_name">TXT INVERSE</span></td><td class="cdecl">	_fw_txt_inverse == 0xBB9C</td><td class="cdecl"></td><td class="cdecl">void fw_txt_inverse(void);<br /></td></tr>
 <tr><td><span class="fw_call_name">TXT SET BACK</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_back.s</td><td class="cdecl">void fw_txt_set_back(uint8_t is_transparent) __z88dk_fastcall;<br /></td></tr>
 <tr><td><span class="fw_call_name">TXT GET BACK</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_get_back.s</td><td class="cdecl">uint8_t fw_txt_get_back(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT GET MATRIX</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_get_matrix.s</td><td class="cdecl">fw_txt_p_character_matrix_with_rom_indication_t *fw_txt_get_matrix(uint8_t character_number) __z88dk_fastcall;<br /></td></tr>
 <tr><td><span class="fw_call_name">TXT SET MATRIX</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_matrix.s</td><td class="cdecl">enum fw_byte_all_or_nothing fw_txt_set_matrix(uint8_t character, fw_txt_character_matrix_t *matrix);<br /></td></tr>
 <tr><td><span class="fw_call_name">TXT DRAW CURSOR</span></td><td class="cdecl">	_fw_txt_draw_cursor == 0xBDCD</td><td class="cdecl"></td><td class="cdecl">void fw_txt_draw_cursor(void);<br /></td></tr>
 <tr><td><span class="fw_call_name">TXT UNDRAW CURSOR</span></td><td class="cdecl">	_fw_txt_undraw_cursor == 0xBDD0</td><td class="cdecl"></td><td class="cdecl">void fw_txt_undraw_cursor(void);<br /></td></tr>
 <tr><td><span class="fw_call_name">TXT SET M TABLE</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_m_table.s</td><td class="cdecl">uint32_t fw_txt_set_m_table(fw_txt_character_matrix_t *buffer, bool disable, uint8_t lowest_affected_character);<br /></td></tr>
 <tr><td><span class="fw_call_name">TXT GET M TABLE</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_get_m_table.s</td><td class="cdecl">uint32_t fw_txt_get_m_table();<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT GET CONTROLS</span></td><td class="cdecl">	_fw_txt_get_controls == 0xBBB1</td><td class="cdecl"></td><td class="cdecl">fw_txt_control_code_table_t *fw_txt_get_controls();<br /></td></tr>
 <tr><td><span class="fw_call_name">TXT STR SELECT</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_str_select.s</td><td class="cdecl">uint8_t fw_txt_str_select();<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT SWAP STREAMS</span></td><td class="cdecl"></td><td class="cdecl"></td><td class="cdecl">void fw_txt_swap_streams(uint8_t stream1, uint8_t stream2);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT SWAP STREAMS</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_swap_streams.s</td><td class="cdecl">void fw_txt_swap_streams(uint8_t stream1, uint8_t stream2);<br /></td></tr>
 </table>
 <h2>Conclusion</h2>
-Happy hacking! Start there: <a href="https://github.com/cpcitor/cpc-dev-tool-chain" title="cpcitor/cpc-dev-tool-chain: A development toolchain to compile your C or assembly projects on a modern OS and run your compiled projects on an Amstrad CPC or emulator. Early stage, simple and already usable.">cpc-dev-tool-chain on GitHub.</a>
+<p>Happy hacking! Start there: <a href="https://github.com/cpcitor/cpc-dev-tool-chain" title="cpcitor/cpc-dev-tool-chain: A development toolchain to compile your C or assembly projects on a modern OS and run your compiled projects on an Amstrad CPC or emulator. Early stage, simple and already usable.">cpc-dev-tool-chain on GitHub.</a></p>
+</body>
 </html>

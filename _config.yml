@@ -1,1 +1,2 @@
-theme: jekyll-theme-minimal
+# This is for https://cpcitor.github.io/cpc-dev-tool-chain
+remote_theme: cpcitor/jekyll-theme-cpc

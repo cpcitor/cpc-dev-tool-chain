@@ -105,6 +105,37 @@ void fw_mc_start_program(uint8_t rom_selection, void *entry);
 */
 void fw_mc_wait_flyback(void);
 
+/** 180: MC SET MODE
+    #BD1C
+    Set the screen mode.
+    Action:
+    Load the hardware with the required screen mode.
+    Entry conditions:
+    A contains the required mode.
+    Exit conditions:
+    AF corrupt.
+    All other registers preserved.
+    Notes:
+    The required mode is checked and no action is taken if it is invalid. If it is valid then
+    the new value is sent to the hardware.
+    The screen modes are:
+    0:
+    1:
+    2:
+    160 x 200 pixels,
+    320 x 200 pixels,
+    640 x 200 pixels,
+    20 x 25 characters.
+    40 x 25 characters.
+    80 x 25 characters.
+    Altering the screen mode without notifying the Screen Pack will produce peculiar
+    effects on the screen. In general SCR SET MODE should be called to change screen
+    mode. This, in turn, sets the new mode into the hardware.
+    Related entries:
+    SCR SET MODE
+*/
+void fw_mc_set_mode(uint8_t mode) __z88dk_fastcall;
+
 void fw_mc_reset_printer(void);
 
 #endif /* __FW_MC_H__ */

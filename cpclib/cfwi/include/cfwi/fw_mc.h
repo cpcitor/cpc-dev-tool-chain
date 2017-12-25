@@ -49,6 +49,36 @@
 */
 void fw_mc_boot_program(void *loader) __z88dk_fastcall;
 
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    178: MC START PROGRAM
+    #BD16
+    Run a foreground program.
+    Action:
+    Fully initialize the system and enter a program.
+    Entry conditions:
+    HL contains the entry point address.
+    C contains the required ROM selection.
+    Exit conditions:
+    Never exits!
+    Notes:
+    HL and C comprise the 'far address' of the entry point of the foreground program (see
+    section 2).
+    When entering a foreground program in ROM the ROM selection should be that
+    required to select the appropriate ROM. When entering a foreground program in RAM
+    the ROM selection should be used to enable or disable ROMs as the RAM program
+    requires (ROM select addresses #FC..#FF).
+    This routine carries out a full EMS initialization of the firmware before entering the
+    program. Returning from the program will reset the system (perform RST 0).
+    MC START PROGRAM is intended for running programs in ROM or programs that
+    have already been loaded into RAM. To load and run a RAM program use MC BOOT
+    PROGRAM.
+    Related entries:
+    MC BOOT PROGRAM
+    RESET ENTRY (RST 0)
+*/
+void fw_mc_start_program(uint8_t rom_selection, void *entry);
+
 void fw_mc_wait_flyback(void);
 void fw_mc_reset_printer(void);
 

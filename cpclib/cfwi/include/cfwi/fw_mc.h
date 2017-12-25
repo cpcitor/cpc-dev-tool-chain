@@ -136,6 +136,35 @@ void fw_mc_wait_flyback(void);
 */
 void fw_mc_set_mode(uint8_t mode) __z88dk_fastcall;
 
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    181: MC SCREEN OFFSET
+    #BD1F
+    Set the screen offset.
+    Action:
+    Load the hardware with the offset of the first byte on the screen inside a 2K screen
+    block and which 16K block the screen memory is located in.
+    Entry conditions:
+    A contains the new screen base.
+    HL contains the new screen offset.
+    Exit conditions:
+    AF corrupt.
+    All other registers preserved.
+    Notes:
+    The screen base address is masked with #C0 to make sure it refers to a valid 16K
+    memory area. The default screen base is #C0 (the screen is underneath the upper
+    ROM).
+    The screen offset is masked with #07FE to make it legal. Note that bit 0 is ignored as
+    the hardware only uses even offsets.
+    If the screen base or offset is changed without notifying the Screen Pack then
+    unexpected effects may occur on the screen. In general SCR SET BASE or SCR SET
+    OFFSET should be called. These, in their turn, send the values to the hardware.
+    Related entries:
+    SCR SET BASE
+    SCR SET OFFSET
+*/
+void fw_mc_screen_offset(uint8_t screen_base, uint16_t screen_offset);
+
 void fw_mc_reset_printer(void);
 
 #endif /* __FW_MC_H__ */

@@ -404,4 +404,38 @@ void fw_mc_set_inks(ink_vector16 *ink_vector) __z88dk_fastcall;
 */
 void fw_mc_reset_printer(void);
 
+/** 185: MC PRINT CHAR
+    #BD2B
+    Try to send a character to the Centronics port.
+    Action:
+    Send a character to the printer (Centronics port) or time out if the printer is busy for
+    too long.
+    Entry conditions:
+    A contains the character to send (bit 7 is ignored).
+    Exit conditions:
+    If the character was sent OK:
+    Carry true.
+    If the printer timed out:
+    Carry false.
+    Always:
+    A and other flags corrupt.
+    All other registers preserved.
+    Notes:
+    In V1.1 firmware, the character to be sent is translated using the printer translation
+    table as set by MC PRINT TRANSLATION. If the supplied character is not found in
+    the table then it is sent as supplied without translation. However, if the character is
+    found in the translation table then the corresponding translation is sent instead; unless
+    the translation is FF in which case the character is ignored and nothing is sent.
+    This routine calls the Machine Pack indirection MC WAIT PRINTER to sent the
+    character. The default indirection routine waits for the Centronics port to become non-
+    busy then sends the character. If the port remains busy for too long (approximately
+    0.4 seconds) then the routine times out and the character is not sent. This time out is
+    provided so that the caller can test for break whilst driving the printer.
+    Related entries:
+    MC PRINT TRANSLATION
+    MC RESET PRINTER
+    MC WAIT PRINTER
+*/
+void fw_mc_print_char(unsigned char char_to_send_7bits) __z88dk_fastcall;
+
 #endif /* __FW_MC_H__ */

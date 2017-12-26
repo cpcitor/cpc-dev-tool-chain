@@ -438,4 +438,33 @@ void fw_mc_reset_printer(void);
 */
 void fw_mc_print_char(unsigned char char_to_send_7bits) __z88dk_fastcall;
 
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    #### CFWI-specific information: ####
+
+    Since C cannot handle carry flag, this routine returns non-zero if
+    centronics port is busy, zero if centronics port is idle.
+
+    186: MC BUSY PRINTER
+    #BD2E
+    Test if the Centronics port is busy.
+    Action:
+    Test if the printer (Centronics port) is busy.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    If Centronics port is busy:
+    Carry true.
+    If Centronics port is idle:
+    Carry false.
+    Always:
+    Other flags corrupt.
+    All other registers preserved.
+    Notes:
+    This routine has no other effects.
+    Related entries:
+    MC SEND PRINTER
+*/
+uint8_t fw_mc_busy_printer(void);
+
 #endif /* __FW_MC_H__ */

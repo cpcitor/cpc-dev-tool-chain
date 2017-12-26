@@ -165,6 +165,152 @@ void fw_mc_set_mode(uint8_t mode) __z88dk_fastcall;
 */
 void fw_mc_screen_offset(uint8_t screen_base, uint16_t screen_offset);
 
+enum hardware_color
+{
+	hardware_color_r0_g0_b0_black		= 20,
+	hardware_color_r0_g0_b1_blue		= 4,
+	hardware_color_r0_g0_b2_bright_blue	= 21,
+	hardware_color_r1_g0_b0_red		= 28,
+	hardware_color_r1_g0_b1_magenta	= 24,
+	hardware_color_r1_g0_b2_mauve		= 29,
+	hardware_color_r2_g0_b0_bright_red	= 12,
+	hardware_color_r2_g0_b1_purple		= 5,
+	hardware_color_r2_g0_b2_bright_magenta	= 13,
+	hardware_color_r0_g1_b0_green		= 22,
+	hardware_color_r0_g1_b1_cyan		= 6,
+	hardware_color_r0_g1_b2_sky_blue	= 23,
+	hardware_color_r1_g1_b0_yellow		= 30,
+	hardware_color_r1_g1_b1_white		= 0,
+	hardware_color_r1_g1_b2_pastel_blue	= 31,
+	hardware_color_r2_g1_b0_orange		= 14,
+	hardware_color_r2_g1_b1_pink		= 7,
+	hardware_color_r2_g1_b2_pastel_magenta	= 15,
+	hardware_color_r0_g2_b0_bright_green	= 18,
+	hardware_color_r0_g2_b1_sea_green	= 2,
+	hardware_color_r0_g2_b2_bright_cyan	= 19,
+	hardware_color_r1_g2_b0_lime		= 26,
+	hardware_color_r1_g2_b1_pastel_green	= 25,
+	hardware_color_r1_g2_b2_pastel_cyan	= 27,
+	hardware_color_r2_g2_b0_bright_yellow	= 10,
+	hardware_color_r2_g2_b1_pastel_yellow	= 3,
+	hardware_color_r2_g2_b2_bright_white	= 11,
+};
+
+typedef union ink_vector1
+{
+	struct
+	{
+		enum hardware_color border_color;
+		enum hardware_color all_other_color;
+	};
+	enum hardware_color as_array[2];
+} ink_vector1;
+
+typedef union ink_vector2
+{
+	struct
+	{
+		enum hardware_color border_color;
+		enum hardware_color ink0;
+		enum hardware_color ink1;
+	};
+	enum hardware_color as_array[3];
+} ink_vector2;
+
+typedef union ink_vector4
+{
+	struct
+	{
+		enum hardware_color border_color;
+		enum hardware_color ink0;
+		enum hardware_color ink1;
+		enum hardware_color ink2;
+		enum hardware_color ink3;
+	};
+	enum hardware_color as_array[5];
+} ink_vector4;
+
+typedef union ink_vector16
+{
+	struct
+	{
+		enum hardware_color border_color;
+		enum hardware_color ink0;
+		enum hardware_color ink1;
+		enum hardware_color ink2;
+		enum hardware_color ink3;
+		enum hardware_color ink4;
+		enum hardware_color ink5;
+		enum hardware_color ink6;
+		enum hardware_color ink7;
+		enum hardware_color ink8;
+		enum hardware_color ink9;
+		enum hardware_color ink10;
+		enum hardware_color ink11;
+		enum hardware_color ink12;
+		enum hardware_color ink13;
+		enum hardware_color ink14;
+		enum hardware_color ink15;
+	};
+	enum hardware_color as_array[17];
+} ink_vector16;
+
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    #### CFWI-specific information: ####
+
+    MC CLEAR INKS only uses the border color and first ink.  You
+    probably already have in RAM your palette in ink_vector format, so
+    avoid duplicate it.
+
+    If fw_mc_clear_inks accepts only ink_vector1, compiler will
+    complain about your palette not being the good type.
+
+    If fw_mc_clear_inks accepts only bigger ink_vector then memory is
+    wasted.
+
+    You can still cast type but this is against code concision and
+    clarity.
+
+    Simplest thing: have different C-level fw_mc_clear_inks* function
+    declarations that backed by the same ASM-level symbol, only they
+    take different C-level types.  Simple code, no waste at any level.
+
+
+
+    182: MC CLEAR INKS
+    #BD22
+    Set all inks to one colour.
+    Action:
+    Set the colour of the border and set the colour of all the inks. All inks are set to the
+    same colour thus giving the impression that the screen has been cleared instantly.
+    Entry conditions:
+    DE contains the address of an ink vector.
+    Exit conditions:
+    AF corrupt.
+    All other registers preserved.
+    Notes:
+    The ink vector has the form:
+    Byte 0:
+    Byte 1:
+    Colour of the border.
+    Colour for all inks.
+    The colours supplied are the numbers used by the hardware rather than the grey scale
+    numbers supplied to SCR SET INK (see Appendix V).
+    After the screen has been cleared (or whatever) the correct ink colours can be set by
+    calling MC SET INKS.
+    This routine sets the colours for all 16 inks whether they can be displayed on the
+    screen in the current mode or not.
+    This ink clearing technique is used by the Screen Pack when clearing the screen or
+    changing mode (by SCR CLEAR and SCR SET MODE).
+    Related entries:
+    MC SET INKS
+*/
+void fw_mc_clear_inks16(ink_vector16 *ink_vector) __z88dk_fastcall;
+void fw_mc_clear_inks4(ink_vector4 *ink_vector) __z88dk_fastcall;
+void fw_mc_clear_inks2(ink_vector2 *ink_vector) __z88dk_fastcall;
+void fw_mc_clear_inks1(ink_vector1 *ink_vector) __z88dk_fastcall;
+
 void fw_mc_reset_printer(void);
 
 #endif /* __FW_MC_H__ */

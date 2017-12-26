@@ -92,7 +92,7 @@ unsigned char fw_km_wait_char(void);
 
     #### CFWI-specific information: ####
 
-    since C cannot handle carry flag, value is returned like this:
+    Since C cannot handle carry flag, value is returned like this:
 
     uint16_t returned_value = fw_km_read_char();
     if (UINT_AND_BYTE_1(returned_value))
@@ -166,7 +166,7 @@ void fw_km_char_return(unsigned char c) __z88dk_fastcall;
 
     #### CFWI-specific information: ####
 
-    since C cannot handle carry flag, this routine returns zero if
+    Since C cannot handle carry flag, this routine returns zero if
     expansion is okay, non-zero if expansion failed.
 
     5: KM SET EXPAND
@@ -207,7 +207,7 @@ enum fw_byte_all_or_nothing fw_km_set_expand(uint8_t token, uint8_t string_lengt
 
     #### CFWI-specific information: ####
 
-    since C cannot handle carry flag, this routine returns a byte
+    Since C cannot handle carry flag, this routine returns a byte
     value if a character was returned, and any value outside range
     0-255 if not.
 
@@ -255,7 +255,7 @@ uint16_t fw_km_get_expand(uint8_t token, uint8_t char_number);
 
     #### CFWI-specific information: ####
 
-    since C cannot handle carry flag, this routine returns zero if
+    Since C cannot handle carry flag, this routine returns zero if
     operation went okay, non-zero on failure.
 
     7: KM EXP BUFFER
@@ -374,7 +374,7 @@ enum
 
     #### CFWI-specific information: ####
 
-    since C cannot handle zero flag, value is returned like this:
+    Since C cannot handle zero flag, value is returned like this:
 
     uint16_t returned_value = fw_km_test_key(mykey);
     if (UINT_AND_BYTE_1(returned_value))
@@ -770,7 +770,7 @@ uint8_t fw_km_set_repeat(uint8_t key_number, enum fw_byte_all_or_nothing repeat_
 
     #### CFWI-specific information: ####
 
-    since C cannot handle zero flag, value is returned like this:
+    Since C cannot handle zero flag, value is returned like this:
 
     uint16_t returned_value = fw_km_get_repeat(mykey);
     if (UINT_SELECT_BYTE_0(returned_value))

@@ -184,7 +184,11 @@ void fw_gra_move_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z
 
     #### CFWI-specific information: ####
 
-    Since C cannot handle carry flag, the information is returned like this:
+    Since C cannot handle return more than one value and SDCC cannot
+    return a struct, we use a trick.  Technically, an integer is
+    returned and you can extract values from a union.
+
+    In practice, just use like this:
 
     fw_gra_x_y_coordinates_t xy;
     xy.as_uint32_t = fw_gra_ask_cursor();
@@ -252,7 +256,11 @@ void fw_gra_set_origin__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88d
 
     #### CFWI-specific information: ####
 
-    Since C cannot handle carry flag, the information is returned like this:
+    Since C cannot handle return more than one value and SDCC cannot
+    return a struct, we use a trick.  Technically, an integer is
+    returned and you can extract values from a union.
+
+    In practice, just use like this:
 
     fw_gra_x_y_coordinates_t xy;
     xy.as_uint32_t = fw_gra_get_origin();
@@ -374,7 +382,11 @@ void fw_gra_win_height__fastcall(int32_t fw_gra_y_y_coordinates_t_asint) __z88dk
 
     #### CFWI-specific information: ####
 
-    Since C cannot handle carry flag, the information is returned like this:
+    Since C cannot handle return more than one value and SDCC cannot
+    return a struct, we use a trick.  Technically, an integer is
+    returned and you can extract values from a union.
+
+    In practice, just use like this:
 
     fw_gra_x_x_coordinates_t xx;
     xx.as_uint32_t = fw_gra_get_w_width();
@@ -409,7 +421,11 @@ uint32_t fw_gra_get_w_width();
 
     #### CFWI-specific information: ####
 
-    Since C cannot handle carry flag, the information is returned like this:
+    Since C cannot handle return more than one value and SDCC cannot
+    return a struct, we use a trick.  Technically, an integer is
+    returned and you can extract values from a union.
+
+    In practice, just use like this:
 
     fw_gra_y_y_coordinates_t yy;
     yy.as_uint32_t = fw_gra_get_w_width();

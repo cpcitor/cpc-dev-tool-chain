@@ -467,4 +467,25 @@ void fw_mc_print_char(unsigned char char_to_send_7bits) __z88dk_fastcall;
 */
 uint8_t fw_mc_busy_printer(void);
 
+/** 187: MC SEND PRINTER
+    #BD31
+    Send a character to the Centronics port.
+    Action:
+    Send a character to the printer (Centronics port) which must not be busy.
+    Entry conditions:
+    A contains the character to send (bit 7 is ignored).
+    Exit conditions:
+    Carry true.
+    A and other flags corrupt.
+    All other registers preserved.
+    Notes:
+    The printer must not be busy when a character is sent. The higher level routine MC
+    PRINT CHAR will automatically wait for the printer to become non-busy and should
+    be used in preference.
+    Related entries:
+    MC BUSY PRINTER
+    MC PRINT CHAR
+*/
+void fw_mc_send_printer(unsigned char char_to_send_7bits) __z88dk_fastcall;
+
 #endif /* __FW_MC_H__ */

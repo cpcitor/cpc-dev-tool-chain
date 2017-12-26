@@ -139,6 +139,9 @@ proceed_with_one_item ()
 
         mv -f cdtc_local_machine.conf.tmp cdtc_local_machine.conf
 
+	cp -avuf "${CDTC_ROOT}/maintainer-tools/configure.in" configure_cdtc_build_tree.sh
+	chmod a+x configure_cdtc_build_tree.sh
+	
         echo "Job done with: $1"
 	echo "--------------------------------"
         return 0

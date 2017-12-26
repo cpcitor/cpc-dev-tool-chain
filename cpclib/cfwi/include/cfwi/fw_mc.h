@@ -311,6 +311,77 @@ void fw_mc_clear_inks4(ink_vector4 *ink_vector) __z88dk_fastcall;
 void fw_mc_clear_inks2(ink_vector2 *ink_vector) __z88dk_fastcall;
 void fw_mc_clear_inks1(ink_vector1 *ink_vector) __z88dk_fastcall;
 
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    #### CFWI-specific information: ####
+
+    MC SET INKS only needs as many inks as your current mode.  But it
+    will set all 16 inks even if current mode only accepts less, which
+    means that if you provide it a ink_vector4 or ink_vector2, the
+    bytes following it will be interpreted as color.
+
+    For this reason, the C-level prototype accepts ink_vector16. But
+    you can of course use a C-level cast to tell the compiler that
+    you're aware.
+
+    Exemple:
+
+    ink_vector4 mypalette =
+    {
+    hardware_color_r0_g0_b1_blue,
+    hardware_color_r2_g2_b2_bright_white
+    hardware_color_r0_g0_b0_black
+    hardware_color_r2_g1_b0_orange
+    }
+
+    fw_mc_set_inks( (ink_vector16 *)mypalette);
+
+
+
+    183: MC SET INKS
+    #BD25
+    Set colours of all the inks.
+    Action:
+    Set the colours of all the inks and the border.
+    Entry conditions:
+    DE contains the address of an ink vector.
+    Exit conditions:
+    AF corrupt.
+    All other registers preserved.
+    Notes:
+    The ink vector passed has the following layout:
+    Byte
+    Byte
+    Byte
+    ...
+    Byte
+    0:
+    1:
+    2:
+    16:
+    Colour
+    Colour
+    Colour
+    ...
+    Colour
+    of the border.
+    for ink 0.
+    for ink 1.
+    for ink 15.
+    The colours supplied are the numbers used by the hardware rather than the grey scale
+    numbers supplied to SCR SET INK (see Appendix V).
+    This routine sets the colours for all inks including those that cannot be visible in the
+    current screen mode. However, it is only necessary to supply sensible colours for the
+    visible inks.
+    The Screen Pack sets the colours for all the inks each time the inks flash and after an
+    ink colour has been changed (by calling SCR SET INK or SCR SET BORDER).
+    Related entries:
+    MC CLEAR INKS
+    SCR SET BORDER
+    SCR SET INK
+*/
+void fw_mc_set_inks(ink_vector16 *ink_vector) __z88dk_fastcall;
+
 void fw_mc_reset_printer(void);
 
 #endif /* __FW_MC_H__ */

@@ -382,6 +382,26 @@ void fw_mc_clear_inks1(ink_vector1 *ink_vector) __z88dk_fastcall;
 */
 void fw_mc_set_inks(ink_vector16 *ink_vector) __z88dk_fastcall;
 
+/** 184: MC RESET PRINTER
+    #BD28
+    Reset the printer indirection.
+    Action:
+    Set the printer indirection, MC WAIT PRINTER, to its default routine and, in V1.1
+    firmware, set up the default printer translation table.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    AF, BC, DE and HL corrupt.
+    All other registers preserved.
+    Notes:
+    The default printer translation table is described in Appendix XIV. This is designed to
+    drive the DMP-1 printer. It only translates the additional characters in the character
+    set (#A0..#AF); it does not translate any of the standard ASCII characters or the
+    graphics characters.
+    Related entries:
+    MC WAIT PRINTER
+    MC PRINT CHAR
+*/
 void fw_mc_reset_printer(void);
 
 #endif /* __FW_MC_H__ */

@@ -488,4 +488,25 @@ uint8_t fw_mc_busy_printer(void);
 */
 void fw_mc_send_printer(unsigned char char_to_send_7bits) __z88dk_fastcall;
 
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    188: MC SOUND REGISTER
+    #BD34
+    Send data to a sound chip register.
+    Action:
+    Set a sound chip register. This is a rather convoluted action because of the way the
+    hardware has been designed.
+    Entry conditions:
+    A contains the sound chip register number.
+    C contains the data to send.
+    Exit conditions:
+    AF and BC corrupt.
+    All other registers preserved.
+    Notes:
+    This routine enables interrupts.
+    Related entries:
+    None!
+*/
+void fw_mc_sound_register(uint8_t register_number, uint8_t data);
+
 #endif /* __FW_MC_H__ */

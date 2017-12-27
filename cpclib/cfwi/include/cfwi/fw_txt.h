@@ -61,7 +61,7 @@ void fw_txt_initialise(void) __preserves_regs(iyh, iyl);
 
     CFWI_TEST_FLAGS: TESTED_APP_PASS
 */
-void fw_txt_reset(void);
+void fw_txt_reset(void) __preserves_regs(iyh, iyl);
 
 /** 28: TXT VDU ENABLE #BB54
     Allow characters to be placed on the screen.

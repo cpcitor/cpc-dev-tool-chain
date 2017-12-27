@@ -882,7 +882,7 @@ void fw_txt_set_pen(uint8_t p) __preserves_regs(b, c, d, e, iyh, iyl) __z88dk_fa
     TXT GET PAPER
     TXT SET PEN
 */
-uint8_t fw_txt_get_pen(void);
+uint8_t fw_txt_get_pen(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);
 
 /** 50: TXT SET PAPER #BB96
     Set ink for writing text background.

@@ -75,7 +75,7 @@ TOTAL_FW_NOWRAPPER_COUNT=$( nowrappers_lines | wc -l )
 
 function list_fw_wrapper_files()
 {
-    ls -1b src/fw_*.s | grep -v fw_nowrapperneeded | sed 's|src/||'
+    ls -1b src/fw_*.s | grep -v fw_nowrapperneeded
 }
 
 TOTAL_FW_WRAPPER_COUNT=$( list_fw_wrapper_files | wc -l )
@@ -296,7 +296,7 @@ do
     do
 	TRADINAME=$( c_style_names_to_html_fw_call_span "$callname" )
 	NOWRAPPERS=$( nowrappers_lines | grep $callname )
-	WRAPPER=$( list_fw_wrapper_files | grep $callname )
+	WRAPPER=$( FILES=$( list_fw_wrapper_files | grep "$callname" ) ; for FILE in $FILES ; do echo "<p>In $FILE</p>" ; grep "$callname.*::" $FILE ; done )
 	PROTOTYPES=$( list_c_prototypes | grep $callname | prototype_line_to_bare_prototype )
 	#TWICE=$( list_c_covered_fw_calls_with_and_without_wrapper | grep _${package}_ )
 	#TWICE_FORMATTED=$( c_style_names_to_html_fw_call_span $TWICE )

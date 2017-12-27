@@ -928,7 +928,7 @@ void fw_txt_set_paper(uint8_t p) __preserves_regs(b, c, d, e, iyh, iyl) __z88dk_
     TXT GET PEN
     TXT SET PAPER
 */
-uint8_t fw_txt_get_paper(void);
+uint8_t fw_txt_get_paper(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);
 
 /** 52: TXT INVERSE #BB9C
     Swap current pen and paper inks over.

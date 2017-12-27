@@ -447,7 +447,7 @@ void fw_txt_clear_window(void) __preserves_regs(iyh, iyl);
     TXT SET CURSOR
     TXT SET ROW
 */
-void fw_txt_set_column(int8_t column) __z88dk_fastcall;
+void fw_txt_set_column(int8_t column) __preserves_regs(iyh, iyl) __z88dk_fastcall;
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 

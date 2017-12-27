@@ -178,7 +178,7 @@ void fw_txt_output(unsigned char c) __preserves_regs(b, c, d, e, h, l, iyh, iyl)
 
     CFWI_TEST_FLAGS: TESTED_APP_PASS
 */
-void fw_txt_wr_char(unsigned char c) __z88dk_fastcall;
+void fw_txt_wr_char(unsigned char c) __preserves_regs(iyh, iyl) __z88dk_fastcall;
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 

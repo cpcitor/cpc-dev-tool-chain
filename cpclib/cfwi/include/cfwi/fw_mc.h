@@ -469,7 +469,7 @@ void fw_mc_print_char(unsigned char char_to_send_7bits) __preserves_regs(b, c, d
     Related entries:
     MC SEND PRINTER
 */
-uint8_t fw_mc_busy_printer(void);
+uint8_t fw_mc_busy_printer(void) __preserves_regs(a, b, c, d, e, h, iyh, iyl);
 
 /** 187: MC SEND PRINTER
     #BD31

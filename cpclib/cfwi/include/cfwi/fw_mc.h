@@ -306,10 +306,10 @@ typedef union ink_vector16
     Related entries:
     MC SET INKS
 */
-void fw_mc_clear_inks16(ink_vector16 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;
-void fw_mc_clear_inks4(ink_vector4 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;
-void fw_mc_clear_inks2(ink_vector2 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;
-void fw_mc_clear_inks1(ink_vector1 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;
+void fw_mc_clear_inks__16(ink_vector16 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;
+void fw_mc_clear_inks__4(ink_vector4 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;
+void fw_mc_clear_inks__2(ink_vector2 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;
+void fw_mc_clear_inks__1(ink_vector1 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 

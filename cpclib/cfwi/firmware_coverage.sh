@@ -25,7 +25,7 @@ function list_fw_calls_c_style()
 {
     # Currently extracted from C function names, a little hackish but
     # has hack value.
-    list_c_function_names | sed "s/__fastcall//" | sed 's/[0-9]*$//' | uniq
+    list_c_function_names | sed "s/__[^ (]*$//" | uniq
 }
 
 TOTAL_C_DECLARED_FW_FUNCTION_NAMES=$( list_fw_calls_c_style | wc -l )

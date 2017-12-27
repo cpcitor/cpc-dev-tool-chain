@@ -1,6 +1,6 @@
-.module fw_km_set_matrix
+.module fw_txt_set_matrix
 
-_fw_km_set_matrix::
+_fw_txt_set_matrix::
         ld      hl,#2
         add     hl,sp
         ld      a,(hl)          ; character to redefine

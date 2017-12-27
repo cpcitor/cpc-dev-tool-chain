@@ -1316,7 +1316,7 @@ fw_txt_control_code_table_t *fw_txt_get_controls() __preserves_regs(iyh, iyl);
     Related entries:
     TXT OUTPUT
 */
-uint8_t fw_txt_str_select(uint8_t stream_to_select) __z88dk_fastcall;
+uint8_t fw_txt_str_select(uint8_t stream_to_select) __preserves_regs(b, c, d, e, iyl, iyh) __z88dk_fastcall;
 
 /** 61: TXT SWAP STREAMS #BBB7
     Swap the states of two streams.

@@ -1108,7 +1108,7 @@ fw_txt_p_character_matrix_t *fw_txt_get_matrix_ignore_rom_indication(uint8_t cha
     TXT GET MATRIX
     TXT SET M TABLE
 */
-enum fw_byte_all_or_nothing fw_txt_set_matrix(uint8_t character, fw_txt_character_matrix_t *matrix);
+enum fw_byte_all_or_nothing fw_txt_set_matrix(uint8_t character, fw_txt_character_matrix_t *matrix) __preserves_regs(iyh, iyl);
 
 void fw_txt_draw_cursor(void);
 void fw_txt_undraw_cursor(void);

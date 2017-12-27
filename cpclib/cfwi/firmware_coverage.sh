@@ -14,15 +14,21 @@ function list_c_function_names() {
     list_c_prototypes | sed -n "s/^.* \**\(fw_[^(]*\)(.*$/\1/p"
 }
 
-TOTAL_C_DECLARED_FW_FUNCTION_NAMES=$( list_c_function_names | wc -l )
-
 ### firmware
 
+function list_fw_calls_c_style()
+{
+    # Currently extracted from C function names, a little hackish but
+    # has hack value.
+    list_c_function_names | sed "s/__fastcall//" | sed 's/[0-9]*$//' | uniq
+}
+
+TOTAL_C_DECLARED_FW_FUNCTION_NAMES=$( list_fw_calls_c_style | wc -l )
 function list_c_covered_fw_calls() {
     list_c_function_names | sed "s/__fastcall//" | uniq
 }
 
-TOTAL_C_DECLARED_FW_CALL_COUNT=$( list_c_covered_fw_calls | wc -l )
+TOTAL_C_DECLARED_FW_CALL_COUNT=$( list_fw_calls_c_style | wc -l )
 
 function c_style_names_to_tradi_names()
 {
@@ -228,7 +234,7 @@ echo "</table>"
 
 function list_packages()
 {
-    list_c_covered_fw_calls | sed -n 's/fw_\([^_]*\)_.*$/\1/p' | sort | uniq
+    list_fw_calls_c_style | sed -n 's/fw_\([^_]*\)_.*$/\1/p' | sort | uniq
 }
 
 function in_package_count()
@@ -268,7 +274,7 @@ do
     echo "<table>"
     echo "<tr><th>Call</th><th>Direct</th><th>Wrapper</th><th>C-level prototype(s)</th></tr>"
 
-    for callname in $( list_c_covered_fw_calls | grep "^fw_${package}_" )
+    for callname in $( list_fw_calls_c_style | grep "^fw_${package}_" )
     do
 	TRADINAME=$( c_style_names_to_html_fw_call_span "$callname" )
 	NOWRAPPERS=$( nowrappers_lines | grep $callname )

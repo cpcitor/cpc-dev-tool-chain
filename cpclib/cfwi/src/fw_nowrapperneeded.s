@@ -63,6 +63,8 @@
 
 	_fw_txt_inverse == 0xBB9C
 
+	_fw_txt_get_matrix_ignore_rom_indication == 0xBBA5
+	
 	_fw_txt_get_controls == 0xBBB1
 	
 	_fw_mc_boot_program == 0xBD13

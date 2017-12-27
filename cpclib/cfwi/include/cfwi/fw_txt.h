@@ -1064,7 +1064,8 @@ typedef union fw_txt_p_character_matrix_with_rom_indication_t
     Related entries:
     TXT SET MATRIX
 */
-fw_txt_p_character_matrix_with_rom_indication_t *fw_txt_get_matrix(uint8_t character_number) __z88dk_fastcall;
+uint32_t fw_txt_get_matrix(uint8_t character_number) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;
+fw_txt_p_character_matrix_t *fw_txt_get_matrix_ignore_rom_indication(uint8_t character_number) __preserves_regs(b, c, d, e, iyh, iyl) __z88dk_fastcall;
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 

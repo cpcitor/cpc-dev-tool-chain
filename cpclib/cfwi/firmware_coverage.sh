@@ -190,11 +190,14 @@ html_out_variable "Overall coverage percentage" "${PERCENTAGE}%"
 
 echo "</table>"
 
+function symbol_level_statistics()
+{
+
 echo "<h2>Function/symbol-level Statistics</h2>"
 
 echo "<table>"
 
-html_out_variable "Total functions declared at C level" "$TOTAL_C_DECLARED_FW_FUNCTION_NAMES"
+html_out_variable "Total calls covered at C level" "$TOTAL_C_DECLARED_FW_FUNCTION_NAMES"
 html_out_variable "Total direct ASM symbols (not wrappers) count" "$TOTAL_FW_NOWRAPPER_COUNT"
 html_out_variable "Total ASM wrapper count" "$TOTAL_FW_WRAPPER_COUNT"
 
@@ -214,6 +217,12 @@ if [[ -n "${FAILHINT:-}" ]]
 then
     echo "<p>Hint: <pre>${FAILHINT}</pre></p>"
 fi
+}
+
+# disabled for now, since one wrapper file now holds several symbols
+# (several C-level functions point to same wrapper, they on ly differ
+# in types)
+# symbol_level_statistics
 
 echo "<h2>Firmware-call-level Statistics</h2>"
 

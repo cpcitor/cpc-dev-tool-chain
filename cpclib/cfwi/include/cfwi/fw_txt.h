@@ -979,7 +979,7 @@ void fw_txt_inverse(void) __preserves_regs(b, c, d, e, iyh, iyl);
     TXT WR CHAR
     TXT WRITE CHAR
 */
-void fw_txt_set_back(uint8_t is_transparent) __z88dk_fastcall;
+void fw_txt_set_back(uint8_t is_transparent) __preserves_regs(b, c, d, e, iyh, iyl) __z88dk_fastcall;
 
 /** 54: TXT GET BACK #BBA2
     Ask if background is being written.

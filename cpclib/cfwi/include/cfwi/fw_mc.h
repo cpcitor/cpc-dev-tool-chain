@@ -163,7 +163,7 @@ void fw_mc_set_mode(uint8_t mode) __preserves_regs(b, c, d, e, h, l, iyh, iyl) _
     SCR SET BASE
     SCR SET OFFSET
 */
-void fw_mc_screen_offset(uint8_t screen_base, uint16_t screen_offset);
+void fw_mc_screen_offset(uint8_t screen_base, uint16_t screen_offset) __preserves_regs(b, d, e, iyh, iyl);
 
 enum hardware_color
 {

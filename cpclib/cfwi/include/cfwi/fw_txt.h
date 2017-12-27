@@ -238,7 +238,7 @@ void fw_txt_wr_char(unsigned char c) __preserves_regs(iyh, iyl) __z88dk_fastcall
     TXT UNWRITE
     TXT WR CHAR
 */
-uint16_t fw_txt_rd_char(void);
+uint16_t fw_txt_rd_char(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 

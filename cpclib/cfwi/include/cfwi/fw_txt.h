@@ -1000,7 +1000,7 @@ void fw_txt_set_back(uint8_t is_transparent) __preserves_regs(b, c, d, e, iyh, i
     Related entries:
     TXT SET BACK
 */
-uint8_t fw_txt_get_back(void);
+uint8_t fw_txt_get_back(void) __preserves_regs(b, c, iyh, iyl);
 
 typedef uint8_t fw_txt_character_matrix_t[8];
 

@@ -421,7 +421,7 @@ uint32_t fw_txt_get_window(void) __preserves_regs(iyh, iyl);
     TXT SET PAPER
     TXT WIN ENABLE
 */
-void fw_txt_clear_window(void);
+void fw_txt_clear_window(void) __preserves_regs(iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 

@@ -108,7 +108,7 @@ void fw_txt_vdu_enable(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);
     TXT VDU DISABLE
     TXT WR CHAR
 */
-void fw_txt_vdu_disable(void);
+void fw_txt_vdu_disable(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);
 
 /** 30: TXT OUTPUT
     #BB5A

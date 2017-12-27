@@ -806,7 +806,7 @@ uint32_t fw_txt_validate(void) __preserves_regs(c, iyh, iyl);
     TXT DRAW CURSOR
     TXT REMOVE CURSOR
 */
-void fw_txt_place_cursor(void);
+void fw_txt_place_cursor(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);
 
 /** 47: TXT REMOVE CURSOR #BB8D
     Take a cursor blob off the screen.

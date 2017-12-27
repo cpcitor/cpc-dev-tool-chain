@@ -92,16 +92,6 @@
 	_fw_sound_reset == 0xBCA7
 	_fw_sound_continue == 0xBCB9
 	
-	;; void function(void) low kernel jumpblock
-
-	_fw_lkjb_reset_entry == 0x0000
-	_fw_lkjb_low_jump == 0x0008
-	_fw_lkjb_side_call == 0x0010
-	_fw_lkjb_far_call == 0x0018
-	_fw_lkjb_firm_jump == 0x0028
-	_fw_lkjb_interrupt_entry == 0x0038
-	_fw_lkjb_exit_interrupt == 0x003B
-
 	;; long int function (void);
 
 	_fw_kl_time_please == 0xBD0D

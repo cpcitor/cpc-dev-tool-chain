@@ -149,7 +149,7 @@ void fw_txt_vdu_disable(void);
 
     CFWI_TEST_FLAGS: TESTED_APP_PASS
 */
-void fw_txt_output(unsigned char c) __z88dk_fastcall;
+void fw_txt_output(unsigned char c) __preserves_regs(b, c, d, e, h, l, iyh, iyl) __z88dk_fastcall;
 
 /** 31: TXT WR CHAR #BB5D
     Write a character to the screen.

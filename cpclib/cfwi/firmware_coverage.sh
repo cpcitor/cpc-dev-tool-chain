@@ -230,11 +230,15 @@ echo "<table>"
 
 html_out_variable "Total fw calls covered both without <span style=\"font-weight: bold\">and</span> with wrapper" "$TOTAL_FW_TWICE_COVERED_COUNT"
 
+function check_filtering_duplicate_coverage()
+{
+    
 SC_TOTAL_COVERED_WITH_AND_WITHOUT_WRAPPER_NODUPLICATE=$(( $TOTAL_FW_NOWRAPPER_COUNT + $TOTAL_FW_WRAPPER_COUNT - $TOTAL_FW_TWICE_COVERED_COUNT ))
 
 html_out_variable "Total fw calls covered, filtering duplicate coverage" "$SC_TOTAL_COVERED_WITH_AND_WITHOUT_WRAPPER_NODUPLICATE"
 
 sanity_check_pass_fail $SC_TOTAL_COVERED_WITH_AND_WITHOUT_WRAPPER_NODUPLICATE $TOTAL_C_DECLARED_FW_CALL_COUNT
+}
 
 echo "</table>"
 

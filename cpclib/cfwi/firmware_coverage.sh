@@ -10,8 +10,13 @@ function list_c_prototypes() {
     egrep -ih '^[a-z].* \*?fw_.*(.*).*;' include/cfwi/*.h
 }
 
+function prototype_line_to_bare_prototype
+{
+    sed -e 's/ __[^(]*([^)]*)//g' | sed -e 's/ __[^ ;]*//g'
+}
+
 function list_c_function_names() {
-    list_c_prototypes | sed -e 's/ __[^ ;]*//g' | sed -n "s/^.* \**\(fw_[^(]*\)(.*$/\1/p"
+    list_c_prototypes | prototype_line_to_bare_prototype | sed -n "s/^.* \**\(fw_[^(]*\)(.*$/\1/p"
 }
 
 ### firmware
@@ -292,11 +297,11 @@ do
 	TRADINAME=$( c_style_names_to_html_fw_call_span "$callname" )
 	NOWRAPPERS=$( nowrappers_lines | grep $callname )
 	WRAPPER=$( list_fw_wrapper_files | grep $callname )
-	PROTOTYPES=$( list_c_prototypes | grep $callname | sed 's|$|<br />|')
+	PROTOTYPES=$( list_c_prototypes | grep $callname | prototype_line_to_bare_prototype )
 	#TWICE=$( list_c_covered_fw_calls_with_and_without_wrapper | grep _${package}_ )
 	#TWICE_FORMATTED=$( c_style_names_to_html_fw_call_span $TWICE )
 	# <td>$TWICE_FORMATTED</td>
-	echo "<tr><td>$TRADINAME</td><td class=\"cdecl\">$NOWRAPPERS</td><td class=\"cdecl\">$WRAPPER</td><td class=\"cdecl\">$PROTOTYPES</td></tr>"
+	echo "<tr><td>$TRADINAME</td><td class=\"cdecl\"><pre>$NOWRAPPERS</pre></td><td><pre>$WRAPPER</pre></td><td class=\"cdecl\"><pre>$PROTOTYPES</pre></td></tr>"
     done
     echo "</table>"
 done

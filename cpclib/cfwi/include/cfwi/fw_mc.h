@@ -202,7 +202,7 @@ typedef union ink_vector1
 	{
 		enum hardware_color border_color;
 		enum hardware_color all_other_color;
-	};
+	} fields;
 	enum hardware_color as_array[2];
 } ink_vector1;
 
@@ -213,7 +213,7 @@ typedef union ink_vector2
 		enum hardware_color border_color;
 		enum hardware_color ink0;
 		enum hardware_color ink1;
-	};
+	} fields;
 	enum hardware_color as_array[3];
 } ink_vector2;
 
@@ -226,7 +226,7 @@ typedef union ink_vector4
 		enum hardware_color ink1;
 		enum hardware_color ink2;
 		enum hardware_color ink3;
-	};
+	} fields;
 	enum hardware_color as_array[5];
 } ink_vector4;
 
@@ -251,7 +251,7 @@ typedef union ink_vector16
 		enum hardware_color ink13;
 		enum hardware_color ink14;
 		enum hardware_color ink15;
-	};
+	} fields;
 	enum hardware_color as_array[17];
 } ink_vector16;
 
@@ -324,15 +324,19 @@ void fw_mc_clear_inks1(ink_vector1 *ink_vector) __z88dk_fastcall;
     you can of course use a C-level cast to tell the compiler that
     you're aware.
 
-    Exemple:
+    Please notice the double braces in union/struct initializer.
+
+    Example:
 
     ink_vector4 mypalette =
     {
+    {
     hardware_color_r0_g0_b1_blue,
-    hardware_color_r2_g2_b2_bright_white
-    hardware_color_r0_g0_b0_black
+    hardware_color_r2_g2_b2_bright_white,
+    hardware_color_r0_g0_b0_black,
     hardware_color_r2_g1_b0_orange
     }
+    };
 
     fw_mc_set_inks( (ink_vector16 *)mypalette);
 

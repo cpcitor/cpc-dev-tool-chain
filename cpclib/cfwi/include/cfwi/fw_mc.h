@@ -406,7 +406,7 @@ void fw_mc_set_inks(ink_vector16 *ink_vector) __preserves_regs(b, c, iyh, iyl) _
     MC WAIT PRINTER
     MC PRINT CHAR
 */
-void fw_mc_reset_printer(void);
+void fw_mc_reset_printer(void) __preserves_regs(iyh, iyl);
 
 /** 185: MC PRINT CHAR
     #BD2B

@@ -149,7 +149,7 @@ void fw_txt_vdu_disable(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);
 
     CFWI_TEST_FLAGS: TESTED_APP_PASS
 */
-void fw_txt_output(unsigned char c) __preserves_regs(b, c, d, e, h, l, iyh, iyl) __z88dk_fastcall;
+void fw_txt_output(unsigned char c) __preserves_regs(a, b, c, d, e, h, l, iyh, iyl) __z88dk_fastcall;
 
 /** 31: TXT WR CHAR #BB5D
     Write a character to the screen.
@@ -599,7 +599,7 @@ uint32_t fw_txt_get_cursor() __preserves_regs(b, c, iyh, iyl);
     TXT DRAW CURSOR
     TXT UNDRAW CURSOR
 */
-void fw_txt_cur_enable(void) __preserves_regs(b, c, d, e, iyh, iyl);
+void fw_txt_cur_enable(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);
 
 /** 42: TXT CUR DISABLE #BB7E
     Disallow cursor display - user.
@@ -644,7 +644,7 @@ void fw_txt_cur_disable(void) __preserves_regs(b, c, d, e, iyh, iyl);
     TXT DRAW CURSOR
     TXT UNDRAW CURSOR
 */
-void fw_txt_cur_on(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);
+void fw_txt_cur_on(void) __preserves_regs(a, b, c, d, e, h, l, iyh, iyl);
 
 /** 44: TXT CUR OFF
     #BB84
@@ -666,7 +666,7 @@ void fw_txt_cur_on(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);
     TXT DRAW CURSOR
     TXT UNDRAW CURSOR
 */
-void fw_txt_cur_off(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);
+void fw_txt_cur_off(void) __preserves_regs(a, b, c, d, e, h, l, iyh, iyl);
 
 
 /** Can be used to decode output of fw_txt_validate(). */
@@ -1284,7 +1284,7 @@ typedef struct fw_txt_control_code_entry_t fw_txt_control_code_table_t[fw_txt_co
     Related entries:
     TXT OUTPUT
 */
-fw_txt_control_code_table_t *fw_txt_get_controls() __preserves_regs(iyh, iyl);
+fw_txt_control_code_table_t *fw_txt_get_controls() __preserves_regs(a, b, c, d, e, iyh, iyl);
 
 /** 60: TXT STR SELECT #BBB4
 

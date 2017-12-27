@@ -2,7 +2,31 @@
 
 ## Helpers
 
+set -eu
+
 TOTAL_FW_CALL_COUNT=201
+
+### firmware
+
+function list_fw_official_calls_with_disc_dup()
+{
+    cut -f 2 -d "," <all_fw_calls_official_list.csv
+}
+
+function list_fw_official_calls_dedup()
+{
+    list_fw_official_calls_with_disc_dup | grep -v DISC
+}
+
+function list_fw_official_packages()
+{
+    list_fw_official_calls_with_disc_dup | cut -f 1 -d " " | uniq
+}
+
+function list_fw_official_calls_in_package()
+{
+    list_fw_official_calls_dedup | grep "$1"
+}
 
 ### C-level
 
@@ -23,8 +47,6 @@ function list_c_function_names() {
 
 function list_fw_calls_c_style()
 {
-    # Currently extracted from C function names, a little hackish but
-    # has hack value.
     list_c_function_names | sed "s/__[^ (]*$//" | uniq
 }
 
@@ -250,14 +272,14 @@ echo "</table>"
 
 ## Per-package
 
-function list_packages()
-{
-    list_fw_calls_c_style | sed -n 's/fw_\([^_]*\)_.*$/\1/p' | sort | uniq
-}
+##function list_packages()
+##{
+##    list_fw_calls_c_style | sed -n 's/fw_\([^_]*\)_.*$/\1/p' | sort | uniq
+##}
 
 function in_package_count()
 {
-    grep _${package}_ | wc -l
+    grep -i _${PACKAGE}_ | wc -l
 }
 
 echo "<h2>Statistics per firmware packages</h2>"
@@ -265,18 +287,21 @@ echo "<h2>Statistics per firmware packages</h2>"
 echo "<table>"
 
 # <th>Covered twice</th>
-echo "<tr><th>Package</th><th>Calls covered</th><th>Direct</th><th>Wrapper</th></tr>"
+echo "<tr><th>Package</th><th>Call count</th><th>C-covered</th><th>%</th></tr>"
 
-for package in $( list_packages )
+for PACKAGE in $( list_fw_official_packages )
 do
-    TRADINAME=$( c_style_names_to_html_fw_call_span "$package" )
-    COVERED=$( list_c_function_names | in_package_count )
-    NOWRAPPERS=$( nowrappers_lines | in_package_count )
-    WRAPPED=$( list_fw_wrapper_files | in_package_count )
+    TRADINAME="<span class=\"fw_call_name\">$PACKAGE</span>"
+    ALL_CALLS=$( list_fw_official_calls_in_package $PACKAGE | wc -l )
+    COVERED=$( list_fw_calls_c_style | in_package_count )
+    COVERAGE_PERCENT=$(( $COVERED * 100 / $ALL_CALLS ))
+    #    NOWRAPPERS=$( nowrappers_lines | in_package_count )
+    #    WRAPPED=$( list_fw_wrapper_files | in_package_count )
     #TWICE=$( list_c_covered_fw_calls_with_and_without_wrapper | grep _${package}_ )
     #TWICE_FORMATTED=$( c_style_names_to_html_fw_call_span $TWICE )
     # <td>$TWICE_FORMATTED</td>
-    echo "<tr><td>$TRADINAME</td><td>$COVERED</td><td>$NOWRAPPERS</td><td>$WRAPPED</td></tr>"
+    echo "<tr><td>$TRADINAME</td><td>$ALL_CALLS</td><td>$COVERED</td><td style=\"text-align: right\">${COVERAGE_PERCENT}%</td>"
+    # <td>$NOWRAPPERS</td><td>$WRAPPED</td></tr>"
 done
 
 echo "</table>"
@@ -286,7 +311,7 @@ echo "</table>"
 echo "<h2>Details per firmware packages</h2>"
 
 
-for package in $( list_packages )
+for package in $( list_fw_official_packages )
 do
     echo "<h3>Package $( c_style_names_to_html_fw_call_span $package )</h3>"
     echo "<table>"

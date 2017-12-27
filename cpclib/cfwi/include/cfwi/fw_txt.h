@@ -1345,6 +1345,6 @@ uint8_t fw_txt_str_select(uint8_t stream_to_select) __preserves_regs(b, c, d, e,
     Related entries:
     TXT STR SELECT
 */
-void fw_txt_swap_streams(uint8_t stream1, uint8_t stream2);
+void fw_txt_swap_streams(uint8_t stream1, uint8_t stream2) __preserves_regs(iyh, iyl);
 
 #endif /* __FW_TXT_H__ */

@@ -779,7 +779,7 @@ enum fw_txt_validate_scroll_direction
     SCR SW ROLL
     TXT GET CURSOR
 */
-uint32_t fw_txt_validate(void);
+uint32_t fw_txt_validate(void) __preserves_regs(c, iyh, iyl);
 
 /** 46: TXT PLACE CURSOR #BB8A
     Put a cursor blob on the screen.

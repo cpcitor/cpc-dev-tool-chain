@@ -83,7 +83,7 @@ void fw_txt_reset(void) __preserves_regs(iyh, iyl);
     TXT VDU DISABLE
     TXT WR CHAR
 */
-void fw_txt_vdu_enable(void);
+void fw_txt_vdu_enable(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);
 
 /** 29: TXT VDU DISABLE #BB57
     Prevent character being placed on the screen.

@@ -8,6 +8,20 @@ set -eu
 
 . firmware_coverage_helper.env
 
+# Sanity check
+
+for ASM_SOURCE_FILE in $( list_fw_wrapper_files )
+do
+    for SYMBOL in $( cat $ASM_SOURCE_FILE | sed -n "s|^.*\(fw[^:]*\)::|\1|p" )
+    do
+	SYMBOL_NOSUFFIX=$( echo $SYMBOL | sed "s/__.*//" )
+	if [[ "$ASM_SOURCE_FILE" != "src/${SYMBOL_NOSUFFIX}.s" ]]
+	then
+	    echo >&2 "WARNING: $ASM_SOURCE_FILE contains unexpected symbol ${SYMBOL_NOSUFFIX}"
+	fi
+    done
+done
+
 # Start output
 
 # save stdout and redirect to coverage.html

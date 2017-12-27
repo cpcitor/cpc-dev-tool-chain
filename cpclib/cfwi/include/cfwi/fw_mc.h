@@ -511,6 +511,6 @@ void fw_mc_send_printer(unsigned char char_to_send_7bits) __preserves_regs(b, c,
     Related entries:
     None!
 */
-void fw_mc_sound_register(uint8_t register_number, uint8_t data);
+void fw_mc_sound_register(uint8_t register_number, uint8_t data) __preserves_regs(d, e, iyh, iyl);
 
 #endif /* __FW_MC_H__ */

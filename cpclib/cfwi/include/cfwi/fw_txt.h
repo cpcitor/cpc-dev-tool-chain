@@ -1183,7 +1183,7 @@ typedef union fw_txt_p_character_matrix_with_size_and_valid_t
 
     CFWI_TEST_FLAGS: TESTED_APP_PASS
 */
-uint32_t fw_txt_set_m_table(fw_txt_character_matrix_t *buffer, bool disable, uint8_t lowest_affected_character);
+uint32_t fw_txt_set_m_table(fw_txt_character_matrix_t *buffer, bool disable, uint8_t lowest_affected_character) __preserves_regs(iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 

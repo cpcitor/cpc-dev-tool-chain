@@ -666,7 +666,7 @@ void fw_txt_cur_on(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);
     TXT DRAW CURSOR
     TXT UNDRAW CURSOR
 */
-void fw_txt_cur_off(void);
+void fw_txt_cur_off(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);
 
 
 /** Can be used to decode output of fw_txt_validate(). */

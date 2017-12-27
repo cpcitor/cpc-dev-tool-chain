@@ -644,7 +644,7 @@ void fw_txt_cur_disable(void) __preserves_regs(b, c, d, e, iyh, iyl);
     TXT DRAW CURSOR
     TXT UNDRAW CURSOR
 */
-void fw_txt_cur_on(void);
+void fw_txt_cur_on(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);
 
 /** 44: TXT CUR OFF
     #BB84

@@ -907,7 +907,7 @@ uint8_t fw_txt_get_pen(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);
     TXT GET PAPER
     TXT SET PEN
 */
-void fw_txt_set_paper(uint8_t p) __z88dk_fastcall;
+void fw_txt_set_paper(uint8_t p) __preserves_regs(b, c, d, e, iyh, iyl) __z88dk_fastcall;
 
 /** 51: TXT GET PAPER #BB99
     Get ink for writing background.

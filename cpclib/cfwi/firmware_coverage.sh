@@ -206,7 +206,7 @@ echo "</table>"
 
 if [[ -n "${FAILHINT:-}" ]]
 then
-    echo "<p>Hint: ${FAILHINT}</p>"
+    echo "<p>Hint: <pre>${FAILHINT}</pre></p>"
 fi
 
 echo "<h2>Firmware-call-level Statistics</h2>"

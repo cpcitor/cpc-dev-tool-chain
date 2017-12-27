@@ -11,7 +11,7 @@ function list_c_prototypes() {
 }
 
 function list_c_function_names() {
-    list_c_prototypes | sed -n "s/^.* \**\(fw_[^(]*\)(.*$/\1/p"
+    list_c_prototypes | sed -e 's/ __[^ ;]*//g' | sed -n "s/^.* \**\(fw_[^(]*\)(.*$/\1/p"
 }
 
 ### firmware

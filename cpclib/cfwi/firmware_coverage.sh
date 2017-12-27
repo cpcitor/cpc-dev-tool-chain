@@ -2,125 +2,17 @@
 
 ## Helpers
 
+# For valid __preserves_regs parameters, look for _getRegByName in SDCC source code.
+
 set -eu
 
-TOTAL_FW_CALL_COUNT=201
-
-### firmware
-
-function list_fw_official_calls_with_disc_dup()
-{
-    cut -f 2 -d "," <all_fw_calls_official_list.csv
-}
-
-function list_fw_official_calls_dedup()
-{
-    list_fw_official_calls_with_disc_dup | grep -v DISC
-}
-
-function list_fw_official_packages()
-{
-    list_fw_official_calls_with_disc_dup | cut -f 1 -d " " | uniq
-}
-
-function list_fw_official_calls_in_package()
-{
-    list_fw_official_calls_dedup | grep "$1"
-}
-
-### C-level
-
-function list_c_prototypes() {
-    egrep -ih '^[a-z].* \*?fw_.*(.*).*;' include/cfwi/*.h
-}
-
-function prototype_line_to_bare_prototype
-{
-    sed -e 's/ __[^(]*([^)]*)//g' | sed -e 's/ __[^ ;]*//g'
-}
-
-function list_c_function_names() {
-    list_c_prototypes | prototype_line_to_bare_prototype | sed -n "s/^.* \**\(fw_[^(]*\)(.*$/\1/p"
-}
-
-### firmware
-
-function list_fw_calls_c_style()
-{
-    list_c_function_names | sed "s/__[^ (]*$//" | uniq
-}
-
-TOTAL_C_DECLARED_FW_FUNCTION_NAMES=$( list_fw_calls_c_style | wc -l )
-function list_c_covered_fw_calls() {
-    list_c_function_names | sed "s/__fastcall//" | uniq
-}
-
-TOTAL_C_DECLARED_FW_CALL_COUNT=$( list_fw_calls_c_style | wc -l )
-
-function c_style_names_to_tradi_names()
-{
-    #    echo "$1" | sed 's/_/ /g' | tr '[a-z]' '[A-Z]'
-    sed 's/_/ /g' | tr '[a-z]' '[A-Z]'
-}
-
-function c_style_names_to_html_fw_call_span()
-{
-    while true
-    do
-	ARG="$1"
-
-	if [[ -n "$ARG" ]]
-	then
-	    NEWNAME=$( echo "$1" | sed 's/fw_//g' | sed 's/_/ /g' | tr '[a-z]' '[A-Z]' )
-	    echo "<span class=\"fw_call_name\">$NEWNAME</span>"
-	fi
-
-	shift || break
-    done
-}
-
-### no-wrappers
-
-function nowrappers_lines()
-{
-    grep "^.*_fw_[a-z_]* *== *0x.*$" src/fw_nowrapperneeded.s
-}
-
-function list_fw_nowrapper_symbols()
-{
-    sed -n "s|^.*_\(fw_[a-z_]*\) *== *0x.*$|\1|p" src/fw_nowrapperneeded.s
-}
-
-TOTAL_FW_NOWRAPPER_COUNT=$( nowrappers_lines | wc -l )
-
-### wrappers
-
-function list_fw_wrapper_files()
-{
-    ls -1b src/fw_*.s | grep -v fw_nowrapperneeded
-}
-
-TOTAL_FW_WRAPPER_COUNT=$( list_fw_wrapper_files | wc -l )
-
-function list_fw_wrapper_symbols()
-{
-    ls -1b src/fw_*.s | grep -v fw_nowrapperneeded | sed 's|src/\(.*\)\.s$|\1|'
-}
-
-### both
-
-function list_c_covered_fw_calls_with_and_without_wrapper()
-{
-    list_c_function_names | sed -n "s/^\(.*\)__fastcall$/\1/p"
-}
-
-TOTAL_FW_TWICE_COVERED_COUNT=$( list_c_covered_fw_calls_with_and_without_wrapper | wc -l )
+. firmware_coverage_helper.env
 
 # Start output
 
 # save stdout and redirect to coverage.html
 exec 4<&1
-exec >coverage.html
+exec >coverage.html.tmp
 
 TITLE="Firmware coverage in cpc-dev-tool-chain's CFWI (C-firmware interface)"
 
@@ -159,6 +51,31 @@ cat <<EOF
     background-color: #FFFF00;
 }
 
+.direct
+{
+  font-weight: normal;
+  font-family: "Monospace";
+}
+
+.not_yet_covered {
+background: repeating-linear-gradient(
+  135deg,
+  #fff,
+  #fff 10px,
+  #f88 10px,
+  #f88 20px
+);
+font-weight: bold;
+}
+
+.error {
+background: #f88;
+}
+
+.preserve_implemented {
+background: #8f8;
+}
+
 table {
     border-collapse: collapse;
     border: 1px solid black;
@@ -181,17 +98,17 @@ EOF
 function sanity_check_pass_fail()
 {
     declare PASSFAIL=$(
-	if [[ "$1" == "$2" ]]
-	then
-	    echo '<span style="background-color: #40FF40">PASS</span>'
-	    RC=1
-	else
-	    echo >&2 "WARNING: Sanity check fail $1 != $2 : $3"
-	    echo '<span style="background-color: #FF4040">FAIL</span>'
-	    RC=0
-	fi
-	    )
-    
+        if [[ "$1" == "$2" ]]
+        then
+            echo '<span style="background-color: #40FF40">PASS</span>'
+            RC=1
+        else
+            echo >&2 "WARNING: Sanity check fail $1 != $2 : $3"
+            echo '<span style="background-color: #FF4040">FAIL</span>'
+            RC=0
+        fi
+            )
+
     html_out_variable "Sanity check $1==$2 <br/>$3" "$PASSFAIL"
     return $RC
 }
@@ -233,9 +150,9 @@ SC_TOTAL_ASM_SYMBOL_COUNT=$(( $TOTAL_FW_WRAPPER_COUNT + $TOTAL_FW_NOWRAPPER_COUN
 if sanity_check_pass_fail $SC_TOTAL_ASM_SYMBOL_COUNT $TOTAL_C_DECLARED_FW_FUNCTION_NAMES "(wrappers)+(no-wrappers)==(C function count)"
 then
     FAILHINT=$( diff -u \
-	     <( list_c_function_names | sort ) \
-	     <( { list_fw_nowrapper_symbols ; list_fw_wrapper_symbols ; } | sort )
-	     )
+             <( list_c_function_names | sort ) \
+             <( { list_fw_nowrapper_symbols ; list_fw_wrapper_symbols ; } | sort )
+             )
 fi
 
 echo "</table>"
@@ -251,15 +168,15 @@ fi
 # in types)
 # symbol_level_statistics
 
+function firmware_call-level_statistics()
+{
+
 echo "<h2>Firmware-call-level Statistics</h2>"
 
 echo "<table>"
 
 html_out_variable "Total fw calls covered both without <span style=\"font-weight: bold\">and</span> with wrapper" "$TOTAL_FW_TWICE_COVERED_COUNT"
 
-function check_filtering_duplicate_coverage()
-{
-    
 SC_TOTAL_COVERED_WITH_AND_WITHOUT_WRAPPER_NODUPLICATE=$(( $TOTAL_FW_NOWRAPPER_COUNT + $TOTAL_FW_WRAPPER_COUNT - $TOTAL_FW_TWICE_COVERED_COUNT ))
 
 html_out_variable "Total fw calls covered, filtering duplicate coverage" "$SC_TOTAL_COVERED_WITH_AND_WITHOUT_WRAPPER_NODUPLICATE"
@@ -277,30 +194,20 @@ echo "</table>"
 ##    list_fw_calls_c_style | sed -n 's/fw_\([^_]*\)_.*$/\1/p' | sort | uniq
 ##}
 
-function in_package_count()
-{
-    grep -i _${PACKAGE}_ | wc -l
-}
-
 echo "<h2>Statistics per firmware packages</h2>"
 
 echo "<table>"
 
-# <th>Covered twice</th>
 echo "<tr><th>Package</th><th>Call count</th><th>C-covered</th><th>%</th></tr>"
 
 for PACKAGE in $( list_fw_official_packages )
 do
-    TRADINAME="<span class=\"fw_call_name\">$PACKAGE</span>"
     ALL_CALLS=$( list_fw_official_calls_in_package $PACKAGE | wc -l )
     COVERED=$( list_fw_calls_c_style | in_package_count )
     COVERAGE_PERCENT=$(( $COVERED * 100 / $ALL_CALLS ))
     #    NOWRAPPERS=$( nowrappers_lines | in_package_count )
     #    WRAPPED=$( list_fw_wrapper_files | in_package_count )
-    #TWICE=$( list_c_covered_fw_calls_with_and_without_wrapper | grep _${package}_ )
-    #TWICE_FORMATTED=$( c_style_names_to_html_fw_call_span $TWICE )
-    # <td>$TWICE_FORMATTED</td>
-    echo "<tr><td>$TRADINAME</td><td>$ALL_CALLS</td><td>$COVERED</td><td style=\"text-align: right\">${COVERAGE_PERCENT}%</td>"
+    echo "<tr><td class=\"fw_call_name\">$PACKAGE</td><td>$ALL_CALLS</td><td>$COVERED</td><td style=\"text-align: right\">${COVERAGE_PERCENT}%</td>"
     # <td>$NOWRAPPERS</td><td>$WRAPPED</td></tr>"
 done
 
@@ -311,22 +218,75 @@ echo "</table>"
 echo "<h2>Details per firmware packages</h2>"
 
 
-for package in $( list_fw_official_packages )
+for PACKAGE in $( list_fw_official_packages )
 do
-    echo "<h3>Package $( c_style_names_to_html_fw_call_span $package )</h3>"
+    echo "<h3>Package <span class=\"fw_call_name\">$PACKAGE</span></h3>"
     echo "<table>"
-    echo "<tr><th>Call</th><th>Direct</th><th>Wrapper</th><th>C-level prototype(s)</th></tr>"
+    echo "<tr><th>Call</th><th>ASM symbol(s)</th><th>Preserved regs optimisation</th><th>C prototype(s)</th></tr>"
+    COLUMNS=4
+    # For each firmware call, gather a list of variants.
+    # Variants = all symbols, C, asm, gathered.
+    # For each variant generate a table line.
+    # The "name" cell will span all these lines, vertically.
+    # If no variant, then no vertical span, but a horizontal span with an error message "not covered".
 
-    for callname in $( list_fw_calls_c_style | grep "^fw_${package}_" )
+    for CALLNAME in $( list_fw_official_calls_in_package "${PACKAGE}" | tradi_names_to_c_style_names )
     do
-	TRADINAME=$( c_style_names_to_html_fw_call_span "$callname" )
-	NOWRAPPERS=$( nowrappers_lines | grep $callname )
-	WRAPPER=$( FILES=$( list_fw_wrapper_files | grep "$callname" ) ; for FILE in $FILES ; do echo "<p>In $FILE</p>" ; grep "$callname.*::" $FILE ; done )
-	PROTOTYPES=$( list_c_prototypes | grep $callname | prototype_line_to_bare_prototype )
-	#TWICE=$( list_c_covered_fw_calls_with_and_without_wrapper | grep _${package}_ )
-	#TWICE_FORMATTED=$( c_style_names_to_html_fw_call_span $TWICE )
-	# <td>$TWICE_FORMATTED</td>
-	echo "<tr><td>$TRADINAME</td><td class=\"cdecl\"><pre>$NOWRAPPERS</pre></td><td><pre>$WRAPPER</pre></td><td class=\"cdecl\"><pre>$PROTOTYPES</pre></td></tr>"
+
+        SYMBOLS_C=$( list_c_function_names | grep "$CALLNAME" || true )
+        SYMBOLS_ASM=$( list_asm_symbols | grep "$CALLNAME" || true )
+        SYMBOLS_ALL=$( for a in $SYMBOLS_C $SYMBOLS_ASM ; do echo $a ; done | sort | uniq ; )
+
+        if [[ -z "$SYMBOLS_ALL" ]]
+        then
+            echo "<tr><td class=\"fw_call_name\">$( echo $CALLNAME | c_style_names_to_tradi_names )</td><td class=\"not_yet_covered\" colspan=\"$COLUMNS\">Not yet covered</td></tr>"
+            continue
+        fi
+
+        AFTERFIRSTCOLUMN=""
+
+        SYMBOL_COUNT=$( for a in $SYMBOLS_ALL ; do echo $a ; done | wc -l )
+
+        echo -n "<tr><td class=\"fw_call_name\" rowspan=\"$SYMBOL_COUNT\">$( echo $CALLNAME | c_style_names_to_tradi_names )</td>"
+
+        for SYMBOL in $SYMBOLS_ALL
+        do
+            if [[ -n "$AFTERFIRSTCOLUMN" ]]
+            then
+                echo -n "<tr>"
+                #echo "<td class=\"fw_call_name\">$( echo $CALLNAME | c_style_names_to_tradi_names )</td>"
+            fi
+            AFTERFIRSTCOLUMN=yes
+
+            # For each variant generate a table line.
+
+            # echo -n "<td class=\"cdecl\">$( list_asm_symbols | grep -w $SYMBOL || echo "MISSING ASM SYMBOL $SYMBOL" )</td>"
+
+            # echo -n "<td class=\"cdecl\">"
+            # $( list_asm_symbols | grep -w $SYMBOL || echo "MISSING ASM SYMBOL $SYMBOL" )
+            # echo "</td>"
+
+            report_implementation_asm $SYMBOL
+
+            PRESERVE_SPEC="$( list_c_prototypes | grep -w $SYMBOL | sed -n 's|^.* __preserves_regs(\([^)]*\)).*$|\1|p' || true )"
+            PRESERVE_CSS_CLASS=""
+            if [[ -n "$PRESERVE_SPEC" ]]
+            then
+                PRESERVE_CSS_CLASS="preserve_implemented"
+            fi
+            
+            echo -n "<td class=\"${PRESERVE_CSS_CLASS}\">$PRESERVE_SPEC</td>"
+
+            echo -n "<td class=\"cdecl\"><code>$( list_c_prototypes | prototype_line_to_bare_prototype | grep -w $SYMBOL || echo "MISSING C PROTOTYPE $SYMBOL" )</code></td>"
+            echo "</tr>"
+        done
+
+
+
+        #NOWRAPPERS=$( nowrappers_lines | grep $CALLNAME )
+        #WRAPPER=$( FILES=$( list_fw_wrapper_files | grep "$CALLNAME" ) ; for FILE in $FILES ; do echo "<p>In $FILE</p>" ; grep "$CALLNAME.*::" $FILE ; done )
+        #PROTOTYPES=$( list_c_prototypes | grep $CALLNAME | prototype_line_to_bare_prototype )
+#       echo "<tr><td class=\"fw_call_name\">$( echo $CALLNAME | c_style_names_to_tradi_names )</td><td class=\"cdecl\"><pre>$NOWRAPPERS</pre></td><td><pre>$WRAPPER</pre></td><td class=\"cdecl\"><pre>$PROTOTYPES</pre></td></tr>"
     done
     echo "</table>"
 done
@@ -349,9 +309,11 @@ do
 
     if [[ "$TOTAL" != "1" ]]
     then
-	echo -e "$NOWRAPPER_COUNT + $WRAPPER_COUNT = $TOTAL\t$symbolname" >&2
+        echo -e "$NOWRAPPER_COUNT + $WRAPPER_COUNT = $TOTAL\t$symbolname" >&2
     fi
 done
+
+mv coverage.html.tmp coverage.html
 
 exit 0
 

@@ -479,8 +479,10 @@ void fw_txt_set_row(int8_t row) __z88dk_fastcall;
 /** #### CFWI-specific information: ####
 
     You can use the fw_txt_set_cursor__fastcall() variant for slightly
-    shorter generated ASM code (no need for wrapper in that case).
-    In most case don't bother just write short C source code.
+    shorter generated ASM code (no need for wrapper in that case),
+    especially if coordinates are known at compile-time.
+
+    Else don't bother just write short C source code.
 
     39: TXT SET CURSOR #BB75
     Set cursor position.
@@ -509,8 +511,8 @@ void fw_txt_set_row(int8_t row) __z88dk_fastcall;
 
     CFWI_TEST_FLAGS: TESTED_APP_PASS
 */
-void fw_txt_set_cursor(int8_t row, int8_t column);
-void fw_txt_set_cursor__fastcall(int16_t colum8h_row8l) __z88dk_fastcall;
+void fw_txt_set_cursor(int8_t row, int8_t column) __preserves_regs(b, c, d, e, iyh, iyl);
+void fw_txt_set_cursor__fastcall(int16_t colum8h_row8l) __preserves_regs(b, c, d, e, iyh, iyl) __z88dk_fastcall;
 
 
 /** Can be used to decode output of fw_txt_get_cursor(). */

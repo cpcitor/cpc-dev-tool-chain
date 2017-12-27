@@ -399,7 +399,7 @@ void fw_txt_win_enable__fastcall(uint32_t fw_txt_window_t_asint) __preserves_reg
     TXT VALIDATE
     TXT WIN ENABLE
 */
-uint32_t fw_txt_get_window(void);
+uint32_t fw_txt_get_window(void) __preserves_regs(iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 

@@ -1284,7 +1284,7 @@ typedef struct fw_txt_control_code_entry_t fw_txt_control_code_table_t[fw_txt_co
     Related entries:
     TXT OUTPUT
 */
-fw_txt_control_code_table_t *fw_txt_get_controls();
+fw_txt_control_code_table_t *fw_txt_get_controls() __preserves_regs(iyh, iyl);
 
 /** 60: TXT STR SELECT #BBB4
 

@@ -384,7 +384,7 @@ void fw_mc_clear_inks1(ink_vector1 *ink_vector) __preserves_regs(b, c, iyh, iyl)
     SCR SET BORDER
     SCR SET INK
 */
-void fw_mc_set_inks(ink_vector16 *ink_vector) __z88dk_fastcall;
+void fw_mc_set_inks(ink_vector16 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;
 
 /** 184: MC RESET PRINTER
     #BD28

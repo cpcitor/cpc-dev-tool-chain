@@ -949,7 +949,7 @@ uint8_t fw_txt_get_paper(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);
     TXT SET PAPER
     TXT SET PEN
 */
-void fw_txt_inverse(void);
+void fw_txt_inverse(void) __preserves_regs(b, c, d, e, iyh, iyl);
 
 /** 53: TXT SET BACK
     #BB9F

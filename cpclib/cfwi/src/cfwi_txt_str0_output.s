@@ -14,6 +14,6 @@ cputs$:
         ld      a,(de)
         cp      #0
         ret     z
-        call    0xBB5A
+        call    0xBB5A 		; TXT OUTPUT
         inc     de
         jr      cputs$

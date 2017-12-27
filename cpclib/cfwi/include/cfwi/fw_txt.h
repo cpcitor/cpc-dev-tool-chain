@@ -860,7 +860,7 @@ void fw_txt_remove_cursor(void);
     TXT GET PEN
     TXT SET PAPER
 */
-void fw_txt_set_pen(uint8_t p) __z88dk_fastcall;
+void fw_txt_set_pen(uint8_t p) __preserves_regs(b, c, d, e, iyh, iyl) __z88dk_fastcall;
 
 /** 49: TXT GET PEN
     #BB93

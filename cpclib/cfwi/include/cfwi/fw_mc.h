@@ -490,7 +490,7 @@ uint8_t fw_mc_busy_printer(void) __preserves_regs(a, b, c, d, e, h, iyh, iyl);
     MC BUSY PRINTER
     MC PRINT CHAR
 */
-void fw_mc_send_printer(unsigned char char_to_send_7bits) __z88dk_fastcall;
+void fw_mc_send_printer(unsigned char char_to_send_7bits) __preserves_regs(b, c, d, e, h, l, iyh, iyl) __z88dk_fastcall;
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 

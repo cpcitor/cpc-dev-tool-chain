@@ -265,7 +265,7 @@ uint16_t fw_txt_rd_char(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);
     GRA WR CHAR
     TXT OUTPUT
 */
-void fw_txt_set_graphic(bool enable) __z88dk_fastcall;
+void fw_txt_set_graphic(bool enable) __preserves_regs(b, c, d, e, h, l, iyh, iyl) __z88dk_fastcall;
 
 /** This structure (union/struct actually) was introduced to decode
     output of fw_txt_get_window().

@@ -1231,7 +1231,7 @@ uint32_t fw_txt_set_m_table(fw_txt_character_matrix_t *buffer, bool disable, uin
     TXT GET MATRIX
     TXT SET M TABLE
 */
-uint32_t fw_txt_get_m_table();
+uint32_t fw_txt_get_m_table() __preserves_regs(b, c, iyh, iyl);
 
 enum
 {

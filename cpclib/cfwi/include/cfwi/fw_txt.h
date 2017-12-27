@@ -837,7 +837,7 @@ void fw_txt_place_cursor(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);
     TXT PLACE CURSOR
     TXT UNDRAW CURSOR
 */
-void fw_txt_remove_cursor(void);
+void fw_txt_remove_cursor(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);
 
 /** 48: TXT SET PEN
     #BB90

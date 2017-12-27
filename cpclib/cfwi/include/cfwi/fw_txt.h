@@ -474,7 +474,7 @@ void fw_txt_set_column(int8_t column) __preserves_regs(iyh, iyl) __z88dk_fastcal
     TXT SET COLUMN
     TXT SET CURSOR
 */
-void fw_txt_set_row(int8_t row) __z88dk_fastcall;
+void fw_txt_set_row(int8_t row) __preserves_regs(b, c, d, e, iyh, iyl) __z88dk_fastcall;
 
 /** #### CFWI-specific information: ####
 

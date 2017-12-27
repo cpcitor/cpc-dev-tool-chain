@@ -599,7 +599,7 @@ uint32_t fw_txt_get_cursor() __preserves_regs(b, c, iyh, iyl);
     TXT DRAW CURSOR
     TXT UNDRAW CURSOR
 */
-void fw_txt_cur_enable(void);
+void fw_txt_cur_enable(void) __preserves_regs(b, c, d, e, iyh, iyl);
 
 /** 42: TXT CUR DISABLE #BB7E
     Disallow cursor display - user.

@@ -440,7 +440,7 @@ void fw_mc_reset_printer(void) __preserves_regs(iyh, iyl);
     MC RESET PRINTER
     MC WAIT PRINTER
 */
-void fw_mc_print_char(unsigned char char_to_send_7bits) __z88dk_fastcall;
+void fw_mc_print_char(unsigned char char_to_send_7bits) __preserves_regs(b, c, d, e, h, l, iyh, iyl) __z88dk_fastcall;
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 

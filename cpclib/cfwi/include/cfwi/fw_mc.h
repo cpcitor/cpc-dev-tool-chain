@@ -103,7 +103,7 @@ void fw_mc_start_program(uint8_t rom_selection, void *entry);
     Related entries:
     KL ADD FRAME FLY
 */
-void fw_mc_wait_flyback(void);
+void fw_mc_wait_flyback(void) __preserves_regs(a, b, c, d, e, h, l, iyh, iyl);
 
 /** 180: MC SET MODE
     #BD1C

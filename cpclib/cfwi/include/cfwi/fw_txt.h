@@ -36,7 +36,7 @@
 
     CFWI_TEST_FLAGS: TESTED_APP_PASS
 */
-void fw_txt_initialise(void);
+void fw_txt_initialise(void) __preserves_regs(iyh, iyl);
 
 /** 27: TXT RESET
     #BB51

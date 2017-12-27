@@ -134,7 +134,7 @@ void fw_mc_wait_flyback(void) __preserves_regs(a, b, c, d, e, h, l, iyh, iyl);
     Related entries:
     SCR SET MODE
 */
-void fw_mc_set_mode(uint8_t mode) __z88dk_fastcall;
+void fw_mc_set_mode(uint8_t mode) __preserves_regs(b, c, d, e, h, l, iyh, iyl) __z88dk_fastcall;
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 

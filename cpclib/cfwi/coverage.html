@@ -53,21 +53,12 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <h2>Global Statistics</h2>
 <table>
 <tr><td>Total fw calls as per SOFT968 official documentation</td><td>201</td></tr>
-<tr><td>Total fw calls declared at C level</td><td>116</td></tr>
-<tr><td>Overall coverage percentage</td><td>57%</td></tr>
-</table>
-<h2>Function/symbol-level Statistics</h2>
-<table>
-<tr><td>Total functions declared at C level</td><td>129</td></tr>
-<tr><td>Total direct ASM symbols (not wrappers) count</td><td>70</td></tr>
-<tr><td>Total ASM wrapper count</td><td>59</td></tr>
-<tr><td>Sanity check 129==129 <br/>(wrappers)+(no-wrappers)==(C function count)</td><td><span style="background-color: #40FF40">PASS</span></td></tr>
+<tr><td>Total fw calls declared at C level</td><td>119</td></tr>
+<tr><td>Overall coverage percentage</td><td>59%</td></tr>
 </table>
 <h2>Firmware-call-level Statistics</h2>
 <table>
-<tr><td>Total fw calls covered both without <span style="font-weight: bold">and</span> with wrapper</td><td>13</td></tr>
-<tr><td>Total fw calls covered, filtering duplicate coverage</td><td>116</td></tr>
-<tr><td>Sanity check 116==116 <br/></td><td><span style="background-color: #40FF40">PASS</span></td></tr>
+<tr><td>Total fw calls covered both without <span style="font-weight: bold">and</span> with wrapper</td><td>12</td></tr>
 </table>
 <h2>Statistics per firmware packages</h2>
 <table>
@@ -77,11 +68,10 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <tr><td><span class="fw_call_name">JRE</span></td><td>1</td><td>1</td><td>0</td></tr>
 <tr><td><span class="fw_call_name">KL</span></td><td>5</td><td>5</td><td>0</td></tr>
 <tr><td><span class="fw_call_name">KM</span></td><td>26</td><td>8</td><td>18</td></tr>
-<tr><td><span class="fw_call_name">LKJB</span></td><td>7</td><td>7</td><td>0</td></tr>
-<tr><td><span class="fw_call_name">MC</span></td><td>2</td><td>2</td><td>0</td></tr>
+<tr><td><span class="fw_call_name">MC</span></td><td>15</td><td>3</td><td>9</td></tr>
 <tr><td><span class="fw_call_name">SCR</span></td><td>7</td><td>4</td><td>3</td></tr>
-<tr><td><span class="fw_call_name">SOUND</span></td><td>2</td><td>2</td><td>0</td></tr>
-<tr><td><span class="fw_call_name">TXT</span></td><td>40</td><td>18</td><td>22</td></tr>
+<tr><td><span class="fw_call_name">SOUND</span></td><td>3</td><td>2</td><td>1</td></tr>
+<tr><td><span class="fw_call_name">TXT</span></td><td>39</td><td>19</td><td>22</td></tr>
 </table>
 <h2>Details per firmware packages</h2>
 <h3>Package <span class="fw_call_name">CAS</span></h3>
@@ -175,22 +165,24 @@ void fw_gra_line_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z
 <tr><td><span class="fw_call_name">KM BREAK EVENT</span></td><td class="cdecl">	_fw_km_break_event == 0xBB4B</td><td class="cdecl"></td><td class="cdecl">void fw_km_break_event(void);<br /></td></tr>
 <tr><td><span class="fw_call_name">KM FLUSH</span></td><td class="cdecl">	_fw_km_flush == 0xBD3D</td><td class="cdecl"></td><td class="cdecl">void fw_km_flush(void);<br /></td></tr>
 </table>
-<h3>Package <span class="fw_call_name">LKJB</span></h3>
-<table>
-<tr><th>Call</th><th>Direct</th><th>Wrapper</th><th>C-level prototype(s)</th></tr>
-<tr><td><span class="fw_call_name">LKJB RESET ENTRY</span></td><td class="cdecl">	_fw_lkjb_reset_entry == 0x0000</td><td class="cdecl"></td><td class="cdecl">void fw_lkjb_reset_entry(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">LKJB LOW JUMP</span></td><td class="cdecl">	_fw_lkjb_low_jump == 0x0008</td><td class="cdecl"></td><td class="cdecl">void fw_lkjb_low_jump(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">LKJB SIDE CALL</span></td><td class="cdecl">	_fw_lkjb_side_call == 0x0010</td><td class="cdecl"></td><td class="cdecl">void fw_lkjb_side_call(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">LKJB FAR CALL</span></td><td class="cdecl">	_fw_lkjb_far_call == 0x0018</td><td class="cdecl"></td><td class="cdecl">void fw_lkjb_far_call(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">LKJB FIRM JUMP</span></td><td class="cdecl">	_fw_lkjb_firm_jump == 0x0028</td><td class="cdecl"></td><td class="cdecl">void fw_lkjb_firm_jump(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">LKJB INTERRUPT ENTRY</span></td><td class="cdecl">	_fw_lkjb_interrupt_entry == 0x0038</td><td class="cdecl"></td><td class="cdecl">void fw_lkjb_interrupt_entry(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">LKJB EXIT INTERRUPT</span></td><td class="cdecl">	_fw_lkjb_exit_interrupt == 0x003B</td><td class="cdecl"></td><td class="cdecl">void fw_lkjb_exit_interrupt(void);<br /></td></tr>
-</table>
 <h3>Package <span class="fw_call_name">MC</span></h3>
 <table>
 <tr><th>Call</th><th>Direct</th><th>Wrapper</th><th>C-level prototype(s)</th></tr>
-<tr><td><span class="fw_call_name">MC WAIT FLYBACK</span></td><td class="cdecl">	_fw_mc_wait_flyback == 0xBD19</td><td class="cdecl"></td><td class="cdecl">void fw_mc_wait_flyback(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">MC RESET PRINTER</span></td><td class="cdecl">	_fw_mc_reset_printer == 0xBD28</td><td class="cdecl"></td><td class="cdecl">void fw_mc_reset_printer(void);<br /></td></tr>
+<tr><td><span class="fw_call_name">MC BOOT PROGRAM</span></td><td class="cdecl">	_fw_mc_boot_program == 0xBD13</td><td class="cdecl"></td><td class="cdecl">void fw_mc_boot_program(void *loader) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">MC START PROGRAM</span></td><td class="cdecl"></td><td class="cdecl">fw_mc_start_program.s</td><td class="cdecl">void fw_mc_start_program(uint8_t rom_selection, void *entry);<br /></td></tr>
+<tr><td><span class="fw_call_name">MC WAIT FLYBACK</span></td><td class="cdecl">	_fw_mc_wait_flyback == 0xBD19</td><td class="cdecl"></td><td class="cdecl">void fw_mc_wait_flyback(void) __preserves_regs(a, b, c, d, e, h, l, iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">MC SET MODE</span></td><td class="cdecl"></td><td class="cdecl">fw_mc_set_mode.s</td><td class="cdecl">void fw_mc_set_mode(uint8_t mode) __preserves_regs(b, c, d, e, h, l, iyh, iyl) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">MC SCREEN OFFSET</span></td><td class="cdecl"></td><td class="cdecl">fw_mc_screen_offset.s</td><td class="cdecl">void fw_mc_screen_offset(uint8_t screen_base, uint16_t screen_offset) __preserves_regs(b, d, e, iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">MC CLEAR INKS</span></td><td class="cdecl"></td><td class="cdecl">fw_mc_clear_inks.s</td><td class="cdecl">void fw_mc_clear_inks16(ink_vector16 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;<br />
+void fw_mc_clear_inks4(ink_vector4 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;<br />
+void fw_mc_clear_inks2(ink_vector2 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;<br />
+void fw_mc_clear_inks1(ink_vector1 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">MC SET INKS</span></td><td class="cdecl"></td><td class="cdecl">fw_mc_set_inks.s</td><td class="cdecl">void fw_mc_set_inks(ink_vector16 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">MC RESET PRINTER</span></td><td class="cdecl">	_fw_mc_reset_printer == 0xBD28</td><td class="cdecl"></td><td class="cdecl">void fw_mc_reset_printer(void) __preserves_regs(iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">MC PRINT CHAR</span></td><td class="cdecl"></td><td class="cdecl">fw_mc_print_char.s</td><td class="cdecl">void fw_mc_print_char(unsigned char char_to_send_7bits) __preserves_regs(b, c, d, e, h, l, iyh, iyl) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">MC BUSY PRINTER</span></td><td class="cdecl"></td><td class="cdecl">fw_mc_busy_printer.s</td><td class="cdecl">uint8_t fw_mc_busy_printer(void) __preserves_regs(a, b, c, d, e, h, iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">MC SEND PRINTER</span></td><td class="cdecl"></td><td class="cdecl">fw_mc_send_printer.s</td><td class="cdecl">void fw_mc_send_printer(unsigned char char_to_send_7bits) __preserves_regs(b, c, d, e, h, l, iyh, iyl) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">MC SOUND REGISTER</span></td><td class="cdecl"></td><td class="cdecl">fw_mc_sound_register.s</td><td class="cdecl">void fw_mc_sound_register(uint8_t register_number, uint8_t data) __preserves_regs(d, e, iyh, iyl);<br /></td></tr>
 </table>
 <h3>Package <span class="fw_call_name">SCR</span></h3>
 <table>
@@ -212,46 +204,154 @@ void fw_gra_line_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z
 <h3>Package <span class="fw_call_name">TXT</span></h3>
 <table>
 <tr><th>Call</th><th>Direct</th><th>Wrapper</th><th>C-level prototype(s)</th></tr>
-<tr><td><span class="fw_call_name">TXT INITIALISE</span></td><td class="cdecl">	_fw_txt_initialise == 0xBB4E</td><td class="cdecl"></td><td class="cdecl">void fw_txt_initialise(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT RESET</span></td><td class="cdecl">	_fw_txt_reset == 0xBB51</td><td class="cdecl"></td><td class="cdecl">void fw_txt_reset(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT VDU ENABLE</span></td><td class="cdecl">	_fw_txt_vdu_enable == 0xBB54</td><td class="cdecl"></td><td class="cdecl">void fw_txt_vdu_enable(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT VDU DISABLE</span></td><td class="cdecl">	_fw_txt_vdu_disable == 0xBB57</td><td class="cdecl"></td><td class="cdecl">void fw_txt_vdu_disable(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT OUTPUT</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_output.s</td><td class="cdecl">void fw_txt_output(unsigned char c) __z88dk_fastcall;<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT WR CHAR</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_wr_char.s</td><td class="cdecl">void fw_txt_wr_char(unsigned char c) __z88dk_fastcall;<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT RD CHAR</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_rd_char.s</td><td class="cdecl">uint16_t fw_txt_rd_char(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT SET GRAPHIC</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_graphic.s</td><td class="cdecl">void fw_txt_set_graphic(bool enable) __z88dk_fastcall;<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT WIN ENABLE</span></td><td class="cdecl">	_fw_txt_win_enable__fastcall == 0xBB66</td><td class="cdecl">fw_txt_win_enable.s</td><td class="cdecl">void fw_txt_win_enable(uint8_t left, uint8_t right, uint8_t top, uint8_t bottom);<br />
-void fw_txt_win_enable__fastcall(uint32_t fw_txt_window_t_asint) __z88dk_fastcall;<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT GET WINDOW</span></td><td class="cdecl">	_fw_txt_get_window == 0xBB69</td><td class="cdecl"></td><td class="cdecl">uint32_t fw_txt_get_window(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT CLEAR WINDOW</span></td><td class="cdecl">        _fw_txt_clear_window == 0xBB6C</td><td class="cdecl"></td><td class="cdecl">void fw_txt_clear_window(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT SET COLUMN</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_column.s</td><td class="cdecl">void fw_txt_set_column(int8_t column) __z88dk_fastcall;<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT SET ROW</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_row.s</td><td class="cdecl">void fw_txt_set_row(int8_t row) __z88dk_fastcall;<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT SET CURSOR</span></td><td class="cdecl">	_fw_txt_set_cursor__fastcall == 0xBB75</td><td class="cdecl">fw_txt_set_cursor.s</td><td class="cdecl">void fw_txt_set_cursor(int8_t row, int8_t column);<br />
-void fw_txt_set_cursor__fastcall(int16_t colum8h_row8l) __z88dk_fastcall;<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT GET CURSOR</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_get_cursor.s</td><td class="cdecl">uint32_t fw_txt_get_cursor();<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT CUR ENABLE</span></td><td class="cdecl">	_fw_txt_cur_enable == 0xBB7B</td><td class="cdecl"></td><td class="cdecl">void fw_txt_cur_enable(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT CUR DISABLE</span></td><td class="cdecl">	_fw_txt_cur_disable == 0xBB7E</td><td class="cdecl"></td><td class="cdecl">void fw_txt_cur_disable(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT CUR ON</span></td><td class="cdecl">	_fw_txt_cur_on == 0xBB81</td><td class="cdecl"></td><td class="cdecl">void fw_txt_cur_on(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT CUR OFF</span></td><td class="cdecl">	_fw_txt_cur_off == 0xBB84</td><td class="cdecl"></td><td class="cdecl">void fw_txt_cur_off(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT VALIDATE</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_validate.s</td><td class="cdecl">uint32_t fw_txt_validate(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT PLACE CURSOR</span></td><td class="cdecl">	_fw_txt_place_cursor == 0xBB8A</td><td class="cdecl"></td><td class="cdecl">void fw_txt_place_cursor(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT REMOVE CURSOR</span></td><td class="cdecl">	_fw_txt_remove_cursor == 0xBB8D</td><td class="cdecl"></td><td class="cdecl">void fw_txt_remove_cursor(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT SET PEN</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_pen.s</td><td class="cdecl">void fw_txt_set_pen(uint8_t p) __z88dk_fastcall;<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT GET PEN</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_get_pen.s</td><td class="cdecl">uint8_t fw_txt_get_pen(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT SET PAPER</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_paper.s</td><td class="cdecl">void fw_txt_set_paper(uint8_t p) __z88dk_fastcall;<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT GET PAPER</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_get_paper.s</td><td class="cdecl">uint8_t fw_txt_get_paper(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT INVERSE</span></td><td class="cdecl">	_fw_txt_inverse == 0xBB9C</td><td class="cdecl"></td><td class="cdecl">void fw_txt_inverse(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT SET BACK</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_back.s</td><td class="cdecl">void fw_txt_set_back(uint8_t is_transparent) __z88dk_fastcall;<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT GET BACK</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_get_back.s</td><td class="cdecl">uint8_t fw_txt_get_back(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT GET MATRIX</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_get_matrix.s</td><td class="cdecl">fw_txt_p_character_matrix_with_rom_indication_t *fw_txt_get_matrix(uint8_t character_number) __z88dk_fastcall;<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT SET MATRIX</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_matrix.s</td><td class="cdecl">enum fw_byte_all_or_nothing fw_txt_set_matrix(uint8_t character, fw_txt_character_matrix_t *matrix);<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT DRAW CURSOR</span></td><td class="cdecl">	_fw_txt_draw_cursor == 0xBDCD</td><td class="cdecl"></td><td class="cdecl">void fw_txt_draw_cursor(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT UNDRAW CURSOR</span></td><td class="cdecl">	_fw_txt_undraw_cursor == 0xBDD0</td><td class="cdecl"></td><td class="cdecl">void fw_txt_undraw_cursor(void);<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT SET M TABLE</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_m_table.s</td><td class="cdecl">uint32_t fw_txt_set_m_table(fw_txt_character_matrix_t *buffer, bool disable, uint8_t lowest_affected_character);<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT GET M TABLE</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_get_m_table.s</td><td class="cdecl">uint32_t fw_txt_get_m_table();<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT GET CONTROLS</span></td><td class="cdecl">	_fw_txt_get_controls == 0xBBB1</td><td class="cdecl"></td><td class="cdecl">fw_txt_control_code_table_t *fw_txt_get_controls();<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT STR SELECT</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_str_select.s</td><td class="cdecl">uint8_t fw_txt_str_select();<br /></td></tr>
-<tr><td><span class="fw_call_name">TXT SWAP STREAMS</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_swap_streams.s</td><td class="cdecl">void fw_txt_swap_streams(uint8_t stream1, uint8_t stream2);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT INITIALISE</span></td><td class="cdecl">	_fw_txt_initialise == 0xBB4E</td><td class="cdecl"></td><td class="cdecl">void fw_txt_initialise(void) __preserves_regs(iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT RESET</span></td><td class="cdecl">	_fw_txt_reset == 0xBB51</td><td class="cdecl"></td><td class="cdecl">void fw_txt_reset(void) __preserves_regs(iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT VDU ENABLE</span></td><td class="cdecl">	_fw_txt_vdu_enable == 0xBB54</td><td class="cdecl"></td><td class="cdecl">void fw_txt_vdu_enable(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT VDU DISABLE</span></td><td class="cdecl">	_fw_txt_vdu_disable == 0xBB57</td><td class="cdecl"></td><td class="cdecl">void fw_txt_vdu_disable(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT OUTPUT</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_output.s</td><td class="cdecl">void fw_txt_output(unsigned char c) __preserves_regs(b, c, d, e, h, l, iyh, iyl) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT WR CHAR</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_wr_char.s</td><td class="cdecl">void fw_txt_wr_char(unsigned char c) __preserves_regs(iyh, iyl) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT RD CHAR</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_rd_char.s</td><td class="cdecl">uint16_t fw_txt_rd_char(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT SET GRAPHIC</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_graphic.s</td><td class="cdecl">void fw_txt_set_graphic(bool enable) __preserves_regs(b, c, d, e, h, l, iyh, iyl) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT WIN ENABLE</span></td><td class="cdecl">	_fw_txt_win_enable__fastcall == 0xBB66</td><td class="cdecl">fw_txt_win_enable.s</td><td class="cdecl">void fw_txt_win_enable(uint8_t left, uint8_t right, uint8_t top, uint8_t bottom) __preserves_regs(iyh, iyl);<br />
+void fw_txt_win_enable__fastcall(uint32_t fw_txt_window_t_asint) __preserves_regs(iyh, iyl) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT WINDOW T ASINT)</span></td><td class="cdecl"></td><td class="cdecl"></td><td class="cdecl">void fw_txt_win_enable__fastcall(uint32_t fw_txt_window_t_asint) __preserves_regs(iyh, iyl) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">  PRESERVES REGS</span></td><td class="cdecl"></td><td class="cdecl"></td><td class="cdecl">void fw_mc_wait_flyback(void) __preserves_regs(a, b, c, d, e, h, l, iyh, iyl);<br />
+void fw_mc_set_mode(uint8_t mode) __preserves_regs(b, c, d, e, h, l, iyh, iyl) __z88dk_fastcall;<br />
+void fw_mc_screen_offset(uint8_t screen_base, uint16_t screen_offset) __preserves_regs(b, d, e, iyh, iyl);<br />
+void fw_mc_clear_inks16(ink_vector16 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;<br />
+void fw_mc_clear_inks4(ink_vector4 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;<br />
+void fw_mc_clear_inks2(ink_vector2 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;<br />
+void fw_mc_clear_inks1(ink_vector1 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;<br />
+void fw_mc_set_inks(ink_vector16 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;<br />
+void fw_mc_reset_printer(void) __preserves_regs(iyh, iyl);<br />
+void fw_mc_print_char(unsigned char char_to_send_7bits) __preserves_regs(b, c, d, e, h, l, iyh, iyl) __z88dk_fastcall;<br />
+uint8_t fw_mc_busy_printer(void) __preserves_regs(a, b, c, d, e, h, iyh, iyl);<br />
+void fw_mc_send_printer(unsigned char char_to_send_7bits) __preserves_regs(b, c, d, e, h, l, iyh, iyl) __z88dk_fastcall;<br />
+void fw_mc_sound_register(uint8_t register_number, uint8_t data) __preserves_regs(d, e, iyh, iyl);<br />
+void fw_txt_initialise(void) __preserves_regs(iyh, iyl);<br />
+void fw_txt_reset(void) __preserves_regs(iyh, iyl);<br />
+void fw_txt_vdu_enable(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);<br />
+void fw_txt_vdu_disable(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);<br />
+void fw_txt_output(unsigned char c) __preserves_regs(b, c, d, e, h, l, iyh, iyl) __z88dk_fastcall;<br />
+void fw_txt_wr_char(unsigned char c) __preserves_regs(iyh, iyl) __z88dk_fastcall;<br />
+uint16_t fw_txt_rd_char(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);<br />
+void fw_txt_set_graphic(bool enable) __preserves_regs(b, c, d, e, h, l, iyh, iyl) __z88dk_fastcall;<br />
+void fw_txt_win_enable(uint8_t left, uint8_t right, uint8_t top, uint8_t bottom) __preserves_regs(iyh, iyl);<br />
+void fw_txt_win_enable__fastcall(uint32_t fw_txt_window_t_asint) __preserves_regs(iyh, iyl) __z88dk_fastcall;<br />
+uint32_t fw_txt_get_window(void) __preserves_regs(iyh, iyl);<br />
+void fw_txt_clear_window(void) __preserves_regs(iyh, iyl);<br />
+void fw_txt_set_column(int8_t column) __preserves_regs(iyh, iyl) __z88dk_fastcall;<br />
+void fw_txt_set_row(int8_t row) __preserves_regs(b, c, d, e, iyh, iyl) __z88dk_fastcall;<br />
+void fw_txt_set_cursor(int8_t row, int8_t column) __preserves_regs(b, c, d, e, iyh, iyl);<br />
+void fw_txt_set_cursor__fastcall(int16_t colum8h_row8l) __preserves_regs(b, c, d, e, iyh, iyl) __z88dk_fastcall;<br />
+uint32_t fw_txt_get_cursor() __preserves_regs(b, c, iyh, iyl);<br />
+void fw_txt_cur_enable(void) __preserves_regs(b, c, d, e, iyh, iyl);<br />
+void fw_txt_cur_disable(void) __preserves_regs(b, c, d, e, iyh, iyl);<br />
+void fw_txt_cur_on(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);<br />
+void fw_txt_cur_off(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);<br />
+uint32_t fw_txt_validate(void) __preserves_regs(c, iyh, iyl);<br />
+void fw_txt_place_cursor(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);<br />
+void fw_txt_remove_cursor(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);<br />
+void fw_txt_set_pen(uint8_t p) __preserves_regs(b, c, d, e, iyh, iyl) __z88dk_fastcall;<br />
+uint8_t fw_txt_get_pen(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);<br />
+void fw_txt_set_paper(uint8_t p) __preserves_regs(b, c, d, e, iyh, iyl) __z88dk_fastcall;<br />
+uint8_t fw_txt_get_paper(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);<br />
+void fw_txt_inverse(void) __preserves_regs(b, c, d, e, iyh, iyl);<br />
+void fw_txt_set_back(uint8_t is_transparent) __preserves_regs(b, c, d, e, iyh, iyl) __z88dk_fastcall;<br />
+uint8_t fw_txt_get_back(void) __preserves_regs(b, c, iyh, iyl);<br />
+uint32_t fw_txt_get_matrix(uint8_t character_number) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;<br />
+fw_txt_p_character_matrix_t *fw_txt_get_matrix_ignore_rom_indication(uint8_t character_number) __preserves_regs(b, c, d, e, iyh, iyl) __z88dk_fastcall;<br />
+enum fw_byte_all_or_nothing fw_txt_set_matrix(uint8_t character, fw_txt_character_matrix_t *matrix) __preserves_regs(iyh, iyl);<br />
+uint32_t fw_txt_set_m_table(fw_txt_character_matrix_t *buffer, bool disable, uint8_t lowest_affected_character) __preserves_regs(iyh, iyl);<br />
+uint32_t fw_txt_get_m_table() __preserves_regs(b, c, iyh, iyl);<br />
+fw_txt_control_code_table_t *fw_txt_get_controls() __preserves_regs(iyh, iyl);<br />
+uint8_t fw_txt_str_select(uint8_t stream_to_select) __preserves_regs(b, c, d, e, iyl, iyh) __z88dk_fastcall;<br />
+void fw_txt_swap_streams(uint8_t stream1, uint8_t stream2) __preserves_regs(iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT GET WINDOW</span></td><td class="cdecl">	_fw_txt_get_window == 0xBB69</td><td class="cdecl"></td><td class="cdecl">uint32_t fw_txt_get_window(void) __preserves_regs(iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT CLEAR WINDOW</span></td><td class="cdecl">        _fw_txt_clear_window == 0xBB6C</td><td class="cdecl"></td><td class="cdecl">void fw_txt_clear_window(void) __preserves_regs(iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT SET COLUMN</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_column.s</td><td class="cdecl">void fw_txt_set_column(int8_t column) __preserves_regs(iyh, iyl) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT SET ROW</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_row.s</td><td class="cdecl">void fw_txt_set_row(int8_t row) __preserves_regs(b, c, d, e, iyh, iyl) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT SET CURSOR</span></td><td class="cdecl">	_fw_txt_set_cursor__fastcall == 0xBB75</td><td class="cdecl">fw_txt_set_cursor.s</td><td class="cdecl">void fw_txt_set_cursor(int8_t row, int8_t column) __preserves_regs(b, c, d, e, iyh, iyl);<br />
+void fw_txt_set_cursor__fastcall(int16_t colum8h_row8l) __preserves_regs(b, c, d, e, iyh, iyl) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT GET CURSOR</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_get_cursor.s</td><td class="cdecl">uint32_t fw_txt_get_cursor() __preserves_regs(b, c, iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT CUR ENABLE</span></td><td class="cdecl">	_fw_txt_cur_enable == 0xBB7B</td><td class="cdecl"></td><td class="cdecl">void fw_txt_cur_enable(void) __preserves_regs(b, c, d, e, iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT CUR DISABLE</span></td><td class="cdecl">	_fw_txt_cur_disable == 0xBB7E</td><td class="cdecl"></td><td class="cdecl">void fw_txt_cur_disable(void) __preserves_regs(b, c, d, e, iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT CUR ON</span></td><td class="cdecl">	_fw_txt_cur_on == 0xBB81</td><td class="cdecl"></td><td class="cdecl">void fw_txt_cur_on(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT CUR OFF</span></td><td class="cdecl">	_fw_txt_cur_off == 0xBB84</td><td class="cdecl"></td><td class="cdecl">void fw_txt_cur_off(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT VALIDATE</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_validate.s</td><td class="cdecl">uint32_t fw_txt_validate(void) __preserves_regs(c, iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT PLACE CURSOR</span></td><td class="cdecl">	_fw_txt_place_cursor == 0xBB8A</td><td class="cdecl"></td><td class="cdecl">void fw_txt_place_cursor(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT REMOVE CURSOR</span></td><td class="cdecl">	_fw_txt_remove_cursor == 0xBB8D</td><td class="cdecl"></td><td class="cdecl">void fw_txt_remove_cursor(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT SET PEN</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_pen.s</td><td class="cdecl">void fw_txt_set_pen(uint8_t p) __preserves_regs(b, c, d, e, iyh, iyl) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT GET PEN</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_get_pen.s</td><td class="cdecl">uint8_t fw_txt_get_pen(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT SET PAPER</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_paper.s</td><td class="cdecl">void fw_txt_set_paper(uint8_t p) __preserves_regs(b, c, d, e, iyh, iyl) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT GET PAPER</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_get_paper.s</td><td class="cdecl">uint8_t fw_txt_get_paper(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT INVERSE</span></td><td class="cdecl">	_fw_txt_inverse == 0xBB9C</td><td class="cdecl"></td><td class="cdecl">void fw_txt_inverse(void) __preserves_regs(b, c, d, e, iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT SET BACK</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_back.s</td><td class="cdecl">void fw_txt_set_back(uint8_t is_transparent) __preserves_regs(b, c, d, e, iyh, iyl) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT GET BACK</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_get_back.s</td><td class="cdecl">uint8_t fw_txt_get_back(void) __preserves_regs(b, c, iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT GET MATRIX</span></td><td class="cdecl">	_fw_txt_get_matrix_ignore_rom_indication == 0xBBA5</td><td class="cdecl">fw_txt_get_matrix.s</td><td class="cdecl">uint32_t fw_txt_get_matrix(uint8_t character_number) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;<br />
+fw_txt_p_character_matrix_t *fw_txt_get_matrix_ignore_rom_indication(uint8_t character_number) __preserves_regs(b, c, d, e, iyh, iyl) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT GET MATRIX IGNORE ROM INDICATION</span></td><td class="cdecl">	_fw_txt_get_matrix_ignore_rom_indication == 0xBBA5</td><td class="cdecl"></td><td class="cdecl">fw_txt_p_character_matrix_t *fw_txt_get_matrix_ignore_rom_indication(uint8_t character_number) __preserves_regs(b, c, d, e, iyh, iyl) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT CHARACTER MATRIX T</span></td><td class="cdecl"></td><td class="cdecl"></td><td class="cdecl">typedef uint8_t fw_txt_character_matrix_t[8];<br />
+enum fw_byte_all_or_nothing fw_txt_set_matrix(uint8_t character, fw_txt_character_matrix_t *matrix) __preserves_regs(iyh, iyl);<br />
+uint32_t fw_txt_set_m_table(fw_txt_character_matrix_t *buffer, bool disable, uint8_t lowest_affected_character) __preserves_regs(iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">*MATRIX)</span></td><td class="cdecl"></td><td class="cdecl"></td><td class="cdecl">enum fw_byte_all_or_nothing fw_txt_set_matrix(uint8_t character, fw_txt_character_matrix_t *matrix) __preserves_regs(iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">  PRESERVES REGS</span></td><td class="cdecl"></td><td class="cdecl"></td><td class="cdecl">void fw_mc_wait_flyback(void) __preserves_regs(a, b, c, d, e, h, l, iyh, iyl);<br />
+void fw_mc_set_mode(uint8_t mode) __preserves_regs(b, c, d, e, h, l, iyh, iyl) __z88dk_fastcall;<br />
+void fw_mc_screen_offset(uint8_t screen_base, uint16_t screen_offset) __preserves_regs(b, d, e, iyh, iyl);<br />
+void fw_mc_clear_inks16(ink_vector16 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;<br />
+void fw_mc_clear_inks4(ink_vector4 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;<br />
+void fw_mc_clear_inks2(ink_vector2 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;<br />
+void fw_mc_clear_inks1(ink_vector1 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;<br />
+void fw_mc_set_inks(ink_vector16 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;<br />
+void fw_mc_reset_printer(void) __preserves_regs(iyh, iyl);<br />
+void fw_mc_print_char(unsigned char char_to_send_7bits) __preserves_regs(b, c, d, e, h, l, iyh, iyl) __z88dk_fastcall;<br />
+uint8_t fw_mc_busy_printer(void) __preserves_regs(a, b, c, d, e, h, iyh, iyl);<br />
+void fw_mc_send_printer(unsigned char char_to_send_7bits) __preserves_regs(b, c, d, e, h, l, iyh, iyl) __z88dk_fastcall;<br />
+void fw_mc_sound_register(uint8_t register_number, uint8_t data) __preserves_regs(d, e, iyh, iyl);<br />
+void fw_txt_initialise(void) __preserves_regs(iyh, iyl);<br />
+void fw_txt_reset(void) __preserves_regs(iyh, iyl);<br />
+void fw_txt_vdu_enable(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);<br />
+void fw_txt_vdu_disable(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);<br />
+void fw_txt_output(unsigned char c) __preserves_regs(b, c, d, e, h, l, iyh, iyl) __z88dk_fastcall;<br />
+void fw_txt_wr_char(unsigned char c) __preserves_regs(iyh, iyl) __z88dk_fastcall;<br />
+uint16_t fw_txt_rd_char(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);<br />
+void fw_txt_set_graphic(bool enable) __preserves_regs(b, c, d, e, h, l, iyh, iyl) __z88dk_fastcall;<br />
+void fw_txt_win_enable(uint8_t left, uint8_t right, uint8_t top, uint8_t bottom) __preserves_regs(iyh, iyl);<br />
+void fw_txt_win_enable__fastcall(uint32_t fw_txt_window_t_asint) __preserves_regs(iyh, iyl) __z88dk_fastcall;<br />
+uint32_t fw_txt_get_window(void) __preserves_regs(iyh, iyl);<br />
+void fw_txt_clear_window(void) __preserves_regs(iyh, iyl);<br />
+void fw_txt_set_column(int8_t column) __preserves_regs(iyh, iyl) __z88dk_fastcall;<br />
+void fw_txt_set_row(int8_t row) __preserves_regs(b, c, d, e, iyh, iyl) __z88dk_fastcall;<br />
+void fw_txt_set_cursor(int8_t row, int8_t column) __preserves_regs(b, c, d, e, iyh, iyl);<br />
+void fw_txt_set_cursor__fastcall(int16_t colum8h_row8l) __preserves_regs(b, c, d, e, iyh, iyl) __z88dk_fastcall;<br />
+uint32_t fw_txt_get_cursor() __preserves_regs(b, c, iyh, iyl);<br />
+void fw_txt_cur_enable(void) __preserves_regs(b, c, d, e, iyh, iyl);<br />
+void fw_txt_cur_disable(void) __preserves_regs(b, c, d, e, iyh, iyl);<br />
+void fw_txt_cur_on(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);<br />
+void fw_txt_cur_off(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);<br />
+uint32_t fw_txt_validate(void) __preserves_regs(c, iyh, iyl);<br />
+void fw_txt_place_cursor(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);<br />
+void fw_txt_remove_cursor(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);<br />
+void fw_txt_set_pen(uint8_t p) __preserves_regs(b, c, d, e, iyh, iyl) __z88dk_fastcall;<br />
+uint8_t fw_txt_get_pen(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);<br />
+void fw_txt_set_paper(uint8_t p) __preserves_regs(b, c, d, e, iyh, iyl) __z88dk_fastcall;<br />
+uint8_t fw_txt_get_paper(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);<br />
+void fw_txt_inverse(void) __preserves_regs(b, c, d, e, iyh, iyl);<br />
+void fw_txt_set_back(uint8_t is_transparent) __preserves_regs(b, c, d, e, iyh, iyl) __z88dk_fastcall;<br />
+uint8_t fw_txt_get_back(void) __preserves_regs(b, c, iyh, iyl);<br />
+uint32_t fw_txt_get_matrix(uint8_t character_number) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;<br />
+fw_txt_p_character_matrix_t *fw_txt_get_matrix_ignore_rom_indication(uint8_t character_number) __preserves_regs(b, c, d, e, iyh, iyl) __z88dk_fastcall;<br />
+enum fw_byte_all_or_nothing fw_txt_set_matrix(uint8_t character, fw_txt_character_matrix_t *matrix) __preserves_regs(iyh, iyl);<br />
+uint32_t fw_txt_set_m_table(fw_txt_character_matrix_t *buffer, bool disable, uint8_t lowest_affected_character) __preserves_regs(iyh, iyl);<br />
+uint32_t fw_txt_get_m_table() __preserves_regs(b, c, iyh, iyl);<br />
+fw_txt_control_code_table_t *fw_txt_get_controls() __preserves_regs(iyh, iyl);<br />
+uint8_t fw_txt_str_select(uint8_t stream_to_select) __preserves_regs(b, c, d, e, iyl, iyh) __z88dk_fastcall;<br />
+void fw_txt_swap_streams(uint8_t stream1, uint8_t stream2) __preserves_regs(iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT SET M TABLE</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_set_m_table.s</td><td class="cdecl">uint32_t fw_txt_set_m_table(fw_txt_character_matrix_t *buffer, bool disable, uint8_t lowest_affected_character) __preserves_regs(iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT GET M TABLE</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_get_m_table.s</td><td class="cdecl">uint32_t fw_txt_get_m_table() __preserves_regs(b, c, iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT GET CONTROLS</span></td><td class="cdecl">	_fw_txt_get_controls == 0xBBB1</td><td class="cdecl"></td><td class="cdecl">fw_txt_control_code_table_t *fw_txt_get_controls() __preserves_regs(iyh, iyl);<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT STR SELECT</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_str_select.s</td><td class="cdecl">uint8_t fw_txt_str_select(uint8_t stream_to_select) __preserves_regs(b, c, d, e, iyl, iyh) __z88dk_fastcall;<br /></td></tr>
+<tr><td><span class="fw_call_name">TXT SWAP STREAMS</span></td><td class="cdecl"></td><td class="cdecl">fw_txt_swap_streams.s</td><td class="cdecl">void fw_txt_swap_streams(uint8_t stream1, uint8_t stream2) __preserves_regs(iyh, iyl);<br /></td></tr>
 </table>
 <h2>Conclusion</h2>
 <p>Happy hacking! Start there: <a href="https://github.com/cpcitor/cpc-dev-tool-chain" title="cpcitor/cpc-dev-tool-chain: A development toolchain to compile your C or assembly projects on a modern OS and run your compiled projects on an Amstrad CPC or emulator. Early stage, simple and already usable.">cpc-dev-tool-chain on GitHub.</a></p>

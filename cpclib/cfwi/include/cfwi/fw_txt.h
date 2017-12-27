@@ -576,7 +576,7 @@ typedef union fw_txt_cursor_pos_t
     TXT SET ROW
     TXT VALIDATE
 */
-uint32_t fw_txt_get_cursor();
+uint32_t fw_txt_get_cursor() __preserves_regs(b, c, iyh, iyl);
 
 /** 41: TXT CUR ENABLE #BB7B
     Allow cursor display - user.

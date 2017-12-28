@@ -1,0 +1,7 @@
+[submodule "tool/caprice32"]
+	path = tool/caprice32
+	url = https://github.com/cpcitor/caprice32
+[submodule "tool/caprice32/caprice32"]
+	path = tool/caprice32/caprice32
+	url = https://github.com/cpcitor/caprice32
+	branch = master

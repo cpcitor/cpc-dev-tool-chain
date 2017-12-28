@@ -1,0 +1,5 @@
+#!/bin/bash
+
+MODULEDIR=$( cd -P "$(dirname $0)/.." ; pwd )
+
+exec "${MODULEDIR}/caprice32/cap32" --cfg_file="${MODULEDIR}/cap32_local.cfg" "$@"

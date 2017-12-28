@@ -69,12 +69,11 @@ build_config.inc: $(BUILD_TARGET_FILE) Makefile
 	(set -eu ; \
 	{ \
 	echo "# with bash do \"source\" this file." ; \
-	echo "export PATH=\"\$${PATH}:$$PWD\"" ; \
+	echo "export PATH=\"\$${PATH}:$$PWD/bin\"" ; \
 	} >$@ ; )
 
 run: build_config.inc roms
-	./cap32
-#	( . build_config.inc ; caprice32 )
+	( . build_config.inc ; cap32 )
 
 clean:
 	-( set -e ; cd $(EXTRACT_DIR_NAME) ; $(MAKE) clean ; )

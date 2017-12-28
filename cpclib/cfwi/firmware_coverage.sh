@@ -8,6 +8,25 @@ set -eu
 
 . firmware_coverage_helper.env
 
+
+#echo "Checking that each c prototype matches one asm-level symbol ..."
+
+{
+for symbolname in $( list_c_function_names )
+do
+    #echo -n "."
+    NOWRAPPER_COUNT=$( nowrappers_lines | grep "_$symbolname " | wc -l )
+    WRAPPER_COUNT=$( list_fw_wrapper_symbols | grep "^_${symbolname}$" | wc -l )
+    TOTAL=$(( $NOWRAPPER_COUNT + $WRAPPER_COUNT ))
+
+    if [[ "$TOTAL" != "1" ]]
+    then
+        echo -e "$NOWRAPPER_COUNT + $WRAPPER_COUNT = $TOTAL\t$symbolname" >&2
+    fi
+done
+#echo "done"
+} &
+
 # Sanity check
 
 for ASM_SOURCE_FILE in $( list_fw_wrapper_files )
@@ -314,18 +333,6 @@ echo "</html>"
 
 # restore stdout
 exec 1<&4
-
-for symbolname in $( list_c_function_names )
-do
-    NOWRAPPER_COUNT=$( nowrappers_lines | grep "_$symbolname " | wc -l )
-    WRAPPER_COUNT=$( list_fw_wrapper_files | grep "$symbolname\.s$" | wc -l )
-    TOTAL=$(( $NOWRAPPER_COUNT + $WRAPPER_COUNT ))
-
-    if [[ "$TOTAL" != "1" ]]
-    then
-        echo -e "$NOWRAPPER_COUNT + $WRAPPER_COUNT = $TOTAL\t$symbolname" >&2
-    fi
-done
 
 mv coverage.html.tmp coverage.html
 

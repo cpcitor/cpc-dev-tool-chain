@@ -42,7 +42,7 @@ $(EXTRACT_DIR_NAME)/.unpacked: $(ARCHIVE_NAME)
 	@echo "**************** Extracting source from: $^"
 	@echo "************************************************************************"
 	unzip $<
-	mv -vf "$(EXTRACT_DIR_NAME)/src/cpcxfs" "$(EXTRACT_DIR_NAME)/src/cpcxfs.linux.x86-64" || echo "Could not move away linux-amd64-only precompiled binary. Hope that's ok."
+	rm -f "$(EXTRACT_DIR_NAME)/src/cpcxfs" "$(EXTRACT_DIR_NAME)/src/"*.o
 	touch $@
 	@echo "************************************************************************"
 	@echo "**************** Source extracted to: $(@D)"

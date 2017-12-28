@@ -7,7 +7,6 @@
 #include "fw_jre.h"
 #include "fw_kl.h"
 #include "fw_km.h"
-#include "fw_lkjb.h"
 #include "fw_mc.h"
 #include "fw_scr.h"
 #include "fw_sound.h"

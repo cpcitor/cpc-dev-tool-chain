@@ -73,7 +73,7 @@ build_config.inc: $(BUILD_TARGET_FILE) Makefile
 	} >$@ ; )
 
 run: build_config.inc roms
-	( . build_config.inc ; cap32 )
+	( . build_config.inc ; cap32_once )
 
 clean:
 	-( set -e ; cd $(EXTRACT_DIR_NAME) ; $(MAKE) clean ; )

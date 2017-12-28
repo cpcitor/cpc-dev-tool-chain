@@ -2,22 +2,17 @@ SHELL=/bin/bash
 
 VARIABLES_AT_MAKEFILE_START := $(.VARIABLES)
 
-TARGETS=extracted
+TARGETS=cpc6128.rom
+
+roms/cpc6128.rom: roms/OS_6128.ROM roms/BASIC_1.1.ROM
+	cat $^ >$@
 
 # URLS from http://www.cpcwiki.eu/index.php/ROM_List
 
-ROMS_464_EN_URL=http://www.cpcwiki.eu/imgs/0/0f/OS_464.zip http://www.cpcwiki.eu/imgs/4/4a/BASIC_1.0.zip $(AMSDOS_URL)
-ROMS_6128_EN_URL=http://www.cpcwiki.eu/imgs/c/c6/OS_6128.zip http://www.cpcwiki.eu/imgs/f/fb/BASIC_1.1.zip $(AMSDOS_URL)
-
-ROMS_464_FR_URL=http://www.cpcwiki.eu/imgs/4/4d/Os464_%28French_AZERTY%29.rom $(AMSDOS_URL)
-ROMS_6128_FR_URL=http://www.cpcwiki.eu/imgs/a/af/French_6128_ROMs.zip $(AMSDOS_URL)
-
-ROMS_464_ES_URL=http://www.cpcwiki.eu/imgs/1/18/Os464_%28Spanish%29.rom $(AMSDOS_URL)
-ROMS_6128_ES_URL=http://www.cpcwiki.eu/imgs/6/6a/Spanish_6128_ROMs.zip http://www.cpcwiki.eu/imgs/a/ae/BASIC1.1_%286128_Spanish%29.ROM $(AMSDOS_URL)
-
+ROMS_6128_URL=http://www.cpcwiki.eu/imgs/c/c6/OS_6128.zip http://www.cpcwiki.eu/imgs/f/fb/BASIC_1.1.zip $(AMSDOS_URL)
 AMSDOS_URL=http://www.cpcwiki.eu/imgs/7/7d/AMSDOS_0.5.zip
 
-ROMS_URL=$(ROMS_464_EN_URL) $(ROMS_6128_EN_URL) $(ROMS_464_FR_URL) $(ROMS_6128_FR_URL) $(ROMS_464_ES_URL) $(ROMS_6128_ES_URL)
+ROMS_URL=$(ROMS_6128_URL)
 
 all: $(TARGETS)
 
@@ -48,7 +43,7 @@ $(FETCH_DIR_NAME)/.fetched:
 	touch $@
 
 # ZIPD="$$( cd "$(FETCH_DIR_NAME)" ; pwd )" ; 
-$(EXTRACT_DIR_NAME)/.extracted: $(FETCH_DIR_NAME)/.fetched
+roms/OS_6128.ROM roms/BASIC_1.1.ROM $(EXTRACT_DIR_NAME)/.extracted: $(FETCH_DIR_NAME)/.fetched
 	( set -euxv ; mkdir -p "$(EXTRACT_DIR_NAME)" ; MAKED="$$PWD" ; cd "$(EXTRACT_DIR_NAME)" ; for a in $$(find $$MAKED/$(FETCH_DIR_NAME) -iname "*.zip") ; do unzip -o "$$a" ; done ; )
 	@echo "************************************************************************"
 	@echo "**************** Rom archives were downloaded to: $(@D)"
@@ -73,3 +68,19 @@ distclean: mrproper
 $(foreach v,                                        \
   $(filter-out $(VARIABLES_AT_MAKEFILE_START) VARIABLES_AT_MAKEFILE_START,$(.VARIABLES)), \
   $(info $(v) = $($(v))))
+
+
+## Other, not used
+# 
+# ROMS_464_EN_URL=http://www.cpcwiki.eu/imgs/0/0f/OS_464.zip http://www.cpcwiki.eu/imgs/4/4a/BASIC_1.0.zip $(AMSDOS_URL)
+# ROMS_6128_EN_URL=http://www.cpcwiki.eu/imgs/c/c6/OS_6128.zip http://www.cpcwiki.eu/imgs/f/fb/BASIC_1.1.zip $(AMSDOS_URL)
+# 
+# ROMS_464_FR_URL=http://www.cpcwiki.eu/imgs/4/4d/Os464_%28French_AZERTY%29.rom $(AMSDOS_URL)
+# ROMS_6128_FR_URL=http://www.cpcwiki.eu/imgs/a/af/French_6128_ROMs.zip $(AMSDOS_URL)
+# 
+# ROMS_464_ES_URL=http://www.cpcwiki.eu/imgs/1/18/Os464_%28Spanish%29.rom $(AMSDOS_URL)
+# ROMS_6128_ES_URL=http://www.cpcwiki.eu/imgs/6/6a/Spanish_6128_ROMs.zip http://www.cpcwiki.eu/imgs/a/ae/BASIC1.1_%286128_Spanish%29.ROM $(AMSDOS_URL)
+# 
+# AMSDOS_URL=http://www.cpcwiki.eu/imgs/7/7d/AMSDOS_0.5.zip
+
+#ROMS_URL=$(ROMS_464_EN_URL) $(ROMS_6128_EN_URL) $(ROMS_464_FR_URL) $(ROMS_6128_FR_URL) $(ROMS_464_ES_URL) $(ROMS_6128_ES_URL)

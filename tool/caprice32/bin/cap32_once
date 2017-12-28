@@ -1,0 +1,5 @@
+#!/bin/bash
+
+SCRIPTDIR=$( cd -P "$(dirname $0)" ; pwd )
+
+exec "${SCRIPTDIR}/cap32" --reset-exits "$@"

@@ -64,7 +64,7 @@ au: $(AUNAME)
 lib: $(PROJNAME).lib
 ihx: $(PROJNAME).ihx
 
-.PHONY: default all bin dsk cdt voc au lib ihx
+.PHONY: default all bin dsk cdt voc au lib ihx run
 
 ########################################################################
 # Conjure up cpc-specific putchar
@@ -341,6 +341,18 @@ clean:
 	-rm -f src/*.lk src/*.noi src/*.rel src/*.asm src/*.ihx src/*.lst src/*.map src/*.sym src/*.rst src/*.bin.log src/*.tmp
 	-rm -f *~ */*~ */*/*~
 distclean: clean
+
+########################################################################
+# Run emulator
+########################################################################
+
+CDTC_ENV_FOR_CAPRICE32=$(CDTC_ROOT)/tool/caprice32/build_config.inc
+
+$(CDTC_ENV_FOR_CAPRICE32):
+	( export LC_ALL=C ; $(MAKE) -C "$(@D)" build_config.inc ; )
+
+run: $(DSKNAME) $(CDTC_ENV_FOR_CAPRICE32)
+	( . $(CDTC_ENV_FOR_CAPRICE32) ; cap32_once $(DSKNAME) -a 'run"$(PROJNAME)' ; )
 
 
 ########################################################################

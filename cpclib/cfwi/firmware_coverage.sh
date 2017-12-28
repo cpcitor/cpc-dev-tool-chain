@@ -29,6 +29,7 @@ done
 
 # Sanity check
 
+{
 for ASM_SOURCE_FILE in $( list_fw_wrapper_files )
 do
     for SYMBOL in $( cat $ASM_SOURCE_FILE | sed -n "s|^.*\(fw[^:]*\)::|\1|p" )
@@ -40,6 +41,7 @@ do
 	fi
     done
 done
+} &
 
 # Start output
 

@@ -1,4 +1,4 @@
-doc: coverage.html
+local-doc: coverage.html
 
 coverage.html: all_fw_calls_official_list.csv
 	time bash firmware_coverage.sh
@@ -9,5 +9,5 @@ all_fw_calls_official_list.csv: s968se15.pdf
 s968se15.pdf:
 	wget -S http://cpctech.cpc-live.com/s968se15.pdf
 
-clean:
+local-clean:
 	rm -f coverage.html all_fw_calls_official_list.csv

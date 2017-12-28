@@ -259,9 +259,22 @@ typedef union ink_vector16
 
     #### CFWI-specific information: ####
 
-    MC CLEAR INKS only uses the border color and first ink.  You
-    probably already have in RAM your palette in ink_vector format, so
-    avoid duplicate it.
+    WARNING: This is a low level routine that directly sets hardware
+    registers immediately (without even syncing with monitor), and
+    *not* the firmware values like SCR SET INK.  In practice this
+    means that unless you disable SCREEN pack, it will override colors
+    very quickly.  You may be very happy with it if you disable
+    interrupts before calling this.  If you're unhappy with this, use
+    SCR-level calls.
+
+    WARNING: When this routine is executed, lower ROM is enabled.  If
+    you pass a pointer between 0-0x3FFF, values will be read from ROM.
+    You probably want to store your ink vector in an area of RAM that
+    is always readable (0x4000 and up).
+
+    MC CLEAR INKS only uses the border color and first ink.  If you
+    set colors at this level, you probably already have in RAM your
+    palette in ink_vector format, so avoid duplicate it.
 
     If fw_mc_clear_inks accepts only ink_vector1, compiler will
     complain about your palette not being the good type.
@@ -314,6 +327,19 @@ void fw_mc_clear_inks__1(ink_vector1 *ink_vector) __preserves_regs(b, c, iyh, iy
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
     #### CFWI-specific information: ####
+
+    WARNING: This is a low level routine that directly sets hardware
+    registers immediately (without even syncing with monitor), and
+    *not* the firmware values like SCR SET INK.  In practice this
+    means that unless you disable SCREEN pack, it will override colors
+    very quickly.  You may be very happy with it if you disable
+    interrupts before calling this.  If you're unhappy with this, use
+    SCR-level calls.
+
+    WARNING: When this routine is executed, lower ROM is enabled.  If
+    you pass a pointer between 0-0x3FFF, values will be read from ROM.
+    You probably want to store your ink vector in an area of RAM that
+    is always readable (0x4000 and up).
 
     MC SET INKS only needs as many inks as your current mode.  But it
     will set all 16 inks even if current mode only accepts less, which

@@ -2,8 +2,9 @@
 #define __FW_KL_H__
 
 #include <stdbool.h>
+#include <stdint.h>
 
-long int fw_kl_time_please(void);
+uint32_t fw_kl_time_please(void);
 
 void fw_kl_scan_needed(void);
 void fw_kl_sync_reset(void);

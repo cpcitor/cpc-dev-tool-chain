@@ -4,7 +4,7 @@ void
 main ()
 {
 	{
-		static unsigned int x, y;
+		static unsigned char x, y;
 
 		for (x = 0; x < 255; x++)
 		{

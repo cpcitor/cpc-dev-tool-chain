@@ -1,0 +1,5 @@
+#!/bin/bash
+
+SCRIPTDIR=$( cd -P . ; pwd )
+
+exec "${SCRIPTDIR}/caprice32/cap32" --cfg_file="${SCRIPTDIR}/cap32_local.cfg" 

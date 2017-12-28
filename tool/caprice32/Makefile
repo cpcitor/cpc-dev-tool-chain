@@ -36,7 +36,7 @@ $(EXTRACT_DIR_NAME)/.unpacked: $(ARCHIVE_NAME)
 	@echo "************************************************************************"
 	@echo "**************** Extracting source from: $^"
 	@echo "************************************************************************"
-	git submodule update caprice32
+	git submodule update --init caprice32
 	touch $@
 	@echo "************************************************************************"
 	@echo "**************** Source extracted to: $(@D)"

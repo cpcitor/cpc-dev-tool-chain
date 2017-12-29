@@ -39,7 +39,8 @@ TARGETS=$(DSKNAME) $(BINS) $(OPTS)
 default:
 	@echo "########################################################################"
 	@echo "GOOD! This project will use your cpc-dev-tool-chain copy there:"
-	@echo "$$PWD"
+	@echo "$(CDTC_ROOT)"
+	@echo "Absolute path: $$( cd $(CDTC_ROOT) ; pwd )"
 	@echo "########################################################################"
 	@echo "This message won't appear if you define a \`local.Makefile\` starting with your preferred default rule."
 	@echo ""

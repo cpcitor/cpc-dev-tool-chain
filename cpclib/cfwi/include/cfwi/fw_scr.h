@@ -1,4 +1,4 @@
-#ifndef  __FW_SCR_H__
+#ifndef __FW_SCR_H__
 #define __FW_SCR_H__
 
 #include <stdint.h>
@@ -35,7 +35,7 @@
    SCR RESET
    TXT INITIALISE
 */
-void fw_scr_initialise(void)  __preserves_regs(iyh, iyl);
+void fw_scr_initialise(void) __preserves_regs(iyh, iyl);
 
 /** 86: SCR RESET
     #BC02

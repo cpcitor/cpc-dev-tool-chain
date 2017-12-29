@@ -60,7 +60,8 @@ typedef union fw_kl_choke_output_t
     TXT RESET to reset any Text VDU indirections.
     SCR RESET to reset any screen indirections.
 */
-uint32_t fw_kl_choke_off(void);
+uint32_t fw_kl_choke_off__with_return_value(void) __preserves_regs(iyh, iyl);
+void fw_kl_choke_off__ignore_return_value(void) __preserves_regs(iyh, iyl);
 
 uint32_t fw_kl_time_please(void);
 

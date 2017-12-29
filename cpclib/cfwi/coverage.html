@@ -78,8 +78,8 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <h2>Global Statistics</h2>
 <table>
 <tr><td>Total fw calls as per SOFT968 official documentation</td><td>202</td></tr>
-<tr><td>Total fw calls declared at C level</td><td>117</td></tr>
-<tr><td>Overall coverage percentage</td><td>57%</td></tr>
+<tr><td>Total fw calls declared at C level</td><td>118</td></tr>
+<tr><td>Overall coverage percentage</td><td>58%</td></tr>
 </table>
 </table>
 <h2>Statistics per firmware packages</h2>
@@ -91,7 +91,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <tr><td class="fw_call_name">SCR</td><td>36</td><td>7</td><td style="text-align: right">19%</td>
 <tr><td class="fw_call_name">CAS</td><td>22</td><td>4</td><td style="text-align: right">18%</td>
 <tr><td class="fw_call_name">SOUND</td><td>12</td><td>3</td><td style="text-align: right">25%</td>
-<tr><td class="fw_call_name">KL</td><td>26</td><td>5</td><td style="text-align: right">19%</td>
+<tr><td class="fw_call_name">KL</td><td>26</td><td>6</td><td style="text-align: right">23%</td>
 <tr><td class="fw_call_name">MC</td><td>13</td><td>12</td><td style="text-align: right">92%</td>
 <tr><td class="fw_call_name">JUMP</td><td>1</td><td>1</td><td style="text-align: right">100%</td>
 </table>
@@ -340,7 +340,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <tr><td>
 <div class="output"><div class="direct"><code>	_fw_txt_get_matrix__ignore_rom_indication == 0xBBA5</code></div></div
 </td>
-<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>fw_txt_p_character_matrix_t *fw_txt_get_matrix__ignore_rom_indication(uint8_t character_number);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>fw_txt_character_matrix_t *fw_txt_get_matrix__ignore_rom_indication(uint8_t character_number);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">TXT SET MATRIX</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_txt_set_matrix.s><code>_fw_txt_set_matrix</code></a> (wrapper, 18 bytes)</div></div
 </td>
@@ -655,7 +655,10 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <h3>Package <span class="fw_call_name">KL</span></h3>
 <table>
 <tr><th>Call</th><th>ASM symbol(s)</th><th>Preserved regs optimisation</th><th>C prototype(s)</th></tr>
-<tr><td class="fw_call_name">KL CHOKE OFF</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
+<tr><td class="fw_call_name" rowspan="1">KL CHOKE OFF</td><td>
+<div class="output"><div class="direct"><code>	_fw_kl_choke_off == 0xBCC8</code></div></div
+</td>
+<td class=""></td><td class="cdecl"><code>uint32_t fw_kl_choke_off(void);</code></td></tr>
 <tr><td class="fw_call_name">KL ROM WALK</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">KL INIT BACK</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">KL LOG EXT</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
@@ -697,7 +700,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <tr><td class="fw_call_name" rowspan="1">KL TIME PLEASE</td><td>
 <div class="output"><div class="direct"><code>	_fw_kl_time_please == 0xBD0D</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>long int fw_kl_time_please(void);</code></td></tr>
+<td class=""></td><td class="cdecl"><code>uint32_t fw_kl_time_please(void);</code></td></tr>
 <tr><td class="fw_call_name">KL TIME SET</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">KL BANK SWITCH</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 </table>
@@ -740,10 +743,18 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <div class="output"><div class="wrapper"><a href=src/fw_mc_clear_inks.s><code>_fw_mc_clear_inks__4</code></a> (wrapper, 4 bytes)</div></div
 </td>
 <td class="preserve_implemented">b, c, iyh, iyl</td><td class="cdecl"><code>void fw_mc_clear_inks__4(ink_vector4 *ink_vector);</code></td></tr>
-<tr><td class="fw_call_name" rowspan="1">MC SET INKS</td><td>
-<div class="output"><div class="wrapper"><a href=src/fw_mc_set_inks.s><code>_fw_mc_set_inks</code></a> (wrapper, 4 bytes)</div></div
+<tr><td class="fw_call_name" rowspan="3">MC SET INKS</td><td>
+<div class="output"><div class="wrapper"><a href=src/fw_mc_set_inks.s><code>_fw_mc_set_inks__16</code></a> (wrapper, 4 bytes)</div></div
 </td>
-<td class="preserve_implemented">b, c, iyh, iyl</td><td class="cdecl"><code>void fw_mc_set_inks(ink_vector16 *ink_vector);</code></td></tr>
+<td class="preserve_implemented">b, c, iyh, iyl</td><td class="cdecl"><code>void fw_mc_set_inks__16(ink_vector16 *ink_vector);</code></td></tr>
+<tr><td>
+<div class="output"><div class="wrapper"><a href=src/fw_mc_set_inks.s><code>_fw_mc_set_inks__2</code></a> (wrapper, 4 bytes)</div></div
+</td>
+<td class="preserve_implemented">b, c, iyh, iyl</td><td class="cdecl"><code>void fw_mc_set_inks__2(ink_vector2 *ink_vector);</code></td></tr>
+<tr><td>
+<div class="output"><div class="wrapper"><a href=src/fw_mc_set_inks.s><code>_fw_mc_set_inks__4</code></a> (wrapper, 4 bytes)</div></div
+</td>
+<td class="preserve_implemented">b, c, iyh, iyl</td><td class="cdecl"><code>void fw_mc_set_inks__4(ink_vector4 *ink_vector);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">MC RESET PRINTER</td><td>
 <div class="output"><div class="direct"><code>	_fw_mc_reset_printer == 0xBD28</code></div></div
 </td>

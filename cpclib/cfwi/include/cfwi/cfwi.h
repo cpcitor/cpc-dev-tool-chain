@@ -9,6 +9,24 @@
 #define __preserves_regs(...) 
 #endif /* DISTRUST_PRESERVE_REGS */
 
+/**
+
+   #### CFWI-specific information: ####
+
+   TL;DR: if a firmware routine has **argument pointer** to RAM,
+   ensure it is *not* below 0x4000.
+
+   The information is important for all routines that take **a
+   pointer argument in RAM**.  
+
+   Soft968 section 2
+
+   Routines that always access RAM will mention this in the description of the
+   routine. Other routines may be assumed to be affected by the ROM state. In
+   particular the various data blocks used by the Kernel must lie in the central 32K of
+   RAM for the Kernel to be able to use them.
+*/
+
 #include "cfwi_txt.h"
 #include "fw_cas.h"
 #include "fw_gra.h"

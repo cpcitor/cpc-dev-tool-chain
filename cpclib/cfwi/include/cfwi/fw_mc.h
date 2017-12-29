@@ -255,39 +255,19 @@ typedef union ink_vector16
 	enum hardware_color as_array[17];
 } ink_vector16;
 
-/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+/** #### CFWI-specific information: ####
 
-    #### CFWI-specific information: ####
+    WARNING: this routine accepts a pointer argument.  Refer to cfwi.h
+    about implications. TL;DR: have your pointer at leat 0x4000.
 
-    WARNING: This is a low level routine that directly sets hardware
-    registers immediately (without even syncing with monitor), and
-    *not* the firmware values like SCR SET INK.  In practice this
-    means that unless you disable SCREEN pack, it will override colors
-    very quickly.  You may be very happy with it if you disable
-    interrupts before calling this.  If you're unhappy with this, use
-    SCR-level calls.
+    MC CLEAR INKS only uses the border color and first ink.  When it
+    is useful, you probably also use fw_mc_set_inks(), which means you
+    already have a pointer to the full palette.  Just use
+    fw_mc_clear_inks() with the same argument.
 
-    WARNING: When this routine is executed, lower ROM is enabled.  If
-    you pass a pointer between 0-0x3FFF, values will be read from ROM.
-    You probably want to store your ink vector in an area of RAM that
-    is always readable (0x4000 and up).
+    Else, you can use a ink_vector1 parameter for standalone use.
 
-    MC CLEAR INKS only uses the border color and first ink.  If you
-    set colors at this level, you probably already have in RAM your
-    palette in ink_vector format, so avoid duplicate it.
-
-    If fw_mc_clear_inks accepts only ink_vector1, compiler will
-    complain about your palette not being the good type.
-
-    If fw_mc_clear_inks accepts only bigger ink_vector then memory is
-    wasted.
-
-    You can still cast type but this is against code concision and
-    clarity.
-
-    Simplest thing: have different C-level fw_mc_clear_inks* function
-    declarations that backed by the same ASM-level symbol, only they
-    take different C-level types.  Simple code, no waste at any level.
+    Refer to fw_mc_set_inks() for complete help and example.
 
 
 
@@ -324,47 +304,80 @@ void fw_mc_clear_inks__4(ink_vector4 *ink_vector) __preserves_regs(b, c, iyh, iy
 void fw_mc_clear_inks__2(ink_vector2 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;
 void fw_mc_clear_inks__1(ink_vector1 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;
 
-/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+/** #### CFWI-specific information: ####
 
-    #### CFWI-specific information: ####
+    WARNING: this routine accepts a pointer argument.  Refer to cfwi.h
+    about implications. TL;DR: have your pointer at leat 0x4000.
 
-    WARNING: This is a low level routine that directly sets hardware
-    registers immediately (without even syncing with monitor), and
-    *not* the firmware values like SCR SET INK.  In practice this
-    means that unless you disable SCREEN pack, it will override colors
-    very quickly.  You may be very happy with it if you disable
-    interrupts before calling this.  If you're unhappy with this, use
-    SCR-level calls.
+    ## Use case
 
-    WARNING: When this routine is executed, lower ROM is enabled.  If
-    you pass a pointer between 0-0x3FFF, values will be read from ROM.
-    You probably want to store your ink vector in an area of RAM that
-    is always readable (0x4000 and up).
+    This routine is very good (easy, concise, portable) for parts of
+    your programs that have static palette(s) and don't need firmware
+    blinking. 
 
-    MC SET INKS only needs as many inks as your current mode.  But it
-    will set all 16 inks even if current mode only accepts less, which
-    means that if you provide it a ink_vector4 or ink_vector2, the
-    bytes following it will be interpreted as color.
+    ## Example
 
-    For this reason, the C-level prototype accepts ink_vector16. But
-    you can of course use a C-level cast to tell the compiler that
-    you're aware.
-
-    Please notice the double braces in union/struct initializer.
-
-    Example:
-
+    // Do all SCR related init first.
+    fw_scr_initialise();
+    fw_scr_mode(1);
+    // Then disable all events except sound and keyboard
+    fw_kl_choke_off();
+    // Then set inks.
     ink_vector4 mypalette =
-    {
-    {
+    { {
     hardware_color_r0_g0_b1_blue,
     hardware_color_r2_g2_b2_bright_white,
     hardware_color_r0_g0_b0_black,
     hardware_color_r2_g1_b0_orange
-    }
-    };
+    } };
+    fw_mc_clear_inks(&mypalette);
+    my_draw_invisible_things();
+    fw_mc_set_inks(&mypalette);
+    my_game_routine();
+    // Game ended. Set mode and re-enable SCR-level color handling
+    fw_scr_mode(1);
+    my_menu();
 
-    fw_mc_set_inks( (ink_vector16 *)mypalette);
+    Notice: the {{ double braces }} in union/struct initializer above,
+    to initialize the first member of the union.
+
+    ## Additional information
+
+    ### Low-level routine
+
+    MC SET INK is a low level routine that directly sets hardware
+    registers immediately (without even syncing with monitor).
+    
+    This routines does *not* set the firmware values like SCR SET INK.
+    In practice this means that unless you take some precaution,
+    SCREEN pack will override colors very quickly.
+
+    3 types of solutions:
+
+    1. use SCR to set inks, keep firmware flashing colors.
+    2. disable SCR handling of inks (see above)
+    3. disable all firmware (implies own keyboard routines,etc)
+
+    ### Several prototypes
+
+    MC SET INKS only needs as many inks as your current mode.  But it
+    will set all 16 inks even if current mode only accepts less.
+    
+    There are several C-level prototypes.  Just use the one that fits
+    your current screen mode and you're safe.
+
+    ### Why bother with several prototypes
+
+    Several ink_vector* types exist to accomodate palettes of
+    different modes without wasting bytes.
+
+    If fw_mc_set_inks accepts only ink_vector16, you either use a too
+    big ink_vector16 in modes 1 and 2, or have to cast which is better
+    to avoid, to keep C-level type safety, code concision and clarity.
+
+    Simplest thing: have different C-level fw_mc_set_inks* function
+    declarations that backed by the same ASM-level symbol, only they
+    take different C-level types.  Simple code, no waste at any level.
 
 
 
@@ -410,7 +423,9 @@ void fw_mc_clear_inks__1(ink_vector1 *ink_vector) __preserves_regs(b, c, iyh, iy
     SCR SET BORDER
     SCR SET INK
 */
-void fw_mc_set_inks(ink_vector16 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;
+void fw_mc_set_inks__16(ink_vector16 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;
+void fw_mc_set_inks__4(ink_vector4 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;
+void fw_mc_set_inks__2(ink_vector2 *ink_vector) __preserves_regs(b, c, iyh, iyl) __z88dk_fastcall;
 
 /** 184: MC RESET PRINTER
     #BD28

@@ -1,4 +1,4 @@
-|#!/bin/bash
+#!/bin/bash
 
 GITHUB_CDTC=https://github.com/cpcitor/cpc-dev-tool-chain/
 

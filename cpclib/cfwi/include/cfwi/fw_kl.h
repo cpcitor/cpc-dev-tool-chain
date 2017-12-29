@@ -14,8 +14,7 @@ typedef union fw_kl_choke_output_t
 		void *address_foreground_rom_was_entered;
 	};
 	uint32_t as_uint32_t;
-} fw_kl_choke_output_t
-
+} fw_kl_choke_output_t;
 
 /** #### CFWI-specific information: ####
 

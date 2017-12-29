@@ -63,11 +63,38 @@ typedef union fw_kl_choke_output_t
 uint32_t fw_kl_choke_off__with_return_value(void) __preserves_regs(iyh, iyl);
 void fw_kl_choke_off__ignore_return_value(void) __preserves_regs(iyh, iyl);
 
-uint32_t fw_kl_time_please(void);
-
 void fw_kl_scan_needed(void);
 void fw_kl_sync_reset(void);
 void fw_kl_event_disable(void);
 void fw_kl_event_enable(void);
+
+/** 175: KL TIME PLEASE
+    #BD0D
+    Ask the elapsed time.
+    Action:
+    The Kernel maintains a count which it increments on each time interrupt. The count,
+    therefore, measures time in 1/300th of a second units. This routine returns the current
+    count.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    DEHL contains the four byte count (D contains the most significant byte and L the
+    least significant byte).
+    All other registers preserved.
+    Notes:
+    The count is zeroized when the machine is turned on or reset. The count may be set to
+    another starting value by KL TIME SET.
+    The count is not kept up to date if interrupts are disabled for long periods, such as
+    while reading and writing the cassette.
+    The four byte count overflows after approximately:
+    14,316,558 Seconds
+    = 238,609 Minutes
+    = 3,977 Hours
+    = 166 Days
+    This routine enables interrupts.
+    Related entries:
+    KL TIME SET
+*/
+uint32_t fw_kl_time_please(void) __preserves_regs(a, b, c, iyh, iyl);
 
 #endif /* __FW_KL_H__ */

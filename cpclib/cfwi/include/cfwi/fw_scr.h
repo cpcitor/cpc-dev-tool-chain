@@ -37,9 +37,38 @@
 */
 void fw_scr_initialise(void)  __preserves_regs(iyh, iyl);
 
+/** 86: SCR RESET
+    #BC02
+    Reset the Screen Pack.
+    Action:
+    Reinitializes the Screen Pack indirections and the ink colours. Also reinitializes the
+    flash rate and Graphics VDU write mode.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    AF, BC, DE and HL corrupt.
+    All other registers preserved.
+    Notes:
+    The screen indirections (SCR READ, SCR WRITE and SCR MODE CLEAR) are set
+    to their default routines.
+    The inks are set to their default colours (see Appendix V).
+    The ink flashing periods are set to their default values.
+    The Graphics VDU write mode is set to FORCE mode.
+    The inks are not passed to the hardware. This will be done when the inks flash next.
+    Related entries:
+    SCR
+    SCR
+    SCR
+    SCR
+    INITIALISE
+    SET ACCESS
+    SET FLASHING
+    SET INK
+*/
+void fw_scr_reset(void) __preserves_regs(iyh, iyl);
+
 void fw_scr_set_mode(unsigned char x);
 
-void fw_scr_reset(void);
 void fw_scr_clear(void);
 void fw_scr_mode_clear(void);
 void fw_scr_set_ink( uint8_t pen, uint8_t color1, uint8_t color2 );

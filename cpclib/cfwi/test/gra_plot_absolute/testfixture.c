@@ -1,7 +1,7 @@
 #include "cfwi/cfwi.h"
+#include "stdint.h"
 
-void
-main ()
+uint8_t perform_test()
 {
 	{
 		static unsigned char x, y;
@@ -19,7 +19,5 @@ main ()
 
 		}
 	}
-
-	cfwi_txt_str0_output("Press any key to exit.");
-	fw_km_wait_key();
+	return 0;
 }

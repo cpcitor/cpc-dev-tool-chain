@@ -28,27 +28,24 @@ Maybe.  If you're a developer, your system may already have everything that's ne
 * The only third-party dependencies are software that is widespread and easily obtainable on any system.
 * Software that is specific to CPC is automatically fetched and compiled from the Internet.
 
-#### Generic instructions
-
-Any system capable of running these should be able to run `cpc-dev-tool-chain`:
-
-* `bash`, a command line interpreter also known as "shell".
-* `make`,  a tool to automate build steps.
-* `wget` used on first run to automatically get CPC-specific software from the Internet.
-* `patch`, a tool to adjust iDSK source code (and possibly others in the future).
-* `gcc`, the native compiler, to compile CPC compiler and tools.
-* `bison`, `flex` and `libboost-dev` are needed to compile sdcc.
-* `libncurses-devel` provides `termcap.h` needed by cpcxfs.
-
 #### Debian Linux and derivatives (e.g. Ubuntu)
 
-For the widespread tools, use your distribution's package manager, for example on Debian/Ubuntu/derivatives:
+For the widespread tools, use your distribution's package manager, for example on Debian/Ubuntu/derivatives, you can copy-paste this:
 
+	{
     APT="sudo apt-get --no-install-recommends --assume-yes install"
-    ${APT:?} wget make patch gcc               # common tools
-    ${APT:?} gzip libmodern-perl-perl          # for z88dk
-    ${APT:?} bzip2                             # for hex2bin and sdcc
-    ${APT:?} g++ bison flex libboost-dev       # for sdcc
+    ${APT:?} git ca-certificates                    # to fetch the rest
+    ${APT:?} wget make patch gcc                    # common tools
+    ${APT:?} bzip2                                  # for hex2bin and sdcc
+    ${APT:?} unzip                                  # for addhead
+    ${APT:?} g++ texinfo bison flex libboost-dev    # for sdcc
+    ${APT:?} libsdl1.2-dev pkgconf libfreetype6-dev # for caprice32
+    ${APT:?} libncurses-dev                         # for cpcxfs
+	}
+
+#### Generic instructions
+
+Look at the Debian/Ubuntu instructions above, find and install the software and move to next step.
 
 #### Windows
 
@@ -82,7 +79,8 @@ Once your computer has the prerequisites, you only have to get a copy of `cpc-de
 
 * get a copy of `cpc-dev-tool-chain`, for example:
 
-        git clone https://github.com/cpcitor/cpc-dev-tool-chain.git
+        git clone https://github.com/cpcitor/cpc-dev-tool-chain
+		cd cpc-dev-tool-chain
 
 #### Build a project
 

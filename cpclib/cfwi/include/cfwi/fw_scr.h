@@ -67,6 +67,37 @@ void fw_scr_initialise(void) __preserves_regs(iyh, iyl);
 */
 void fw_scr_reset(void) __preserves_regs(iyh, iyl);
 
+/** 87: SCR SET OFFSET
+    #BC05
+    Set the offset of the start of the screen.
+    Action:
+    Set the offset of the first character on the screen. By changing this offset the screen
+    can be rolled.
+    Entry conditions:
+    HL contains the required offset.
+    Exit conditions:
+    AF and HL corrupt.
+    All other registers preserved.
+    Notes:
+    The offset passed is masked with #07FE to make sure it is not too big to make sure
+    that the offset is even. (The screen is only capable of rolling in two byte increments).
+    The screen base and screen offset are combined into a single value and sent to the
+    hardware together.
+    The screen offset is used by SCR CHAR POSITION and SCR DOT POSITION to
+    calculate screen addresses. If the screen offset is changed merely by calling the
+    Machine Pack routine MC SCREEN OFFSET then the Text and Graphics VDUs will
+    use incorrect screen addresses.
+    The offset is set to zero when the screen mode is set or the screen is cleared by calling
+    SCR CLEAR.
+    Related entries:
+    MC SCREEN OFFSET
+    SCR GET LOCATION
+    SCR HW ROLL
+    SCR SET BASE
+    SCR SET POSITION
+*/
+void fw_scr_set_offset(uint16_t offset) __z88dk_fastcall;
+
 void fw_scr_set_mode(unsigned char x);
 
 void fw_scr_clear(void);

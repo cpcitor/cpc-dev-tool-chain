@@ -76,6 +76,7 @@
 
 	_fw_scr_initialise == 0xBBFF
 	_fw_scr_reset == 0xBC02
+	_fw_scr_set_offset == 0xBC05
 	_fw_scr_clear == 0xBC14
 
 	;; 664 and 6128 only

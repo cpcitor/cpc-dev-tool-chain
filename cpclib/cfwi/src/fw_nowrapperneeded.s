@@ -41,6 +41,7 @@
 	_fw_cas_return == 0xBC86
 	_fw_cas_out_abandon == 0xBC92
 
+	_fw_kl_choke_off == 0xBCC8
 	_fw_kl_scan_needed == 0xB92A
 	
 	_fw_txt_initialise == 0xBB4E

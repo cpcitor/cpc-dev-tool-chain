@@ -44,7 +44,7 @@ $(EXTRACT_DIR_NAME)/.unpacked: $(ARCHIVE_NAME)
 
 LOCAL_ADJUSTSCRIPT=$(EXTRACT_DIR_NAME)_local_adjust.sh
 
-$(EXTRACT_DIR_NAME)/.local_adjusted: $(LOCAL_ADJUSTSCRIPT) $(EXTRACT_DIR_NAME)/.unpacked
+cap32_local.cfg: $(LOCAL_ADJUSTSCRIPT) $(EXTRACT_DIR_NAME)/.unpacked
 	@echo "************************************************************************"
 	@echo "**************** Local_Adjusting source in: $^"
 	@echo "************************************************************************"
@@ -56,7 +56,7 @@ $(EXTRACT_DIR_NAME)/.local_adjusted: $(LOCAL_ADJUSTSCRIPT) $(EXTRACT_DIR_NAME)/.
 
 BUILD_TARGET_FILE?=$(EXTRACT_DIR_NAME)/.built
 
-$(BUILD_TARGET_FILE): $(EXTRACT_DIR_NAME)/.local_adjusted
+$(BUILD_TARGET_FILE): cap32_local.cfg
 	@echo "************************************************************************"
 	@echo "**************** Configuring and build in: $^"
 	@echo "************************************************************************"

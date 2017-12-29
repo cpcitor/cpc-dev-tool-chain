@@ -194,4 +194,4 @@ echo "CDTC_ROOT=$CDTC_ROOT"
 #     * else generate a directory path
 
 echo "Notice: currently ignoring build tree, since out-of-source build not yet done."
-$CDTC_ROOT/cdtc-project-setup.sh $SCRIPTDIR
+exec $CDTC_ROOT/cdtc-project-setup.sh $SCRIPTDIR

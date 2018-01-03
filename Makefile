@@ -30,3 +30,7 @@ sdcc-all: test-custom-project hello_world_using_sdcc-all
 
 test-custom-project:
 	( maintainer-tools/test_custom_project.sh ; )
+
+test:
+	LC_ALL=C $(MAKE) -C tests
+#	LC_ALL=C $(MAKE) -C cpclib/cfwi/test

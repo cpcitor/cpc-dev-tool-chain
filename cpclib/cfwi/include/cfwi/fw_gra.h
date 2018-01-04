@@ -864,6 +864,32 @@ void fw_gra_line_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z
 */
 void fw_gra_wr_char(char character) __z88dk_fastcall __preserves_regs(iyh, iyl);
 
+/** 193: GRA DEFAULT
+    #BD43
+    Set the default Graphics VDU modes.
+    Action:
+    Sets the graphics write mode, background mode, first pixel mode and line mask to
+    their default settings.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    AF, BC, DE and HL corrupt.
+    All other registers preserved.
+    Notes:
+    This routine is not available on V1.0 firmware.
+    This routine sets the following modes:
+    Graphics write mode is set to force.
+    Graphics background mode is set to opaque.
+    First point mode is set to plot the first pixel of lines.
+    Line mask is set to give continuous lines (mask of #FF).
+    Related entries:
+    GRA INITIALISE
+    GRA RESET
+    GRA SET BACK
+    GRA SET FIRST
+    GRA SET LINE MASK
+    SCR ACCESS
+*/
 void fw_gra_default(void) __preserves_regs(iyh, iyl);
 
 #endif /* __FW_GRA_H__ */

@@ -864,6 +864,7 @@ void fw_gra_line_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z
 */
 void fw_gra_wr_char(char character) __z88dk_fastcall __preserves_regs(iyh, iyl);
 
+#ifdef __CPC_FW_11_AND_UP__
 /** 193: GRA DEFAULT
     #BD43
     Set the default Graphics VDU modes.
@@ -891,5 +892,6 @@ void fw_gra_wr_char(char character) __z88dk_fastcall __preserves_regs(iyh, iyl);
     SCR ACCESS
 */
 void fw_gra_default(void) __preserves_regs(iyh, iyl);
+#endif /* __CPC_FW_11_AND_UP__ */
 
 #endif /* __FW_GRA_H__ */

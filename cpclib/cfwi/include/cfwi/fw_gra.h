@@ -88,7 +88,7 @@ typedef union fw_gra_y_y_coordinates_t
     GRA RESET
     SCR INITIALISE
 */
-void fw_gra_initialise(void);
+void fw_gra_initialise(void) __preserves_regs(iyh, iyl);
 
 /** 63: GRA RESET
     #BBBD
@@ -109,7 +109,7 @@ void fw_gra_initialise(void);
     GRA DEFAULT
     GRA INITIALISE
 */
-void fw_gra_reset(void);
+void fw_gra_reset(void) __preserves_regs(iyh, iyl);
 
 /** 64: GRA MOVE ABSOLUTE
     #BBC0
@@ -131,7 +131,7 @@ void fw_gra_reset(void);
     GRA ASK CURSOR
     GRA MOVE RELATIVE
 */
-void fw_gra_move_absolute(int16_t x, int16_t y);
+void fw_gra_move_absolute(int16_t x, int16_t y) __preserves_regs(iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -144,7 +144,7 @@ void fw_gra_move_absolute(int16_t x, int16_t y);
     fw_gra_x_y_coordinates_t xy = { 85, 63 }; // example values
     fw_gra_move_absolute__fastcall(xy.as_uint32_t);
 */
-void fw_gra_move_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;
+void fw_gra_move_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall __preserves_regs(iyh, iyl);
 
 /** 65: GRA MOVE RELATIVE
     #BBC3
@@ -165,7 +165,7 @@ void fw_gra_move_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z
     GRA ASK CURSOR
     GRA MOVE ABSOLUTE
 */
-void fw_gra_move_relative(int16_t x, int16_t y);
+void fw_gra_move_relative(int16_t x, int16_t y) __preserves_regs(iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -178,7 +178,7 @@ void fw_gra_move_relative(int16_t x, int16_t y);
     fw_gra_x_y_coordinates_t xy = { 85, 63 }; // example values
     fw_gra_move_relative__fastcall(window_def.as_uint32_t);
 */
-void fw_gra_move_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;
+void fw_gra_move_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall __preserves_regs(iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -215,7 +215,7 @@ void fw_gra_move_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z
     GRA MOVE ABSOLUTE
     GRA MOVE RELATIVE
 */
-uint32_t fw_gra_ask_cursor(void);
+uint32_t fw_gra_ask_cursor(void) __preserves_regs(b, c, iyh, iyl);
 
 /** 67: GRA SET ORIGIN
     #BBC9
@@ -237,7 +237,7 @@ uint32_t fw_gra_ask_cursor(void);
     GRA FROM USER
     GRA GET ORIGIN
 */
-void fw_gra_set_origin(int16_t x, int16_t y);
+void fw_gra_set_origin(int16_t x, int16_t y) __preserves_regs(iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -250,7 +250,7 @@ void fw_gra_set_origin(int16_t x, int16_t y);
     fw_gra_x_y_coordinates_t xy = { 85, 63 }; // example values
     fw_gra_set_origin__fastcall(xy.as_uint32_t);
 */
-void fw_gra_set_origin__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;
+void fw_gra_set_origin__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall __preserves_regs(iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -283,7 +283,7 @@ void fw_gra_set_origin__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88d
     Related entries:
     GRA SET ORIGIN
 */
-uint32_t fw_gra_get_origin(void);
+uint32_t fw_gra_get_origin(void) __preserves_regs(b, c, iyh, iyl);
 
 /** 69: GRA WIN WIDTH
     #BBCF
@@ -318,7 +318,7 @@ uint32_t fw_gra_get_origin(void);
     GRA GET W WIDTH
     GRA WIN HEIGHT
 */
-void fw_gra_win_width(int16_t x1, int16_t x2);
+void fw_gra_win_width(int16_t x1, int16_t x2) __preserves_regs(iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -331,7 +331,7 @@ void fw_gra_win_width(int16_t x1, int16_t x2);
     fw_gra_x_x_coordinates_t xx = { 85, 63 }; // example values
     fw_gra_win_width__fastcall(xx.as_uint32_t);
 */
-void fw_gra_win_width__fastcall(int32_t fw_gra_x_x_coordinates_t_asint) __z88dk_fastcall;
+void fw_gra_win_width__fastcall(int32_t fw_gra_x_x_coordinates_t_asint) __z88dk_fastcall __preserves_regs(iyh, iyl);
 
 /** 70: GRA WIN HEIGHT
     #BBD2
@@ -363,7 +363,7 @@ void fw_gra_win_width__fastcall(int32_t fw_gra_x_x_coordinates_t_asint) __z88dk_
     GRA GET W HEIGHT
     GRA WIN WIDTH
 */
-void fw_gra_win_height(int16_t y1, int16_t y2);
+void fw_gra_win_height(int16_t y1, int16_t y2) __preserves_regs(iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -376,7 +376,7 @@ void fw_gra_win_height(int16_t y1, int16_t y2);
     fw_gra_y_y_coordinates_t yy = { 85, 63 }; // example values
     fw_gra_win_height__fastcall(yy.as_uint32_t);
 */
-void fw_gra_win_height__fastcall(int32_t fw_gra_y_y_coordinates_t_asint) __z88dk_fastcall;
+void fw_gra_win_height__fastcall(int32_t fw_gra_y_y_coordinates_t_asint) __z88dk_fastcall __preserves_regs(iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -415,7 +415,7 @@ void fw_gra_win_height__fastcall(int32_t fw_gra_y_y_coordinates_t_asint) __z88dk
     GRA GET W HEIGHT
     GRA IN WIDTH
 */
-uint32_t fw_gra_get_w_width();
+uint32_t fw_gra_get_w_width() __preserves_regs(b, c, iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -454,7 +454,7 @@ uint32_t fw_gra_get_w_width();
     GRA GET W WIDTH
     GRA WIN HEIGHT
 */
-uint32_t fw_gra_get_w_height();
+uint32_t fw_gra_get_w_height() __preserves_regs(b, c, iyh, iyl);
 
 /** 73: GRA CLEAR WINDOW
     #BBDB
@@ -475,7 +475,7 @@ uint32_t fw_gra_get_w_height();
     SCR CLEAR
     TXT CLEAR WINDOW
 */
-void fw_gra_clear_window(void);
+void fw_gra_clear_window(void) __preserves_regs(iyh, iyl);
 
 /** 74: GRA SET PEN
     #BBDE
@@ -499,7 +499,7 @@ void fw_gra_clear_window(void);
     SCR SET INK
     TXT SET PEN
 */
-void fw_gra_set_pen(uint8_t pencolor) __z88dk_fastcall;
+void fw_gra_set_pen(uint8_t pencolor) __z88dk_fastcall __preserves_regs(b, c, d, e, h, l, iyh, iyl);
 
 /** 75: GRA GET PEN
     #BBE1
@@ -521,7 +521,7 @@ void fw_gra_set_pen(uint8_t pencolor) __z88dk_fastcall;
     SCR GET INK
     TXT GET PEN
 */
-uint8_t fw_gra_get_pen(void);
+uint8_t fw_gra_get_pen(void) __preserves_regs(b, c, d, e, h, iyh, iyl);
 
 /** 76: GRA SET PAPER
     #BBE4
@@ -547,7 +547,7 @@ uint8_t fw_gra_get_pen(void);
     SCR GET INK
     TXT SET PAPER
 */
-void fw_gra_set_paper(uint8_t papercolor) __z88dk_fastcall;
+void fw_gra_set_paper(uint8_t papercolor) __z88dk_fastcall __preserves_regs(b, c, d, e, h, l, iyh, iyl);
 
 /** 77: GRA GET PAPER
     #BBE7
@@ -570,7 +570,7 @@ void fw_gra_set_paper(uint8_t papercolor) __z88dk_fastcall;
     SCR GET INK
     TXT GET PAPER
 */
-uint8_t fw_gra_get_paper(void);
+uint8_t fw_gra_get_paper(void) __preserves_regs(b, c, d, e, h, iyh, iyl);
 
 /** 78: GRA PLOT ABSOLUTE
     #BBEA
@@ -595,7 +595,7 @@ uint8_t fw_gra_get_paper(void);
     GRA PLOT RELATIVE
     GRA TEST ABSOLUTE
 */
-void fw_gra_plot_absolute(int16_t x, int16_t y);
+void fw_gra_plot_absolute(int16_t x, int16_t y) __preserves_regs(iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -608,7 +608,7 @@ void fw_gra_plot_absolute(int16_t x, int16_t y);
     fw_gra_x_y_coordinates_t xy = { 85, 63 }; // example values
     fw_gra_plot_absolute__fastcall(xy.as_uint32_t);
 */
-void fw_gra_plot_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;
+void fw_gra_plot_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall __preserves_regs(iyh, iyl);
 
 /** 79: GRA PLOT RELATIVE
     #BBED
@@ -634,7 +634,7 @@ void fw_gra_plot_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z
     GRA PLOT ABSOLUTE
     GRA TEST RELATIVE
 */
-void fw_gra_plot_relative(int16_t x, int16_t y);
+void fw_gra_plot_relative(int16_t x, int16_t y) __preserves_regs(iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -647,7 +647,7 @@ void fw_gra_plot_relative(int16_t x, int16_t y);
     fw_gra_x_y_coordinates_t xy = { 85, 63 }; // example values
     fw_gra_plot_relative__fastcall(xy.as_uint32_t);
 */
-void fw_gra_plot_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;
+void fw_gra_plot_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall __preserves_regs(iyh, iyl);
 
 /** 80: GRA TEST ABSOLUTE
     #BBF0
@@ -673,7 +673,7 @@ void fw_gra_plot_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z
     GRA TEST
     GRA TEST RELATIVE
 */
-void fw_gra_test_absolute(int16_t x, int16_t y);
+void fw_gra_test_absolute(int16_t x, int16_t y) __preserves_regs(iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -686,7 +686,7 @@ void fw_gra_test_absolute(int16_t x, int16_t y);
     fw_gra_x_y_coordinates_t xy = { 85, 63 }; // example values
     fw_gra_test_absolute__fastcall(xy.as_uint32_t);
 */
-void fw_gra_test_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;
+void fw_gra_test_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall __preserves_regs(iyh, iyl);
 
 /** 81: GRA TEST RELATIVE
     #BBF3
@@ -713,7 +713,7 @@ void fw_gra_test_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z
     GRA TEST
     GRA TEST ABSOLUTE
 */
-void fw_gra_test_relative(int16_t x, int16_t y);
+void fw_gra_test_relative(int16_t x, int16_t y) __preserves_regs(iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -726,7 +726,7 @@ void fw_gra_test_relative(int16_t x, int16_t y);
     fw_gra_x_y_coordinates_t xy = { 85, 63 }; // example values
     fw_gra_test_relative__fastcall(xy.as_uint32_t);
 */
-void fw_gra_test_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;
+void fw_gra_test_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall __preserves_regs(iyh, iyl);
 
 /** 82: GRA LINE ABSOLUTE
     #BBF6
@@ -766,7 +766,7 @@ void fw_gra_test_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z
     GRA SET FIRST
     GRA SET LINE MASK
 */
-void fw_gra_line_absolute(int16_t x, int16_t y);
+void fw_gra_line_absolute(int16_t x, int16_t y) __preserves_regs(iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -779,7 +779,7 @@ void fw_gra_line_absolute(int16_t x, int16_t y);
     fw_gra_x_y_coordinates_t xy = { 85, 63 }; // example values
     fw_gra_line_absolute__fastcall(xy.as_uint32_t);
 */
-void fw_gra_line_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;
+void fw_gra_line_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall __preserves_regs(iyh, iyl);
 
 /** 83: GRA LINE RELATIVE
     #BBF9
@@ -819,7 +819,7 @@ void fw_gra_line_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z
     GRA SET FIRST
     GRA SET LINE MASK
 */
-void fw_gra_line_relative(int16_t x, int16_t y);
+void fw_gra_line_relative(int16_t x, int16_t y) __preserves_regs(iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -832,7 +832,7 @@ void fw_gra_line_relative(int16_t x, int16_t y);
     fw_gra_x_y_coordinates_t xy = { 85, 63 }; // example values
     fw_gra_line_relative__fastcall(xy.as_uint32_t);
 */
-void fw_gra_line_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall;
+void fw_gra_line_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z88dk_fastcall __preserves_regs(iyh, iyl);
 
 /** 84: GRA WR CHAR
     #BBFC
@@ -862,8 +862,8 @@ void fw_gra_line_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint) __z
     TXT SET GRAPHIC
     TXT WR CHAR
 */
-void fw_gra_wr_char(char character) __z88dk_fastcall;
+void fw_gra_wr_char(char character) __z88dk_fastcall __preserves_regs(iyh, iyl);
 
-void fw_gra_default(void);
+void fw_gra_default(void) __preserves_regs(iyh, iyl);
 
 #endif /* __FW_GRA_H__ */

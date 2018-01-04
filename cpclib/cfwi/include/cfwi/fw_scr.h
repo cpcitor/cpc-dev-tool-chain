@@ -96,7 +96,37 @@ void fw_scr_reset(void) __preserves_regs(iyh, iyl);
     SCR SET BASE
     SCR SET POSITION
 */
-void fw_scr_set_offset(uint16_t offset) __z88dk_fastcall;
+void fw_scr_set_offset(uint16_t offset) __z88dk_fastcall __preserves_regs(b, c, d, e, iyh, iyl);
+
+/** 88: SCR SET BASE
+    #BC08
+    Set the area of RAM to use for the screen memory.
+    Action:
+    Set the base address of the screen memory. This can be used to move the screen out
+    from underneath the upper ROM or to display a prepared screen instantly.
+    Entry conditions:
+    A contains the more significant byte of the base address.
+    Exit conditions:
+    AF and HL corrupt.
+    All other registers preserved.
+    Notes:
+    The screen memory can only be located on a 16K boundary so the value passed in
+    masked with #C0. The default screen base, set at EMS, is #C0.
+    The screen offset is combined with the screen base into a single value which is sent to
+    the hardware.
+    The screen base address is used by SCR CHAR POSITION and SCR DOT POSITION
+    to calculate screen addresses. If the screen base is changed merely by calling the
+    Machine Pack routine MC SCREEN OFFSET then the text and graphics VDUs will
+    use incorrect screen addresses.
+    The screen memory is not cleared when the screen base is set, use SCR CLEAR to do
+    this.
+    Related entries:
+    MC SCREEN OFFSET
+    SCR GET LOCATION
+    SCR SET OFFSET
+    SCR SET POSITION
+*/
+void fw_scr_set_base( uint8_t base_msb) __z88dk_fastcall __preserves_regs(b, c, d, e, iyh, iyl);
 
 void fw_scr_set_mode(unsigned char x);
 

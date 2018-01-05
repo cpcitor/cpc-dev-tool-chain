@@ -153,5 +153,51 @@ void fw_cas_noisy(uint8_t messages_enabled) __z88dk_fastcall __preserves_regs(b,
 */
 uint16_t fw_cas_start_motor(void) __preserves_regs(b, c, d, e, iyh, iyl);
 
+/** #### CFWI-specific information: ####
+
+    There are only 2 possible values returned by firmware in A, and firmware may set carry.
+
+    A=0x00 motor was OFF
+    A=0x10 motor was ON
+    NOCARRY: interrupted by escape
+    CARRY: run to end without interruption
+
+    C level function returns the value of A with bit zero changed.
+
+    Use like this:
+
+    uint8_t rc = fw_cas_stop_motor();
+    uint8_t motor_state = (rc&0x10);
+    if (rc&1)
+    {
+    // was interrupted
+    }
+
+
+    123: CAS STOP MOTOR
+    #BC71
+    Stop the cassette motor.
+    Action:
+    Turn the cassette motor off and return its previous state.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    If the motor was turned off OK:
+    Carry true.
+    If the user hit escape:
+    Carry false.
+    Always:
+    A contains the previous motor state.
+    Other flags corrupt.
+    All other registers preserved.
+    Notes:
+    The motor is always turned off by this routine. There is no delay to allow the motor to
+    slow down.
+    The previous motor state may be passed to CAS RESTORE MOTOR.
+    Related entries:
+    CAS RESTORE MOTOR
+    CAS START MOTOR */
+uint16_t fw_cas_stop_motor(void) __preserves_regs(b, c, d, e, iyh, iyl);
+
 
 #endif /* __FW_CAS_H__ */

@@ -1,6 +1,7 @@
 #ifndef  __FW_CAS_H__
 #define __FW_CAS_H__
 
+#include <stdint.h>
 void fw_cas_in_abandon(void);
 void fw_cas_return(void);
 void fw_cas_out_abandon(void);
@@ -71,6 +72,37 @@ void fw_cas_initialise(void) __preserves_regs(iyh, iyl);
     CAS INITIALISE
 */
 void fw_cas_set_speed(uint16_t length_of_half_zero_bit, uint8_t precompensation) __z88dk_callee __preserves_regs(d, e, iyh, iyl);
+
+/** 121: CAS NOISY
+    #BC6B
+    Enable or disable prompt messages.
+    Action:
+    Disabling messages will prevent the prompt and information messages from being
+    printed. It will not prevent error messages from being printed. Enabling messages
+    allows all messages to be printed.
+    Entry conditions:
+    If messages are to be enabled:
+    A must be zero.
+    If messages are to be disabled:
+    A must be non-zero.
+    Exit conditions:
+    AF corrupt.
+    All other registers preserved.
+    Notes:
+    The prompt and information messages which are turned off are:
+    Press PLAY then any key:
+    Press REC and PLAY then any key:
+    Found <FILENAME> block <N>
+    Loading <FILENAME> block <N>
+    Saving <FILENAME> block <N>
+    The error messages which are not turned off are:
+    Read error <x>
+    Write error a
+    Rewind tape
+    Related entries:
+    CAS INITIALISE
+*/
+void fw_cas_noisy(uint8_t messages_enabled) __z88dk_fastcall __preserves_regs(b, c, d, e, h, l, iyh, iyl);
 
 
 #endif /* __FW_CAS_H__ */

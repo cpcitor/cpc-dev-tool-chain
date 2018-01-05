@@ -35,5 +35,42 @@ void fw_cas_out_abandon(void);
 */
 void fw_cas_initialise(void) __preserves_regs(iyh, iyl);
 
+/** 120: CAS SET SPEED
+    #BC68
+    Set the write speed.
+    Action:
+    Set the length to write bits and the amount of write precompensation to apply.
+    Entry conditions:
+    HL contains the length of half a zero bit.
+    A contains the precompensation to apply.
+    Exit conditions:
+    AF and HL corrupt.
+    All other registers preserved.
+    Notes:
+    The speed supplied is the length of half a zero bit in microseconds. A one bit is
+    written as twice the length of a zero bit. The speed supplied can be related to the
+    average baud rate (assuming equal numbers of ones and zeros) by the following
+    equation:
+    Average baud rate
+    = 1 000 000 / (3 * Halfzero length)
+    = 333 333 / Halfzero length
+    The halfzero length must lie between 130 and 480 microseconds. Values outside this
+    range will cause read and write errors.
+    The precompensation supplied is the extra length, in microseconds, to add to half a
+    one bit and to subtract from half a zero bit under certain conditions. The amount of
+    precompensation required varies with the speed (more is required at higher baud
+    rates).
+    The precompensation may lie between 0 and 255 microseconds although the higher
+    settings are not useful as they will cause read and write errors.
+    The default half zero length and precompensation settings are 333 microseconds
+    (1000 baud) and 25 microseconds respectively. The commonly used faster setting is
+    167 microseconds (2000 baud) with 50 microseconds of precompensation. These
+    values have been determined after extensive testing and the user is advised to stick to
+    them.
+    Related entries:
+    CAS INITIALISE
+*/
+void fw_cas_set_speed(uint16_t length_of_half_zero_bit, uint8_t precompensation) __z88dk_callee __preserves_regs(d, e, iyh, iyl);
+
 
 #endif /* __FW_CAS_H__ */

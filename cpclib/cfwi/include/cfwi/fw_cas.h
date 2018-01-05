@@ -199,5 +199,48 @@ uint16_t fw_cas_start_motor(void) __preserves_regs(b, c, d, e, iyh, iyl);
     CAS START MOTOR */
 uint16_t fw_cas_stop_motor(void) __preserves_regs(b, c, d, e, iyh, iyl);
 
+/** #### CFWI-specific information: ####
+
+    C level function returns 0xff if carry was set, else 0.
+
+    Use like this:
+
+    uint8_t rc = fw_cas_restore_motor();
+    if (rc==0)
+    {
+    // was interrupted
+    }
+
+
+    124: CAS RESTORE MOTOR
+    #BC74
+    Restore previous state of cassette motor.
+    Action:
+    Turn the cassette motor on or off again. Wait for motor to pick up speed when turning
+    the motor on if it is currently off.
+    Entry conditions:
+    A contains the previous motor state.
+    Exit conditions:
+    If the motor was turned on or off OK:
+    Carry true.
+    If the user hit escape:
+    Carry false.
+    Always:
+    A and other flags corrupt.
+    All other registers preserved.
+    Notes:
+    This routine uses the previous motor state as returned by CAS START MOTOR or
+    CAS STOP MOTOR.
+    If calling this routine results in the motor being turned on when it is currently off then
+    the routine waits for approximately two seconds to allow the tape to reach full speed.
+    The motor is always turned on or off (as appropriate) by this routine. If the user hits
+    the escape key then this merely truncates the time spent waiting for the motor to pick
+    up speed.
+    Related entries:
+    CAS START MOTOR
+    CAS STOP MOTOR
+*/
+uint8_t fw_cas_restore_motor(uint8_t previous_motor_state) __preserves_regs(b, c, d, e, h, iyh, iyl) __z88dk_fastcall;
+
 
 #endif /* __FW_CAS_H__ */

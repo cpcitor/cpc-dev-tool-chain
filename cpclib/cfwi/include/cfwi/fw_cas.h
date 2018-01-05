@@ -104,5 +104,54 @@ void fw_cas_set_speed(uint16_t length_of_half_zero_bit, uint8_t precompensation)
 */
 void fw_cas_noisy(uint8_t messages_enabled) __z88dk_fastcall __preserves_regs(b, c, d, e, h, l, iyh, iyl);
 
+/** #### CFWI-specific information: ####
+
+    There are only 2 possible values returned by firmware in A, and firmware may set carry.
+
+    A=0x00 motor was OFF
+    A=0x10 motor was ON
+    NOCARRY: interrupted by escape
+    CARRY: run to end without interruption
+
+    C level function returns the value of A with bit zero changed.
+
+    Use like this:
+
+    uint8_t rc = fw_cas_start_motor();
+    uint8_t motor_state = (rc&0x10);
+    if (rc&1)
+    {
+    // was interrupted
+    }
+
+
+    122: CAS START MOTOR
+    #BC6E
+    Start the cassette motor.
+    Action:
+    Turn the cassette motor on and wait for it to pick up speed if it was previously off.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    If the motor turned on OK:
+    Carry true.
+    If the user hit escape:
+    Carry false.
+    Always:
+    A contains the previous motor state.
+    Other flags corrupt.
+    All other registers preserved.
+    Notes:
+    If the motor is not already on then the routine waits for approximately two seconds to
+    allow the tape to reach full speed.
+    The motor is always turned on by this routine. If the user hits the escape key then the
+    time spent waiting for the motor to pick up speed is truncated.
+    The previous motor state may be passed to CAS RESTORE MOTOR.
+    Related entries:
+    CAS RESTORE MOTOR
+    CAS STOP MOTOR
+*/
+uint16_t fw_cas_start_motor(void) __preserves_regs(b, c, d, e, iyh, iyl);
+
 
 #endif /* __FW_CAS_H__ */

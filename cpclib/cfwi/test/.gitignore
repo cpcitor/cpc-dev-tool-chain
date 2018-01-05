@@ -4,3 +4,4 @@ test_result_raw.txt
 test_verdict.txt
 wGui.log
 cap32_fortest.cfg
+**/output

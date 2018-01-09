@@ -47,3 +47,4 @@ printer.txt
 *.orig
 *.au
 **/debug.txt
+**/wGui.log

@@ -44,3 +44,5 @@ printer.txt
 
 *.binamsdos
 *.binamsdos.log
+*.orig
+*.au

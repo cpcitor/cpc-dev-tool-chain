@@ -46,3 +46,4 @@ printer.txt
 *.binamsdos.log
 *.orig
 *.au
+**/debug.txt

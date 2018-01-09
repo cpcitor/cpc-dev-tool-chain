@@ -1,6 +1,6 @@
 local-doc: coverage.html
 
-coverage.html: all_fw_calls_official_list.csv
+coverage.html: all_fw_calls_official_list.csv firmware_coverage.sh cfwi.lib
 	time bash firmware_coverage.sh
 
 all_fw_calls_official_list.csv: s968se15.pdf

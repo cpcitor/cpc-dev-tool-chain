@@ -104,7 +104,7 @@ font-weight: bold;
 }
 
 .error {
-background: #f88;
+background: #f00;
 }
 
 .preserve_implemented {

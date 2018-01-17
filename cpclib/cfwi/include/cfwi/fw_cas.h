@@ -1543,4 +1543,56 @@ uint8_t fw_cas_catalog(void) __preserves_regs(iyh, iyl);
 */
 // TODO complicated parameter void fw_cas_read(void);
 
+/** 140: CAS CHECK
+    #BCA4
+    Compare a record on tape with the contents of store.
+    Action:
+    Check that a tape record contains a correct version of the data supplied. This routine
+    is intended to be used after writing records to check that they were written correctly.
+    Entry conditions:
+    HL contains the address of the data to check.
+    DE contains the length of the data to check.
+    A contains the sync character expected at the end of the leader.
+    Exit conditions:
+    If the record checked OK:
+    Carry true.
+    A corrupt.
+    If an error occurred or the user hit escape:
+    Carry false.
+    A contains an error code.
+    Always:
+    BC, DE, HL, IX and other flags corrupt.
+    All other registers preserved.
+    Notes:
+    A data length of 0 passed to this routine is taken to mean 65536 bytes. (This is bound
+    to produce a check failure).
+    It is not necessary to check the whole of a record on tape. If the length passed is less
+    than the actual length of the record then only the number of bytes will be checked.
+    Trying to check more bytes in a record than were written will produce an error of
+    some sort (see below).
+    The data to be checked may lie anywhere in RAM, even underneath a ROM.
+    The sync character is used to distinguish header records (sync is #2C) from data
+    records (sync is #16). Other sync characters could be used.
+
+The error codes returned by this routine are:
+0 Break	 The user hit the escape key.
+1	Overrun	The Cassette Manager found a bit that was too long to read.
+2	CRC	A CRC failure was detected.
+3	Different	The data read from tape did not agree with that in memory.
+
+The cassette motor is started by this routine (in case it is not already on) and restored
+to its previous state when checking is completed.
+
+Because reading the tape requires stringent timing constraints, interrupts are disabled
+whilst the tape is being checked (potentially a period of over 5 minutes). It would be
+unpleasant to have the sound chip making a noise for all this time so the Sound
+Manager is shut down (SOUND RESET). When checking has finished interrupts are
+re-enabled.
+
+Related entries:
+CAS READ
+CAS WRITE
+*/
+// TODO complicated parameter void fw_cas_check(void);
+
 #endif /* __FW_CAS_H__ */

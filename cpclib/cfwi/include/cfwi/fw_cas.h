@@ -1493,4 +1493,54 @@ uint8_t fw_cas_catalog(void) __preserves_regs(iyh, iyl);
 */
 // TODO complicated struct entry void fw_cas_write(void);
 
+/** 139: CAS READ
+    #BCA1
+    Read a record from tape.
+    Action:
+    Read a whole record from the cassette. This routine is used by the higher level
+    routines (CAS IN CHAR, CAS IN DIRECT and CAS CATALOG amongst others) to
+    read the header and data records that make up a file.
+    Entry conditions:
+    HL contains the address to put the data read.
+    DE contains the length of the data to read.
+    A contains the sync character expected at the end of the leader.
+    Exit conditions:
+    If record was read OK:
+    Carry true.
+    A corrupt.
+    If an error occurred or the user hit escape:
+    Carry false.
+    A contains an error code.
+    Always:
+    BC, DE, HL, IX and other flags corrupt.
+    All other registers preserved.
+    Notes:
+    A data length of 0 passed to this routine is taken to mean 65536 bytes. (This is not
+    useful).
+    It is not necessary to read a whole record from tape. If the length passed is less than
+    the actual length of the record then only the number of bytes will be read. Trying to
+    read more bytes from a record than were written will produce an error, usually an
+    overflow error (see below).
+    The sync character is used to distinguish header records (sync is #2C) from data
+    records (sync is #16). Other sync characters could be used if the record was written
+    that way.
+
+    The error codes returned by this routine are:
+    0	Break	The user hit the escape key.
+    1	Overrun	The Cassette Manager found a bit that was too long to read.
+    2	CRC	A CRC failure was detected.
+
+    The cassette motor is started by this routine (in case it is not already on) and restored
+    to its previous state when reading is completed.
+    Because reading the tape requires stringent timing constraints, interrupts are disabled
+    whilst the tape is being read (potentially a period of over 5 minutes). It would be
+    unpleasant to have the sound chip making a noise for all this time so the Sound
+    Manager is shut down (SOUND RESET). When reading from the tape has finished
+    interrupts are re-enabled.
+    Related entries:
+    CAS CHECK
+    CAS WRITE
+*/
+// TODO complicated parameter void fw_cas_read(void);
+
 #endif /* __FW_CAS_H__ */

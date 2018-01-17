@@ -1259,4 +1259,98 @@ void fw_cas_out_abandon(void) __preserves_regs(iyh, iyl);
 // TODO write decode union
 uint16_t fw_cas_out_char(unsigned char char_to_write) __preserves_regs(iyh, iyl);
 
+/** Two variants: tape and disc.
+
+    136: CAS OUT DIRECT
+    #BC98
+    Write the output file directly from store.
+    Action:
+    Write the contents of store directly out to the output file.
+    Entry conditions:
+    HL contains the address of the data to write.
+    DE contains the length of the data to write.
+    BC contains the entry address (to go into the header).
+    A contains the file type (to go into the header).
+    Exit conditions:
+    If the file was written OK:
+    Carry true.
+    Zero false.
+    A corrupt.
+    If the file was not open as expected:
+    Carry false.
+    Zero false.
+    In V1.1: A contains an error number (#0E).
+    In V1.0: a corrupt.
+    If the user hit escape:
+    Carry false.
+    Zero true.
+    In V1.1: A contains an error number (#00).
+    In V1.0: A corrupt.
+    Always:
+    BC, DE, HL, IX and other flags corrupt.
+    All other registers preserved.
+    Notes:
+    This routine can return two error numbers:
+    #00: The user hit escape.
+    #0E: The stream is not newly opened.
+    After writing the file it must be closed using CAS OUT CLOSE to ensure that the last
+    block of the file is written to tape.
+    It is not possible to change the method for writing files from character output (using
+    CAS OUT CHAR) to direct output (using CAS OUT DIRECT) or visa versa once the
+    method has been chosen. Nor is it possible to directly write a file in two of more parts
+    by calling CAS OUT DIRECT more than once - this will write corrupt data.
+    Attempting to break these rules will result in a file not open as expected error.
+    Related entries:
+    CAS IN DIRECT
+    CAS OUT CLOSE
+    CAS OUT DIRECT (DISC)
+    CAS OUT OPEN
+
+    136: CAS OUT DIRECT (DISC)
+    #BC98
+    Write the output file directly from store.
+    Action:
+    Write the contents of store directly out to the output file.
+    Entry conditions:
+    HL contains the address of the data to write (to go into the header).
+    DE contains the length of the data to write (to go into the header).
+    BC contains the entry address (to go into the header).
+    A contains the file type (to go into the header).
+    Exit conditions:
+    If the file was written OK:
+    Carry true.
+    Zero false.
+    A corrupt.
+    If the stream is not open as expected:
+    Carry false.
+    Zero false.
+    A contains an error number (#0E).
+    If failed for any other reason:
+    Carry false.
+    Zero true.
+    A contains an error number.
+    Always:
+    BC, DE, HL, IX and other flags corrupt.
+    All other registers preserved.
+    Notes:
+    After writing the file it must be closed using CAS OUT CLOSE to ensure that the file
+    is written to disc.
+    It is not possible to change the method for writing files from character output (using
+    CAS OUT CHAR) to direct output (using CAS OUT DIRECT) or visa versa once the
+    method has been chosen. Nor is it possible to directly write a file in two of more parts
+    by calling CAS OUT DIRECT more than once - this will write corrupt data.
+    Related entries:
+    CAS
+    CAS
+    CAS
+    CAS
+    IN DIRECT (DISC)
+    OUT CLOSE (DISC)
+    OUT DIRECT
+    OUT OPEN (DISC)
+
+*/
+// TODO Complicated void fw_cas_out_direct(void);
+
+
 #endif /* __FW_CAS_H__ */

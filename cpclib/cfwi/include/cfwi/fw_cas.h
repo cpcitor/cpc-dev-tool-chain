@@ -783,4 +783,81 @@ uint32_t fw_cas_in_direct(void *destination_buffer) __preserves_regs(iyh, iyl);
 */
 void fw_cas_return(void) __preserves_regs(a, b, c, d, e, h, l, iyh, iyl);
 
+/** Two variants: tape and disc.
+
+    131: CAS TEST EOF
+    #BC89
+    Have we reached the end of the input file yet?
+    Action:
+    Test if the end of the input file has been reached.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    If the end of the file was not found:
+    Carry true.
+    Zero false.
+    A corrupt.
+    If the end of the file was found:
+    Carry false.
+    Zero false.
+    In V1.1: A contains an error number (#0E or #0F).
+    In V1.0: A corrupt.
+    If the user hit escape:
+    Carry false.
+    Zero true.
+    In V1.1: A contains an error number (#00).
+    In V1.0: A corrupt.
+    Always:
+    IX and other flags corrupt.
+    All other registers preserved.
+    Notes:
+    This routine can return three error numbers:
+    #00: The user hit escape.
+    #0E: The stream is not open for reading characters or the user hit escape previously.
+    #0F: Have reached the end of the file.
+    Calling this routine put the stream into character input mode. It is not possible to use
+    direct reading after calling this routine.
+    It is not possible to call CAS RETURN after this routine has been called. A character
+    must be read first.
+    Related entries:
+    CAS IN CHAR
+    CAS TEST EOF (DISC)
+
+    131: CAS TEST EOF (DISC)
+    #BC89
+    Have we reached the end of the input file yet?
+    Action:
+    Test if the end of the input file has been reached.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    If the end of the file was not found:
+    Carry true.
+    Zero false.
+    A corrupt.
+    If the end of the file was found or stream was not open as expected:
+    Carry false.
+    Zero false.
+    A contains an error number (#0E,#0F or #1A).
+    If failed for any other reason:
+    Carry false.
+    Zero true.
+    A contains an error number.
+    Always:
+    IX and other flags corrupt.
+    All other registers preserved.
+    Notes:
+    This routine will report end of file if either there are no more characters in the file or
+    if the next character to be read is the CP/M end of file character, #1A.
+    Calling this routine puts the stream into character input mode. It is not possible to use
+    direct reading after calling this routine.
+    It is not possible to call CAS RETURN after this routine has been called. A character
+    must be read first.
+    Related entries:
+    CAS IN CHAR (DISC)
+    CAS TEST EOF
+*/
+uint16_t fw_cas_test_eof(void) __preserves_regs(b, c, d, e, iyh, iyl);
+
+
 #endif /* __FW_CAS_H__ */

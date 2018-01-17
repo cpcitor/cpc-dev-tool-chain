@@ -2,7 +2,6 @@
 #define __FW_CAS_H__
 
 #include <stdint.h>
-void fw_cas_in_abandon(void);
 void fw_cas_return(void);
 void fw_cas_out_abandon(void);
 
@@ -487,5 +486,55 @@ uint8_t fw_cas_in_open(fw_cas_in_open_parameters_t *parameters) __z88dk_fastcall
 
 */
 uint8_t fw_cas_in_close(void) __preserves_regs(iyh, iyl);
+
+/** Two variants: tape and disc.
+
+    127: CAS IN ABANDON
+    #BC7D
+    Close the input file immediately.
+    Action:
+    Abandon reading from the read stream and close it.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    AF, BC, DE and HL corrupt.
+    All other registers preserved.
+    Notes:
+    This routine is intended for use after an error or in similar circumstances.
+    The user may reclaim the buffer passed to CAS IN OPEN after calling this routine.
+    Related entries:
+    CAS
+    CAS
+    CAS
+    CAS
+    IN ABANDON (DISC)
+    IN CLOSE
+    IN OPEN
+    OUT ABANDON
+
+    127: CAS IN ABANDON (DISC)
+    #BC7D
+    Close the input file immediately.
+    Action:
+    Abandon reading from the read stream and close it.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    AF, BC, DE and HL corrupt.
+    All other registers preserved.
+    Notes:
+    This routine is intended for use after an error or in similar circumstances.
+    The user may reclaim the buffer passed to CAS IN OPEN after calling this routine.
+    Related entries:
+    CAS
+    CAS
+    CAS
+    CAS
+    IN ABANDON
+    IN CLOSE (DISC)
+    IN OPEN (DISC)
+    OUT ABANDON (DISC)
+*/
+void fw_cas_in_abandon(void) __preserves_regs(iyh, iyl);
 
 #endif /* __FW_CAS_H__ */

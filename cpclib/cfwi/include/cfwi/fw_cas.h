@@ -2,7 +2,6 @@
 #define __FW_CAS_H__
 
 #include <stdint.h>
-void fw_cas_out_abandon(void);
 
 /** 119: CAS INITIALISE
     #BC65
@@ -1117,5 +1116,61 @@ uint8_t fw_cas_out_open(fw_cas_out_open_parameters_t *parameters) __z88dk_fastca
 // TODO write decode union
 uint16_t fw_cas_out_close(void) __preserves_regs(iyh, iyl);
 
+
+/** Two variants: tape and disc.
+
+    134: CAS OUT ABANDON
+    #BC92
+    Close the output file immediately.
+    Action:
+    Abandon the output file and mark the write stream closed. Any unwritten data is
+    discarded and not written to tape.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    AF, BC, DE and HL corrupt.
+    All other registers preserved.
+    Notes:
+    This routine in intended for use after an error or in similar circumstances.
+    Related entries:
+    CAS
+    CAS
+    CAS
+    CAS
+    IN ABANDON
+    OUT ABANDON (DISC)
+    OUT CLOSE
+    OUT OPEN
+
+    134: CAS OUT ABANDON (DISC)
+    #BC92
+    Close the output file immediately.
+    Action:
+    Abandon the output file and mark the write stream closed. Any unwritten data is
+    discarded and not written to disc.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    AF, BC, DE and HL corrupt.
+    All other registers preserved.
+    Notes:
+    This routine is intended for use after an error or similar circumstances.
+    If more than one 16K physical extent has already been written to disc then the file
+    will appear in the disc directory with a type part of '.$$$'. Otherwise the file will
+    disappear. This is because each 16K of a file requires a directory entry. A directory
+    entry is not written to disc until the 16K has been written or a file is closed (CAS
+    OUT CLOSE).
+    Related entries:
+    CAS
+    CAS
+    CAS
+    CAS
+    IN ABANDON (DISC)
+    OUT ABANDON
+    OUT CLOSE (DISC)
+    OUT OPEN (DISC)
+
+*/
+void fw_cas_out_abandon(void) __preserves_regs(iyh, iyl);
 
 #endif /* __FW_CAS_H__ */

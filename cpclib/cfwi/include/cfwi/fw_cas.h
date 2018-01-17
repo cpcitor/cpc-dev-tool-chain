@@ -243,4 +243,169 @@ uint16_t fw_cas_stop_motor(void) __preserves_regs(b, c, d, e, iyh, iyl);
 uint8_t fw_cas_restore_motor(uint8_t previous_motor_state) __preserves_regs(b, c, d, e, h, iyh, iyl) __z88dk_fastcall;
 
 
+
+/** This structure was introduced for use as a parameter to
+    fw_cas_in_open().
+
+    All in_* fields must be set.
+
+    Return values will be written in out_* fields.
+*/
+typedef struct fw_cas_in_open_parameters_t
+{
+	/** filename does not have to be zero-terminated */
+	unsigned char *in_filename;
+	uint8_t in_filename_length;
+	void *in_buffer;
+
+	uint8_t out_filetype_or_error;
+	void *out_data_location;
+	uint16_t out_logical_file_length;
+	void *out_header;
+} fw_cas_in_open_parameters_t;
+
+
+/** Two variants: tape and disc.
+
+    #### CFWI-specific information: ####
+
+    Use like this.
+
+
+    There are many ways to initialize struct fields.  This one allows
+    to have all fields set up with compile time constants (no code).
+    But you can also fill them with code of course.
+
+const unsigned char[] my_filename="mydata.bin";
+enum 
+{
+my_filename_length = sizeof(my_filename)
+	};
+const uint8_t[2048] my_buffer;
+FIXME
+fw_cas_in_open_parameters_t params = 
+{
+in_filename=my_filename,
+	in_filename_length=my_filename_length,
+	in_buffer=my_buffer
+	}
+	
+	uint8_t rc = fw_cas_in_open();
+switch (rc)
+{
+case 2:
+// user hit escape
+break;
+case 1:
+// opened ok
+break;
+case 0:
+// stream is in use
+break;
+}
+
+
+
+    
+
+    125: CAS IN OPEN
+    #BC77
+    Open a file for input.
+    Action:
+    Set up the read stream for reading a file and read the first block.
+    Entry conditions:
+    B contains the length of the filename.
+    HL contains the address of the filename.
+    DE contains the address of a 2K buffer to use.
+    Exit conditions:
+    If the file was opened OK:
+    Carry true.
+    Zero false.
+    HL contains the address of a buffer containing the file header.
+    DE contains the data location (from the header).
+    BC contains the logical file length (from the header).
+    A contains the file type (from the header).
+    If the stream is in use:
+    Carry false.
+    Zero false.
+    In V1.1: A contains an error number (#0E).
+    In V1.0: A corrupt.
+    BC,DE and HL corrupt.
+    If the user hit escape:
+    Carry false.
+    Zero true.
+    In V1.1: A contains an error number (#00).
+    In V1.0: A corrupt.
+    BC,DE and HL corrupt.
+    Always:
+    IX and other flags corrupt.
+    All other registers preserved.
+
+
+    125: CAS IN OPEN (DISC)
+    #BC77
+    Open a file for input.
+    Action:
+    Set up the read stream for reading a file and read the header if there is one, other wise
+    create a fake header in store.
+    Entry conditions:
+    B contains the length of the filename.
+    HL contains the address of the filename.
+    DE contains the address of a 2K buffer to use.
+    Exit conditions:
+    If the file was opened OK:
+    Carry true.
+    Zero false.
+    HL contains the address of a buffer containing the file header.
+    DE contains the data location (from the header).
+    BC contains the logical file length (from the header).
+    A contains the file type (from the header).
+    If the stream is already open:
+    Carry false.
+    Zero false.
+    A contains an error number (#0E).
+    BC,DE and HL corrupt.
+    If the open failed for any other reason:
+    Carry false.
+    Zero true.
+    A contains an error number.
+    BC,DE and HL corrupt.
+    Always:
+    IX and other flags corrupt.
+    All other registers preserved.
+    Notes:
+    The 2K buffer (2048 bytes) supplied is used to store the contents of a block of the file
+    when it is read from disc. It will remain in use until the file is closed by calling either
+    CAS IN CLOSE or CAS IN ABANDON. The buffer may lie anywhere in memory,
+    even underneath a ROM.
+    The filename must conform to the AMSDOS conventions with no wild cards. The
+    filename may lie anywhere in RAM, even underneath a ROM.
+    If the type part of the filename is omitted AMSDOS will attempt to open, in turn, a
+    file with the following type parts '.', '.BAS', '.BIN'. If none of these exist then the
+    open will fail.
+    When the file is opened the first record of the file is read immediately. If this record
+    contains a header then it is copied into store, otherwise a fake header is constructed in
+    store. The address of the area where the header is stored is passed back to the user so
+    that information can be extracted from it. This area will lie in the central 32K of
+    RAM. The user is not allowed to write to the header, only read from it. AMSDOS uses
+    fields in the header for its own purposes and so these may differ from those read from
+    the disc. The file type, logical length, entry point and all user fields will remain
+    unchanged.
+    Related entries:
+    CAS
+    CAS
+    CAS
+    CAS
+    CAS
+    CAS
+    IN ABANDON (DISC)
+    IN CHAR (DISC)
+    IN CLOSE (DISC)
+    IN DIRECT (DISC)
+    IN OPEN
+    OUT OPEN (DISC)
+
+*/
+uint8_t fw_cas_in_open(fw_cas_in_open_parameters_t *parameters) __z88dk_fastcall __preserves_regs(iyh, iyl);
+
 #endif /* __FW_CAS_H__ */

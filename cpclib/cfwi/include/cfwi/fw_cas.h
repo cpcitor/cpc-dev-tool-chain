@@ -1173,4 +1173,90 @@ uint16_t fw_cas_out_close(void) __preserves_regs(iyh, iyl);
 */
 void fw_cas_out_abandon(void) __preserves_regs(iyh, iyl);
 
+/** Two variants: tape and disc.
+
+    135: CAS OUT CHAR
+    #BC95
+    Write a character to the output file.
+    Action:
+    Add a character to the buffer for the write stream. If the buffer is already full then it
+    is written to tape before the new character is inserted.
+    Entry conditions:
+    A contains the character to write.
+    Exit conditions:
+    If the character was written OK:
+    Carry true.
+    Zero false.
+    A corrupt.
+    If the file was not open as expected:
+    Carry false.
+    Zero false.
+    In V1.1: A contains an error number (#0E).
+    In V1.0: A corrupt.
+    If the user hit escape:
+    Carry false.
+    Zero true.
+    In V1.1: A contains an error number (#00).
+    In V1.0: A corrupt.
+    Always:
+    A, IX and other flags corrupt.
+    All other registers preserved.
+    Notes:
+    This routine can return two error numbers:
+    #00: The user hit escape.
+    #0E: The stream is not open for writing characters or the user hit escape previously.
+    If this routine returns the file not open as expected condition then either the user has
+    hit escape previously or the file has been written using CAS OUT DIRECT. In either
+    case, or if escape is pressed, the character sent will be discarded.
+    It is necessary to call CAS OUT CLOSE after sending all the characters to the file to
+    ensure that the last block is written to the tape.
+    Once the routine has been called it is not possible to switch to directly writing the
+    file.
+    Related entries:
+    CAS IN CHAR
+    CAS OUT CHAR (DISC)
+    CAS OUT CLOSE
+    CAS OUT DIRECT
+    CAS OUT OPEN
+
+    135: CAS OUT CHAR (DISC)
+    #BC95
+    Write a character to an output file.
+    Action:
+    Add a character to the buffer for the write stream. If the buffer is already full then it
+    is written to disc before the new character is inserted.
+    Entry conditions:
+    A contains the character to write.
+    Exit conditions:
+    If the character was written OK:
+    Carry true.
+    Zero false.
+    A corrupt.
+    If the stream is not open as expected:
+    Carry false.
+    Zero false.
+    A contains an error number (#0E).
+    If failed for any other reason:
+    Carry false.
+    Zero true.
+    A contains an error number.
+    Always:
+    IX and other flags corrupt.
+    All other registers preserved.
+    Notes:
+    It is necessary to call CAS OUT CLOSE after sending all the characters to the file to
+    ensure that the file is correctly written to disc.
+    Once the routine has been called it is not possible to switch to directly writing the file
+    (CAS OUT DIRECT).
+    Related entries:
+    CAS IN CHAR (DISC)
+    CAS OUT CHAR
+    CAS OUT CLOSE (DISC)
+    CAS OUT DIRECT (DISC)
+    CAS OUT OPEN (DISC)
+
+*/
+// TODO write decode union
+uint16_t fw_cas_out_char(unsigned char char_to_write) __preserves_regs(iyh, iyl);
+
 #endif /* __FW_CAS_H__ */

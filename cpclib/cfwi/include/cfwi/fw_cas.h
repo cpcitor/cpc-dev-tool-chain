@@ -537,4 +537,111 @@ uint8_t fw_cas_in_close(void) __preserves_regs(iyh, iyl);
 */
 void fw_cas_in_abandon(void) __preserves_regs(iyh, iyl);
 
+/** Two variants: tape and disc.
+
+    128: CAS IN CHAR
+    #BC80
+    Read a character from the input file.
+    Action:
+    Read a character from the input stream. Fetches blocks from tape as required.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    If the character was read OK:
+    Carry true.
+    Zero false.
+    A contains the character read from the file.
+    If the end of the file was found:
+    Carry false.
+    Zero false.
+    In V1.1: A contains an error number (#0E or #0F).
+    In V1.0: A corrupt.
+    If the user hit escape:
+    Carry false.
+    Zero true.
+    In V1.1: A contains an error number (#00).
+    In V1.0: A corrupt.
+    Always:
+    IX and other flags corrupt.
+    All other registers preserved.
+    Notes:
+    This routine can return three error numbers:
+    #00: The user hit escape.
+    #0E: The stream is not open for reading characters or the user hit escape previously.
+    #0F: Have reached the end of the file.
+    Once the first character has been read from a file it can only be used for character by
+    character access. It is not possible to switch to direct reading (by CAS IN DIRECT).
+    Related entries:
+    CAS
+    CAS
+    CAS
+    CAS
+    CAS
+    CAS
+    CAS
+    IN CHAR (DISC)
+    IN CLOSE
+    IN DIRECT
+    IN OPEN
+    OUT CHAR
+    RETURN
+    TEST EOF
+
+
+    128: CAS IN CHAR (DISC)
+    #BC80
+    Read a character from an input file.
+    Action:
+    Read a character from the input stream.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    If the character was read OK:
+    Carry true.
+    Zero false.
+    A contains the character read from the file.
+    If the end of the file was found, or stream not open as expected:
+    Carry false.
+    Zero false.
+    A contains an error number (#0E, #0F or #1A).
+    If failed for any other reason:
+    Carry false.
+    Zero true.
+    A contains an error number.
+    Always:
+    IX and other flags corrupt.
+    All other registers preserved.
+    Notes:
+    Once the character has been read from a file the rest of the file may only be read
+    character by character (using CAS IN CHAR). It is impossible to switch to direct
+    reading (by CAS IN DIRECT).
+    The CP/M end of file character (#1A) is treated as end of file (carry false, zero false).
+    However, it is possible to continue reading characters until the hard end of file. The
+    error number returned is set to #1A for soft (CP/M) end of file and #0F for hard end
+    of file. The action for spotting soft and of file is not performed by the equivalent
+    cassette version of the routine and will never return #1A when carry is false.
+    If a file containing binary data is read using this routine then it will be necessary to
+    spot soft EOF and ignore it.
+    Related entries:
+    CAS
+    CAS
+    CAS
+    CAS
+    IN
+    IN
+    IN
+    IN
+    CHAR
+    CLOSE (DISC)
+    DIRECT (DISC)
+    OPEN (DISC)
+    CAS OUT CHAR (DISC)
+    CAS RETURN (DISC)
+    CAS TEST EOF (DISC)
+
+
+*/
+// TODO write decode union
+uint16_t fw_cas_in_char(void) __preserves_regs(b, c, d, e, iyh, iyl);
+
 #endif /* __FW_CAS_H__ */

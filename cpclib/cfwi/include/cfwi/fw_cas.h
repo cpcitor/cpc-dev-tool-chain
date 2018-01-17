@@ -1447,4 +1447,50 @@ uint16_t fw_cas_out_char(unsigned char char_to_write) __preserves_regs(iyh, iyl)
 */
 uint8_t fw_cas_catalog(void) __preserves_regs(iyh, iyl);
 
+/** 138: CAS WRITE
+    #BC9E
+    Write a record to tape.
+    Action:
+    Write a record to the cassette. This routine is used by the higher level routines (CAS
+    OUT CHAR, CAS OUT DIRECT and CAS OUT CLOSE) to write the header and data
+    records that make up a tape file.
+    Entry conditions:
+    HL contains the address of the data to write.
+    DE contains the length of the data to write.
+    A contains the sync character to write at the end of the leader.
+    Exit conditions:
+    If the record was written OK:
+    Carry true.
+    A corrupt.
+    If an error occurred or the user hit escape:
+    Carry false.
+    A contains an error code.
+    Always:
+    BC, DE, HL, IX corrupt.
+    All other registers preserved.
+    Notes:
+    A data length of 0 passed to this routine is taken to mean 65536 bytes and all of the
+    memory will be written to tape. (This is unlikely to be useful).
+    The data to be written may lie anywhere in RAM, even underneath a ROM.
+    The sync character is used to distinguish header records (sync is #2C) from data
+    records (sync is #16). Other sync characters could be used but the resulting record
+    would require special action to be taken to read it.
+    The error codes returned by this routine are:
+    0	Break	The user hit the escape key.
+    1	Overrun	The Cassette Manager was unable to get back to writing a bit fast enough.
+
+    Because reading and writing the tape requires stringent timing considerations
+    interrupts are disabled whilst the tape is being written (potentially a period of over 5
+    minutes). It would be unpleasant to have the sound chip making a noise for all this
+    time so the Sound Manager is shut down (SOUND RESET). When writing to the tape
+    has finished interrupts are re-enabled.
+    The cassette motor is started by this routine (in case it is not already on) and restored
+    to its previous state when writing is completed.
+    Related entries:
+    CAS CHECK
+    CAS READ
+
+*/
+// TODO complicated struct entry void fw_cas_write(void);
+
 #endif /* __FW_CAS_H__ */

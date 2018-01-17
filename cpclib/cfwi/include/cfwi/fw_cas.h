@@ -2,7 +2,6 @@
 #define __FW_CAS_H__
 
 #include <stdint.h>
-void fw_cas_return(void);
 void fw_cas_out_abandon(void);
 
 /** 119: CAS INITIALISE
@@ -735,5 +734,53 @@ uint16_t fw_cas_in_char(void) __preserves_regs(b, c, d, e, iyh, iyl);
 */
 // TODO write decode union
 uint32_t fw_cas_in_direct(void *destination_buffer) __preserves_regs(iyh, iyl);
+
+/** Two variants: tape and disc.
+
+    130: CAS RETURN
+    #BC86
+    Put the last character read back.
+    Action:
+    Put the last character read by CAS IN CHAR back into the read buffer. The character
+    will be re-read next time CAS IN CHAR is called.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    All registers and flags preserved.
+    Notes:
+    It is only possible to use this routine to return the last character that has been read by
+    CAS IN CHAR. At least one character must have been read since:
+    or
+    or
+    the stream was opened
+    the last character was returned
+    the last test for end of file was made.
+    Related entries:
+    CAS IN CHAR
+    CAS RETURN (DISC)
+
+    130: CAS RETURN (DISC)
+    #BC86
+    Put the last character read back.
+    Action:
+    Put the last character read by CAS IN CHAR back into the read buffer. The character
+    will be re-read next time CAS IN CHAR is called.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    All registers and flags preserved.
+    Notes:
+    It is only possible to use this routine to return the last character that has been read by
+    CAS IN CHAR. At least one character must have been read since:
+    or
+    or
+    the stream was opened
+    the last character was returned
+    the last test for end of file was made.
+    Related entries:
+    CAS IN CHAR (DISC)
+    CAS RETURN
+*/
+void fw_cas_return(void) __preserves_regs(a, b, c, d, e, h, l, iyh, iyl);
 
 #endif /* __FW_CAS_H__ */

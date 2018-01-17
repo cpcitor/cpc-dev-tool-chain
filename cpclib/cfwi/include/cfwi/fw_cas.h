@@ -1353,4 +1353,98 @@ uint16_t fw_cas_out_char(unsigned char char_to_write) __preserves_regs(iyh, iyl)
 // TODO Complicated void fw_cas_out_direct(void);
 
 
+/** Two variants: tape and disc.
+
+    137: CAS CATALOG
+    #BC9B
+    Generate a catalogue from tape.
+    Action:
+    Read file blocks to check their validity and print information about them on the
+    screen.
+    Entry conditions:
+    DE contains the address of a 2K buffer to use.
+    Exit conditions:
+    If the cataloguing went OK:
+    Carry true.
+    Zero false.
+    A corrupt.
+    If the read stream was in use:
+    Carry false.
+    Zero false.
+    In V1.1: A contains an error number (#0E).
+    In V1.0: A corrupt.
+    Always:
+    BC, DE, HL, IX and other flags corrupt.
+    All registers preserved.
+    Notes:
+    This routine can only return one error number:
+    #0E: The stream is already in use.
+    This routine uses the read stream and so the stream must be closed when it is called.
+    The read stream remains closed when this routine exits. The write stream is
+    unaffected by this routine.
+
+    The prompt messages are turned on (see CAS NOISY) by this routine.
+    When cataloguing the Cassette Manager reads a header record, prints information
+    from it and then reads the data record. This cycle repeats until the user hits the escape
+    key. The information printed is as follows:
+    FILENAME block N T Ok
+    FILENAME is the name of the file on the tape, or 'Unnamed file' if the filename starts
+    with a null (character #00).
+    N is the number of the block. Block 1 is normally the first block in a file.
+    T is a representation of the file type of the file. It is formed by adding #24 (the
+    character '$') to the file type byte masked with #0F (to remove the version number
+    field). The standard file types are thus:
+    $
+    %
+    *
+    &
+    ‘
+    a BASIC program file
+    a protected BASIC program file
+    an ASCII text file (default file type)
+    a binary file.
+    a protected binary file
+    Other file types are possible but will not have been written by the BASIC in the on-
+    board ROM. See section 8.4 for a description of the file type byte.
+    Ok is printed after the end of the data record. This shows that the data was read
+    without errors and also serves to indicate the end of the data on tape (to help avoid
+    over-recording a tape file).
+    Related entries:
+    CAS CATALOG (DISC)
+    CAS NOISY
+
+    137: CAS CATALOG (DISC)
+    #BC9B
+    Display the disc directory
+    Action:
+    Display the disc directory for the current drive and current user. The directory is
+    sorted into alphabetical order and displayed in as many columns as will fit in the
+    current text window (stream #0). The size in Kbytes is shown along side each file.
+    The total amount of free space on the disc is also shown.
+    Entry conditions:
+    DE contains the address of a 2K buffer to use.
+    Exit conditions:
+    If the cataloguing went OK:
+    Carry true.
+    Zero false.
+    A corrupt.
+    If failed for any reason:
+    Carry false.
+    Zero true.
+    A contains an error number.
+    Always:
+    BC, DE, HL, IX and other flags corrupt.
+    All registers preserved.
+    Notes:
+    Files marked SYS are not shown.
+    Files marked R/O are shown with a '*' after the filename.
+    Unlike the cassette version of this routine, the disc input stream is not required.
+    (Note: BASIC abandons both the input and output streams when generating the
+    catalogue.)
+    Related entries:
+    CAS CATALOG
+    |DIR
+*/
+uint8_t fw_cas_catalog(void) __preserves_regs(iyh, iyl);
+
 #endif /* __FW_CAS_H__ */

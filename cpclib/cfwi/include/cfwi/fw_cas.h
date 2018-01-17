@@ -408,4 +408,84 @@ break;
 */
 uint8_t fw_cas_in_open(fw_cas_in_open_parameters_t *parameters) __z88dk_fastcall __preserves_regs(iyh, iyl);
 
+/** Two variants: tape and disc.
+
+    126: CAS IN CLOSE
+    #BC7A
+    Close the input file properly.
+    Action:
+    Mark the read stream as closed.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    If the stream was closed OK:
+    Carry true.
+    A corrupt.
+    If the stream was not open:
+    Carry false.
+    In V1.1: A contains an error number (#0E).
+    In V1.0: A corrupt.
+    Always:
+    BC, DE, HL and other flags corrupt.
+    All other registers preserved.
+    Notes:
+    This routine can only return one error number:
+    #0E:
+    The stream is not open
+    This routine should be called to close a file after reading from it using either CAS IN
+    CHAR or CAS IN DIRECT.
+    The user may reclaim the buffer passed to CAS IN OPEN after calling this routine.
+    Related entries:
+    CAS
+    CAS
+    CAS
+    CAS
+    IN ABANDON
+    IN CLOSE (DISC)
+    IN OPEN
+    OUT CLOSE
+
+    126: CAS IN CLOSE (DISC)
+    #BC7A
+    Close the input file properly.
+    Action:
+    Mark the read stream as closed.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    If the stream was closed OK:
+    Carry true.
+    Zero false.
+    A corrupt.
+    If the stream is not open:
+    Carry false.
+    Zero false.
+    A contains an error number (#0E).
+    If the close failed for any other reason:
+    Carry false.
+    Zero true.
+    A contains an error number.
+    Always:
+    BC, DE, HL and other flags corrupt.
+    All other registers preserved.
+    Notes:
+    This routine should be called to close a file after reading from it using either CAS IN
+    CHAR or CAS IN DIRECT.
+    The user may reclaim the buffer passed to CAS IN OPEN after calling this routine.
+    The drive motor is turned off immediately after the input file has closed. This is done
+    so that a loaded program which takes over the machine is not left with the motor
+    running indefinitely.
+    Related entries:
+    CAS
+    CAS
+    CAS
+    CAS
+    IN ABANDON (DISC)
+    IN CLOSE
+    IN OPEN (DISC)
+    OUT CLOSE (DISC)
+
+*/
+uint8_t fw_cas_in_close(void) __preserves_regs(iyh, iyl);
+
 #endif /* __FW_CAS_H__ */

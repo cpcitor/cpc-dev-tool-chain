@@ -860,4 +860,159 @@ void fw_cas_return(void) __preserves_regs(a, b, c, d, e, h, l, iyh, iyl);
 uint16_t fw_cas_test_eof(void) __preserves_regs(b, c, d, e, iyh, iyl);
 
 
+/** This structure was introduced for use as a parameter to
+    fw_cas_out_open().
+
+    All in_* fields must be set.
+
+    Return values will be written in out_* fields.
+*/
+typedef struct fw_cas_out_open_parameters_t
+{
+	/** filename does not have to be zero-terminated */
+	unsigned char *in_filename;
+	uint8_t in_filename_length;
+	void *in_buffer;
+
+	void *out_header;
+} fw_cas_out_open_parameters_t;
+
+/** Two variants: tape and disc.
+
+    132: CAS OUT OPEN
+    #BC8C
+    Open a file for output.
+    Action:
+    Set up the write stream for output.
+    Entry conditions:
+    B contains the length of the filename.
+    HL contains the address of the filename.
+    DE contains the address of a 2K buffer to use.
+    Exit conditions:
+    If the user hit escape:
+    Carry false.
+    Zero true.
+    In V1.1: A contains an error number (#00).
+    In V1.0: A corrupt.
+    HL corrupt.
+    If the stream is in use already:
+    Carry false.
+    Zero false.
+    In V1.1: A contains an error number (#0E).
+    In V1.0: A corrupt.
+    HL corrupt.
+    If the file was opened OK:
+    Carry true.
+    Zero false.
+    HL contains the address of a buffer containing the header that will be written to
+    each file block.
+    Always:
+    BC,DE,IX and other flags corrupt.
+    All other registers preserved.
+    Notes:
+    This routine can only return two error numbers.
+    #00: The user hit escape.
+    #0E: The stream is already open.
+    When writing files character by character the 2K buffer (2048 bytes) supplied is used
+    to store the contents of a block of the file before it is written to tape. It will remain in
+    use until the file is closed by calling either CAS OUT CLOSE or CAS OUT
+    ABANDON. The buffer may reside anywhere in memory - even underneath a ROM.
+
+    When the stream is opened for writing, a header is set up which will be written at the
+    start of each block of the file. Many of the fields in the header are set by the Cassette
+    Manager but the remainder are available for use by the user. The address of this
+    header is passed to the user so that information can be stored in it. The user may write
+    to the file type, logical length, entry point and all user fields. The user is not allowed
+    to write to any other field in the header. The user settable fields are all zeroized
+    initially, with the exception of the file type which is set to unprotected ASCII version
+    1. (See section 8.4 for a description of the header).
+    The filename passed is copied into the write stream descriptor. If it is longer than 16
+    characters then it is truncated to 16 characters. If it is shorter than 16 characters then
+    it is padded with nulls (#00) to 16 characters. While the filename may contain any
+    character, it is best to avoid nulls. Lower case ASCII letters (characters #61..#7A) are
+    converted to their upper case equivalents (characters #41..#5A). The filename may lie
+    anywhere in RAM, even underneath a ROM.
+    Related entries:
+    CAS
+    CAS
+    CAS
+    CAS
+    CAS
+    CAS
+    IN OPEN
+    OUT ABANDON
+    OUT CHAR
+    OUT CLOSE
+    OUT DIRECT
+    OUT OPEN (DISC)
+
+
+    132: CAS OUT OPEN (DISC)
+    #BC8C
+    Open a file for output.
+    Action:
+    Set up the write stream for output.
+    Entry conditions:
+    B contains the length of the filename.
+    HL contains the address of the filename.
+    DE contains the address of a 2K buffer to use.
+    Exit conditions:
+    If the file was opened OK:
+    Carry true.
+    Zero false.
+    HL contains the address of the buffer containing the header.
+    A corrupt.
+    If the stream is open already:
+    Carry false.
+    Zero false.
+    A contains an error number (#0E).
+    HL corrupt.
+    If the open failed for any other reason:
+    Carry false.
+    Zero true.
+    A contains an error number.
+    HL corrupt.
+    Always:
+    BC,DE,IX and other flags corrupt.
+    All other registers preserved.
+    Notes:
+    When characters are output to the file using CAS OUT CHAR the 2K buffer supplied
+    is used by AMSDOS to buffer the output. It will remain in use until the file is closed
+    by calling either CAS OUT CLOSE or CAS OUT ABANDON. The buffer may reside
+    anywhere in memory - even underneath a ROM.
+
+    The filename passed must conform to AMSDOS conventions with no wild cards. It is
+    copied into the write stream header. The filename my lie anywhere in RAM - even
+    underneath a ROM.
+    The file is opened with a type part of '.$$$' regardless of the type part supplied. Any
+    existing file with the same name and type part of '.$$$' is deleted. The file is renamed
+    to its supplied name when CAS OUT CLOSE is called.
+    When the stream is opened aa header is set up. Many of the fields in the header are set
+    by AMSDOS but the remainder are available for use by the user. The address of this
+    header is passed to the user so the information can be stored in it. The user may write
+    to the file type, logical length, entry point and all other fields. The user is not allowed
+    to write to any other field of the header. The user settable fields are all zeroized
+    initially, with the exception of the file type which is set to unprotected ASCII version
+    1.
+    The header type field must be written to before CAS OUT CHAR or CAS OUT
+    DIRECT is called. The type field must not be altered after calling either of these
+    routines. If the file type is set to any type other than unprotected ASCII then space
+    will be preserved for the header which when the file is closed.
+    Related entries:
+    CAS
+    CAS
+    CAS
+    CAS
+    CAS
+    CAS
+    IN OPEN (DISC)
+    OUT ABANDON (DISC)
+    OUT CHAR (DISC)
+    OUT CLOSE (DISC)
+    OUT DIRECT (DISC)
+    OUT OPEN
+*/
+// TODO complicated needs input struct void fw_cas_out_open() __preserves_regs(b, c, d, e, iyh, iyl);
+uint8_t fw_cas_out_open(fw_cas_out_open_parameters_t *parameters) __z88dk_fastcall __preserves_regs(iyh, iyl);
+
 #endif /* __FW_CAS_H__ */

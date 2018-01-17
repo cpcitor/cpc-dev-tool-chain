@@ -644,4 +644,96 @@ void fw_cas_in_abandon(void) __preserves_regs(iyh, iyl);
 // TODO write decode union
 uint16_t fw_cas_in_char(void) __preserves_regs(b, c, d, e, iyh, iyl);
 
+/** Two variants: tape and disc.
+
+    129: CAS IN DIRECT
+    #BC83
+    Read the input file into store.
+    Action:
+    Read the input file directly into store in one go rather than one character at a time.
+    Entry conditions:
+    HL contains the address to put the file (anywhere in RAM).
+    Exit conditions:
+    If the file was read OK:
+    Carry true.
+    Zero false.
+    HL contains the entry address (from the header).
+    A corrupt.
+    If the file was not open as expected:
+    Carry false.
+    Zero false.
+    In V1.1: A contains an error number (#0E).
+    In V1.0: A corrupt.
+    HL corrupt.
+    If the user hit escape:
+    Carry false.
+    Zero true.
+    In V1.1: A contains an error number (#00).
+    In V1.0: A corrupt.
+    HL corrupt.
+    Always:
+    BC, DE, IX and other flags corrupt.
+    All other registers preserved.
+    Notes:
+    This routine can return two error numbers:
+    #00: The user hit escape.
+    #0E: The stream is not open for reading directly or the user hit escape previously.
+    The read stream must be newly opened (by CAS IN OPEN). If the stream has been
+    used for character access (by calling CAS IN CHAR) then it is not possible to directly
+    read the file. Neither is it possible to directly read from the file more than once. This
+    will merely corrupt the copy of the file read.
+    The buffer of data read when the stream was opened is copied to its correct position
+    and the remainder of the file (if any) is also read into store.
+    CAS IN DIRECT (DISC)
+    Related entries:
+    CAS IN CHAR
+    CAS IN OPEN
+    CAS IN CLOSE
+    CAS OUT DIRECT
+
+    129: CAS IN DIRECT (DISC)
+    #BC83
+    Read the input file into store.
+    Action:
+    Read the input file directly into store in one go rather than one character at a time.
+    Entry conditions:
+    HL contains the address to put the file (anywhere in RAM).
+    Exit conditions:
+    If the file was read OK:
+    Carry true.
+    Zero false.
+    HL contains the entry address (from the header).
+    A corrupt.
+    If the stream is not open as expected:
+    Carry false.
+    Zero false.
+    A contains an error number (#0E).
+    HL corrupt.
+    If the read failed for any other reason:
+    Carry false.
+    Zero true.
+    A contains an error number.
+    HL corrupt.
+    Always:
+    BC, DE, IX and other flags corrupt.
+    All other registers preserved.
+    Notes:
+    The read stream must be newly opened (by CAS IN OPEN). If the stream has been
+    used for character access (by calling CAS IN CHAR or CAS TEST EOF) then it is not
+    possible to directly read the file. Neither is it possible to directly read from the file
+    more than once. (Any attempt to do so will corrupt the copy of the file read.)
+    If the file has a header then the number of bytes read is that recorded in the 24 bit file
+    length field (bytes 64..66 of the disc file header). If there is no header the file is read
+    until hard end of file.
+    The CP/M end of file character, #1A, is not treated as end of file.
+    Related entries:
+    CAS IN CHAR (DISC)
+    CAS IN CLOSE (DISC)
+    CAS IN DIRECT
+    CAS IN OPEN (DISC)
+    CAS OUT DIRECT (DISC)
+*/
+// TODO write decode union
+uint32_t fw_cas_in_direct(void *destination_buffer) __preserves_regs(iyh, iyl);
+
 #endif /* __FW_CAS_H__ */

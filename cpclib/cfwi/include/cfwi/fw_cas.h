@@ -1015,4 +1015,107 @@ typedef struct fw_cas_out_open_parameters_t
 // TODO complicated needs input struct void fw_cas_out_open() __preserves_regs(b, c, d, e, iyh, iyl);
 uint8_t fw_cas_out_open(fw_cas_out_open_parameters_t *parameters) __z88dk_fastcall __preserves_regs(iyh, iyl);
 
+/** Two variants: tape and disc.
+
+    133: CAS OUT CLOSE
+    #BC8F
+    Close the output file properly.
+    Action:
+    Mark the write stream as closed and write the last buffer area of data to tape.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    If the stream was closed OK:
+    Carry true.
+    Zero false.
+    A corrupt.
+    If the stream is not open:
+    Carry false.
+    Zero false.
+    In V1.1: A contains an error number (#0E).
+    In V1.0: A corrupt.
+    Always:
+    BC, DE, HL, IX and other flags corrupt.
+    All other registers preserved.
+    Notes:
+    This routine can return two error numbers:
+    #00: The user hit escape.
+    #0E: The stream is not open.
+    It is necessary to call this routine after using CAS OUT CHAR or CAS OUT DIRECT
+    to cause the last block of data to be written to the tape. If the block is zero bytes long
+    (nothing has been written to the file) then nothing is written to tape.
+    If writing is to be abandoned then CAS OUT OPEN should be called as this does not
+    write the last block of data to the tape.
+    If the user hits escape during the writing of the last block then the file is left open and
+    is not closed.
+    The user may reclaim the buffer passed to CAS OUT OPEN after calling this routine.
+    Related entries:
+    CAS
+    CAS
+    CAS
+    CAS
+    IN CLOSE
+    OUT ABANDON
+    OUT CLOSE (DISC)
+    OUT OPEN
+
+
+    133: CAS OUT CLOSE (DISC)
+    #BC8F
+    Close the output file properly.
+    Action:
+    Mark the write stream as closed and give it its correct name.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    If the stream was closed OK:
+    Carry true.
+    Zero false.
+    A corrupt.
+    If the stream is not open:
+    Carry false.
+    Zero false.
+    A contains an error number (#0E).
+    If the close failed for any other reason:
+    Carry false.
+    Zero true.
+    A contains an error number.
+    Always:
+    BC, DE, HL, IX and other flags corrupt.
+    All other registers preserved.
+    Notes:
+    It is necessary to call this routine after using CAS OUT CHAR or CAS OUT DIRECT
+    to ensure that all the data is written to the disc, to write the header to the start of the
+    file and to give the file its true name.
+    If no data has been written to the file then it is abandoned and nothing is written to
+    disc. This is for compatability with cassette routines.
+
+    When the file was opened it was given the type part of '.$$$'. This routine will rename
+    the file to its true name and rename any existing version to have a '.BAK' type part.
+    This ensures that any previous version of the file is automatically kept as a backup.
+    Any existing '.BAK' version is deleted. If, when the file was opened, the caller did not
+    specify the type part then AMSDOS will use the type part '.BAS' for BASIC files,
+    '.BIN' for binary files and '. ' for all other files, as specified by the file type field in
+    the header.
+    If the actual length of the file is not a multiple of 128 bytes (a CP/M record) then a
+    CP/M end of file character, #1A, is added to the file. This additional character is not
+    recorded in the length of the file.
+    If writing is to be abandoned then CAS OUT OPEN should be called as this does not
+    write any more data to disc.
+    The user may reclaim the buffer passed to CAS OUT OPEN after calling this routine.
+    Related entries:
+    CAS
+    CAS
+    CAS
+    CAS
+    IN CLOSE (DISC)
+    OUT ABANDON (DISC)
+    OUT CLOSE
+    OUT OPEN (DISC)
+
+*/
+// TODO write decode union
+uint16_t fw_cas_out_close(void) __preserves_regs(iyh, iyl);
+
+
 #endif /* __FW_CAS_H__ */

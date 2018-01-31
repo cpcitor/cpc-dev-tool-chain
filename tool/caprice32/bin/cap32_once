@@ -2,4 +2,4 @@
 
 SCRIPTDIR=$( cd -P "$(dirname $0)" ; pwd )
 
-exec "${SCRIPTDIR}/cap32" --reset-exits "$@"
+exec "${SCRIPTDIR}/cap32" "$@" -a CAP32_WAITBREAKCAP32_EXIT 

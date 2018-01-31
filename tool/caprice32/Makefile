@@ -11,7 +11,8 @@ all: $(TARGETS)
 ########################################################################
 
 PRODUCT_NAME=caprice32
-URL_GIT=https://github.com/cpcitor/caprice32
+URL_GIT=https://github.com/ColinPitrat/caprice32
+#URL_GIT=https://github.com/cpcitor/caprice32
 
 # You must set EXTRACT_DIR_NAME to match archive content.
 EXTRACT_DIR_NAME=caprice32

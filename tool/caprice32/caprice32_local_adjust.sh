@@ -17,7 +17,7 @@ function guess_keyboard_mapping()
 	    echo keymap_us.map
 	    return 0
 	    ;;
-	"aAqQeacute2")
+	"aAqQeacute2"|"aAaAeacute2")
 	    echo keymap_fr_linux.map
 	    return
 	    ;;

@@ -33,7 +33,7 @@ rom: $(ROM_LOCATION)/.extracted
 $(ROM_LOCATION)/.extracted:
 	$(MAKE) -C $(ROM_PROVIDER_LOCATION)
 
-$(EXTRACT_DIR_NAME)/.unpacked: $(ARCHIVE_NAME)
+$(EXTRACT_DIR_NAME)/.unpacked:
 	@echo "************************************************************************"
 	@echo "**************** Extracting source from: $^"
 	@echo "************************************************************************"

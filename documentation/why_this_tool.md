@@ -1,6 +1,22 @@
 [Back to main documentation](../README.md)
 
-### Why this tool ?
+### Why would I want to use that?
+
+* If you know to program in C and want to try that for the CPC without first learning all details of all tools.
+* Or if you're an advanced hacker who like an open starting point to build upon (in that case you'll feel at home with the `Makefile`-based internals).
+
+### Why would I *not* want to use that?
+
+* If you don't want to know that virtually all Integrated Development
+  Environments are indeed graphical front-ends for a toolchain.
+* If anything looking like a command line or an open-source style
+  environment makes you sick.  In that case, it might be interesting
+  for you to read Wikipedia's article about
+  [Hacker (programmer subculture)](http://en.wikipedia.org/wiki/Hacker_%28programmer_subculture%29)
+  and ponder whether some kind of structure or common tools helps
+  every member of a community.
+
+### Why have you created this tool ?
 
 #### Programming in C for the CPC is not very easy and documented
 

@@ -157,6 +157,8 @@ function html_out_variable()
 
 echo "<h1>$TITLE</h1>"
 
+echo '<p>For background information refer to <a href="https://github.com/cpcitor/cpc-dev-tool-chain">cpc-dev-tool-chain</a>.</p>'
+
 echo "<h2>Global Statistics</h2>"
 
 PERCENTAGE=$( echo "$TOTAL_C_DECLARED_FW_CALL_COUNT 100 * $TOTAL_FW_CALL_COUNT / p" | dc )

@@ -1,0 +1,4 @@
+* rule to automatically run emulator caprice32
+* see [coverage.html](coverage.html) and fix things there
+* create unit tests bench that runs test and checks results
+

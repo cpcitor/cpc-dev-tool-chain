@@ -42,7 +42,7 @@ script:
  - pwd
  - ls -al
  - make displayhelp
- - make -j2 hello_world_using_z88dk
+# - make -j2 hello_world_using_z88dk
  - make -j2 hello_world_using_sdcc
  - make -j2 hello_world_using_sdcc-all
  - make -j2 cpcrslib

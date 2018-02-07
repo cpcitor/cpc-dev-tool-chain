@@ -3,6 +3,11 @@
 cpc-dev-tool-chain
 ==================
 
+By [cpcitor](https://github.com/cpcitor)
+
+Build status | Linux result
+---- | ----
+Full build: SDCC cross-compiler + binutils + tape/disk image tools + tape/disk images + test projects | [![Build Status](https://travis-ci.org/cpcitor/cpc-dev-tool-chain.svg?branch=master)](https://travis-ci.org/cpcitor/cpc-dev-tool-chain)
 ----------------------------------------------------------------
 
 ## Quick Summary

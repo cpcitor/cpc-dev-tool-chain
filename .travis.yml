@@ -1,0 +1,54 @@
+# Modified from https://github.com/ColinPitrat/caprice32/blob/fed782e5a05180a90049360f60755f356d79634d/.travis.yml
+language: cpp
+
+# safelist
+branches:
+  only:
+  - master
+  - dev
+
+#To uncomment in case a core occurs:
+#sudo: required
+addons:
+ apt:
+  sources:
+    - ubuntu-toolchain-r-test
+    - llvm-toolchain-precise-3.8
+  packages:
+    - git
+    - ca-certificates
+    - wget
+    - make
+    - patch
+    - gcc
+    - bzip2
+    - unzip
+    - g++
+    - texinfo
+    - bison
+    - flex
+    - libboost-dev
+    - libncurses-dev
+    - astyle
+#To uncomment in case a core occurs:
+#    - gdb
+before_script:
+    - export CXX=g++-4.8
+# Build and test both in release and debug to ensure both works fine
+script:
+#To uncomment in case a core occurs:
+# - ulimit -c unlimited
+# - sudo sysctl kernel.core_pattern=core
+ - pwd
+ - ls -al
+ - make displayhelp
+ - make -j2 hello_world_using_z88dk
+ - make -j2 hello_world_using_sdcc
+ - make -j2 hello_world_using_sdcc-all
+ - make -j2 cpcrslib
+ - make -j2 cpcrslib-all
+ - make -j2 sdcc-all
+ - make -j2 test-custom-project
+#To uncomment in case a core occurs:
+# - find ./ -name 'core*'
+# - for i in $(find ./ -name 'core*' -print); do gdb ./test/test_runner $i -ex "thread apply all bt" -ex "set pagination 0" -batch; done;

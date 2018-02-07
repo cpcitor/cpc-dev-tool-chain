@@ -50,7 +50,7 @@ font-weight: bold;
 }
 
 .error {
-background: #f88;
+background: #f00;
 }
 
 .preserve_implemented {
@@ -75,11 +75,12 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 </head>
 <body>
 <h1>Firmware coverage in cpc-dev-tool-chain's CFWI (C-firmware interface)</h1>
+<p>For background information refer to <a href="https://github.com/cpcitor/cpc-dev-tool-chain">cpc-dev-tool-chain</a>.</p>
 <h2>Global Statistics</h2>
 <table>
 <tr><td>Total fw calls as per SOFT968 official documentation</td><td>202</td></tr>
-<tr><td>Total fw calls declared at C level</td><td>118</td></tr>
-<tr><td>Overall coverage percentage</td><td>58%</td></tr>
+<tr><td>Total fw calls declared at C level</td><td>120</td></tr>
+<tr><td>Overall coverage percentage</td><td>59%</td></tr>
 </table>
 </table>
 <h2>Statistics per firmware packages</h2>
@@ -88,7 +89,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <tr><td class="fw_call_name">KM</td><td>28</td><td>26</td><td style="text-align: right">92%</td>
 <tr><td class="fw_call_name">TXT</td><td>37</td><td>36</td><td style="text-align: right">97%</td>
 <tr><td class="fw_call_name">GRA</td><td>32</td><td>24</td><td style="text-align: right">75%</td>
-<tr><td class="fw_call_name">SCR</td><td>36</td><td>7</td><td style="text-align: right">19%</td>
+<tr><td class="fw_call_name">SCR</td><td>36</td><td>9</td><td style="text-align: right">25%</td>
 <tr><td class="fw_call_name">CAS</td><td>22</td><td>4</td><td style="text-align: right">18%</td>
 <tr><td class="fw_call_name">SOUND</td><td>12</td><td>3</td><td style="text-align: right">25%</td>
 <tr><td class="fw_call_name">KL</td><td>26</td><td>6</td><td style="text-align: right">23%</td>
@@ -377,139 +378,139 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <tr><td class="fw_call_name" rowspan="1">GRA INITIALISE</td><td>
 <div class="output"><div class="direct"><code>	_fw_gra_initialise == 0xBBBA</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_initialise(void);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_gra_initialise(void);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">GRA RESET</td><td>
 <div class="output"><div class="direct"><code>	_fw_gra_reset == 0xBBBD</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_reset(void);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_gra_reset(void);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="2">GRA MOVE ABSOLUTE</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_gra_move_absolute.s><code>_fw_gra_move_absolute</code></a> (wrapper, 15 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_move_absolute(int16_t x, int16_t y);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_gra_move_absolute(int16_t x, int16_t y);</code></td></tr>
 <tr><td>
 <div class="output"><div class="direct"><code>	_fw_gra_move_absolute__fastcall == 0xBBC0</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_move_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_gra_move_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="2">GRA MOVE RELATIVE</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_gra_move_relative.s><code>_fw_gra_move_relative</code></a> (wrapper, 15 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_move_relative(int16_t x, int16_t y);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_gra_move_relative(int16_t x, int16_t y);</code></td></tr>
 <tr><td>
 <div class="output"><div class="direct"><code>	_fw_gra_move_relative__fastcall == 0xBBC3</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_move_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_gra_move_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">GRA ASK CURSOR</td><td>
 <div class="output"><div class="direct"><code>	_fw_gra_ask_cursor == 0xBBC6</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>uint32_t fw_gra_ask_cursor(void);</code></td></tr>
+<td class="preserve_implemented">b, c, iyh, iyl</td><td class="cdecl"><code>uint32_t fw_gra_ask_cursor(void);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="2">GRA SET ORIGIN</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_gra_set_origin.s><code>_fw_gra_set_origin</code></a> (wrapper, 15 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_set_origin(int16_t x, int16_t y);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_gra_set_origin(int16_t x, int16_t y);</code></td></tr>
 <tr><td>
 <div class="output"><div class="direct"><code>	_fw_gra_set_origin__fastcall == 0xBBC9</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_set_origin__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_gra_set_origin__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">GRA GET ORIGIN</td><td>
 <div class="output"><div class="direct"><code>	_fw_gra_get_origin == 0xBBCC</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>uint32_t fw_gra_get_origin(void);</code></td></tr>
+<td class="preserve_implemented">b, c, iyh, iyl</td><td class="cdecl"><code>uint32_t fw_gra_get_origin(void);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="2">GRA WIN WIDTH</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_gra_win_width.s><code>_fw_gra_win_width</code></a> (wrapper, 15 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_win_width(int16_t x1, int16_t x2);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_gra_win_width(int16_t x1, int16_t x2);</code></td></tr>
 <tr><td>
 <div class="output"><div class="direct"><code>	_fw_gra_win_width__fastcall == 0xBBCF</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_win_width__fastcall(int32_t fw_gra_x_x_coordinates_t_asint);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_gra_win_width__fastcall(int32_t fw_gra_x_x_coordinates_t_asint);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="2">GRA WIN HEIGHT</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_gra_win_height.s><code>_fw_gra_win_height</code></a> (wrapper, 15 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_win_height(int16_t y1, int16_t y2);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_gra_win_height(int16_t y1, int16_t y2);</code></td></tr>
 <tr><td>
 <div class="output"><div class="direct"><code>	_fw_gra_win_height__fastcall == 0xBBD2</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_win_height__fastcall(int32_t fw_gra_y_y_coordinates_t_asint);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_gra_win_height__fastcall(int32_t fw_gra_y_y_coordinates_t_asint);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">GRA GET W WIDTH</td><td>
 <div class="output"><div class="direct"><code>	_fw_gra_get_w_width == 0xBBD5</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>uint32_t fw_gra_get_w_width();</code></td></tr>
+<td class="preserve_implemented">b, c, iyh, iyl</td><td class="cdecl"><code>uint32_t fw_gra_get_w_width();</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">GRA GET W HEIGHT</td><td>
 <div class="output"><div class="direct"><code>	_fw_gra_get_w_height == 0xBBD8</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>uint32_t fw_gra_get_w_height();</code></td></tr>
+<td class="preserve_implemented">b, c, iyh, iyl</td><td class="cdecl"><code>uint32_t fw_gra_get_w_height();</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">GRA CLEAR WINDOW</td><td>
 <div class="output"><div class="direct"><code>	_fw_gra_clear_window == 0xBBDB</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_clear_window(void);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_gra_clear_window(void);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">GRA SET PEN</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_gra_set_pen.s><code>_fw_gra_set_pen</code></a> (wrapper, 4 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_set_pen(uint8_t pencolor);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, h, l, iyh, iyl</td><td class="cdecl"><code>void fw_gra_set_pen(uint8_t pencolor);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">GRA GET PEN</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_gra_get_pen.s><code>_fw_gra_get_pen</code></a> (wrapper, 5 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>uint8_t fw_gra_get_pen(void);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, h, iyh, iyl</td><td class="cdecl"><code>uint8_t fw_gra_get_pen(void);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">GRA SET PAPER</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_gra_set_paper.s><code>_fw_gra_set_paper</code></a> (wrapper, 4 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_set_paper(uint8_t papercolor);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, h, l, iyh, iyl</td><td class="cdecl"><code>void fw_gra_set_paper(uint8_t papercolor);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">GRA GET PAPER</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_gra_get_paper.s><code>_fw_gra_get_paper</code></a> (wrapper, 5 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>uint8_t fw_gra_get_paper(void);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, h, iyh, iyl</td><td class="cdecl"><code>uint8_t fw_gra_get_paper(void);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="2">GRA PLOT ABSOLUTE</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_gra_plot_absolute.s><code>_fw_gra_plot_absolute</code></a> (wrapper, 15 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_plot_absolute(int16_t x, int16_t y);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_gra_plot_absolute(int16_t x, int16_t y);</code></td></tr>
 <tr><td>
 <div class="output"><div class="direct"><code>	_fw_gra_plot_absolute__fastcall == 0xBBEA</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_plot_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_gra_plot_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="2">GRA PLOT RELATIVE</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_gra_plot_relative.s><code>_fw_gra_plot_relative</code></a> (wrapper, 15 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_plot_relative(int16_t x, int16_t y);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_gra_plot_relative(int16_t x, int16_t y);</code></td></tr>
 <tr><td>
 <div class="output"><div class="direct"><code>	_fw_gra_plot_relative__fastcall == 0xBBED</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_plot_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_gra_plot_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="2">GRA TEST ABSOLUTE</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_gra_test_absolute.s><code>_fw_gra_test_absolute</code></a> (wrapper, 17 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_test_absolute(int16_t x, int16_t y);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_gra_test_absolute(int16_t x, int16_t y);</code></td></tr>
 <tr><td>
 <div class="output"><div class="direct"><code>	_fw_gra_test_absolute__fastcall == 0xBBF0</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_test_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_gra_test_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="2">GRA TEST RELATIVE</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_gra_test_relative.s><code>_fw_gra_test_relative</code></a> (wrapper, 17 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_test_relative(int16_t x, int16_t y);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_gra_test_relative(int16_t x, int16_t y);</code></td></tr>
 <tr><td>
 <div class="output"><div class="direct"><code>	_fw_gra_test_relative__fastcall == 0xBBF3</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_test_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_gra_test_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="2">GRA LINE ABSOLUTE</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_gra_line_absolute.s><code>_fw_gra_line_absolute</code></a> (wrapper, 15 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_line_absolute(int16_t x, int16_t y);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_gra_line_absolute(int16_t x, int16_t y);</code></td></tr>
 <tr><td>
 <div class="output"><div class="direct"><code>	_fw_gra_line_absolute__fastcall == 0xBBF6</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_line_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_gra_line_absolute__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="2">GRA LINE RELATIVE</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_gra_line_relative.s><code>_fw_gra_line_relative</code></a> (wrapper, 15 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_line_relative(int16_t x, int16_t y);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_gra_line_relative(int16_t x, int16_t y);</code></td></tr>
 <tr><td>
 <div class="output"><div class="direct"><code>	_fw_gra_line_relative__fastcall == 0xBBF9</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_line_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_gra_line_relative__fastcall(uint32_t fw_gra_x_y_coordinates_t_asint);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">GRA WR CHAR</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_gra_wr_char.s><code>_fw_gra_wr_char</code></a> (wrapper, 4 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_wr_char(char character);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_gra_wr_char(char character);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">MC BOOT PROGRAM</td><td>
 <div class="output"><div class="direct"><code>	_fw_mc_boot_program == 0xBD13</code></div></div
 </td>
@@ -521,7 +522,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <tr><td class="fw_call_name" rowspan="1">GRA DEFAULT</td><td>
 <div class="output"><div class="direct"><code>	_fw_gra_default == 0xBD43</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_gra_default(void);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_gra_default(void);</code></td></tr>
 <tr><td class="fw_call_name">GRA SET BACK</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">GRA SET FIRST</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">GRA SET LINE MASK</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
@@ -534,13 +535,19 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <tr><td class="fw_call_name" rowspan="1">SCR INITIALISE</td><td>
 <div class="output"><div class="direct"><code>	_fw_scr_initialise == 0xBBFF</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_scr_initialise(void);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_scr_initialise(void);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">SCR RESET</td><td>
 <div class="output"><div class="direct"><code>	_fw_scr_reset == 0xBC02</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_scr_reset(void);</code></td></tr>
-<tr><td class="fw_call_name">SCR SET OFFSET</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
-<tr><td class="fw_call_name">SCR SET BASE</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_scr_reset(void);</code></td></tr>
+<tr><td class="fw_call_name" rowspan="1">SCR SET OFFSET</td><td>
+<div class="output"><div class="direct"><code>	_fw_scr_set_offset == 0xBC05</code></div></div
+</td>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>void fw_scr_set_offset(uint16_t offset);</code></td></tr>
+<tr><td class="fw_call_name" rowspan="1">SCR SET BASE</td><td>
+<div class="output"><div class="wrapper"><a href=src/fw_scr_set_base.s><code>_fw_scr_set_base</code></a> (wrapper, 4 bytes)</div></div
+</td>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>void fw_scr_set_base( uint8_t base_msb);</code></td></tr>
 <tr><td class="fw_call_name">SCR GET LOCATION</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name" rowspan="1">SCR SET MODE</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_scr_set_mode.s><code>_fw_scr_set_mode</code></a> (wrapper, 9 bytes)</div></div
@@ -655,10 +662,14 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <h3>Package <span class="fw_call_name">KL</span></h3>
 <table>
 <tr><th>Call</th><th>ASM symbol(s)</th><th>Preserved regs optimisation</th><th>C prototype(s)</th></tr>
-<tr><td class="fw_call_name" rowspan="1">KL CHOKE OFF</td><td>
-<div class="output"><div class="direct"><code>	_fw_kl_choke_off == 0xBCC8</code></div></div
+<tr><td class="fw_call_name" rowspan="2">KL CHOKE OFF</td><td>
+<div class="output"><div class="direct"><code>	_fw_kl_choke_off__ignore_return_value == 0xBCC8</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>uint32_t fw_kl_choke_off(void);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_kl_choke_off__ignore_return_value(void);</code></td></tr>
+<tr><td>
+<div class="output"><div class="wrapper"><a href=src/fw_kl_choke_off.s><code>_fw_kl_choke_off__with_return_value</code></a> (wrapper, 6 bytes)</div></div
+</td>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>uint32_t fw_kl_choke_off__with_return_value(void);</code></td></tr>
 <tr><td class="fw_call_name">KL ROM WALK</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">KL INIT BACK</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">KL LOG EXT</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
@@ -700,7 +711,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <tr><td class="fw_call_name" rowspan="1">KL TIME PLEASE</td><td>
 <div class="output"><div class="direct"><code>	_fw_kl_time_please == 0xBD0D</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>uint32_t fw_kl_time_please(void);</code></td></tr>
+<td class="preserve_implemented">a, b, c, iyh, iyl</td><td class="cdecl"><code>uint32_t fw_kl_time_please(void);</code></td></tr>
 <tr><td class="fw_call_name">KL TIME SET</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">KL BANK SWITCH</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 </table>

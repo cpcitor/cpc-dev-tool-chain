@@ -49,6 +49,7 @@ script:
  - make -j2 cpcrslib-all
  - make -j2 sdcc-all
  - make -j2 test-custom-project
+ - make -j2 -C maintainer-tools/my_cdct_project all cdt bin dsk voc
 #To uncomment in case a core occurs:
 # - find ./ -name 'core*'
 # - for i in $(find ./ -name 'core*' -print); do gdb ./test/test_runner $i -ex "thread apply all bt" -ex "set pagination 0" -batch; done;

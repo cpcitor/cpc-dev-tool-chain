@@ -56,14 +56,20 @@ default:
 
 all: $(TARGETS)
 
-bin: $(BINS)
-dsk: $(DSKNAME)
-cdt: $(CDTNAME)
-voc: $(VOCNAME)
-au: $(AUNAME)
+# /usr/include/freetype2/ft2build.h
+# /usr/include/SDL/SDL.h
+TOOLS=git:git wget:wget make:make patch:patch gcc:gcc bzip2:bzip2 unzip:unzip g++:g++ makeinfo:texinfo bison:bison flex:flex /usr/include/boost/version.hpp:libboost-all-dev sdl-config:libsdl1.2-dev pkgconf:pkgconf freetype-config:libfreetype6-dev ncurses5-config:libncurses-dev
+.build_dependencies_checked:
+	MISSING="" ; for TOOLNP in $(TOOLS) ; do IFS=: read FNAME PNAME <<< "$$TOOLNP" ; echo -ne "Checking for $$FNAME \011of $$PNAME...  \0011" ; { which $$FNAME || stat --format="%n" $$FNAME ; } || { MISSING="$$MISSING $$TOOLNP" ; echo "not found" ; } ; done ; if [[ -n "$$MISSING" ]] ; then echo ; echo ; echo "################################" ; echo "Some tools are missing: " ; echo "$$MISSING " | sed 's/:[^:]* / /g' ; echo ; echo "Suggested action:" ; echo ; echo -n "sudo apt-get install " ; echo " $$MISSING " | sed 's/ [^:]*:/ /g' ; echo ; echo "Or the equivalent for your environment (yum, cygwin, etc)." ; echo ; echo "*** If you have installed things manually and believe the build can go on without all tools, you can override this check with the command line below: ***" ; echo "More information on https://github.com/cpcitor/cpc-dev-tool-chain/blob/master/documentation/how_to_install.md#user-content-do-i-need-to-prepare-my-system-" ; echo "touch $$PWD/$@" ; echo ; echo "################################" ; else echo "######## All tools found. ########" ; touch $@ ; fi
 
-lib: $(PROJNAME).lib
-ihx: $(PROJNAME).ihx
+bin: .build_dependencies_checked $(BINS)
+dsk: .build_dependencies_checked $(DSKNAME)
+cdt: .build_dependencies_checked $(CDTNAME)
+voc: .build_dependencies_checked $(VOCNAME)
+au: .build_dependencies_checked $(AUNAME)
+
+lib: .build_dependencies_checked $(PROJNAME).lib
+ihx: .build_dependencies_checked $(PROJNAME).ihx
 
 .PHONY: default all bin dsk cdt voc au lib ihx run
 

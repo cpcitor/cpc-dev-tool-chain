@@ -137,22 +137,22 @@ init:
 
 	;; * "ROM program" case
 
-	;; This makes total sense if linker output lands in a ROM. The
-	;; only option is to copy _INITIALIZER to _INITIALIZED (modulo
-	;; some possible compression tricks).
+	;; SDCC behavior makes total sense if linker output lands in a
+	;; ROM. The only option is to copy _INITIALIZER to
+	;; _INITIALIZED (modulo some possible compression tricks).
 
 
 	;; * "RAM program" case
 
 	;; If linker output already lands in RAM, as in a CPC "RAM
-        ;; program", this works also but wastes an amount of RAM equal
-        ;; to the amount of initialized data.
+        ;; program", SDCC behavior works also but wastes an amount of
+        ;; RAM equal to the amount of initialized data.
 
 	;; We may write an external script to trick the linker to
 	;; allocate both area in an absolute fashion to the same
 	;; address. No wasted bytes, no copy.
 
-        ;; One might think: why bother, I'll just won't use
+        ;; One might think: why bother, I'll just not use
         ;; initialized global variables syntax at C level, and
         ;; initialize my variables in C function code.  This works but
         ;; (1) makes code use even more bytes (2) forces poor style at

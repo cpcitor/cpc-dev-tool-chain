@@ -45,7 +45,7 @@
 
 
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	;; Do we need an absolutely positioned HEADER area ?
+	;; Do we need an absolutely positioned HEADER area?
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 	;; Short answer: no for a RAM program.
@@ -77,7 +77,7 @@ init:
 	jp	_main
 
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	;; Do we need an _exit symbol ?
+	;; Do we need an _exit symbol?
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 	;; Short answer: not confirmed, so not done.
@@ -116,10 +116,10 @@ init:
 	;; Initialize global variables.
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-	;; Why must we care ? Else global variables are not
+	;; Why must we care? Else global variables are not
         ;; initialized.
 
-	;; How this happens ?
+	;; How this happens?
 
 	;; Compiler does not assume that compiled output can be a RAM.
 
@@ -170,7 +170,7 @@ init:
 
 	;; If/when need is confirmed, the trick to absolutely position
 	;; both area at same position may be used.  Or tell the
-	;; compiled that code is in RAM ? FIXME Write that to
+	;; compiled that code is in RAM? FIXME Write that to
 	;; sdcc-devel mailing-list.
 
 	.area   _GSINIT

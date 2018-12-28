@@ -159,7 +159,7 @@ echo "<h1>$TITLE</h1>"
 
 echo '<p>For background information refer to <a href="https://github.com/cpcitor/cpc-dev-tool-chain">cpc-dev-tool-chain</a>.</p>'
 
-echo '<p>To start hacking and generate an updated table, see https://github.com/cpcitor/cpc-dev-tool-chain/blob/master/cpclib/cfwi/README-maintainer.md</p>'
+echo '<p>To start hacking and generate an updated table, see <a href="https://github.com/cpcitor/cpc-dev-tool-chain/blob/master/cpclib/cfwi/README-maintainer.md">README-maintainer.md</a>.</p>'
 
 echo "<h2>Global Statistics</h2>"
 

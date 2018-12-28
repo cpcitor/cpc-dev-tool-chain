@@ -56,14 +56,10 @@ void fw_scr_initialise(void) __preserves_regs(iyh, iyl);
     The Graphics VDU write mode is set to FORCE mode.
     The inks are not passed to the hardware. This will be done when the inks flash next.
     Related entries:
-    SCR
-    SCR
-    SCR
-    SCR
-    INITIALISE
-    SET ACCESS
-    SET FLASHING
-    SET INK
+    SCR INITIALISE
+    SCR SET ACCESS
+    SCR SET FLASHING
+    SCR SET INK
 */
 void fw_scr_reset(void) __preserves_regs(iyh, iyl);
 

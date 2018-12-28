@@ -460,7 +460,7 @@ uint16_t fw_km_test_key(uint8_t key_number) __z88dk_fastcall;
     KM SET LOCKS
     KM TEST KEY
 */
-uint16_t fw_km_get_state(void);
+uint16_t fw_km_get_state(void) __preserves_regs(b, c, d, e, iyh, iyl);
 
 enum fw_joystick_bits
 {

@@ -63,6 +63,74 @@ typedef union fw_kl_choke_output_t
 uint32_t fw_kl_choke_off__with_return_value(void) __preserves_regs(iyh, iyl);
 void fw_kl_choke_off__ignore_return_value(void) __preserves_regs(iyh, iyl);
 
+typedef union fw_memory_range_t
+{
+	struct
+	{
+		int8_t *lowest_usable_byte;
+		int8_t *highest_usable_byte;
+	};
+	uint32_t as_uint32_t;
+} fw_memory_range_t;
+
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    #### CFWI-specific information: ####
+
+    Since C cannot handle return more than one value and SDCC cannot
+    return a struct, we use a trick.  Technically, an integer is
+    returned and you can extract values from a union.
+
+    In practice, just use like this:
+
+    // Initial memory range values are supplied by OS as per Soft968 section 10.3
+    fw_memory_range_t mem_range = { FIXME };
+    mem_range.as_uint32_t = fw_kl_rom_walk(mem_range);
+    printf("x=%d, y=%d", mem_range.x, mem_range.y);
+
+    153: KL ROM WALK
+    #BCCB
+    Find and initialize all background ROMs.
+    Action:
+    Background ROMs provide support for expansion hardware or augment the software
+    facilities of the machine. If the facilities provided by the background ROMs are to be
+    available, the foreground program must initialize them. This routine finds and
+    initializes all background ROMs.
+    Entry conditions:
+    DE contains address of the first usable byte of memory (lowest address).
+    HL contains address of the last usable bytes of memory (highest address).
+    Exit conditions:
+    DE contains the address of the new first usable byte of memory.
+    HL contains the address of the new last usable byte of memory.
+    AF and BC corrupt.
+    All other registers preserved.
+    Notes:
+    When a foreground ROM program is entered it is passed the addresses of the first and
+    last bytes in memory which it may use. The area of memory outside this is used to
+    store firmware variables, the stack, the jumpblocks and the screen memory. From the
+    area available for the foreground program to use, the areas for background programs
+    to use must be allocated.
+    The foreground program should initialize background ROMs at an early stage, before
+    it uses the memory it is given. It may choose whether to enable background ROMs or
+    not. KL INIT BACK may be used to initialize a particular background ROM or this
+    routine may be used to initialize all available background ROMs.
+    KL ROM WALK inspects the ROMs at ROM select addresses in the range 1..7 in
+    V1.0 firmware and 0..15 in V1.1 firmware. The power-up initialization entry of each
+    background ROM found is called (unless it is the current foreground ROM in V1.1
+    firmware). This entry may allocate some memory for the background ROM's use by
+    adjusting the values in DE and HL before returning. Once the ROM has been
+    initialized the Kernel adds it to the list of external command servers, and notes the
+    base of the area which the ROM has allocated at the top of memory (if any).
+    Subsequent FAR CALLs to entries in the ROM will automatically set the IY index
+    register to point at the ROMs upper memory area.
+    See section 10.4 for a full description of background ROMs.
+    Related entries:
+    KL FIND COMMAND
+    KL INIT BACK
+    KL LOG EXT
+*/
+uint32_t fw_kl_rom_walk__fastcall(uint32_t fw_memory_range_t_asint) __preserves_regs(iyh, iyl, ixh, ixl);
+
 void fw_kl_scan_needed(void);
 void fw_kl_sync_reset(void);
 void fw_kl_event_disable(void);

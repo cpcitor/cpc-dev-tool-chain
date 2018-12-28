@@ -76,11 +76,12 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <body>
 <h1>Firmware coverage in cpc-dev-tool-chain's CFWI (C-firmware interface)</h1>
 <p>For background information refer to <a href="https://github.com/cpcitor/cpc-dev-tool-chain">cpc-dev-tool-chain</a>.</p>
+<p>To start hacking and generate an updated table, see https://github.com/cpcitor/cpc-dev-tool-chain/blob/master/cpclib/cfwi/README-maintainer.md</p>
 <h2>Global Statistics</h2>
 <table>
 <tr><td>Total fw calls as per SOFT968 official documentation</td><td>202</td></tr>
-<tr><td>Total fw calls declared at C level</td><td>120</td></tr>
-<tr><td>Overall coverage percentage</td><td>59%</td></tr>
+<tr><td>Total fw calls declared at C level</td><td>135</td></tr>
+<tr><td>Overall coverage percentage</td><td>66%</td></tr>
 </table>
 </table>
 <h2>Statistics per firmware packages</h2>
@@ -90,9 +91,9 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <tr><td class="fw_call_name">TXT</td><td>37</td><td>36</td><td style="text-align: right">97%</td>
 <tr><td class="fw_call_name">GRA</td><td>32</td><td>24</td><td style="text-align: right">75%</td>
 <tr><td class="fw_call_name">SCR</td><td>36</td><td>9</td><td style="text-align: right">25%</td>
-<tr><td class="fw_call_name">CAS</td><td>22</td><td>4</td><td style="text-align: right">18%</td>
+<tr><td class="fw_call_name">CAS</td><td>22</td><td>18</td><td style="text-align: right">81%</td>
 <tr><td class="fw_call_name">SOUND</td><td>12</td><td>3</td><td style="text-align: right">25%</td>
-<tr><td class="fw_call_name">KL</td><td>26</td><td>6</td><td style="text-align: right">23%</td>
+<tr><td class="fw_call_name">KL</td><td>26</td><td>7</td><td style="text-align: right">26%</td>
 <tr><td class="fw_call_name">MC</td><td>13</td><td>12</td><td style="text-align: right">92%</td>
 <tr><td class="fw_call_name">JUMP</td><td>1</td><td>1</td><td style="text-align: right">100%</td>
 </table>
@@ -147,7 +148,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <tr><td class="fw_call_name" rowspan="1">KM GET STATE</td><td>
 <div class="output"><div class="direct"><code>	_fw_km_get_state == 0xBB21</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>uint16_t fw_km_get_state(void);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>uint16_t fw_km_get_state(void);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">KM GET JOYSTICK</td><td>
 <div class="output"><div class="direct"><code>	_fw_km_get_joystick == 0xBB24</code></div></div
 </td>
@@ -602,34 +603,76 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <tr><td class="fw_call_name" rowspan="1">CAS INITIALISE</td><td>
 <div class="output"><div class="direct"><code>	_fw_cas_initialise == 0xBC65</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_cas_initialise(void);</code></td></tr>
-<tr><td class="fw_call_name">CAS SET SPEED</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
-<tr><td class="fw_call_name">CAS NOISY</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
-<tr><td class="fw_call_name">CAS START MOTOR</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
-<tr><td class="fw_call_name">CAS STOP MOTOR</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
-<tr><td class="fw_call_name">CAS RESTORE MOTOR</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
-<tr><td class="fw_call_name">CAS IN OPEN</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
-<tr><td class="fw_call_name">CAS IN CLOSE</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_cas_initialise(void);</code></td></tr>
+<tr><td class="fw_call_name" rowspan="1">CAS SET SPEED</td><td>
+<div class="output"><div class="wrapper"><a href=src/fw_cas_set_speed.s><code>_fw_cas_set_speed</code></a> (wrapper, 9 bytes)</div></div
+</td>
+<td class="preserve_implemented">d, e, iyh, iyl</td><td class="cdecl"><code>void fw_cas_set_speed(uint16_t length_of_half_zero_bit, uint8_t precompensation);</code></td></tr>
+<tr><td class="fw_call_name" rowspan="1">CAS NOISY</td><td>
+<div class="output"><div class="wrapper"><a href=src/fw_cas_noisy.s><code>_fw_cas_noisy</code></a> (wrapper, 4 bytes)</div></div
+</td>
+<td class="preserve_implemented">b, c, d, e, h, l, iyh, iyl</td><td class="cdecl"><code>void fw_cas_noisy(uint8_t messages_enabled);</code></td></tr>
+<tr><td class="fw_call_name" rowspan="1">CAS START MOTOR</td><td>
+<div class="output"><div class="wrapper"><a href=src/fw_cas_start_motor.s><code>_fw_cas_start_motor</code></a> (wrapper, 7 bytes)</div></div
+</td>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>uint16_t fw_cas_start_motor(void);</code></td></tr>
+<tr><td class="fw_call_name" rowspan="1">CAS STOP MOTOR</td><td>
+<div class="output"><div class="wrapper"><a href=src/fw_cas_stop_motor.s><code>_fw_cas_stop_motor</code></a> (wrapper, 7 bytes)</div></div
+</td>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>uint16_t fw_cas_stop_motor(void);</code></td></tr>
+<tr><td class="fw_call_name" rowspan="1">CAS RESTORE MOTOR</td><td>
+<div class="output"><div class="wrapper"><a href=src/fw_cas_restore_motor.s><code>_fw_cas_restore_motor</code></a> (wrapper, 8 bytes)</div></div
+</td>
+<td class="preserve_implemented">b, c, d, e, h, iyh, iyl</td><td class="cdecl"><code>uint8_t fw_cas_restore_motor(uint8_t previous_motor_state);</code></td></tr>
+<tr><td class="fw_call_name" rowspan="1">CAS IN OPEN</td><td>
+<div class="output"><div class="wrapper"><a href=src/fw_cas_in_open.s><code>_fw_cas_in_open</code></a> (wrapper, 42 bytes)</div></div
+</td>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>uint8_t fw_cas_in_open(fw_cas_in_open_parameters_t *parameters);</code></td></tr>
+<tr><td class="fw_call_name" rowspan="1">CAS IN CLOSE</td><td>
+<div class="error">No implementation: _fw_cas_in_close</div
+</td>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>uint8_t fw_cas_in_close(void);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">CAS IN ABANDON</td><td>
 <div class="output"><div class="direct"><code>	_fw_cas_in_abandon == 0xBC7D</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_cas_in_abandon(void);</code></td></tr>
-<tr><td class="fw_call_name">CAS IN CHAR</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
-<tr><td class="fw_call_name">CAS IN DIRECT</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_cas_in_abandon(void);</code></td></tr>
+<tr><td class="fw_call_name" rowspan="1">CAS IN CHAR</td><td>
+<div class="error">No implementation: _fw_cas_in_char</div
+</td>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>uint16_t fw_cas_in_char(void);</code></td></tr>
+<tr><td class="fw_call_name" rowspan="1">CAS IN DIRECT</td><td>
+<div class="error">No implementation: _fw_cas_in_direct</div
+</td>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>uint32_t fw_cas_in_direct(void *destination_buffer);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">CAS RETURN</td><td>
 <div class="output"><div class="direct"><code>	_fw_cas_return == 0xBC86</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_cas_return(void);</code></td></tr>
-<tr><td class="fw_call_name">CAS TEST EOF</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
-<tr><td class="fw_call_name">CAS OUT OPEN</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
-<tr><td class="fw_call_name">CAS OUT CLOSE</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
+<td class="preserve_implemented">a, b, c, d, e, h, l, iyh, iyl</td><td class="cdecl"><code>void fw_cas_return(void);</code></td></tr>
+<tr><td class="fw_call_name" rowspan="1">CAS TEST EOF</td><td>
+<div class="error">No implementation: _fw_cas_test_eof</div
+</td>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>uint16_t fw_cas_test_eof(void);</code></td></tr>
+<tr><td class="fw_call_name" rowspan="1">CAS OUT OPEN</td><td>
+<div class="output"><div class="wrapper"><a href=src/fw_cas_out_open.s><code>_fw_cas_out_open</code></a> (wrapper, 33 bytes)</div></div
+</td>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>uint8_t fw_cas_out_open(fw_cas_out_open_parameters_t *parameters);</code></td></tr>
+<tr><td class="fw_call_name" rowspan="1">CAS OUT CLOSE</td><td>
+<div class="error">No implementation: _fw_cas_out_close</div
+</td>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>uint16_t fw_cas_out_close(void);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">CAS OUT ABANDON</td><td>
 <div class="output"><div class="direct"><code>	_fw_cas_out_abandon == 0xBC92</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_cas_out_abandon(void);</code></td></tr>
-<tr><td class="fw_call_name">CAS OUT CHAR</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_cas_out_abandon(void);</code></td></tr>
+<tr><td class="fw_call_name" rowspan="1">CAS OUT CHAR</td><td>
+<div class="error">No implementation: _fw_cas_out_char</div
+</td>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>uint16_t fw_cas_out_char(unsigned char char_to_write);</code></td></tr>
 <tr><td class="fw_call_name">CAS OUT DIRECT</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
-<tr><td class="fw_call_name">CAS CATALOG</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
+<tr><td class="fw_call_name" rowspan="1">CAS CATALOG</td><td>
+<div class="error">No implementation: _fw_cas_catalog</div
+</td>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>uint8_t fw_cas_catalog(void);</code></td></tr>
 <tr><td class="fw_call_name">CAS WRITE</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">CAS READ</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">CAS CHECK</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
@@ -670,7 +713,14 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <div class="output"><div class="wrapper"><a href=src/fw_kl_choke_off.s><code>_fw_kl_choke_off__with_return_value</code></a> (wrapper, 6 bytes)</div></div
 </td>
 <td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>uint32_t fw_kl_choke_off__with_return_value(void);</code></td></tr>
-<tr><td class="fw_call_name">KL ROM WALK</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
+<tr><td class="fw_call_name" rowspan="2">KL ROM WALK</td><td>
+<div class="output"><div class="direct"><code>	_fw_kl_rom_walk == 0xBCCB</code></div></div
+</td>
+<td class=""></td><td class="cdecl"><code>MISSING C PROTOTYPE fw_kl_rom_walk</code></td></tr>
+<tr><td>
+<div class="error">No implementation: _fw_kl_rom_walk__fastcall</div
+</td>
+<td class="preserve_implemented">iyh, iyl, ixh, ixl</td><td class="cdecl"><code>uint32_t fw_kl_rom_walk__fastcall(uint32_t fw_memory_range_t_asint);</code></td></tr>
 <tr><td class="fw_call_name">KL INIT BACK</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">KL LOG EXT</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">KL FIND COMMAND</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>

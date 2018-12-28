@@ -63,15 +63,6 @@ typedef union fw_kl_choke_output_t
 uint32_t fw_kl_choke_off__with_return_value(void) __preserves_regs(iyh, iyl);
 void fw_kl_choke_off__ignore_return_value(void) __preserves_regs(iyh, iyl);
 
-/** This structure (union/struct actually) was introduced to decode output of
-    fw_gra_ask_cursor().
-    
-    It is also a natural structure to hold coordinates.
-
-    If you use is for that storage purpose, then it is natural to also
-    use the fastcall variants of drawing calls that expect X and Y
-    coordinates.
-*/
 typedef union fw_memory_range_t
 {
 	struct

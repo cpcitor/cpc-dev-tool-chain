@@ -12,7 +12,7 @@ Full build: SDCC cross-compiler + binutils + tape/disk image tools + tape/disk i
 
 ### What is this?
 
-This is a portable toolchain for C/ASM development targetting the Amstrad CPC platform.
+This is a portable toolchain for C/ASM development targeting the Amstrad CPC platform.
 
 ### What does it do?
 
@@ -53,7 +53,7 @@ A project that targets mostly CFWI, the C-level firmware API : [color-flood-for-
 
 Several paths are possible:
 
-* Have you programmed in CPC BASIC alrady?  This yields a specific style.  Ever dreamt you could write easy, modern C and have an API to provide CPC primitives?  Now you can!  Use CFWI, our provided **thin** C-level API around CPC **firmware**.  See [coverage statistics](https://cdn.rawgit.com/cpcitor/cpc-dev-tool-chain/master/cpclib/cfwi/coverage.html).  Then move on to [How to install](documentation/how_to_install.md).
+* Have you programmed in CPC BASIC already?  This yields a specific style.  Ever dreamt you could write easy, modern C and have an API to provide CPC primitives?  Now you can!  Use CFWI, our provided **thin** C-level API around CPC **firmware**.  See [coverage statistics](https://cdn.rawgit.com/cpcitor/cpc-dev-tool-chain/master/cpclib/cfwi/coverage.html).  Then move on to [How to install](documentation/how_to_install.md).
 * If you're after 2D sprite routines consider using a cousin project, [cpctelera](https://github.com/lronaldo/cpctelera "lronaldo/cpctelera: Astonishingly fast Amstrad CPC game engine for C developers").
 * Write most code in easy C, easily call **your assembly routines** for specific routines.  Assembly can call firmware or hardware directly.  As efficient as assembly can be!  Remember, on 16bit processor 80286, Wolfenstein 3D then on i386 Doom, were fully written in C except one line drawing routine in assembly!
 

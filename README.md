@@ -87,5 +87,5 @@ Once you report, trouble is known, can be fixed for everyone, all will benefit.
 
 ### Credits
 
-* Thanks to ronaldo / Cheesetea (ronaldo@cheesetea.com) for testing on cygwin, reporting issues and offering fixes.
+* Thanks to ronaldo / Cheesetea (ronaldo@cheesetea.com) for testing on Cygwin, reporting issues and offering fixes.
 * Thanks to artaburu, upstream author of cpcrslib, for cooperation making it easier to use.

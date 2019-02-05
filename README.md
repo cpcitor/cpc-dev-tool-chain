@@ -77,6 +77,7 @@ You can mix-and-match options, like using firmware at initialization because it'
 * Ubuntu 14.04 64-bits
 * Ubuntu 16.04 64-bits
 * Ubuntu 18.04 64-bits
+* Debian 9.7.0
 * Reported to work on Windows 7: [How to install cpc-dev-tool-chain on Windows 7 - YouTube](https://www.youtube.com/watch?v=FQ4ToK9ry5U)
 
 If you encounter any trouble (even minor) on your platform, please report and I'll be happy to help.

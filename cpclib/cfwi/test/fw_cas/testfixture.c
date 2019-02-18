@@ -3,6 +3,8 @@
 
 #define NL "\015\012"
 
+#define CPC_ARROW_RIGHT "\xf3"
+
 #define hexchar(i) ( ( (i) < 10 ) ? ( '0' + (i) ) : ( 'A' - 10 + (i) ) )
 
 void
@@ -24,9 +26,9 @@ __z88dk_fastcall
 void
 decode_and_print_start_stop_motor_code( uint8_t code, uint8_t expectedcode )
 {
-        cfwi_txt_str0_output( "=> " );
+        cfwi_txt_str0_output( CPC_ARROW_RIGHT " " );
         print_uint8_as_hex( code );
-        cfwi_txt_str0_output( " => " );
+        cfwi_txt_str0_output( " " CPC_ARROW_RIGHT " " );
         cfwi_txt_str0_output( ( code & 1 ) ? "OK, " : "ESC," );
         cfwi_txt_str0_output( " was " );
         cfwi_txt_str0_output( ( code & 0x10 ) ? "ON  " : "OFF " );
@@ -77,6 +79,7 @@ test_start_stop_motor()
 
                 decode_and_print_start_stop_motor_code( code, 0x00 );
         }
+        fw_cas_stop_motor();
         cfwi_txt_str0_output( NL );
 }
 
@@ -108,7 +111,7 @@ test_catalog()
 
                 cfwi_txt_str0_output( NL "Return code: " );
                 print_uint16_as_hex( rc );
-                cfwi_txt_str0_output( " => " );
+                cfwi_txt_str0_output( " " CPC_ARROW_RIGHT " " );
 
                 switch ( rc & 0xff )
                 {

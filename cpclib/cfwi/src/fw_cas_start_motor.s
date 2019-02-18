@@ -4,6 +4,6 @@ _fw_cas_start_motor::
 	call	0xBC6E	; CAS START MOTOR
 	ld	l,a
 	ret	nc
-	inc	a
+	inc	l
 	ret
 

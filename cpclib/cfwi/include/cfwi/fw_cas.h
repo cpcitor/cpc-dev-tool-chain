@@ -164,7 +164,7 @@ uint16_t fw_cas_start_motor(void) __preserves_regs(b, c, d, e, iyh, iyl);
     Use like this:
 
     uint8_t rc = fw_cas_stop_motor();
-    uint8_t motor_state = (rc&0x10);
+    uint8_t previous_motor_state = (rc&0x10);
     if (rc&1)
     {
     // was interrupted

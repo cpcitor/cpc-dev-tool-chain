@@ -276,7 +276,7 @@ typedef struct fw_cas_in_open_parameters_t
     But you can also fill them with code of course.
 
 const unsigned char[] my_filename="mydata.bin";
-enum 
+enum
 {
 my_filename_length = sizeof(my_filename)
 	};
@@ -287,7 +287,7 @@ in_filename=my_filename,
 	in_filename_length=my_filename_length,
 	in_buffer=my_buffer
 	}
-	
+
 	uint8_t rc = fw_cas_in_open();
 switch (rc)
 {
@@ -304,7 +304,7 @@ break;
 
 
 
-    
+
 
     125: CAS IN OPEN
     #BC77

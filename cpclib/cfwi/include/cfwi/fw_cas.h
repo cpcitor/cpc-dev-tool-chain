@@ -68,7 +68,7 @@ void fw_cas_initialise(void) __preserves_regs(iyh, iyl);
     Related entries:
     CAS INITIALISE
 */
-void fw_cas_set_speed(uint16_t length_of_half_zero_bit, uint8_t precompensation) __z88dk_callee __preserves_regs(d, e, iyh, iyl);
+void fw_cas_set_speed(uint16_t length_of_half_zero_bit, uint8_t precompensation) __z88dk_callee __preserves_regs(b, c, d, e, iyh, iyl);
 
 /** 121: CAS NOISY
     #BC6B

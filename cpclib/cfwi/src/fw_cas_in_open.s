@@ -33,11 +33,10 @@ _fw_cas_in_open::
 	ld	(hl),e		; lsb(address of buffer)
 	inc	hl
 	ld	(hl),d		; msb(address of buffer)
-	ld	a,#0		; don't xor a,a it would kill the flags
+	ld	l,a
 	;; must preserve flags till here
 	jr	z,zero
-	inc	a               ; does not affect carry
+	inc	l               ; does not affect carry
 zero:
-	rlca                    ; propagates carry
-	ld	l,a
+	rlc     l                    ; propagates carry
 	ret

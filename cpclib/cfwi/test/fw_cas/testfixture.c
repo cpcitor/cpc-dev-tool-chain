@@ -98,6 +98,47 @@ fw_cas_in_open_parameters_t file_open_in_params = {
 };
 
 void
+test_catalog ()
+{
+	cfwi_txt_str0_output (NL "CAS CATALOG test, please wait." NL);
+
+	{
+		uint16_t rc = fw_cas_catalog (my_buffer);
+
+		cfwi_txt_str0_output (NL "Return code: ");
+		print_uint16_as_hex (rc);
+		cfwi_txt_str0_output (" => ");
+
+		switch (rc & 0xff)
+		{
+		case 2:
+			cfwi_txt_str0_output ("(disc) Fail" NL);
+
+			{
+				uint8_t errorbyte = rc >> 8;
+
+				print_uint8_as_hex (rc);
+			}
+			break;
+		case 1:
+			cfwi_txt_str0_output ("ok" NL);
+			break;
+		case 0:
+			cfwi_txt_str0_output ("stream is in use" NL);
+
+			{
+				uint8_t errorbyte = rc >> 8;
+
+				print_uint8_as_hex (rc);
+			}
+			break;
+		default:
+			cfwi_txt_str0_output ("unexpected value" NL);
+		}
+	}
+}
+
+void
 test_open_file_in ()
 {
 	cfwi_txt_str0_output (NL "CAS IN OPEN test, please wait." NL);
@@ -199,6 +240,7 @@ perform_test ()
 {
 	fw_scr_set_ink (2, 18, 18);
 
+	test_catalog ();
 	test_open_file_out ();
 	test_open_file_in ();
 

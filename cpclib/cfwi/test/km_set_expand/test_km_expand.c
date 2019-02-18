@@ -18,34 +18,34 @@
 #define str(a) #a
 
 void
-main ()
+main()
 {
-	cfwi_txt_str0_output ("Will test" NL "fw_km_set_expand("
-			      xstr (TESTTOKEN) ", 0x");
-	fw_txt_wr_char (TESTSTRING_LENGTH + '0');
-	cfwi_txt_str0_output (", \"" TESTSTRING "\");" NL);
+        cfwi_txt_str0_output( "Will test" NL "fw_km_set_expand("
+                              xstr( TESTTOKEN ) ", 0x" );
+        fw_txt_wr_char( TESTSTRING_LENGTH + '0' );
+        cfwi_txt_str0_output( ", \"" TESTSTRING "\");" NL );
 
-	fw_txt_wr_char (fw_km_set_expand
-			(TESTTOKEN, TESTSTRING_LENGTH, TESTSTRING));
+        fw_txt_wr_char( fw_km_set_expand
+                        ( TESTTOKEN, TESTSTRING_LENGTH, TESTSTRING ) );
 
-	cfwi_txt_str0_output (NL NL "Will test fw_km_get_expand()" NL);
-	{
-		uint8_t index;
+        cfwi_txt_str0_output( NL NL "Will test fw_km_get_expand()" NL );
+        {
+                uint8_t index;
 
-		for (index = 0; index < (TESTSTRING_LENGTH + 3); index++)
-		{
-			uint16_t value = fw_km_get_expand (TESTTOKEN, index);
+                for ( index = 0; index < ( TESTSTRING_LENGTH + 3 ); index++ )
+                {
+                        uint16_t value = fw_km_get_expand( TESTTOKEN, index );
 
-			fw_txt_wr_char ('C');
-			fw_txt_wr_char (index + '0');
-			fw_txt_wr_char (' ');
-			fw_txt_wr_char (value >> 8);
-			fw_txt_wr_char (value & 0xff);
-			fw_txt_output (13);
-			fw_txt_output (10);
-		}
+                        fw_txt_wr_char( 'C' );
+                        fw_txt_wr_char( index + '0' );
+                        fw_txt_wr_char( ' ' );
+                        fw_txt_wr_char( value >> 8 );
+                        fw_txt_wr_char( value & 0xff );
+                        fw_txt_output( 13 );
+                        fw_txt_output( 10 );
+                }
 
-	}
-	cfwi_txt_str0_output ("Press any key to exit C." NL);
-	fw_km_wait_char ();
+        }
+        cfwi_txt_str0_output( "Press any key to exit C." NL );
+        fw_km_wait_char();
 }

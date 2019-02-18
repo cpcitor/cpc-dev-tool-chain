@@ -2,5 +2,5 @@
 
 uint8_t perform_test()
 {
-	return 42;
+        return 42;
 }

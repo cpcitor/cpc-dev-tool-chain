@@ -4,30 +4,26 @@
 uint8_t perform_test();
 
 void
-main ()
+main()
 {
-	uint32_t time_before, time_after;
+        uint32_t time_before, time_after;
 
-	fw_mc_send_printer('0');
+        fw_mc_send_printer( '0' );
 
-	time_before = fw_kl_time_please();
+        time_before = fw_kl_time_please();
 
-	{
-		uint8_t rc = perform_test();
-		fw_mc_send_printer('1');
-		fw_mc_send_printer(rc);
-	}
+        {
+                uint8_t rc = perform_test();
+                fw_mc_send_printer( '1' );
+                fw_mc_send_printer( rc );
+        }
 
-	time_after = fw_kl_time_please();
+        time_after = fw_kl_time_please();
 
-	{
-		uint32_t time_delta = time_after - time_before;
-		fw_mc_send_printer(time_delta);
-	}
+        {
+                uint32_t time_delta = time_after - time_before;
+                fw_mc_send_printer( time_delta );
+        }
 
-	fw_mc_send_printer('2');
-}
-
-void rendezvous_point ()
-{
+        fw_mc_send_printer( '2' );
 }

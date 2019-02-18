@@ -177,6 +177,9 @@ uint8_t perform_test()
 {
         fw_scr_set_ink(2, 18, 18);
 
+        test_open_file_out();
+        test_open_file_in();
+
         cfwi_txt_str0_output( "CAS INITIALISE" NL );
         fw_cas_initialise();
 
@@ -191,10 +194,6 @@ uint8_t perform_test()
                         test_start_stop_motor();
                         fw_cas_in_abandon();
                         fw_cas_out_abandon();
-                        test_open_file_in();
-                        fw_cas_in_abandon();
-                        fw_cas_out_abandon();
-                        test_open_file_out();
                 }
         }
         return 0;

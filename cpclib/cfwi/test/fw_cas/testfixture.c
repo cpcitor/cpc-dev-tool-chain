@@ -179,6 +179,7 @@ uint8_t perform_test()
 
         cfwi_txt_str0_output( "CAS INITIALISE" NL );
         fw_cas_initialise();
+
         cfwi_txt_str0_output( "CAS SET SPEED to 2000 bauds." NL );
         fw_cas_set_speed( 167, 50 );
 

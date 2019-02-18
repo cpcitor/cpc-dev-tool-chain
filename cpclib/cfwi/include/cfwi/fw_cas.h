@@ -278,9 +278,8 @@ enum
 {
 my_filename_length = sizeof(my_filename)
 	};
-const uint8_t[2048] my_buffer;
-FIXME
-fw_cas_in_open_parameters_t params = 
+const unsigned char my_buffer[2048]; // This is only an example.
+fw_cas_in_open_parameters_t params =
 {
 in_filename=my_filename,
 	in_filename_length=my_filename_length,
@@ -1444,8 +1443,35 @@ uint16_t fw_cas_out_char(unsigned char char_to_write) __preserves_regs(iyh, iyl)
     Related entries:
     CAS CATALOG
     |DIR
+
+
+    #### CFWI-specific information: ####
+
+    You can use like this.
+
+const unsigned char my_buffer[2048]; // This is only an example.
+uint16_t rc = fw_cas_catalog(my_buffer);
+switch (rc & 0xff)
+{
+case 2:
+// disc: failed
+{
+uint8_t errorbyte = rc >> 8;
+}
+break;
+case 1:
+// ok
+break;
+case 0:
+// tape: stream is in use
+{
+uint8_t errorbyte = rc >> 8;
+}
+break;
+}
+
 */
-uint8_t fw_cas_catalog(void) __preserves_regs(iyh, iyl);
+uint8_t fw_cas_catalog(void *buffer) __z88dk_fastcall __preserves_regs(iyh, iyl);
 
 /** 138: CAS WRITE
     #BC9E

@@ -15,17 +15,23 @@ _fw_cas_out_open::
 	push	hl		; will be used for return value
 	ld	l,c
 	ld	h,a
+
 	call	0xBC8C		; CAS OUT OPEN
+        
 	ld	d,h
 	ld	e,l
-	pop	hl
+	pop	hl              ; get back pointer to struct
+        
 	ld	(hl),e		; lsb(header location)
 	inc	hl
 	ld	(hl),d		; msb(header location)
-	ld	a,#0
-	jr	z,zero
+        ;;      we don't inc hl again because we don't care about fully skipping value
+
+        ;; prepare return value
+	ld	a,#0             ; does not affect flags
+	jr	nz,nozeroflag
 	inc	a               ; does not affect carry
-zero:
+nozeroflag:
 	rlca                    ; propagates carry
-	ld	l,a
+	ld	l,a             ; thus L gets (NZ)<<1 | C
 	ret

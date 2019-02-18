@@ -36,11 +36,8 @@ _fw_cas_in_open::
 	ld	a,#0		; don't xor a,a it would kill the flags
 	;; must preserve flags till here
 	jr	z,zero
-	inc	a
-	rlca
+	inc	a               ; does not affect carry
 zero:
-	jr	nc,nocarry
-	inc	a
-nocarry:
+	rlca                    ; propagates carry
 	ld	l,a
 	ret

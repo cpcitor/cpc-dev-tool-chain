@@ -24,11 +24,8 @@ _fw_cas_out_open::
 	ld	(hl),d		; msb(header location)
 	ld	a,#0
 	jr	z,zero
-	inc	a
-	rlca
+	inc	a               ; does not affect carry
 zero:
-	jr	nc,nocarry
-	inc	a
-nocarry:
+	rlca                    ; propagates carry
 	ld	l,a
 	ret

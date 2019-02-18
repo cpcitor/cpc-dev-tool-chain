@@ -32,7 +32,7 @@ decode_and_print_start_stop_motor_code (uint8_t code, uint8_t expectedcode)
 	cfwi_txt_str0_output ((code & 0x10) ? "ON  " : "OFF ");
 
 	fw_txt_set_pen ((code == expectedcode) ? 2 : 3);
-	cfwi_txt_str0_output ((code == expectedcode) ? "SUCCESS" : "FAIL");
+	cfwi_txt_str0_output ((code == expectedcode) ? "PASS" : "FAIL");
 	fw_txt_set_pen (1);
 
 	fw_txt_output (13);

@@ -154,20 +154,20 @@ void test_open_file_out()
                 switch ( rc )
                 {
                         case 2:
-                                cfwi_txt_str0_output( "User hit escape" NL );
+                                cfwi_txt_str0_output( "CANCELED: user hit escape" NL );
 // user hit escape
                                 break;
 
                         case 1:
 // opened ok
-                                cfwi_txt_str0_output( "File opened OK" NL );
+                                cfwi_txt_str0_output( "SUCCEEDED." );
                                 cfwi_txt_str0_output( NL "Header location: " );
                                 print_uint16_as_hex( ( uint16_t )file_open_out_params.out_header );
                                 break;
 
                         case 0:
 // stream is in use
-                                cfwi_txt_str0_output( "Stream is in use" NL );
+                                cfwi_txt_str0_output( "CANCELED: Stream is in use" NL );
                                 break;
                 }
         }

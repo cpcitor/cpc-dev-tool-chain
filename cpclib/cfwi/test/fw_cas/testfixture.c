@@ -177,7 +177,7 @@ uint8_t perform_test()
 {
         fw_scr_set_ink(2, 18, 18);
 
-        cfwi_txt_str0_output( "Setting tape speed to 2000 bauds." NL );
+        cfwi_txt_str0_output( "CAS SET SPEED to 2000 bauds." NL );
         fw_cas_set_speed( 167, 50 );
 
         {

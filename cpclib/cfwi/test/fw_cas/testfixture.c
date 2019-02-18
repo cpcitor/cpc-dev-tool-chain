@@ -17,41 +17,56 @@ void print_uint16_as_hex( uint16_t v ) __z88dk_fastcall
         print_uint8_as_hex(v);
 }
 
+void decode_and_print_start_stop_motor_code(uint8_t code, uint8_t expectedcode)
+{
+        cfwi_txt_str0_output( "=> " );
+        print_uint8_as_hex( code );
+        cfwi_txt_str0_output( " => " );
+        cfwi_txt_str0_output( (code&1)?"OK, ":"ESC," );
+        cfwi_txt_str0_output( " was " );
+        cfwi_txt_str0_output( (code&0x10)?"ON  ":"OFF " );
+        
+        fw_txt_set_pen( (code == expectedcode)?2:3);
+        cfwi_txt_str0_output( (code == expectedcode)?"SUCCESS":"FAIL");
+        fw_txt_set_pen( 1 );
+
+        fw_txt_output( 13 );
+        fw_txt_output( 10 );
+}
+
 void test_start_stop_motor()
 {
-        fw_txt_output( 13 );
-        fw_txt_output( 10 );
+        cfwi_txt_str0_output( NL "CAS * MOTOR test, please wait." NL);
 
-        cfwi_txt_str0_output( "Starting motor... (esc to interrupt)" NL );
+        cfwi_txt_str0_output( "START " );
         {
-                uint8_t oldstate = fw_cas_start_motor();
-                cfwi_txt_str0_output( "CAS START MOTOR returned:" );
-                print_uint8_as_hex( oldstate );
+                uint8_t code = fw_cas_start_motor();
+                decode_and_print_start_stop_motor_code(code, 0x01);
         }
-        cfwi_txt_str0_output( NL "Again... (esc to interrupt)" NL );
+        cfwi_txt_str0_output( "START " );
         {
-                uint8_t oldstate = fw_cas_start_motor();
-                cfwi_txt_str0_output( "CAS START MOTOR returned:" );
-                print_uint8_as_hex( oldstate );
+                uint8_t code = fw_cas_start_motor();
+                decode_and_print_start_stop_motor_code(code, 0x11);
         }
-        fw_txt_output( 13 );
-        fw_txt_output( 10 );
+        cfwi_txt_str0_output( "STOP  " );
+        {
+                uint8_t code = fw_cas_stop_motor();
+                decode_and_print_start_stop_motor_code(code, 0x11);
+        }
+        cfwi_txt_str0_output( "STOP  " );
+        {
+                uint8_t code = fw_cas_stop_motor();
+                decode_and_print_start_stop_motor_code(code, 0x01);
+        }
 
-        cfwi_txt_str0_output( "Stopping motor... (esc to interrupt)" NL );
-        {
-                uint8_t oldstate = fw_cas_stop_motor();
-                cfwi_txt_str0_output( "CAS STOP MOTOR returned:" );
-                print_uint8_as_hex( oldstate );
-        }
-        cfwi_txt_str0_output( NL "Again... (esc to interrupt)" NL );
-        {
-                uint8_t oldstate = fw_cas_stop_motor();
-                cfwi_txt_str0_output( "CAS STOP MOTOR returned:" );
-                print_uint8_as_hex( oldstate );
-        }
-        fw_txt_output( 13 );
-        fw_txt_output( 10 );
+        cfwi_txt_str0_output( NL "Please press ESC NOW!" NL NL );
 
+        cfwi_txt_str0_output( "START " );
+        {
+                uint8_t code = fw_cas_start_motor();
+                decode_and_print_start_stop_motor_code(code, 0x00);
+        }
+        cfwi_txt_str0_output( NL );
 }
 
 static const unsigned char const my_filename_in[] = "fwcas.bin";

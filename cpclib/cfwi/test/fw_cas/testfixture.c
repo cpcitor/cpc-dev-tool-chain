@@ -87,11 +87,12 @@ fw_cas_in_open_parameters_t file_open_in_params =
 
 void test_open_file_in()
 {
+        cfwi_txt_str0_output( NL "CAS IN OPEN test, please wait." NL);
         cfwi_txt_str0_output( "Will open file: " );
         cfwi_txt_str0_output( my_filename_in );
         cfwi_txt_str0_output( NL "Filename length: " );
         print_uint8_as_hex( my_filename_in_length );
-        cfwi_txt_str0_output( NL );
+        cfwi_txt_str0_output( NL NL );
 
         {
                 uint8_t rc = fw_cas_in_open( &file_open_in_params );
@@ -140,6 +141,7 @@ fw_cas_out_open_parameters_t file_open_out_params =
 
 void test_open_file_out()
 {
+        cfwi_txt_str0_output( NL "CAS OUT OPEN test, please wait." NL);
         cfwi_txt_str0_output( "Will create file: " );
         cfwi_txt_str0_output( my_filename_out );
         cfwi_txt_str0_output( NL "Filename length: " );

@@ -954,7 +954,7 @@ void fw_km_break_event(void);
     Related entries:
     KM GET STATE
 */
-void fw_km_set_locks(uint16_t locks) __z88dk_fastcall __preserves_regs(b,c,d,e,f,iyh, iyl);
+void fw_km_set_locks(uint16_t locks) __z88dk_fastcall __preserves_regs(b,c,d,e,iyh, iyl);
 
 /** 191: KM FLUSH
     #BD3D

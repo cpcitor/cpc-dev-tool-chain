@@ -1012,7 +1012,6 @@ typedef struct fw_cas_out_open_parameters_t
     OUT DIRECT (DISC)
     OUT OPEN
 */
-// TODO complicated needs input struct void fw_cas_out_open() __preserves_regs(b, c, d, e, iyh, iyl);
 uint8_t fw_cas_out_open(fw_cas_out_open_parameters_t *parameters) __z88dk_fastcall __preserves_regs(iyh, iyl);
 
 /** Two variants: tape and disc.

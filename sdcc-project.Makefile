@@ -369,7 +369,7 @@ HDRS := $(wildcard *.h platform_sdcc/*.h)
 GENHRDS := $(SRCS:.c=.h)
 
 indent:
-	indent -fca -fc1 -bbb -bad -bap -sob -bli0 -ce -i8 $(HDRS) $(SRCS)
+	indent -fca -fc1 -bbb -bad -bap -sob -ce -i8 -bli0 -bls -blf $(HDRS) $(SRCS)
 	@echo "Modifs: "
 	( for a in $(HDRS) $(SRCS) ; do echo -n $$a ;  diff -u $$a~ $$a && { echo " inchangé" ; mv -f $$a~ $$a ; } ; done ; )
 

@@ -13,14 +13,8 @@ void print_uint8_as_hex( uint8_t v ) __z88dk_fastcall
 
 void print_uint16_as_hex( uint16_t v ) __z88dk_fastcall
 {
-        uint8_t l = v;
-        fw_txt_wr_char( hexchar( l >> 4 ) );
-        fw_txt_wr_char( hexchar( l & 0x0F ) );
-        {
-                uint8_t h = v >> 8;
-                fw_txt_wr_char( hexchar( h >> 4 ) );
-                fw_txt_wr_char( hexchar( h & 0x0F ) );
-        }
+        print_uint8_as_hex(v>>8);
+        print_uint8_as_hex(v);
 }
 
 void test_start_stop_motor()

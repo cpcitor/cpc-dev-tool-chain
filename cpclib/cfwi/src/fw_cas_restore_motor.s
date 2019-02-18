@@ -3,7 +3,7 @@
 _fw_cas_restore_motor::
 	ld	a,l
 	call	0xBC74	; CAS RESTORE MOTOR
-	xor	a,a
+        ld      l,a
 	ret	nc
-	dec	a
+	inc	l
 	ret

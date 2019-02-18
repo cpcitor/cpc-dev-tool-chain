@@ -11,11 +11,11 @@
 	_fw_km_get_joystick == 0xBB24
 
 	_fw_km_get_delay == 0xBB42
-	
+
 	_fw_km_disarm_break == 0xBB48
 	_fw_km_break_event == 0xBB4B
 	_fw_km_set_locks == 0xBD3A
-        
+
 	_fw_gra_initialise == 0xBBBA
 	_fw_gra_reset == 0xBBBD
 	_fw_gra_move_absolute__fastcall == 0xBBC0
@@ -23,7 +23,7 @@
 	_fw_gra_ask_cursor == 0xBBC6
 	_fw_gra_set_origin__fastcall == 0xBBC9
 	_fw_gra_get_origin == 0xBBCC
-	
+
 	_fw_gra_win_width__fastcall == 0xBBCF
 	_fw_gra_win_height__fastcall == 0xBBD2
 	_fw_gra_get_w_width == 0xBBD5
@@ -44,9 +44,9 @@
 
 	_fw_kl_choke_off__ignore_return_value == 0xBCC8
 	_fw_kl_rom_walk == 0xBCCB
-	
+
 	_fw_kl_scan_needed == 0xB92A
-	
+
 	_fw_txt_initialise == 0xBB4E
 	_fw_txt_reset == 0xBB51
 	_fw_txt_vdu_enable == 0xBB54
@@ -55,7 +55,7 @@
 	_fw_txt_win_enable__fastcall == 0xBB66
 	_fw_txt_get_window == 0xBB69
 	_fw_txt_set_cursor__fastcall == 0xBB75
-	
+
 	_fw_txt_cur_enable == 0xBB7B
 	_fw_txt_cur_disable == 0xBB7E
 	_fw_txt_cur_on == 0xBB81
@@ -63,14 +63,14 @@
 	_fw_txt_place_cursor == 0xBB8A
 	_fw_txt_remove_cursor == 0xBB8D
 
-        _fw_txt_clear_window == 0xBB6C
+	_fw_txt_clear_window == 0xBB6C
 
 	_fw_txt_inverse == 0xBB9C
 
 	_fw_txt_get_matrix__ignore_rom_indication == 0xBBA5
-	
+
 	_fw_txt_get_controls == 0xBBB1
-	
+
 	_fw_mc_boot_program == 0xBD13
 	_fw_mc_wait_flyback == 0xBD19
 	_fw_mc_reset_printer == 0xBD28
@@ -96,7 +96,7 @@
 	_fw_kl_event_enable == 0xBD07
 	_fw_sound_reset == 0xBCA7
 	_fw_sound_continue == 0xBCB9
-	
+
 	;; long int function (void);
 
 	_fw_kl_time_please == 0xBD0D

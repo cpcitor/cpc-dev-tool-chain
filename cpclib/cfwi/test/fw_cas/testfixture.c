@@ -266,8 +266,7 @@ perform_test()
                 while ( loop-- > 0 )
                 {
                         test_start_stop_motor();
-                        fw_cas_in_abandon();
-                        fw_cas_out_abandon();
+                        
                 }
         }
         return 0;

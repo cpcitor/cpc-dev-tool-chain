@@ -1,7 +1,7 @@
 #include "stdint.h"
 #include "cfwi/cfwi.h"
 
-uint8_t perform_test();
+uint8_t perform_test( void );
 
 void
 main()
@@ -30,9 +30,4 @@ main()
         fw_mc_send_printer( '2' );
         fw_mc_wait_flyback();
         fw_mc_wait_flyback();
-}
-
-void
-rendezvous_point()
-{
 }

@@ -1,7 +1,7 @@
 #include "stdint.h"
 #include "cfwi/cfwi.h"
 
-uint8_t perform_test();
+uint8_t perform_test( void );
 
 void
 main()
@@ -14,6 +14,7 @@ main()
 
         {
                 uint8_t rc = perform_test();
+
                 fw_mc_send_printer( '1' );
                 fw_mc_send_printer( rc );
         }
@@ -22,6 +23,7 @@ main()
 
         {
                 uint32_t time_delta = time_after - time_before;
+
                 fw_mc_send_printer( time_delta );
         }
 

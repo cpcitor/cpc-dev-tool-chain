@@ -14,6 +14,7 @@ main()
 
         {
                 uint8_t rc = perform_test();
+
                 fw_mc_send_printer( '1' );
                 fw_mc_send_printer( rc );
         }
@@ -22,14 +23,11 @@ main()
 
         {
                 uint32_t time_delta = time_after - time_before;
+
                 fw_mc_send_printer( time_delta );
         }
 
         fw_mc_send_printer( '2' );
         fw_mc_wait_flyback();
         fw_mc_wait_flyback();
-}
-
-void rendezvous_point()
-{
 }

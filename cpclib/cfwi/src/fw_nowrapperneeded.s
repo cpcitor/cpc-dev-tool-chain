@@ -14,7 +14,8 @@
 	
 	_fw_km_disarm_break == 0xBB48
 	_fw_km_break_event == 0xBB4B
-
+	_fw_km_set_locks == 0xBD3A
+        
 	_fw_gra_initialise == 0xBBBA
 	_fw_gra_reset == 0xBBBD
 	_fw_gra_move_absolute__fastcall == 0xBBC0

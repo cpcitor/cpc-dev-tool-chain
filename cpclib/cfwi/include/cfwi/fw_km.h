@@ -934,6 +934,28 @@ void fw_km_break_event(void);
 
 #ifdef FW_V11_AND_ABOVE
 
+/** 190: KM SET LOCKS
+    #BD3A
+    Set the shift and caps lock states.
+    Action:
+    Turn the shift and caps locks on or off.
+    Entry conditions:
+    H contains the required caps lock state.
+    L contains the required shift lock state.
+    Exit conditions:
+    AF corrupt.
+    All other registers preserved.
+    Notes:
+    This routine is not available on V1.0 firmware.
+    The lock states are:
+    #00 means that the lock is to be turned off.
+    #FF means that the lock is to be turned on.
+    The default lock states are off.
+    Related entries:
+    KM GET STATE
+*/
+void fw_km_set_locks(uint16_t locks) __z88dk_fastcall __preserves_regs(b,c,d,e,f,iyh, iyl);;
+
 /** 191: KM FLUSH
     #BD3D
     Flush the keyboard buffers.

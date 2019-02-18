@@ -607,7 +607,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <tr><td class="fw_call_name" rowspan="1">CAS SET SPEED</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_cas_set_speed.s><code>_fw_cas_set_speed</code></a> (wrapper, 9 bytes)</div></div
 </td>
-<td class="preserve_implemented">d, e, iyh, iyl</td><td class="cdecl"><code>void fw_cas_set_speed(uint16_t length_of_half_zero_bit, uint8_t precompensation);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>void fw_cas_set_speed(uint16_t length_of_half_zero_bit, uint8_t precompensation);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">CAS NOISY</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_cas_noisy.s><code>_fw_cas_noisy</code></a> (wrapper, 4 bytes)</div></div
 </td>
@@ -625,7 +625,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 </td>
 <td class="preserve_implemented">b, c, d, e, h, iyh, iyl</td><td class="cdecl"><code>uint8_t fw_cas_restore_motor(uint8_t previous_motor_state);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">CAS IN OPEN</td><td>
-<div class="output"><div class="wrapper"><a href=src/fw_cas_in_open.s><code>_fw_cas_in_open</code></a> (wrapper, 42 bytes)</div></div
+<div class="output"><div class="wrapper"><a href=src/fw_cas_in_open.s><code>_fw_cas_in_open</code></a> (wrapper, 38 bytes)</div></div
 </td>
 <td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>uint8_t fw_cas_in_open(fw_cas_in_open_parameters_t *parameters);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">CAS IN CLOSE</td><td>
@@ -653,7 +653,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 </td>
 <td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>uint16_t fw_cas_test_eof(void);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">CAS OUT OPEN</td><td>
-<div class="output"><div class="wrapper"><a href=src/fw_cas_out_open.s><code>_fw_cas_out_open</code></a> (wrapper, 33 bytes)</div></div
+<div class="output"><div class="wrapper"><a href=src/fw_cas_out_open.s><code>_fw_cas_out_open</code></a> (wrapper, 30 bytes)</div></div
 </td>
 <td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>uint8_t fw_cas_out_open(fw_cas_out_open_parameters_t *parameters);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">CAS OUT CLOSE</td><td>
@@ -670,9 +670,10 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>uint16_t fw_cas_out_char(unsigned char char_to_write);</code></td></tr>
 <tr><td class="fw_call_name">CAS OUT DIRECT</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name" rowspan="1">CAS CATALOG</td><td>
-<div class="error">No implementation: _fw_cas_catalog</div
+<div class="output"><div class="wrapper"><a href=src/fw_cas_catalog.s><code>_fw_cas_catalog</code></a> (wrapper, 13 bytes)</div></div
 </td>
-<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>uint8_t fw_cas_catalog(void);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>uint16_t rc = fw_cas_catalog(my_buffer);
+uint8_t fw_cas_catalog(void *buffer);</code></td></tr>
 <tr><td class="fw_call_name">CAS WRITE</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">CAS READ</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">CAS CHECK</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
@@ -720,7 +721,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <tr><td>
 <div class="error">No implementation: _fw_kl_rom_walk__fastcall</div
 </td>
-<td class="preserve_implemented">iyh, iyl, ixh, ixl</td><td class="cdecl"><code>uint32_t fw_kl_rom_walk__fastcall(uint32_t fw_memory_range_t_asint);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>uint32_t fw_kl_rom_walk__fastcall(uint32_t fw_memory_range_t_asint);</code></td></tr>
 <tr><td class="fw_call_name">KL INIT BACK</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">KL LOG EXT</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">KL FIND COMMAND</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>

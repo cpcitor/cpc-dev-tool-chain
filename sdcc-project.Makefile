@@ -371,7 +371,7 @@ GENHRDS := $(SRCS:.c=.h)
 indent:
 	indent -fca -fc1 -bbb -bad -bap -sob -ce -i8 -bli0 -bls -blf $(HDRS) $(SRCS)
 	@echo "Modifs: "
-	( for a in $(HDRS) $(SRCS) ; do echo -n $$a ;  diff -u $$a~ $$a && { echo " inchangé" ; mv -f $$a~ $$a ; } ; done ; )
+	( for a in $(HDRS) $(SRCS) ; do echo -n $$a ;  diff -u $$a~ $$a && { echo " inchangé" ; mv -f $$a~ $$a ; } ; done ; exit 0 ; )
 
 # Headers générés automatiquement
 %.h: %.c Makefile

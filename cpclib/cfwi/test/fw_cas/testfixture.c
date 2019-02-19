@@ -266,7 +266,7 @@ perform_test()
                 while ( loop-- > 0 )
                 {
                         test_start_stop_motor();
-                        
+
                 }
         }
         return 0;

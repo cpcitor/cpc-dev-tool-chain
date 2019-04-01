@@ -1,5 +1,4 @@
-cpc-dev-tool-chain
-==================
+# cpc-dev-tool-chain
 
 By [cpcitor](https://github.com/cpcitor)
 
@@ -28,18 +27,18 @@ Okay, but remember: a toolchain is **abstract**, a time saver, a guide.  You can
 
 ![Super Retro Robot Rampage by Vortex](https://cpcrulez.fr/img/6/srrr2.png)
 ![Kotorans Shadow by Kronoscide](http://www.cpc-power.com/extra_lire_fichier.php?extra=cpcold&fiche=11423&slot=2&part=A&type=.png)
-+
+
 * Raúl Simarro has written [cpcrslib](http://www.cpcwiki.eu/index.php/CPCRSlib).
 * cpc-dev-tool-chain makes it easy to use cpcrslib: just `#include "cpcrslib.h"`!
 * A number of productions in first editions of [#CPCRetroDev Game Creation Contests](http://cpcretrodev.byterealms.com/en/ "#CPCRetroDev Game Creation Contest | Amstrad CPC game development contest") did just that! Some examples:
- * Super Retro Robot Rampage by Vortex,
- * The Legend Of Cpcerdo by CPCR2,
- * Cavebola by Close To Metal,
- * Kotorans Shadow by Kronoscide,
- * Orcs Dungeon by Fracture Games,
- * VoidHawk by Goodies,
- * Chipotle Warfare by Cosmic Warpigs,
- * Pixel Thief by Zrilon.
+  * Super Retro Robot Rampage by Vortex,
+  * The Legend Of Cpcerdo by CPCR2,
+  * Cavebola by Close To Metal,
+  * Kotorans Shadow by Kronoscide,
+  * Orcs Dungeon by Fracture Games,
+  * VoidHawk by Goodies,
+  * Chipotle Warfare by Cosmic Warpigs,
+  * Pixel Thief by Zrilon.
 
 #### Production leveraging the CPC firmware style
 
@@ -84,7 +83,6 @@ If you encounter any trouble (even minor) on your platform, please report and I'
 
 Until you report, trouble remains.
 Once you report, trouble is known, can be fixed for everyone, all will benefit.
-
 
 ### Credits
 

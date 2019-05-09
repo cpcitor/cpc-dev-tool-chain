@@ -1347,4 +1347,32 @@ uint8_t fw_txt_str_select(uint8_t stream_to_select) __preserves_regs(b, c, d, e,
 */
 void fw_txt_swap_streams(uint8_t stream1, uint8_t stream2) __preserves_regs(iyh, iyl);
 
+/** 192: TXT ASK STATE #BD40
+    Get the state of the Text VDU.
+    Action:
+    Returns the VDU enable/disable state and the cursor on/off and cursor enable/disable
+    states of the current selected stream.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    A contains the stream state.
+    Flags corrupt.
+    All other registers preserved.
+    Notes:
+    This routine is not available on V1.0 firmware.
+    The stream state is returned as follows:
+    Bit 0      0 → cursor enabled,    1 → cursor disabled.
+    Bit 1      0 → cursor on,         1 → cursor off.
+    Bits 2..6  are undefined.
+    Bit 7      0 → VDU disabled,      1 → VDU enabled.
+    Related entries:
+    TXT CUR DISABLE
+    TXT CUR ENABLE
+    TXT CUR OFF
+    TXT CUR ON
+    TXT VDU DISABLE
+    TXT VDU ENABLE
+ */
+void fw_txt_ask_state(void) __preserves_regs(b, c, d, e, h, l, iyh, iyl);
+
 #endif /* __FW_TXT_H__ */

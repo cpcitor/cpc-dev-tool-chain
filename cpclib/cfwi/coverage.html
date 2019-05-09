@@ -678,7 +678,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <tr><td class="fw_call_name" rowspan="1">CAS CATALOG</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_cas_catalog.s><code>_fw_cas_catalog</code></a> (wrapper, 13 bytes)</div></div
 </td>
-<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>uint8_t fw_cas_catalog(void *buffer);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>uint16_t fw_cas_catalog(void *buffer);</code></td></tr>
 <tr><td class="fw_call_name">CAS WRITE</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">CAS READ</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">CAS CHECK</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
@@ -719,14 +719,10 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <div class="output"><div class="wrapper"><a href=src/fw_kl_choke_off.s><code>_fw_kl_choke_off__with_return_value</code></a> (wrapper, 6 bytes)</div></div
 </td>
 <td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>uint32_t fw_kl_choke_off__with_return_value(void);</code></td></tr>
-<tr><td class="fw_call_name" rowspan="2">KL ROM WALK</td><td>
+<tr><td class="fw_call_name" rowspan="1">KL ROM WALK</td><td>
 <div class="output"><div class="direct"><code>	_fw_kl_rom_walk == 0xBCCB</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>MISSING C PROTOTYPE fw_kl_rom_walk</code></td></tr>
-<tr><td>
-<div class="error">No implementation: _fw_kl_rom_walk__fastcall</div
-</td>
-<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>uint32_t fw_kl_rom_walk__fastcall(uint32_t fw_memory_range_t_asint);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>uint32_t fw_kl_rom_walk(uint32_t fw_memory_range_t_asint);</code></td></tr>
 <tr><td class="fw_call_name">KL INIT BACK</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">KL LOG EXT</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">KL FIND COMMAND</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>

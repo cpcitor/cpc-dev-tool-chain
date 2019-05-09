@@ -1472,7 +1472,7 @@ uint16_t fw_cas_out_char(unsigned char char_to_write) __preserves_regs(iyh, iyl)
     }
 
 */
-uint8_t fw_cas_catalog(void *buffer) __z88dk_fastcall __preserves_regs(iyh, iyl);
+uint16_t fw_cas_catalog(void *buffer) __z88dk_fastcall __preserves_regs(iyh, iyl);
 
 /** 138: CAS WRITE
     #BC9E

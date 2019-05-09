@@ -789,9 +789,8 @@ uint8_t fw_km_set_repeat(uint8_t key_number, enum fw_byte_all_or_nothing repeat_
     Test the entry in the repeating key map that says whether a key is allowed to repeat or
     not.
     Entry conditions:
-
-    BROKEN FIXME DOES NOT MAKE SENSE
-
+    A contains a key number.
+    Exit conditions:
     If the key is allowed to repeat:
     Zero false.
     If the key is not allowed to repeat:

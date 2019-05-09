@@ -21,7 +21,7 @@ do
 
     if [[ "$TOTAL" != "1" ]]
     then
-        echo -e "$NOWRAPPER_COUNT + $WRAPPER_COUNT = $TOTAL\t$symbolname" >&2
+        echo -e "WARNING: $NOWRAPPER_COUNT nowrapper + $WRAPPER_COUNT wrapper = ${TOTAL}, expected 1, call declared in C but not properly implemented: $symbolname" >&2
     fi
 done
 #echo "done"

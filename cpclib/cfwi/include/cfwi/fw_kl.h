@@ -132,9 +132,82 @@ typedef union fw_memory_range_t
 uint32_t fw_kl_rom_walk__fastcall(uint32_t fw_memory_range_t_asint) __preserves_regs(iyh, iyl);
 
 // void fw_kl_scan_needed(void);
-void fw_kl_sync_reset(void);
-void fw_kl_event_disable(void);
-void fw_kl_event_enable(void);
+
+/** 167: KL SYNC RESET
+    #BCF5
+    Clear synchronous event queue.
+    Action:
+    The synchronous event queue is set empty - any outstanding events are simply
+    discarded. The current event priority, used by KL POLL SYNCHRONOUS and KL
+    NEXT SYNC to mask out lower priority events, is reset.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    AF and HL corrupt.
+    All other registers preserved.
+    Notes:
+    It is the user's responsibility to ensure that discarded events and any currently active
+    events are reset. The event count of discarded events will be greater than zero, so any
+    further 'kicks' will simply increment the count, but not add the event to the
+    synchronous event queue - the events are, therefore, effectively disarmed.
+    Related entries:
+    KL DEL SYNCHRONOUS
+    KL NEXT SYNC
+    KL POLL SYNCHRONOUS
+    */
+void fw_kl_sync_reset(void) __preserves_regs(b, c, d, e, iyh, iyl);
+
+/** 172: KL EVENT DISABLE
+    #BD04
+    Disable normal synchronous events.
+    Action:
+    Prevent normal synchronous events from being processed but allow express
+    synchronous events to be processed. This is achieved by setting the current event
+    priority higher than any possible normal synchronous event priority.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    HL corrupt.
+    All other registers preserved.
+    Notes:
+    KL EVENT DISABLE does not prevent events from being kicked. The effect is to
+    'mask off' all pending normal synchronous events so that they are hidden from the
+    foreground program (when KL POLL SYNCHRONOUS or KL NEXT SYNC are
+    called) and hence are not processed.
+    KL EVENT ENABLE reverses the effect of KL EVENT DISABLE.
+    It is not possible to disable synchronous events permanently from inside a
+    synchronous event routine as the previous current event priority is restored when the
+    event routine returns.
+    Related entries:
+    KL DISARM EVENT
+    KL EVENT ENABLE
+    KL NEXT SYNC
+    KL POLL SYNCHRONOUS
+*/
+void fw_kl_event_disable(void) __preserves_regs(b, c, d, e, iyh, iyl);
+
+/** 173: KL EVENT ENABLE
+    #BD07
+    Enables normal synchronous events.
+    Action:
+    Allow normal and express synchronous events to be processed.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    HL corrupt.
+    All other registers preserved.
+    Notes:
+    Events are enabled by default. KL EVENT ENABLE reverses the effect of KL
+    EVENT DISABLE.
+    It is not possible to disable synchronous events permanently from inside a
+    synchronous event routine as the current event priority which is used to disable events
+    is restored when the event routine returns.
+    Related entries:
+    KL EVENT DISABLE
+    KL NEXT SYNC
+    KL POLL SYNCHRONOUS
+*/
+void fw_kl_event_enable(void) __preserves_regs(b, c, d, e, iyh, iyl);
 
 /** 175: KL TIME PLEASE
     #BD0D

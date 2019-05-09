@@ -134,3 +134,9 @@ Example:
     cd cpc-dev-tool-chain/cpclib/cfwi
     make
     bash firmware_coverage.sh
+
+### Other
+
+This search will match lines that lacks a `__preserves_regs` annotation (plus a few false positive):
+
+    grep --color -nH -e '^[a-z].*;' cpclib/cfwi/include/cfwi/*.h | grep -v __preserves_regs

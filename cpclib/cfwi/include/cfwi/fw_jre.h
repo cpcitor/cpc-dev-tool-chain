@@ -25,6 +25,6 @@
     SCR RESET
     TXT RESET
 */
-void fw_jre_jump_restore(void);
+void fw_jre_jump_restore(void) __preserves_regs(iyh, iyl);
 
 #endif /* __FW_JRE_H__ */

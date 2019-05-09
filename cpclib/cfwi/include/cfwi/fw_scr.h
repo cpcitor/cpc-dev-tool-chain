@@ -224,7 +224,7 @@ SCR SET FLASHING
 TXT SET PAPER
 TXT SET PEN
 */
-void fw_scr_set_ink( uint8_t pen, uint8_t color1, uint8_t color2 );
+void fw_scr_set_ink( uint8_t pen, uint8_t color1, uint8_t color2 ) __preserves_regs(iyh, iyl);
 
 /** 104: SCR SET BORDER
     #BC38
@@ -253,7 +253,7 @@ void fw_scr_set_ink( uint8_t pen, uint8_t color1, uint8_t color2 );
     SCR SET FLASHING
     SCR SET INK
  */
-void fw_scr_set_border( uint8_t color1, uint8_t color2 );
+void fw_scr_set_border( uint8_t color1, uint8_t color2 ) __preserves_regs(iyh, iyl);
 
 #endif /* __FW_SCR_H__ */
 

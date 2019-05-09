@@ -37,7 +37,7 @@
     Related entries:
     KM RESET
 */
-void fw_km_initialise(void);
+void fw_km_initialise(void) __preserves_regs(iyh, iyl);
 
 /** 1: KM RESET
     #BB03
@@ -61,7 +61,7 @@ void fw_km_initialise(void);
     KM EXP BUFFER
     KM INITIALISE
 */
-void fw_km_reset(void);
+void fw_km_reset(void) __preserves_regs(iyh, iyl);
 
 /** 2: KM WAIT CHAR
     #BB06
@@ -86,7 +86,7 @@ void fw_km_reset(void);
     KM READ CHAR
     KM WAIT KEY
 */
-unsigned char fw_km_wait_char(void);
+unsigned char fw_km_wait_char(void) __preserves_regs(b, c, d, e, iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -137,7 +137,7 @@ unsigned char fw_km_wait_char(void);
     KM READ KEY
     KM WAIT CHAR
 */
-uint16_t fw_km_read_char(void);
+uint16_t fw_km_read_char(void) __preserves_regs(b, c, d, e, iyh, iyl);
 
 /** 4: KM CHAR RETURN #BB0C
     Return a single character to the keyboard for next time.
@@ -160,7 +160,7 @@ uint16_t fw_km_read_char(void);
     KM READ CHAR
     KM WAIT CHAR
 */
-void fw_km_char_return(unsigned char c) __z88dk_fastcall;
+void fw_km_char_return(unsigned char c) __z88dk_fastcall __preserves_regs(b, c, d, e, iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -201,7 +201,7 @@ void fw_km_char_return(unsigned char c) __z88dk_fastcall;
     KM WAIT CHAR
 
 */
-enum fw_byte_all_or_nothing fw_km_set_expand(uint8_t token, uint8_t string_length, unsigned char* string);
+enum fw_byte_all_or_nothing fw_km_set_expand(uint8_t token, uint8_t string_length, unsigned char* string) __preserves_regs(iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -248,7 +248,7 @@ enum fw_byte_all_or_nothing fw_km_set_expand(uint8_t token, uint8_t string_lengt
     KM READ CHAR
     KM SET EXPAND
 */
-uint16_t fw_km_get_expand(uint8_t token, uint8_t char_number);
+uint16_t fw_km_get_expand(uint8_t token, uint8_t char_number) __preserves_regs(b, c, iyh, iyl);
 
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
@@ -284,7 +284,7 @@ uint16_t fw_km_get_expand(uint8_t token, uint8_t char_number);
     KM GET EXPAND
     KM SET EXPAND
 */
-enum fw_byte_all_or_nothing fw_km_exp_buffer(unsigned char *buffer, uint16_t buffer_bytecount);
+enum fw_byte_all_or_nothing fw_km_exp_buffer(unsigned char *buffer, uint16_t buffer_bytecount) __preserves_regs(iyh, iyl);
 
 /** 8: KM WAIT KEY
     #BB18
@@ -306,7 +306,7 @@ enum fw_byte_all_or_nothing fw_km_exp_buffer(unsigned char *buffer, uint16_t buf
     KM READ KEY
     KM WAIT CHAR
 */
-unsigned char fw_km_wait_key(void);
+unsigned char fw_km_wait_key(void) __preserves_regs(b, c, d, e, iyh, iyl);
 
 /** #### CFWI-specific information: ####
 
@@ -362,7 +362,7 @@ unsigned char fw_km_wait_key(void);
 
     CFWI_TEST_FLAGS: TESTED_APP_PASS
 */
-uint16_t fw_km_read_key(void);
+uint16_t fw_km_read_key(void) __preserves_regs(b, c, d, e, iyh, iyl);
 
 enum
 {
@@ -421,7 +421,7 @@ enum
     KM GET STATE
     KM READ KEY
 */
-uint16_t fw_km_test_key(uint8_t key_number) __z88dk_fastcall;
+uint16_t fw_km_test_key(uint8_t key_number) __z88dk_fastcall __preserves_regs(b, c, d, e, iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -536,7 +536,7 @@ enum fw_joystick_masks
     TODO create a struct with joystick bits.
     TODO create a union with both struct and uint16_t, for decoding.
 */
-uint16_t fw_km_get_joystick(void);
+uint16_t fw_km_get_joystick(void) __preserves_regs(b, c, d, e, iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -569,7 +569,7 @@ uint16_t fw_km_get_joystick(void);
     KM SET CONTROL
     KM SET SHIFT
 */
-void fw_km_set_translate(uint8_t key_number, uint8_t new_translation);
+void fw_km_set_translate(uint8_t key_number, uint8_t new_translation) __preserves_regs(b, c, d, e, iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -604,7 +604,7 @@ void fw_km_set_translate(uint8_t key_number, uint8_t new_translation);
     KM GET SHIFT
     KM SET TRANSLATE
 */
-uint8_t fw_km_get_translate(uint8_t key_number) __z88dk_fastcall;
+uint8_t fw_km_get_translate(uint8_t key_number) __z88dk_fastcall __preserves_regs(b, c, d, e, iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -638,7 +638,7 @@ uint8_t fw_km_get_translate(uint8_t key_number) __z88dk_fastcall;
     KM GET SHIFT
     KM SET TRANSLATE
 */
-void fw_km_set_shift(uint8_t key_number, uint8_t new_translation);
+void fw_km_set_shift(uint8_t key_number, uint8_t new_translation) __preserves_regs(b, c, d, e, iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -674,7 +674,7 @@ void fw_km_set_shift(uint8_t key_number, uint8_t new_translation);
     KM GET SHIFT
     KM SET TRANSLATE
 */
-uint8_t fw_km_get_shift(uint8_t key_number) __z88dk_fastcall;
+uint8_t fw_km_get_shift(uint8_t key_number) __z88dk_fastcall __preserves_regs(b, c, d, e, iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -706,7 +706,7 @@ uint8_t fw_km_get_shift(uint8_t key_number) __z88dk_fastcall;
     KM GET SHIFT
     KM SET TRANSLATE
 */
-void fw_km_set_control(uint8_t key_number, uint8_t new_translation);
+void fw_km_set_control(uint8_t key_number, uint8_t new_translation) __preserves_regs(b, c, d, e, iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -739,7 +739,7 @@ void fw_km_set_control(uint8_t key_number, uint8_t new_translation);
     KM GET SHIFT
     KM SET TRANSLATE
 */
-uint8_t fw_km_get_control(uint8_t key_number) __z88dk_fastcall;
+uint8_t fw_km_get_control(uint8_t key_number) __z88dk_fastcall __preserves_regs(b, c, d, e, iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -764,7 +764,7 @@ uint8_t fw_km_get_control(uint8_t key_number) __z88dk_fastcall;
     KM GET REPEAT
     KM SET DELAY
 */
-uint8_t fw_km_set_repeat(uint8_t key_number, enum fw_byte_all_or_nothing repeat_allowed);
+uint8_t fw_km_set_repeat(uint8_t key_number, enum fw_byte_all_or_nothing repeat_allowed) __preserves_regs(d, e, iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -804,7 +804,7 @@ uint8_t fw_km_set_repeat(uint8_t key_number, enum fw_byte_all_or_nothing repeat_
     Related entries:
     KM SET REPEAT
 */
-enum fw_byte_all_or_nothing fw_km_get_repeat(uint8_t key_number) __z88dk_fastcall;
+enum fw_byte_all_or_nothing fw_km_get_repeat(uint8_t key_number) __z88dk_fastcall __preserves_regs(b, c, d, e, iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -835,7 +835,7 @@ enum fw_byte_all_or_nothing fw_km_get_repeat(uint8_t key_number) __z88dk_fastcal
     KM SET REPEAT
 
 */
-void fw_km_set_delay(uint8_t startup_delay, uint8_t repeat_speed);
+void fw_km_set_delay(uint8_t startup_delay, uint8_t repeat_speed) __preserves_regs(b, c, d, e, iyh, iyl);
 
 /** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
 
@@ -865,7 +865,7 @@ void fw_km_set_delay(uint8_t startup_delay, uint8_t repeat_speed);
     Related entries:
     KM SET DELAY
 */
-uint16_t fw_km_get_delay(void);
+uint16_t fw_km_get_delay(void) __preserves_regs(b, c, d, e, iyh, iyl);
 
 /** 23: KM ARM BREAK #BB45
     Allow break events to be generated.
@@ -905,7 +905,7 @@ uint16_t fw_km_get_delay(void);
     KM ARM BREAK
     KM BREAK EVENT
 */
-void fw_km_disarm_break(void);
+void fw_km_disarm_break(void) __preserves_regs(b, c, d, e, iyh, iyl);
 
 /** 25: KM BREAK EVENT #BB4B
     Generate a break event (if armed).
@@ -929,7 +929,7 @@ void fw_km_disarm_break(void);
     KM ARM BREAK
     KM DISARM BREAK
 */
-void fw_km_break_event(void);
+void fw_km_break_event(void) __preserves_regs(b, c, d, e, iyh, iyl);
 
 #ifdef FW_V11_AND_ABOVE
 
@@ -976,7 +976,7 @@ void fw_km_set_locks(uint16_t locks) __z88dk_fastcall __preserves_regs(b,c,d,e,i
     KM READ CHAR
     KM READ KEY
 */
-void fw_km_flush(void);
+void fw_km_flush(void) __preserves_regs(b, c, d, e, iyh, iyl);
 
 #endif /* FW_V11_AND_ABOVE */
 

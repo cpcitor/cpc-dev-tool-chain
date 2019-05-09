@@ -18,8 +18,7 @@
     Related entries:
     SOUND HOLD
      */
-void fw_sound_reset(void);
-void fw_sound_continue(void);
+void fw_sound_reset(void) __preserves_regs(iyh, iyl);
 
 /** 147: SOUND CONTINUE
     #BCB9
@@ -38,5 +37,6 @@ void fw_sound_continue(void);
     SOUND HOLD
     SOUND RELEASE
 */
+void fw_sound_continue(void) __preserves_regs(iyh, iyl);
 
 #endif /* __FW_SOUND_H__ */

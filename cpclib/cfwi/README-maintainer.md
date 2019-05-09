@@ -57,7 +57,7 @@ So, do like previous case but with a `__z88dk_fastcall` added on the prototype:
 
     void fw_scr_set_offset(uint16_t offset) __z88dk_fastcall __preserves_regs(b, c, d, e, iyh, iyl);
 
-#### Entries that return s a few integer values
+#### Entries that return a few integer values
 
 C doesn't allow to return several values.  But a function can return an integer (2 bytes, 4 bytes) that can be split into individual byte return values.
 

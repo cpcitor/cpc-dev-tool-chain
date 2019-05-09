@@ -124,11 +124,109 @@ void fw_scr_set_offset(uint16_t offset) __z88dk_fastcall __preserves_regs(b, c, 
 */
 void fw_scr_set_base( uint8_t base_msb) __z88dk_fastcall __preserves_regs(b, c, d, e, iyh, iyl);
 
-void fw_scr_set_mode(unsigned char x);
+/** 90: SCR SET MODE
+    #BC0E
+    Set screen into a new mode.
+    Action:
+    Put the screen into a new mode and make sure that the Text and Graphics VDUs are
+    set up correctly.
+    Entry conditions:
+    A contains the required mode.
+    Exit conditions:
+    AF, BC, DE and HL corrupt.
+    All other registers preserved.
+    Notes:
+    The mode requested is masked with #03. If the resulting value is 3 then no action is
+    taken. Otherwise one of the following screen modes is set up:
+    Mode 0:
+    Mode 1:
+    Mode 2:
+    160 x 200 pixels,
+    320 x 200 pixels,
+    640 x 200 pixels,
+    20 x 25 characters.
+    40 x 25 characters.
+    80 x 25 characters.
+    At an early stage the screen is cleared to avoid the old contents of the screen being
+    displayed in the wrong mode. The screen is cleared by calling the SCR MODE
+    CLEAR indirection.
+    All the text and graphics windows are set to cover the whole screen and the graphics
+    user origin is set to the bottom left corner of the screen. The cursor blobs for all text
+    streams are turned off. Stream zero is selected.
+    The current text and graphics pen and paper inks are masked as appropriate for the
+    new mode (see TXT SET PEN et al). When changing mode to a mode that allows
+    fewer inks on the screen this may cause the pen and paper inks to change.
+    Related entries:
+    MC SET MODE
+    SCR GET MODE
+ */
+void fw_scr_set_mode(unsigned char x) __preserves_regs(iyh, iyl);
 
-void fw_scr_clear(void);
-void fw_scr_mode_clear(void);
+/* 92: SCR CLEAR
+    #BC14
+    Clear the screen (to ink zero).
+    Action:
+    Clear the whole of screen memory to zero.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    AF, BC, DE and HL corrupt.
+    All other registers preserved.
+    Notes:
+    At an early stage the ink flashing is turned off and the inks are all set to the same
+    colour as ink 0. This makes the screen clearing appear instantaneous. When all the
+    screen memory has been set to 0 the ink flashing is turned back on (an ink flashing
+    event is added to the frame flyback queue) and all inks are set to their proper colours.
+    If the text paper ink and graphics paper ink are not set to ink 0 this will become
+    apparent on the screen when characters are written or windows are cleared.
+    The screen offset is set to zero.
+    Related entries:
+    GRA CLEAR WINDOW
+    SCR MODE CLEAR
+    TXT CLEAR WINDOW
+*/
+void fw_scr_clear(void) __preserves_regs(iyh, iyl);
+
+// void fw_scr_mode_clear(void);
+
+/*
+102: SCR SET INK
+#BC32
+Set the colours in which to display an ink.
+Action:
+Set which two colours will be used to display an ink. If the two colours are the same
+then the ink will remain a steady colour. If the colours are different then the ink will
+alternate between these two colours.
+Entry conditions:
+A contains an ink number.
+B contains the first colour.
+C contains the second colour.
+Exit conditions:
+AF, BC, DE and HL corrupt.
+All other registers preserved.
+Notes:
+The ink number is masked with #0F to make sure it is legal, and the colours are
+masked with #1F. Colours 27..31 are not intended for use; they are merely duplicates
+of other colours available.
+The new colours for an ink are not sent to the hardware immediately. They are stored
+and will appear on the screen when the next frame flyback occurs.
+The length of time for which each colour is displayed on the screen can be set by
+calling SCR SET FLASHING.
+The inks are set to their default colours at EMS and when SCR RESET is called.
+The various colours available and the default ink colours set are described in
+Appendix V.
+Related entries:
+GRA SET PAPER
+GRA SET PEN
+SCR GET INK
+SCR SET BORDER
+SCR SET FLASHING
+TXT SET PAPER
+TXT SET PEN
+*/
 void fw_scr_set_ink( uint8_t pen, uint8_t color1, uint8_t color2 );
+
 void fw_scr_set_border( uint8_t color1, uint8_t color2 );
 
 #endif /* __FW_SCR_H__ */
+

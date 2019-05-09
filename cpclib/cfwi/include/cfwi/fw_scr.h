@@ -226,6 +226,33 @@ TXT SET PEN
 */
 void fw_scr_set_ink( uint8_t pen, uint8_t color1, uint8_t color2 );
 
+/** 104: SCR SET BORDER
+    #BC38
+    Set the colours in which to display the border.
+    Action:
+    Set which two colours will be used to display the border. If the two colours are the
+    same then the border will remain a steady colour. If the colours are different then the
+    border will alternate between these two colours.
+    Entry conditions:
+    B contains the first colour.
+    C contains the second colour.
+    Exit conditions:
+    AF, BC, DE and HL corrupt.
+    All other registers preserved.
+    Notes:
+    The colours are masked with #1F to ensure that they are legal. Colours 27..31 are not
+    intended for use; they are merely duplicates of other colours available.
+    The new colours for the border are not sent to the hardware immediately. They are
+    stored and will appear on the screen when the next frame flyback occurs.
+    The length of time for which each colour is displayed on the screen can be set by
+    calling SCR SET FLASHING.
+    The border is set to its default colours at EMS and when SCR RESET is called. The
+    default colour and the colours available are described in Appendix V.
+    Related entries:
+    SCR GET BORDER
+    SCR SET FLASHING
+    SCR SET INK
+ */
 void fw_scr_set_border( uint8_t color1, uint8_t color2 );
 
 #endif /* __FW_SCR_H__ */

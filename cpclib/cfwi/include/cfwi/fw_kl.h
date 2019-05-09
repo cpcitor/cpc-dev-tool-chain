@@ -129,7 +129,7 @@ typedef union fw_memory_range_t
     KL INIT BACK
     KL LOG EXT
 */
-uint32_t fw_kl_rom_walk__fastcall(uint32_t fw_memory_range_t_asint) __preserves_regs(iyh, iyl);
+uint32_t fw_kl_rom_walk(uint32_t fw_memory_range_t_asint) __z88dk_fastcall __preserves_regs(iyh, iyl);
 
 // void fw_kl_scan_needed(void);
 

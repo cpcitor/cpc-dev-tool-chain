@@ -80,20 +80,20 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <h2>Global Statistics</h2>
 <table>
 <tr><td>Total fw calls as per SOFT968 official documentation</td><td>202</td></tr>
-<tr><td>Total fw calls declared at C level</td><td>136</td></tr>
-<tr><td>Overall coverage percentage</td><td>67%</td></tr>
+<tr><td>Total fw calls declared at C level</td><td>135</td></tr>
+<tr><td>Overall coverage percentage</td><td>66%</td></tr>
 </table>
 </table>
 <h2>Statistics per firmware packages</h2>
 <table>
 <tr><th>Package</th><th>Call count</th><th>C-covered</th><th>%</th></tr>
 <tr><td class="fw_call_name">KM</td><td>28</td><td>27</td><td style="text-align: right">96%</td>
-<tr><td class="fw_call_name">TXT</td><td>37</td><td>36</td><td style="text-align: right">97%</td>
+<tr><td class="fw_call_name">TXT</td><td>37</td><td>37</td><td style="text-align: right">100%</td>
 <tr><td class="fw_call_name">GRA</td><td>32</td><td>24</td><td style="text-align: right">75%</td>
-<tr><td class="fw_call_name">SCR</td><td>36</td><td>9</td><td style="text-align: right">25%</td>
+<tr><td class="fw_call_name">SCR</td><td>36</td><td>8</td><td style="text-align: right">22%</td>
 <tr><td class="fw_call_name">CAS</td><td>22</td><td>18</td><td style="text-align: right">81%</td>
 <tr><td class="fw_call_name">SOUND</td><td>12</td><td>3</td><td style="text-align: right">25%</td>
-<tr><td class="fw_call_name">KL</td><td>26</td><td>7</td><td style="text-align: right">26%</td>
+<tr><td class="fw_call_name">KL</td><td>26</td><td>6</td><td style="text-align: right">23%</td>
 <tr><td class="fw_call_name">MC</td><td>13</td><td>12</td><td style="text-align: right">92%</td>
 <tr><td class="fw_call_name">JUMP</td><td>1</td><td>1</td><td style="text-align: right">100%</td>
 </table>
@@ -104,47 +104,47 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <tr><td class="fw_call_name" rowspan="1">KM INITIALISE</td><td>
 <div class="output"><div class="direct"><code>	_fw_km_initialise == 0xBB00</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_km_initialise(void);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_km_initialise(void);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">KM RESET</td><td>
 <div class="output"><div class="direct"><code>	_fw_km_reset == 0xBB03</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_km_reset(void);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_km_reset(void);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">KM WAIT CHAR</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_km_wait_char.s><code>_fw_km_wait_char</code></a> (wrapper, 5 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>unsigned char fw_km_wait_char(void);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>unsigned char fw_km_wait_char(void);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">KM READ CHAR</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_km_read_char.s><code>_fw_km_read_char</code></a> (wrapper, 9 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>uint16_t fw_km_read_char(void);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>uint16_t fw_km_read_char(void);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">KM CHAR RETURN</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_km_char_return.s><code>_fw_km_char_return</code></a> (wrapper, 4 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_km_char_return(unsigned char c);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>void fw_km_char_return(unsigned char c);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">KM SET EXPAND</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_km_set_expand.s><code>_fw_km_set_expand</code></a> (wrapper, 20 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>enum fw_byte_all_or_nothing fw_km_set_expand(uint8_t token, uint8_t string_length, unsigned char* string);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>enum fw_byte_all_or_nothing fw_km_set_expand(uint8_t token, uint8_t string_length, unsigned char* string);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">KM GET EXPAND</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_km_get_expand.s><code>_fw_km_get_expand</code></a> (wrapper, 16 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>uint16_t fw_km_get_expand(uint8_t token, uint8_t char_number);</code></td></tr>
+<td class="preserve_implemented">b, c, iyh, iyl</td><td class="cdecl"><code>uint16_t fw_km_get_expand(uint8_t token, uint8_t char_number);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">KM EXP BUFFER</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_km_exp_buffer.s><code>_fw_km_exp_buffer</code></a> (wrapper, 20 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>enum fw_byte_all_or_nothing fw_km_exp_buffer(unsigned char *buffer, uint16_t buffer_bytecount);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>enum fw_byte_all_or_nothing fw_km_exp_buffer(unsigned char *buffer, uint16_t buffer_bytecount);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">KM WAIT KEY</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_km_wait_key.s><code>_fw_km_wait_key</code></a> (wrapper, 5 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>unsigned char fw_km_wait_key(void);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>unsigned char fw_km_wait_key(void);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">KM READ KEY</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_km_read_key.s><code>_fw_km_read_key</code></a> (wrapper, 10 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>uint16_t fw_km_read_key(void);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>uint16_t fw_km_read_key(void);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">KM TEST KEY</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_km_test_key.s><code>_fw_km_test_key</code></a> (wrapper, 10 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>uint16_t fw_km_test_key(uint8_t key_number);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>uint16_t fw_km_test_key(uint8_t key_number);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">KM GET STATE</td><td>
 <div class="output"><div class="direct"><code>	_fw_km_get_state == 0xBB21</code></div></div
 </td>
@@ -152,56 +152,56 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <tr><td class="fw_call_name" rowspan="1">KM GET JOYSTICK</td><td>
 <div class="output"><div class="direct"><code>	_fw_km_get_joystick == 0xBB24</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>uint16_t fw_km_get_joystick(void);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>uint16_t fw_km_get_joystick(void);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">KM SET TRANSLATE</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_km_set_translate.s><code>_fw_km_set_translate</code></a> (wrapper, 10 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_km_set_translate(uint8_t key_number, uint8_t new_translation);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>void fw_km_set_translate(uint8_t key_number, uint8_t new_translation);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">KM GET TRANSLATE</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_km_get_translate.s><code>_fw_km_get_translate</code></a> (wrapper, 6 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>uint8_t fw_km_get_translate(uint8_t key_number);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>uint8_t fw_km_get_translate(uint8_t key_number);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">KM SET SHIFT</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_km_set_shift.s><code>_fw_km_set_shift</code></a> (wrapper, 10 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_km_set_shift(uint8_t key_number, uint8_t new_translation);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>void fw_km_set_shift(uint8_t key_number, uint8_t new_translation);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">KM GET SHIFT</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_km_get_shift.s><code>_fw_km_get_shift</code></a> (wrapper, 6 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>uint8_t fw_km_get_shift(uint8_t key_number);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>uint8_t fw_km_get_shift(uint8_t key_number);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">KM SET CONTROL</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_km_set_control.s><code>_fw_km_set_control</code></a> (wrapper, 10 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_km_set_control(uint8_t key_number, uint8_t new_translation);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>void fw_km_set_control(uint8_t key_number, uint8_t new_translation);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">KM GET CONTROL</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_km_get_control.s><code>_fw_km_get_control</code></a> (wrapper, 6 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>uint8_t fw_km_get_control(uint8_t key_number);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>uint8_t fw_km_get_control(uint8_t key_number);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">KM SET REPEAT</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_km_set_repeat.s><code>_fw_km_set_repeat</code></a> (wrapper, 10 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>uint8_t fw_km_set_repeat(uint8_t key_number, enum fw_byte_all_or_nothing repeat_allowed);</code></td></tr>
+<td class="preserve_implemented">d, e, iyh, iyl</td><td class="cdecl"><code>uint8_t fw_km_set_repeat(uint8_t key_number, enum fw_byte_all_or_nothing repeat_allowed);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">KM GET REPEAT</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_km_get_repeat.s><code>_fw_km_get_repeat</code></a> (wrapper, 8 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>enum fw_byte_all_or_nothing fw_km_get_repeat(uint8_t key_number);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>enum fw_byte_all_or_nothing fw_km_get_repeat(uint8_t key_number);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">KM SET DELAY</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_km_set_delay.s><code>_fw_km_set_delay</code></a> (wrapper, 11 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_km_set_delay(uint8_t startup_delay, uint8_t repeat_speed);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>void fw_km_set_delay(uint8_t startup_delay, uint8_t repeat_speed);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">KM GET DELAY</td><td>
 <div class="output"><div class="direct"><code>	_fw_km_get_delay == 0xBB42</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>uint16_t fw_km_get_delay(void);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>uint16_t fw_km_get_delay(void);</code></td></tr>
 <tr><td class="fw_call_name">KM ARM BREAK</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name" rowspan="1">KM DISARM BREAK</td><td>
 <div class="output"><div class="direct"><code>	_fw_km_disarm_break == 0xBB48</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_km_disarm_break(void);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>void fw_km_disarm_break(void);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">KM BREAK EVENT</td><td>
 <div class="output"><div class="direct"><code>	_fw_km_break_event == 0xBB4B</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_km_break_event(void);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>void fw_km_break_event(void);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">KM SET LOCKS</td><td>
 <div class="output"><div class="direct"><code>	_fw_km_set_locks == 0xBD3A</code></div></div
 </td>
@@ -209,7 +209,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <tr><td class="fw_call_name" rowspan="1">KM FLUSH</td><td>
 <div class="output"><div class="direct"><code>	_fw_km_flush == 0xBD3D</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_km_flush(void);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>void fw_km_flush(void);</code></td></tr>
 </table>
 <h3>Package <span class="fw_call_name">TXT</span></h3>
 <table>
@@ -370,7 +370,10 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <div class="output"><div class="wrapper"><a href=src/fw_txt_swap_streams.s><code>_fw_txt_swap_streams</code></a> (wrapper, 10 bytes)</div></div
 </td>
 <td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_txt_swap_streams(uint8_t stream1, uint8_t stream2);</code></td></tr>
-<tr><td class="fw_call_name">TXT ASK STATE</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
+<tr><td class="fw_call_name" rowspan="1">TXT ASK STATE</td><td>
+<div class="output"><div class="wrapper"><a href=src/fw_txt_ask_state.s><code>_fw_txt_ask_state</code></a> (wrapper, 5 bytes)</div></div
+</td>
+<td class="preserve_implemented">b, c, d, e, h, l, iyh, iyl</td><td class="cdecl"><code>void fw_txt_ask_state(void);</code></td></tr>
 </table>
 <h3>Package <span class="fw_call_name">GRA</span></h3>
 <table>
@@ -556,12 +559,12 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <tr><td class="fw_call_name" rowspan="1">SCR SET MODE</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_scr_set_mode.s><code>_fw_scr_set_mode</code></a> (wrapper, 9 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_scr_set_mode(unsigned char x);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_scr_set_mode(unsigned char x);</code></td></tr>
 <tr><td class="fw_call_name">SCR GET MODE</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name" rowspan="1">SCR CLEAR</td><td>
 <div class="output"><div class="direct"><code>	_fw_scr_clear == 0xBC14</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_scr_clear(void);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_scr_clear(void);</code></td></tr>
 <tr><td class="fw_call_name">SCR CHAR LIMITS</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">SCR CHAR POSITION</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">SCR DOT POSITION</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
@@ -574,12 +577,12 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <tr><td class="fw_call_name" rowspan="1">SCR SET INK</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_scr_set_ink.s><code>_fw_scr_set_ink</code></a> (wrapper, 17 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_scr_set_ink( uint8_t pen, uint8_t color1, uint8_t color2 );</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_scr_set_ink( uint8_t pen, uint8_t color1, uint8_t color2 );</code></td></tr>
 <tr><td class="fw_call_name">SCR GET INK</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name" rowspan="1">SCR SET BORDER</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_scr_set_border.s><code>_fw_scr_set_border</code></a> (wrapper, 11 bytes)</div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_scr_set_border( uint8_t color1, uint8_t color2 );</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_scr_set_border( uint8_t color1, uint8_t color2 );</code></td></tr>
 <tr><td class="fw_call_name">SCR GET BORDER</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">SCR SET FLASHING</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">SCR GET FLASHING</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
@@ -675,8 +678,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <tr><td class="fw_call_name" rowspan="1">CAS CATALOG</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_cas_catalog.s><code>_fw_cas_catalog</code></a> (wrapper, 13 bytes)</div></div
 </td>
-<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>uint16_t rc = fw_cas_catalog(my_buffer);
-uint8_t fw_cas_catalog(void *buffer);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>uint8_t fw_cas_catalog(void *buffer);</code></td></tr>
 <tr><td class="fw_call_name">CAS WRITE</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">CAS READ</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">CAS CHECK</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
@@ -687,7 +689,7 @@ uint8_t fw_cas_catalog(void *buffer);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">SOUND RESET</td><td>
 <div class="output"><div class="direct"><code>	_fw_sound_reset == 0xBCA7</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_sound_reset(void);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_sound_reset(void);</code></td></tr>
 <tr><td class="fw_call_name">SOUND QUEUE</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">SOUND CHECK</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">SOUND ARM EVENT</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
@@ -696,7 +698,7 @@ uint8_t fw_cas_catalog(void *buffer);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">SOUND CONTINUE</td><td>
 <div class="output"><div class="direct"><code>	_fw_sound_continue == 0xBCB9</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_sound_continue(void);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_sound_continue(void);</code></td></tr>
 <tr><td class="fw_call_name">SOUND AMPL ENVELOPE</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">SOUND TONE ENVELOPE</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">SOUND A ADDRESS</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
@@ -740,15 +742,15 @@ uint8_t fw_cas_catalog(void *buffer);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="2">KL EVENT</td><td>
 <div class="output"><div class="direct"><code>	_fw_kl_event_disable == 0xBD04</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_kl_event_disable(void);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>void fw_kl_event_disable(void);</code></td></tr>
 <tr><td>
 <div class="output"><div class="direct"><code>	_fw_kl_event_enable == 0xBD07</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_kl_event_enable(void);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>void fw_kl_event_enable(void);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">KL SYNC RESET</td><td>
 <div class="output"><div class="direct"><code>	_fw_kl_sync_reset == 0xBCF5</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_kl_sync_reset(void);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>void fw_kl_sync_reset(void);</code></td></tr>
 <tr><td class="fw_call_name">KL DEL SYNCHRONOUS</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">KL NEXT SYNC</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name">KL DO SYNC</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
@@ -756,11 +758,11 @@ uint8_t fw_cas_catalog(void *buffer);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">KL EVENT DISABLE</td><td>
 <div class="output"><div class="direct"><code>	_fw_kl_event_disable == 0xBD04</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_kl_event_disable(void);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>void fw_kl_event_disable(void);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">KL EVENT ENABLE</td><td>
 <div class="output"><div class="direct"><code>	_fw_kl_event_enable == 0xBD07</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_kl_event_enable(void);</code></td></tr>
+<td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>void fw_kl_event_enable(void);</code></td></tr>
 <tr><td class="fw_call_name">KL DISARM EVENT</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
 <tr><td class="fw_call_name" rowspan="1">KL TIME PLEASE</td><td>
 <div class="output"><div class="direct"><code>	_fw_kl_time_please == 0xBD0D</code></div></div
@@ -848,7 +850,7 @@ uint8_t fw_cas_catalog(void *buffer);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">JUMP RESTORE</td><td>
 <div class="output"><div class="direct"><code>	_fw_jre_jump_restore == 0xBD37</code></div></div
 </td>
-<td class=""></td><td class="cdecl"><code>void fw_jre_jump_restore(void);</code></td></tr>
+<td class="preserve_implemented">iyh, iyl</td><td class="cdecl"><code>void fw_jre_jump_restore(void);</code></td></tr>
 </table>
 <h2>Conclusion</h2>
 <p>Happy hacking! Start there: <a href="https://github.com/cpcitor/cpc-dev-tool-chain" title="cpcitor/cpc-dev-tool-chain: A development toolchain to compile your C or assembly projects on a modern OS and run your compiled projects on an Amstrad CPC or emulator. Early stage, simple and already usable.">cpc-dev-tool-chain on GitHub.</a></p>

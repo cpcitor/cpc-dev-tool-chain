@@ -45,7 +45,7 @@
 	_fw_kl_choke_off__ignore_return_value == 0xBCC8
 	_fw_kl_rom_walk == 0xBCCB
 
-	_fw_kl_scan_needed == 0xB92A
+	;; _fw_kl_scan_needed == 0xB92A
 
 	_fw_txt_initialise == 0xBB4E
 	_fw_txt_reset == 0xBB51
@@ -86,10 +86,10 @@
 	_fw_km_flush == 0xBD3D
 	_fw_gra_default == 0xBD43
 
-	;; The firmware indirections
-	_fw_txt_draw_cursor == 0xBDCD
-	_fw_txt_undraw_cursor == 0xBDD0
-	_fw_scr_mode_clear == 0xBDEB
+	;; The firmware indirections: NOT C-callable functions!
+	;; _fw_txt_draw_cursor == 0xBDCD
+	;; _fw_txt_undraw_cursor == 0xBDD0
+	;; _fw_scr_mode_clear == 0xBDEB
 
 	_fw_kl_sync_reset == 0xBCF5
 	_fw_kl_event_disable == 0xBD04

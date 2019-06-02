@@ -17,8 +17,52 @@ static const ink_vector4 palette =
         }
 };
 
+#define hexchar(i) ( ( (i) < 10 ) ? ( '0' + (i) ) : ( 'A' - 10 + (i) ) )
+
+void pr_x8( uint8_t n )
+{
+        fw_txt_wr_char( hexchar( n >> 4 ) );
+        fw_txt_wr_char( hexchar( n & 0x0f ) );
+}
+
+void pr_x16( uint16_t n )
+{
+        pr_x8( n >> 8 );
+        pr_x8( n );
+}
+
+/* void pr_uint( unsigned int n ) */
+/* { */
+/*         if ( n / 10 != 0 ) */
+/*         { */
+/*                 pr_uint( n / 10 ); */
+/*         } */
+
+/*         fw_txt_wr_char( ( n % 10 ) + '0' ); */
+/* } */
+
+#define NL "\015\012"
+#define dbgvar_u8(VARNAME) { cfwi_txt_str0_output( #VARNAME ); fw_txt_wr_char('=0x'); pr_x8(VARNAME); cfwi_txt_str0_output(NL) ; }
+#define dbgvar_u16(VARNAME) { cfwi_txt_str0_output( #VARNAME ); fw_txt_wr_char('=0x'); pr_x16(VARNAME); cfwi_txt_str0_output(NL) ; }
+
 uint8_t perform_test()
 {
+        {
+                fw_scr_screen_location_t screen_location;
+                int i;
+                screen_location.as_uint32_t = fw_scr_get_location();
+                dbgvar_u8( screen_location.base_address_msb );
+
+                for ( i = 0; i < 30; i++ )
+                {
+                        screen_location.as_uint32_t = fw_scr_get_location();
+
+                        dbgvar_u16( screen_location.offset );
+                }
+        }
+
+        fw_km_wait_key();
+
         fw_scr_initialise();
         fw_kl_choke_off__ignore_return_value(); // no ink flash please
         fw_mc_set_inks__4( &palette );

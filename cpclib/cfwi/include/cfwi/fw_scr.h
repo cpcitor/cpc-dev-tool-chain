@@ -124,6 +124,61 @@ void fw_scr_set_offset(uint16_t offset) __z88dk_fastcall __preserves_regs(b, c, 
 */
 void fw_scr_set_base( uint8_t base_msb) __z88dk_fastcall __preserves_regs(b, c, d, e, iyh, iyl);
 
+/** Can be used to decode output of fw_scr_get_location(). */
+typedef union fw_scr_screen_location_t
+{
+	struct
+	{
+		uint16_t offset;
+		uint8_t base_address_msb;
+		uint8_t unused;
+	};
+	uint32_t as_uint32_t;
+} fw_scr_screen_location_t;
+
+/** WARNING DONE BUT UNTESTED, MIGHT NOT WORK
+
+    #### CFWI-specific information: ####
+
+    You can use it like this:
+
+    fw_scr_screen_location_t screen_location;
+    screen_location.as_uint32_t = fw_scr_get_location();
+    printf("%d\n", screen_location.offset);
+    printf("%d\n", screen_location.offset);
+
+    You can also decode offset directly from the uint32_t but don't
+    use that for higher bytes as current version of sdcc generated
+    inefficient Z80 code (even loops in some cases).
+
+    uint32_t returned_value = fw_scr_get_location();
+    uint16_t offset = UINT32_SELECT_UINT16(returned_value);
+    uint8_t base_address = UINT32_SELECT_BYTE_2(returned_value);
+
+89: SCR GET LOCATION
+    #BC0B
+    Fetch current base and offset settings.
+    Action:
+    Ask where the screen memory is located and where the start of the screen is.
+    Entry conditions:
+    No conditions.
+    Exit conditions:
+    A contains the more significant byte of the base address.
+    HL contains the current offset.
+    Flags corrupt.
+    All other registers preserved.
+    Notes:
+    The base and offsets returned by this routine may not be the same as those set using
+    SCR SET BASE or SCR SET OFFSET. This is because the values are masked to make
+    them legal and the screen offset is also changed when the hardware screen rolling
+    routine, SCR HW ROLL, is used.
+    Related entries:
+    SCR SET BASE
+    SCR SET OFFSET
+    SCR SET POSITION
+*/
+uint32_t fw_scr_get_location(void) __preserves_regs(b, c, iyh, iyl);
+
 /** 90: SCR SET MODE
     #BC0E
     Set screen into a new mode.

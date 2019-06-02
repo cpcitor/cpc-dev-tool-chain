@@ -80,8 +80,8 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <h2>Global Statistics</h2>
 <table>
 <tr><td>Total fw calls as per SOFT968 official documentation</td><td>202</td></tr>
-<tr><td>Total fw calls declared at C level</td><td>135</td></tr>
-<tr><td>Overall coverage percentage</td><td>66%</td></tr>
+<tr><td>Total fw calls declared at C level</td><td>136</td></tr>
+<tr><td>Overall coverage percentage</td><td>67%</td></tr>
 </table>
 </table>
 <h2>Statistics per firmware packages</h2>
@@ -90,7 +90,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <tr><td class="fw_call_name">KM</td><td>28</td><td>27</td><td style="text-align: right">96%</td>
 <tr><td class="fw_call_name">TXT</td><td>37</td><td>37</td><td style="text-align: right">100%</td>
 <tr><td class="fw_call_name">GRA</td><td>32</td><td>24</td><td style="text-align: right">75%</td>
-<tr><td class="fw_call_name">SCR</td><td>36</td><td>8</td><td style="text-align: right">22%</td>
+<tr><td class="fw_call_name">SCR</td><td>36</td><td>9</td><td style="text-align: right">25%</td>
 <tr><td class="fw_call_name">CAS</td><td>22</td><td>18</td><td style="text-align: right">81%</td>
 <tr><td class="fw_call_name">SOUND</td><td>12</td><td>3</td><td style="text-align: right">25%</td>
 <tr><td class="fw_call_name">KL</td><td>26</td><td>6</td><td style="text-align: right">23%</td>
@@ -555,7 +555,10 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <div class="output"><div class="wrapper"><a href=src/fw_scr_set_base.s><code>_fw_scr_set_base</code></a> (wrapper, 4 bytes)</div></div
 </td>
 <td class="preserve_implemented">b, c, d, e, iyh, iyl</td><td class="cdecl"><code>void fw_scr_set_base( uint8_t base_msb);</code></td></tr>
-<tr><td class="fw_call_name">SCR GET LOCATION</td><td class="not_yet_covered" colspan="4">Not yet covered</td></tr>
+<tr><td class="fw_call_name" rowspan="1">SCR GET LOCATION</td><td>
+<div class="output"><div class="direct"><code>        _fw_scr_get_location == 0xBC0B</code></div></div
+</td>
+<td class="preserve_implemented">b, c, iyh, iyl</td><td class="cdecl"><code>uint32_t fw_scr_get_location(void);</code></td></tr>
 <tr><td class="fw_call_name" rowspan="1">SCR SET MODE</td><td>
 <div class="output"><div class="wrapper"><a href=src/fw_scr_set_mode.s><code>_fw_scr_set_mode</code></a> (wrapper, 9 bytes)</div></div
 </td>

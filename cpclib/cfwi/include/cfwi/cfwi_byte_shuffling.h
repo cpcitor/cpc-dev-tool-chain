@@ -10,17 +10,16 @@ Optimization
 
 * When a function returns a 32bit value, *do* stuff it into a union, because accessing higher bytes of a 32bit int causes inefficient code.
 
-
-
-* Return 32bit value instead of several via stack?  Indeed it avoids copy.  But stuffing the values is cumbersome and voids any benefit.  In other words, do it *only* if you already have a struct that makes sense.
-
-
  */
 
-/** UINT_SELECT_BYTE_0 is fast with a 16bit value, slow with a 32bit value. */
-#define UINT_SELECT_BYTE_0(n) ((uint8_t)( (n) & 0xff ))
-/** UINT_SELECT_BYTE_1 is fast with a 16bit value, slow with a 32bit value. */
-#define UINT_SELECT_BYTE_1(n) ((uint8_t)( ((n) >> 8) & 0xff) )
+/** UINT_SELECT_BYTE_0 is fast. */
+#define UINT_SELECT_BYTE_0(n) ((uint8_t)(n))
+/** UINT_SELECT_BYTE_1 is decently fast. */
+#define UINT_SELECT_BYTE_1(n) ((uint8_t)( (( (uint16_t) (n) ) >> 8) & 0xff) )
+
+/** UINT32_SELECT_UINT16 is decently fast. */
+#define UINT32_SELECT_UINT16(n) ((uint16_t) (n) )
+
 /** UINT_SELECT_BYTE_2 is slow. SDCC 3.6.0 generates a loop! */
 //#define UINT_SELECT_BYTE_2(n) ((uint8_t)( ((n) >> 16) & 0xff ))
 /** UINT_SELECT_BYTE_3 is slow. SDCC 3.6.0 generates a loop! */

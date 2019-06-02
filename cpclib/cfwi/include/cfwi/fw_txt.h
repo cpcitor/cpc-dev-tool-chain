@@ -362,7 +362,8 @@ void fw_txt_win_enable__fastcall(uint32_t fw_txt_window_t_asint) __preserves_reg
     printf("%d\n", window_spec.right);
 
     You can also decode values directly from the uint32_t be be aware
-    that it leads to inefficient code.
+    that current version of sdcc generated inefficient Z80 code (even
+    loops in some cases).
 
     uint32_t returned_value = fw_txt_get_window();
     uint8_t left = UINT_SELECT_BYTE_1(returned_value);
@@ -539,7 +540,8 @@ typedef union fw_txt_cursor_pos_t
     printf("%d\n", cursor_pos.roll_count);
 
     You can also decode values directly from the uint32_t be be aware
-    that it leads to inefficient code.
+    that current version of sdcc generated inefficient Z80 code (even
+    loops in some cases).
 
     uint32_t returned_value = fw_txt_get_cursor();
     uint8_t row = UINT_SELECT_BYTE_0(returned_value);
@@ -717,7 +719,8 @@ enum fw_txt_validate_scroll_direction
     }
 
     You can also decode values directly from the uint32_t be be aware
-    that it leads to inefficient code.
+    that current version of sdcc generated inefficient Z80 code (even
+    loops in some cases).
 
     uint32_t returned_value = fw_txt_validate();
     uint8_t destination_row = UINT_SELECT_BYTE_0(returned_value);

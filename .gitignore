@@ -48,3 +48,4 @@ printer.txt
 *.au
 **/debug.txt
 **/wGui.log
+.build_dependencies_checked

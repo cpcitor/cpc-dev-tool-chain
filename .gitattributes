@@ -1,1 +1,27 @@
-*.sh text eol=lf
+# This .gitattributes file was generated with the following line:
+# { grep '^#' .gitattributes ; echo ; find .git?* * -type f -print0 | xargs -0 file | grep ":.* text" | cut -f 1 -d ":" | egrep -v '\.(vcxproj|.*~)$' | sed -e 's|^.*/\([^/]*\)$|\1|' -e 's/^.*\(\.[^/]*\)$/*\1/' -e 's/ChangeLog.*/ChangeLog*/' -e 's/$/ eol=lf/' | sort | uniq -c | sort -rn | sed 's/^........//' ; } >|.gitattributes.tmp && mv -vf .gitattributes.tmp .gitattributes
+
+*.s eol=lf
+Makefile eol=lf
+.gitignore eol=lf
+*.c eol=lf
+*.h eol=lf
+*.conf eol=lf
+*.Makefile eol=lf
+*.md eol=lf
+*.sh eol=lf
+*.patch eol=lf
+*.txt eol=lf
+*.html eol=lf
+*.havesourcetree eol=lf
+*.css eol=lf
+*.yml eol=lf
+*.in eol=lf
+.gitmodules eol=lf
+.gitattributes eol=lf
+*.env eol=lf
+*.def eol=lf
+*.csv eol=lf
+*.cfg eol=lf
+cap32_once eol=lf
+cap32 eol=lf

@@ -44,7 +44,7 @@ Now select the text below and use right click, key shortcut, whatever, to copy i
 
 <pre>
 #Don't select the current line for copying, only the line below starting with -q...
-     -q -P git,make,patch,gcc,gcc-core,gcc-g++,wget,bison,flex,libboost-devel,unzip,libncurses-devel,ioperm,texinfo
+     -q -P git,make,patch,gcc,gcc-core,gcc-g++,wget,bison,flex,libboost-devel,unzip,libncurses-devel,ioperm,texinfo,zlib-devel
 
 </pre>
 

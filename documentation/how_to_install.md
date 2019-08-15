@@ -64,10 +64,11 @@ Install cygwin and when the installer asks you what packages you want, be sure t
 * `unzip`
 * `libncurses-devel`, `ioperm`
 * `texinfo`
+* `zlib-devel`
 
 You can install all in one go using a command like this.
 
-    \path\to\setup-x86 -q -P git,make,patch,gcc,gcc-core,gcc-g++,wget,bison,flex,libboost-devel,unzip,libncurses-devel,ioperm,texinfo
+    \path\to\setup-x86 -q -P git,make,patch,gcc,gcc-core,gcc-g++,wget,bison,flex,libboost-devel,unzip,libncurses-devel,ioperm,texinfo,zlib-devel
 
 Windows command line is not very programmer-friendly.  Fortunately, a drag-n-drop trick allows to get everything working quickly. See [step-by-step instructions for Windows](quick_cygwin_install/README.md).
 

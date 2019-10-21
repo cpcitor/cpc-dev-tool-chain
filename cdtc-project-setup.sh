@@ -20,7 +20,13 @@ then
         exit 1
 fi
 
+if which readlink
+then
 cd "$(dirname "$(readlink -f "$0")" )"
+else
+cd "$(dirname "$0" )"
+fi
+
 SCRIPTDIR="$PWD"
 cd - >/dev/null
 

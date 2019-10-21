@@ -146,7 +146,15 @@ proceed_with_one_item ()
 
         mv -f cdtc_local_machine.conf.tmp cdtc_local_machine.conf
 
+if
 	cp -avuf "${CDTC_ROOT}/maintainer-tools/configure.in" configure_cdtc_build_tree.sh
+then
+echo ok
+else
+echo cp failed, maybe mac os x, using simpler cp command line
+	cp -fv "${CDTC_ROOT}/maintainer-tools/configure.in" configure_cdtc_build_tree.sh
+fi
+
 	chmod a+x configure_cdtc_build_tree.sh
 	
         echo "Job done with: $1"

@@ -29,6 +29,7 @@ cd "${BUILDTREE}"
 BUILDTREE_ABS="$PWD"
 
 $SOURCETREE_ABS/configure --prefix="${INSTALLTREE_ABS}" \
+        --enable-floats \
         --disable-mcs51-port \
         --disable-z180-port \
         --disable-r2k-port \

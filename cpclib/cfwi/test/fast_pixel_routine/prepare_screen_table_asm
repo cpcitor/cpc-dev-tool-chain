@@ -1,0 +1,53 @@
+        __asm
+        ;; disable interrupts
+        di
+        ;; save stack pointer
+	ld hl,#0
+	add hl,sp
+	ld (_tmp0),hl
+	ld sp,#(_address_of_screen_line + 400)
+
+	;; compute
+
+        ;; b = 0xC8 = 200
+        ;; c = 0x40 = because one has to go back 0x40.
+	ld bc,#0xC840
+        ;; de = how far to advance (has to be 16bit operation)
+	ld de,#0x0050
+        ;; hl = address of current line
+	ld hl,#0xC000
+        ;; now loop
+0001$:
+        ;; write value in table
+        push hl
+	; ld (hl),h
+        ;; a = high byte of address of current line
+        ld a,#8
+        ;; add a,h sets carry
+	add a,h
+        ;; ld h,a keeps carry
+	ld h,a
+        ;; no carry means simple case
+	jr nc,0002$
+        ;; here overflow we have to go back
+	sub c
+        ;; then add alternate (has to be 16 bit add)
+	ld h,a
+	add hl,de
+0002$:
+        ;; Here,a is available for comparison.
+        ld a,#0xC7
+        cp h
+        jr nz, 0001$
+        ld a,#0xD0
+        cp l
+        jr nz, 0001$
+
+        ;; restore stack pointer
+        ld hl,(_tmp0)
+        ld sp,hl
+
+        ;; re-enable interrupts
+        ei
+0003$:
+	__endasm;

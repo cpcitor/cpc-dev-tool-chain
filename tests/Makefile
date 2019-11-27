@@ -17,10 +17,10 @@ summarize:
 
 
 run-tests-shell: $(CDTC_ENV_FOR_CAPRICE32)
-	@( shopt -s nullglob ; for TEST in */test.sh ; do echo "########################################################################" ; echo -ne "Shell TEST: $$TEST\t" ; bash $$TEST >$${MAKE}.log 2>&1 && echo "TEST PASS" || echo "TEST FAIL $$TEST" ; done ; exit 0 ; )
+	@( shopt -s nullglob ; rm -fv */output/*~ */model/*~ ; for TEST in */test.sh ; do echo "########################################################################" ; echo -ne "Shell TEST: $$TEST\t" ; bash $$TEST >$${MAKE}.log 2>&1 && echo "TEST PASS" || echo "TEST FAIL $$TEST" ; done ; exit 0 ; )
 
 run-tests-make:
-	@( for MAKE in */local.Makefile ; do echo "########################################################################" ; echo -ne "Make TEST: $$MAKE\t" ; cd "$$(dirname $$MAKE)" ; $(MAKE) >test-execution.log 2>&1 && echo "TEST PASS"  || echo "TEST FAIL $$MAKE" ; done ; exit 0 ; )
+	@( rm -fv */output/*~ */model/*~ ; for MAKE in */local.Makefile ; do echo "########################################################################" ; echo -ne "Make TEST: $$MAKE\t" ; ( cd "$$(dirname $$MAKE)" ; $(MAKE) >test-execution.log 2>&1 ) && echo "TEST PASS"  || echo "TEST FAIL $$MAKE" ; done ; exit 0 ; )
 
 ########################################################################
 # Run emulator

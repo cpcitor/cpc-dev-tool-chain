@@ -15,7 +15,7 @@ GITHUB_CDTC=https://github.com/cpcitor/cpc-dev-tool-chain
 
 function usage()
 {
-########################################################################
+    ########################################################################
     [[ -n "$1" ]] && { echo >&2 "ERROR: $1" ; }
     cat <<EOF
 ########################################################################
@@ -47,12 +47,12 @@ $SCRIPTDIR/configure
 ########################################################################
 EOF
     [[ -n "$1" ]] && {
-	{
-	echo "ERROR: $1" ;
-	echo ########################################################################
-	echo "Aborting."
-	} >&2
-	exit 1 ;
+        {
+            echo "ERROR: $1" ;
+            echo ########################################################################
+            echo "Aborting."
+        } >&2
+        exit 1 ;
     }
 }
 
@@ -88,10 +88,10 @@ function is_CDTC_ROOT_suitable()
 {
     if [[ -z "${CDTC_ROOT:-}" ]]
     then
-	#echo "CDTC_ROOT not set."
-	return 1
+        #echo "CDTC_ROOT not set."
+        return 1
     fi
-	
+
     PROBE="${CDTC_ROOT}/sdcc-project.Makefile"
     [[ -r "$PROBE" ]]
 }
@@ -101,16 +101,16 @@ function notice_if_CDTC_ROOT_unsuitable()
     PROBE="${CDTC_ROOT}/sdcc-project.Makefile"
     if [[ -r "$PROBE" ]]
     then
-	return 0
+        return 0
     else
-	echo "Does not contain a copy of cpc-dev-tool-chain: $CDTC_ROOT"
-	echo "Moving on."
+        echo "Does not contain a copy of cpc-dev-tool-chain: $CDTC_ROOT"
+        echo "Moving on."
     fi
 }
 
 function inside_git_workdir()
 {
-	git rev-parse --is-inside-work-tree 2>/dev/null
+    git rev-parse --is-inside-work-tree 2>/dev/null
 }
 
 if [[ $# -ge 1 ]]
@@ -119,17 +119,17 @@ then
     CDTC_ROOT="$( cd -P "$1" || exit 0 ; pwd ; )"
     if [[ -z "${CDTC_ROOT}" ]]
     then
-	usage "Not a directory I can enter: $1"
-	exit 1
+        usage "Not a directory I can enter: $1"
+        exit 1
     fi
 
     {
-	cd $CDTC_ROOT
-	PROBE="sdcc-project.Makefile"
-	if ! [[ -r "$PROBE" ]]
-	then
-	    usage "Not a path containing a copy of cpc-dev-tool-chain: $CDTC_ROOT"
-	fi
+        cd $CDTC_ROOT
+        PROBE="sdcc-project.Makefile"
+        if ! [[ -r "$PROBE" ]]
+        then
+            usage "Not a path containing a copy of cpc-dev-tool-chain: $CDTC_ROOT"
+        fi
     }
 else
     echo "Path not set on command-line, probing for locations..."
@@ -140,9 +140,9 @@ then
     # Okay, no command line. Local config?
     if [[ -r cdtc_local_machine.conf ]]
     then
-	CDTC_ROOT="$( set -e ; sed -n 's|^CDTC_ROOT *= *\(.*\)$|\1|p' <cdtc_local_machine.conf )"
-	echo "Found in cdtc_local_machine.conf: $CDTC_ROOT"
-	notice_if_CDTC_ROOT_unsuitable
+        CDTC_ROOT="$( set -e ; sed -n 's|^CDTC_ROOT *= *\(.*\)$|\1|p' <cdtc_local_machine.conf )"
+        echo "Found in cdtc_local_machine.conf: $CDTC_ROOT"
+        notice_if_CDTC_ROOT_unsuitable
     fi
 fi
 
@@ -155,39 +155,39 @@ then
     then
         echo "Probing did not find: $PROBE"
 
-	echo "Using git to fetch cpc-dev-tool-chain from network..."
-	if inside_git_workdir
-	then
+        echo "Using git to fetch cpc-dev-tool-chain from network..."
+        if inside_git_workdir
+        then
             echo "We're inside a GIT directory. Perhaps this repo has a suitable git submodule to populate cpc-dev-tool-chain. Trying..."
-	    set -xv
-	    if
-		git submodule update --init -- cpc-dev-tool-chain
-	    then
-	    set +xv
-		CDTC_ROOT="$( cd -P "cpc-dev-tool-chain" ; pwd ; )"
-		echo "Fetched using git submodule: $CDTC_ROOT"
-	else
-		set +xv ; echo >&2 "git submodule update --init failed, moving along." ; break ; 
-	    fi
+            set -xv
+            if
+                git submodule update --init -- cpc-dev-tool-chain
+            then
+                set +xv
+                CDTC_ROOT="$( cd -P "cpc-dev-tool-chain" ; pwd ; )"
+                echo "Fetched using git submodule: $CDTC_ROOT"
+            else
+                set +xv ; echo >&2 "git submodule update --init failed, moving along." ; break ; 
+            fi
         fi
         if ! [[ -d "$PROBE" ]]
         then
             echo "Mkay, git submodule option did not work.  Trying plain git clone."
-	    set -xv
-	    if
-	    git clone "$GITHUB_CDTC"
-	    then
-	    set +xv
-		CDTC_ROOT="$( cd -P "cpc-dev-tool-chain" ; pwd ; )"
-		echo "Created using git: $CDTC_ROOT"
-	    else
-		echo >&2 "git clone failed, moving along." ; break ;
-	    fi
+            set -xv
+            if
+                git clone "$GITHUB_CDTC"
+            then
+                set +xv
+                CDTC_ROOT="$( cd -P "cpc-dev-tool-chain" ; pwd ; )"
+                echo "Created using git: $CDTC_ROOT"
+            else
+                echo >&2 "git clone failed, moving along." ; break ;
+            fi
         fi
         if ! [[ -d "$PROBE" ]]
         then
             echo "Still not found. Mpfmfpfmmmf."
-	fi
+        fi
     fi
 
     notice_if_CDTC_ROOT_unsuitable

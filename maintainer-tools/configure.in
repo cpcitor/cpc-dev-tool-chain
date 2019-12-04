@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GITHUB_CDTC=https://github.com/cpcitor/cpc-dev-tool-chain/
+GITHUB_CDTC=https://github.com/cpcitor/cpc-dev-tool-chain
 
 ########################################################################
 # This script assumes:

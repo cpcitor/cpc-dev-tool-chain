@@ -153,25 +153,43 @@ then
     PROBE="cpc-dev-tool-chain/sdcc-project.Makefile"
     if ! [[ -d "$PROBE" ]]
     then
-	echo "No subdirectory $PROBE"
+        echo "Probing did not find: $PROBE"
 
 	echo "Using git to fetch cpc-dev-tool-chain from network..."
 	if inside_git_workdir
 	then
-	    echo "We're inside a GIT directory. Using git submodule to populate cpc-dev-tool-chain..."
+            echo "We're inside a GIT directory. Perhaps this repo has a suitable git submodule to populate cpc-dev-tool-chain. Trying..."
 	    set -xv
-	    git submodule update --init -- cpc-dev-tool-chain || echo >&2 "git submodule update --init failed, moving along."
+	    if
+		git submodule update --init -- cpc-dev-tool-chain
+	    then
 	    set +xv
+		CDTC_ROOT="$( cd -P "cpc-dev-tool-chain" ; pwd ; )"
+		echo "Fetched using git submodule: $CDTC_ROOT"
 	else
+		set +xv ; echo >&2 "git submodule update --init failed, moving along." ; break ; 
+	    fi
+        fi
+        if ! [[ -d "$PROBE" ]]
+        then
+            echo "Mkay, git submodule option did not work.  Trying plain git clone."
 	    set -xv
-	    echo "Not inside a GIT directory, probably the current project does is not git-base version controller. Doing git clone."
+	    if
 	    git clone "$GITHUB_CDTC"
+	    then
 	    set +xv
+		CDTC_ROOT="$( cd -P "cpc-dev-tool-chain" ; pwd ; )"
+		echo "Created using git: $CDTC_ROOT"
+	    else
+		echo >&2 "git clone failed, moving along." ; break ;
+	    fi
+        fi
+        if ! [[ -d "$PROBE" ]]
+        then
+            echo "Still not found. Mpfmfpfmmmf."
 	fi
     fi
 
-    CDTC_ROOT="$( cd -P "cpc-dev-tool-chain" ; pwd ; )"
-    echo "Created using git: $CDTC_ROOT"
     notice_if_CDTC_ROOT_unsuitable
 fi
 

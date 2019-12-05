@@ -42,6 +42,10 @@ $SOURCETREE_ABS/configure --prefix="${INSTALLTREE_ABS}" \
         --disable-hc08-port \
         --disable-s08-port \
         --disable-stm8-port \
+        --disable-ez80_z80-port \
+        --disable-pdk13-port \
+        --disable-pdk14-port \
+        --disable-pdk15-port \
         --disable-ucsim \
         "$@"
 

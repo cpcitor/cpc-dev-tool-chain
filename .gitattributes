@@ -1,5 +1,5 @@
-# This .gitattributes file was generated with the following line:
-# { grep '^#' .gitattributes ; echo ; find .git?* * -type f -not -iname "*.tmp" -not -print0 | xargs -0 file | grep -v "unified diff output" | grep ":.* text" | cut -f 1 -d ":" | egrep -v '\.(vcxproj|.*~)$' | sed -e 's|^.*/\([^/]*\)$|\1|' -e 's/^[^\.].*\(\.[^/]*\)$/*\1/' -e 's/ChangeLog.*/ChangeLog*/' -e 's/$/ eol=lf/' | sort | uniq -c | sort -rn | sed 's/^........//' ; } >|.gitattributes.tmp && mv -vf .gitattributes.tmp .gitattributes
+# This .gitattributes file can be fully refreshed with the following line:
+# { export LC_ALL=C ; grep '^#' .gitattributes ; echo ; find .git?* * -type f -not -iname "*.tmp" -not -print0 | xargs -0 file | grep -v "unified diff output" | grep ":.* text" | cut -f 1 -d ":" | egrep -v '\.(vcxproj|.*~)$' | sed -e 's|^.*/\([^/]*\)$|\1|' -e 's/^[^\.].*\(\.[^/]*\)$/*\1/' -e 's/ChangeLog.*/ChangeLog*/' -e 's/$/ eol=lf/' | sort | uniq -c | sort -rn | sed 's/^........//' ; } >|.gitattributes.tmp && mv -vf .gitattributes.tmp .gitattributes
 
 *.s eol=lf
 Makefile eol=lf
@@ -14,13 +14,13 @@ Makefile eol=lf
 *.html eol=lf
 *.havesourcetree eol=lf
 *.css eol=lf
-*.yml eol=lf
-*.in eol=lf
+cap32_once eol=lf
+cap32 eol=lf
 .gitmodules eol=lf
 .gitattributes eol=lf
+*.yml eol=lf
+*.in eol=lf
 *.env eol=lf
 *.def eol=lf
 *.csv eol=lf
 *.cfg eol=lf
-cap32_once eol=lf
-cap32 eol=lf

@@ -49,3 +49,4 @@ printer.txt
 **/debug.txt
 **/wGui.log
 .build_dependencies_checked
+*.generated*

@@ -118,7 +118,7 @@ $(CDTC_ENV_FOR_SDCC):
 
 # FIXME change code loc project must choose it
 # Generating any %.rel from a %.c needs to first compile all the %.s because %.c might depend on any of the generated symbol exported from ASM.
-%.rel: %.c Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf $(RELS)
+%.rel: %.c Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf $(RELSS)
 	( SDCC_CFLAGS="$(CFLAGS_PROJECT_SDCC) $(CFLAGS_PROJECT_ALLPLATFORMS)" ; \
 	if grep -E '^#include .cpc(rs|wyz)lib.h.' $< ; then echo "Uses cpcrslib and/or cpcwyzlib: $<" ; $(MAKE) $(CDTC_ENV_FOR_CPCRSLIB) ; SDCC_CFLAGS="$${SDCC_CFLAGS} -I$(CDTC_ROOT)/cpclib/cpcrslib/cpcrslib_SDCC.installtree/include" ; fi ; \
 	if grep -E '^#include .cfwi/.*\.h.' $< ; then echo "Uses cfwi: $<" ; $(MAKE) $(CDTC_ENV_FOR_CFWI) ; SDCC_CFLAGS="$${SDCC_CFLAGS} -I$(abspath $(CDTC_ROOT)/cpclib/cfwi/include/)" ; fi ; \

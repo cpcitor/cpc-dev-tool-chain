@@ -126,7 +126,7 @@ $(CDTC_ENV_FOR_SDCC):
 
 %.generated_from_asm_exported_symbols.h %.rel: %.s Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf
 	( . $(CDTC_ENV_FOR_SDCC) ; \
-	set -xveu ; \
+	set -eu ; \
 	RELFILE="$(patsubst %.s,%.rel,$<)" ; \
 	OUTFILE="$(patsubst %.s,%.generated_from_asm_exported_symbols.h,$<)" ; \
 	if time sdasz80 -w -l -o -s "$$RELFILE" $< \
@@ -164,8 +164,8 @@ $(CDTC_ENV_FOR_SDCC):
 	sed -n 's|^S \([^\. ][^ ]*\) Def\([0-9A-F][0-9A-F][0-9A-F][0-9A-F]\)$$|\1 \2|p' <"$${RELFILE}" \
 	| while read LABEL ADDRESS ; do grep -q "^[[:space:]]*$$LABEL[[:space:]]*==" "$<" && echo "#define ASMCONST_$${LABEL} 0x$${ADDRESS}" ; done ; true ; \
 	} >"$${OUTFILE}.tmp" \
-	&& grep "^#define ASMCONST_" "$${OUTFILE}.tmp" ; \
-	then mv -vf "$${OUTFILE}.tmp" "$${OUTFILE}" ; else rm -f "$${OUTFILE}.tmp" ; fi \
+	&& grep -q "^#define ASMCONST_" "$${OUTFILE}.tmp" ; \
+	then mv -f "$${OUTFILE}.tmp" "$${OUTFILE}" ; else rm -f "$${OUTFILE}.tmp" ; fi \
 	)
 
 # If the project does "#include <stdio.h>" we link our putchar implementation. In theory someone might include stdio and prefer his own putchar implementation. If this happens to you, please tell, or even better offer a patch.

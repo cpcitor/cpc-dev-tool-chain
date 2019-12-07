@@ -162,7 +162,7 @@ $(CDTC_ENV_FOR_SDCC):
 	echo "// $<" ; \
 	echo ; \
 	sed -n 's|^S \([^\. ][^ ]*\) Def\([0-9A-F][0-9A-F][0-9A-F][0-9A-F]\)$$|\1 \2|p' <"$${RELFILE}" \
-	| while read LABEL ADDRESS ; do grep -q "^[[:space:]]*$$LABEL[[:space:]]*==" "$<" && echo "#define ASMCONST_$${LABEL} 0x$${ADDRESS}" ; done ; \
+	| while read LABEL ADDRESS ; do grep -q "^[[:space:]]*$$LABEL[[:space:]]*==" "$<" && echo "#define ASMCONST_$${LABEL} 0x$${ADDRESS}" ; done ; true ; \
 	} >"$${OUTFILE}.tmp" \
 	&& grep "^#define ASMCONST_" "$${OUTFILE}.tmp" ; \
 	then mv -vf "$${OUTFILE}.tmp" "$${OUTFILE}" ; else rm -f "$${OUTFILE}.tmp" ; fi \

@@ -1,10 +1,20 @@
 SHELL=/bin/bash
 
+VARIABLES_AT_MAKEFILE_START := $(.VARIABLES)
+
 HEX2BINSOURCETREE:=$(shell cat hex2bin_srctree.ref || echo ERROR)
 HEX2BINBUILDTREE:=$(HEX2BINSOURCETREE)
-HEX2BININSTALLTREE:=$(HEX2BINSOURCETREE)
 
-default: build_config.inc
+ifdef PREFIX
+HEX2BININSTALLTREE:=$(PREFIX)
+else
+HEX2BININSTALLTREE:=$(HEX2BINSOURCETREE).installtree
+$(warning PREFIX not set, will install to local tree)
+endif
+     
+TARGETS=build_config.inc
+
+default: $(TARGETS)
 
 test:
 	@echo -e "HEX2BINSOURCETREE=\\t$(HEX2BINSOURCETREE)"
@@ -19,6 +29,17 @@ $(HEX2BINBUILDTREE)/.built: hex2bin_srctree.ref
 	touch $@
 	@echo "************************************************************************"
 	@echo "**************** Build success in : $$(cat $<)"
+	@echo "************************************************************************"
+
+.PHONY: install
+
+install: $(HEX2BINBUILDTREE)/.built
+	@echo "************************************************************************"
+	@echo "**************** Installing in : $(<D)"
+	@echo "************************************************************************"
+	install -s -D -v --target-directory=$(PREFIX_BIN) $(<D)/hex2bin $(<D)/hex2bin
+	@echo "************************************************************************"
+	@echo "**************** Install success in : $(<D)"
 	@echo "************************************************************************"
 
 build_config.inc: $(HEX2BINBUILDTREE)/.built
@@ -40,3 +61,10 @@ mrproper: clean
 
 distclean: mrproper
 # we do nothing more but our caller does
+
+########################################################################
+# Debug the makefile
+########################################################################
+$(foreach v,                                        \
+  $(sort $(filter-out $(VARIABLES_AT_MAKEFILE_START) VARIABLES_AT_MAKEFILE_START,$(.VARIABLES))), \
+  $(info $(v) = $($(v))))

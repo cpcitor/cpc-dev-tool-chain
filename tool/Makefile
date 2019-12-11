@@ -15,7 +15,7 @@ install: $(ALL_CORE_TOOLS)
 	export PREFIX=$$( cd ../.. ; echo $$PWD/cpc-dev-tool-chain_tools_installed ; ) ; \
 	export PREFIX_BIN=$${PREFIX}/bin ; \
 	for TOOL in $(ALL_CORE_TOOLS) ; \
-	do make -C $$TOOL install ; \
+	do $(MAKE) -C $$TOOL install ; \
 	done ; )
 
 # tool/*/Makefile: ; \

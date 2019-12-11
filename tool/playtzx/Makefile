@@ -100,6 +100,19 @@ build_config.inc: $(BUILD_TARGET_FILE) Makefile
 #$(PRODUCT_NAME): $(BUILD_TARGET_FILE)
 #	cp -avf $< $@
 
+.PHONY: install
+
+install: $(BUILD_TARGET_FILE)
+	@ if [[ -z "$PREFIX_BIN" ]] ; then echo >&2 "PREFIX_BIN not set. Aborting." ; exit 1 ; fi
+	@echo "************************************************************************"
+	@echo "**************** Installing: $^"
+	@echo "************************************************************************"
+	install -s -D -v --target-directory=$(PREFIX_BIN) $(BUILD_TARGET_FILE)
+	@echo "************************************************************************"
+	@echo "**************** Configured and built in: $(@D)"
+	@echo "************************************************************************"
+
+
 clean:
 	-$(MAKE) -C "$(BUILD_DIR)" clean
 	-rm -f $(BUILD_TARGET_FILE)

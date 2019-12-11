@@ -15,7 +15,7 @@ all: $(TARGETS)
 PRODUCT_NAME=cpcxfs
 URL_RELEASE=http://cpctech.cpc-live.com/download/${PRODUCT_NAME}.zip
 
-# If the and of the URL does not make a suitable file name, set ARCHIVE_NAME to a suitable file name.
+# If the end of the URL does not make a suitable file name, set ARCHIVE_NAME to a suitable file name.
 # Example : URL ends in /download -> define ARCHIVE_NAME to something suitable
 # Example : URL ends in foo.tar.gz -> do not define ARCHIVE_NAME
 #ARCHIVE_NAME=$(PRODUCT_NAME)_latest.tgz
@@ -52,6 +52,10 @@ $(EXTRACT_DIR_NAME)/.unpacked: $(ARCHIVE_NAME)
 
 PATCHNAME=$(EXTRACT_DIR_NAME)_build_patch.patch
 
+.PHONY: patch
+
+patch: $(EXTRACT_DIR_NAME)/.patched
+
 ifeq ($(wildcard $(PATCHNAME)),)
 $(EXTRACT_DIR_NAME)/.patched: $(EXTRACT_DIR_NAME)/.unpacked
 	@echo "************************************************************************"
@@ -79,7 +83,8 @@ $(BUILD_TARGET_FILE): $(EXTRACT_DIR_NAME)/.patched
 	@echo "************************************************************************"
 	@echo "**************** Configuring and build in: $^"
 	@echo "************************************************************************"
-	( set -e ; $(MAKE) -C "$(BUILD_DIR)" --print-directory -f makefile.lnx ; touch "$@" ; )
+	$(MAKE) -C "$(BUILD_DIR)" --print-directory -f makefile.lnx
+	touch "$@"
 	@echo "************************************************************************"
 	@echo "**************** Configured and built in: $(@D)"
 	@echo "************************************************************************"
@@ -102,14 +107,14 @@ install: $(BUILD_TARGET_FILE)
 	@echo "************************************************************************"
 	@echo "**************** Installing: $^"
 	@echo "************************************************************************"
-	( set -e ; install -s -D -v --target-directory=$(PREFIX_BIN) $(BUILD_TARGET_FILE) ; )
+	install -s -D -v --target-directory=$(PREFIX_BIN) $(BUILD_TARGET_FILE)
 	@echo "************************************************************************"
 	@echo "**************** Configured and built in: $(@D)"
 	@echo "************************************************************************"
 
 
 clean:
-	-( set -e ; $(MAKE) -C "$(BUILD_DIR)" -f makefile.lnx clean ; )
+	-$(MAKE) -C "$(BUILD_DIR)" -f makefile.lnx clean
 	-rm -f $(BUILD_TARGET_FILE)
 
 mrproper:

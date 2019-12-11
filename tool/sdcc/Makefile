@@ -4,28 +4,33 @@ VARIABLES_AT_MAKEFILE_START := $(.VARIABLES)
 
 TARGETS=build_config.inc
 
+.PHONY: all
+
 all: $(TARGETS)
 
 ########################################################################
+# Variables to adjust at each new integrated project
+########################################################################
 
 # Tested release
+PRODUCT_NAME=sdcc
 URL_RELEASE=http://sourceforge.net/projects/sdcc/files/sdcc/3.9.0/sdcc-src-3.9.0.tar.bz2/download
 
 URL_DOWNLOAD=$(URL_RELEASE)
 
-sdcc.downloadlog.txt:
-	set -o pipefail ; wget -c -S $(URL_RELEASE) -O $@.downloadeddata 2>&1 | tee $@.tmp
+$(PRODUCT_NAME).downloadlog.txt:
+	set -o pipefail ; wget -c -S $(URL_RELEASE) -O $@.downloadeddata -o $@.tmp
 	mv -vf $@.tmp $@
 
-sdcc_tarball.ref: sdcc.downloadlog.txt
-	grep -i -o 'sdcc-[^:/]*.tar.bz2' $< | uniq >$@.tmp
+$(PRODUCT_NAME)_tarball.ref: $(PRODUCT_NAME).downloadlog.txt
+	grep -i -o '$(PRODUCT_NAME)-[^:/]*.tar.bz2' $< | uniq >$@.tmp
 	mv -vf $@.tmp $@
-	mv -vf $<.downloadeddata $$(cat $@)
+	mv -vf $<.downloadeddata $$(cat $@) || echo "Assuming downloaded data is already in place."
 	@echo "************************************************************************"
 	@echo "**************** Source archive was downloaded to : $$(cat $@)"
 	@echo "************************************************************************"
 
-sdcc_srctree.ref: sdcc_tarball.ref
+$(PRODUCT_NAME)_srctree.ref: $(PRODUCT_NAME)_tarball.ref
 	@echo "************************************************************************"
 	@echo "**************** Extracting source from : $$(cat $<)"
 	@echo "************************************************************************"
@@ -37,10 +42,10 @@ sdcc_srctree.ref: sdcc_tarball.ref
 	@echo "************************************************************************"
 
 distclean:
-	if [[ -f sdcc_srctree.ref ]] ; then $(MAKE) -f Makefile.havesourcetree $(MAKECMDGOALS) ; fi
+	if [[ -f $(PRODUCT_NAME)_srctree.ref ]] ; then $(MAKE) -f Makefile.havesourcetree $(MAKECMDGOALS) ; fi
 	rm -rf *.ref
 
-default test build_config.inc clean mrproper install: sdcc_srctree.ref
+default test build_config.inc clean mrproper install: $(PRODUCT_NAME)_srctree.ref
 	$(MAKE) -f Makefile.havesourcetree $(MAKECMDGOALS)
 
 ########################################################################

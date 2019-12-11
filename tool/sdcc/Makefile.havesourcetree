@@ -12,8 +12,6 @@ SDCCINSTALLTREE:=$(SDCCSOURCETREE).installtree
 $(warning PREFIX not set, will install to local tree)
 endif
      
-SDCCINSTALLTREE:=$(PREFIX)
-
 TARGETS=build_config.inc
 
 default: $(TARGETS)
@@ -50,8 +48,7 @@ install: $(SDCCBUILDTREE)/.built
 	@echo "************************************************************************"
 	@echo "**************** Installing in : $(<D)"
 	@echo "************************************************************************"
-	$(MAKE) -C "$(<D)" install && touch "$@"
-	# touch $@ # phony target, many files installed
+	$(MAKE) -C "$(<D)" install
 	@echo "************************************************************************"
 	@echo "**************** Install success in : $(<D)"
 	@echo "************************************************************************"

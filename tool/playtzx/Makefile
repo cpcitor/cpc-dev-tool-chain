@@ -26,7 +26,7 @@ EXTRACT_DIR_NAME=playtzx-0.12c
 # If only one generated executable file, set BUILD_TARGET_FILE to path to it.
 # It several generated executable files, do not set BUILD_TARGET_FILE.
 BUILD_DIR=$(EXTRACT_DIR_NAME)
-BUILD_TARGET_FILE=$(BUILD_DIR)/playtzx
+BUILD_TARGET_FILE=$(BUILD_DIR)/${PRODUCT_NAME}
 
 URL_DOWNLOAD=$(URL_RELEASE)
 

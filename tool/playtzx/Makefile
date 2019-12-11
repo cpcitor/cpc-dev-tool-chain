@@ -4,6 +4,8 @@ VARIABLES_AT_MAKEFILE_START := $(.VARIABLES)
 
 TARGETS=build_config.inc
 
+.PHONY: all
+
 all: $(TARGETS)
 
 ########################################################################
@@ -13,7 +15,7 @@ all: $(TARGETS)
 PRODUCT_NAME=playtzx
 URL_RELEASE=http://www.worldofspectrum.org/pub/sinclair/tools/unix/playtzx-0.12c.tar.gz
 
-# If the and of the URL does not make a suitable file name, set ARCHIVE_NAME to a suitable file name.
+# If the end of the URL does not make a suitable file name, set ARCHIVE_NAME to a suitable file name.
 # Example : URL ends in /download -> define ARCHIVE_NAME to something suitable
 # Example : URL ends in foo.tar.gz -> do not define ARCHIVE_NAME
 #ARCHIVE_NAME=$(PRODUCT_NAME)_latest.tgz
@@ -23,7 +25,8 @@ EXTRACT_DIR_NAME=playtzx-0.12c
 
 # If only one generated executable file, set BUILD_TARGET_FILE to path to it.
 # It several generated executable files, do not set BUILD_TARGET_FILE.
-BUILD_TARGET_FILE=$(EXTRACT_DIR_NAME)/playtzx
+BUILD_DIR=$(EXTRACT_DIR_NAME)
+BUILD_TARGET_FILE=$(BUILD_DIR)/playtzx
 
 URL_DOWNLOAD=$(URL_RELEASE)
 
@@ -47,6 +50,10 @@ $(EXTRACT_DIR_NAME)/.unpacked: $(ARCHIVE_NAME)
 	@echo "************************************************************************"
 
 PATCHNAME=$(EXTRACT_DIR_NAME)_build_patch.patch
+
+.PHONY: patch
+
+patch: $(EXTRACT_DIR_NAME)/.patched
 
 ifeq ($(wildcard $(PATCHNAME)),)
 $(EXTRACT_DIR_NAME)/.patched: $(EXTRACT_DIR_NAME)/.unpacked
@@ -75,7 +82,9 @@ $(BUILD_TARGET_FILE): $(EXTRACT_DIR_NAME)/.patched
 	@echo "************************************************************************"
 	@echo "**************** Configuring and build in: $^"
 	@echo "************************************************************************"
-	( set -e ; cd $(EXTRACT_DIR_NAME) ; ./configure ; LC_ALL=C $(MAKE) --print-directory ; )
+	( cd $(BUILD_DIR) ; ./configure ; )
+	$(MAKE) -C "$(BUILD_DIR)" --print-directory
+	touch "$@"
 	@echo "************************************************************************"
 	@echo "**************** Configured and built in: $(@D)"
 	@echo "************************************************************************"
@@ -92,7 +101,7 @@ build_config.inc: $(BUILD_TARGET_FILE) Makefile
 #	cp -avf $< $@
 
 clean:
-	-( set -e ; cd $(EXTRACT_DIR_NAME) ; $(MAKE) clean ; )
+	-$(MAKE) -C "$(BUILD_DIR)" clean
 	-rm -f $(BUILD_TARGET_FILE)
 
 mrproper:

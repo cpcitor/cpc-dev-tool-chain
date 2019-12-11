@@ -40,7 +40,7 @@ distclean:
 	if [[ -f sdcc_srctree.ref ]] ; then $(MAKE) -f Makefile.havesourcetree $(MAKECMDGOALS) ; fi
 	rm -rf *.ref
 
-default test build_config.inc clean mrproper: sdcc_srctree.ref
+default test build_config.inc clean mrproper install: sdcc_srctree.ref
 	$(MAKE) -f Makefile.havesourcetree $(MAKECMDGOALS)
 
 ########################################################################

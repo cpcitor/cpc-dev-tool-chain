@@ -4,7 +4,15 @@ VARIABLES_AT_MAKEFILE_START := $(.VARIABLES)
 
 SDCCSOURCETREE:=$(shell cat sdcc_srctree.ref || echo ERROR)
 SDCCBUILDTREE:=$(SDCCSOURCETREE).buildtree
+
+ifdef PREFIX
+SDCCINSTALLTREE:=$(PREFIX)
+else
 SDCCINSTALLTREE:=$(SDCCSOURCETREE).installtree
+$(warning PREFIX not set, will install to local tree)
+endif
+     
+SDCCINSTALLTREE:=$(PREFIX)
 
 TARGETS=build_config.inc
 
@@ -36,17 +44,19 @@ $(SDCCBUILDTREE)/.built: $(SDCCBUILDTREE)/.configured
 	@echo "**************** Build success in : $(<D)"
 	@echo "************************************************************************"
 
-$(SDCCINSTALLTREE)/.installed: $(SDCCBUILDTREE)/.built
+.PHONY: install
+
+install: $(SDCCBUILDTREE)/.built
 	@echo "************************************************************************"
 	@echo "**************** Installing in : $(<D)"
 	@echo "************************************************************************"
-	$(MAKE) -C "$(<D)" install
-	touch $@
+	$(MAKE) -C "$(<D)" install && touch "$@"
+	# touch $@ # phony target, many files installed
 	@echo "************************************************************************"
 	@echo "**************** Install success in : $(<D)"
 	@echo "************************************************************************"
 
-build_config.inc: $(SDCCINSTALLTREE)/.installed Makefile
+build_config.inc: install Makefile
 	(set -eu ; \
 	{ \
 	echo "# with bash do SOURCE this file to get a working sdcc config." ; \
@@ -61,7 +71,7 @@ clean:
 
 mrproper: clean
 	-rm -f $(TARGETS)
-	-rm -rf $(SDCCSOURCETREE) $(SDCCBUILDTREE) $(SDCCINSTALLTREE) *.ref
+	-rm -rf $(SDCCSOURCETREE) $(SDCCBUILDTREE) $(SDCCINSTALLTREE) *.ref sdcc.downloadlog.txt
 
 distclean: mrproper
 # we do nothing more but our caller does

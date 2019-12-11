@@ -4,6 +4,8 @@ VARIABLES_AT_MAKEFILE_START := $(.VARIABLES)
 
 TARGETS=build_config.inc
 
+.PHONY: all
+
 all: $(TARGETS)
 
 ########################################################################
@@ -23,7 +25,8 @@ EXTRACT_DIR_NAME=iDSK.0.13
 
 # If only one generated executable file, set BUILD_TARGET_FILE to path to it.
 # It several generated executable files, do not set BUILD_TARGET_FILE.
-BUILD_TARGET_FILE=$(EXTRACT_DIR_NAME)/iDSK/src/iDSK
+BUILD_DIR=$(EXTRACT_DIR_NAME)/iDSK
+BUILD_TARGET_FILE=$(BUILD_DIR)/src/${PRODUCT_NAME}
 
 URL_DOWNLOAD=$(URL_RELEASE)
 
@@ -47,6 +50,10 @@ $(EXTRACT_DIR_NAME)/.unpacked: $(ARCHIVE_NAME)
 	@echo "************************************************************************"
 
 PATCHNAME=$(EXTRACT_DIR_NAME)_build_patch.patch
+
+.PHONY: patch
+
+patch: $(EXTRACT_DIR_NAME)/.patched
 
 ifeq ($(wildcard $(PATCHNAME)),)
 $(EXTRACT_DIR_NAME)/.patched: $(EXTRACT_DIR_NAME)/.unpacked
@@ -75,7 +82,9 @@ $(BUILD_TARGET_FILE): $(EXTRACT_DIR_NAME)/.patched
 	@echo "************************************************************************"
 	@echo "**************** Configuring and build in: $^"
 	@echo "************************************************************************"
-	( set -e ; cd $(EXTRACT_DIR_NAME)/iDSK ; ./configure ; LC_ALL=C $(MAKE) --print-directory ; )
+	( cd $(BUILD_DIR) ; ./configure ; )
+	$(MAKE) -C "$(BUILD_DIR)" --print-directory
+	touch "$@"
 	@echo "************************************************************************"
 	@echo "**************** Configured and built in: $(@D)"
 	@echo "************************************************************************"
@@ -92,7 +101,7 @@ build_config.inc: $(BUILD_TARGET_FILE) Makefile
 #	cp -avf $< $@
 
 clean:
-	-( set -e ; cd $(EXTRACT_DIR_NAME)/iDSK ; $(MAKE) clean ; )
+	-$(MAKE) -C "$(BUILD_DIR)" clean
 	-rm -f $(BUILD_TARGET_FILE)
 
 mrproper:

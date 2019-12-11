@@ -26,7 +26,7 @@ EXTRACT_DIR_NAME=$(PRODUCT_NAME)
 # If only one generated executable file, set BUILD_TARGET_FILE to path to it.
 # It several generated executable files, do not set BUILD_TARGET_FILE.
 BUILD_DIR=$(EXTRACT_DIR_NAME)/
-BUILD_TARGET_FILE=$(BUILD_DIR)/addhead
+BUILD_TARGET_FILE=$(BUILD_DIR)/${PRODUCT_NAME}
 
 URL_DOWNLOAD=$(URL_RELEASE)
 
@@ -78,7 +78,7 @@ $(BUILD_TARGET_FILE): $(EXTRACT_DIR_NAME)/.patched
 	@echo "************************************************************************"
 	@echo "**************** Configuring and build in: $^"
 	@echo "************************************************************************"
-	( set -e ; cd $(BUILD_DIR) ; LC_ALL=C $(MAKE) --print-directory ; )
+	( set -e ; ( cd $(BUILD_DIR) ; $(MAKE) --print-directory ; ) && touch "$@" ; )
 	@echo "************************************************************************"
 	@echo "**************** Configured and built in: $(@D)"
 	@echo "************************************************************************"

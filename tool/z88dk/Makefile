@@ -11,7 +11,7 @@ all: $(TARGETS)
 ########################################################################
 
 PRODUCT_NAME=z88dk
-URL_RELEASE=https://sourceforge.net/projects/z88dk/files/z88dk/1.99B/z88dk-src-1.99B.zip/download
+URL_RELEASE=https://github.com/z88dk/z88dk/releases/download/v1.99c/z88dk-src-1.99C.tgz
 #URL_LATESTRELEASE=http://sourceforge.net/projects/z88dk/files/latest/download?source=files
 #URL_NIGHTLY=http://nightly.z88dk.org/z88dk-latest.tgz
 
@@ -42,7 +42,7 @@ $(EXTRACT_DIR_NAME)/.unpacked: $(ARCHIVE_NAME)
 	@echo "************************************************************************"
 	@echo "**************** Extracting source from: $^"
 	@echo "************************************************************************"
-	unzip $<
+	tar zxvf $<
 	chmod -c a+x $(@D)/*.sh
 	touch $@
 	@echo "************************************************************************"
@@ -83,7 +83,7 @@ $(BUILD_TARGET_FILE): $(EXTRACT_DIR_NAME)/.patched
 	@echo "**************** Configuring and build in: $^"
 	@echo "************************************************************************"
 	./z88dk_prerequisites_check.sh
-	(set -e ; ( cd "$(@D)" ; LC_ALL=C ./build.sh ; ) ; touch $@ ; )
+	( set -e ; ( cd "$(@D)" ; LC_ALL=C ./build.sh ; ) ; touch $@ ; )
 	@echo "************************************************************************"
 	@echo "**************** Configured and built in: $(@D)"
 	@echo "************************************************************************"

@@ -30,6 +30,7 @@ addons:
     - libboost-dev
     - libncurses-dev
     - astyle
+    - zlib1g-dev
 #To uncomment in case a core occurs:
 #    - gdb
 before_script:

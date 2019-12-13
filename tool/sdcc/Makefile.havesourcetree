@@ -7,6 +7,7 @@ SDCCBUILDTREE:=$(SDCCSOURCETREE).buildtree
 
 ifdef PREFIX
 SDCCINSTALLTREE:=$(PREFIX)
+$(warning using PREFIX=$(PREFIX))
 else
 SDCCINSTALLTREE:=$(SDCCSOURCETREE).installtree
 $(warning PREFIX not set, will install to local tree)
@@ -58,7 +59,7 @@ build_config.inc: install Makefile
 	{ \
 	echo "# with bash do SOURCE this file to get a working sdcc config." ; \
 	cd "$(<D)" ; \
-	echo "export PATH=\"\$${PATH}:$$PWD/bin\"" ; \
+	echo "export PATH=\"\$${PATH}:$$PWD/${SDCCINSTALLTREE}/bin\"" ; \
 	} >$@ ; )
 
 clean:
@@ -68,10 +69,11 @@ clean:
 
 mrproper: clean
 	-rm -f $(TARGETS)
-	-rm -rf $(SDCCSOURCETREE) $(SDCCBUILDTREE) $(SDCCINSTALLTREE) *.ref sdcc.downloadlog.txt
+	-rm -rf $(SDCCSOURCETREE) $(SDCCBUILDTREE) $(SDCCINSTALLTREE) *.ref
 
 distclean: mrproper
-# we do nothing more but our caller does
+	-rm -f sdcc.downloadlog.txt
+
 
 ########################################################################
 # Debug the makefile

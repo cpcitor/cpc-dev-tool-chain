@@ -38,7 +38,7 @@ Optional: you can open and adjust the generated `cdtc_project.conf`.
 
 Open an editor or just copy-paste this line:
 
-	{ echo "#include <stdio.h>" ; echo "int main() { printf(\"Hello World, hello $USER.\\n\"); while (1) {} ; return 0; }" ; } >hello.c
+	{ echo "#include <stdio.h>" ; echo "int main() { printf(\"Hello World, hello ${USER:-you}.\\n\"); while (1) {} ; return 0; }" ; } >hello.c
 
 Let's check the result.
 

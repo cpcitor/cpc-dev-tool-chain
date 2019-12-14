@@ -60,9 +60,73 @@ all: $(TARGETS)
 
 # /usr/include/freetype2/ft2build.h
 # /usr/include/SDL/SDL.h
-TOOLS=git:git wget:wget make:make patch:patch gcc:gcc bzip2:bzip2 unzip:unzip g++:g++ makeinfo:texinfo bison:bison flex:flex /usr/include/boost/version.hpp:libboost-all-dev sdl-config:libsdl1.2-dev pkgconf:pkgconf /usr/lib/x86_64-linux-gnu/pkgconfig/freetype2.pc:libfreetype6-dev ncurses5-config:libncurses-dev
+TOOLS=\
+mandatory:git:git \
+mandatory:wget:wget \
+mandatory:make:make \
+mandatory:patch:patch \
+mandatory:gcc:gcc \
+mandatory:bzip2:bzip2 \
+mandatory:unzip:unzip \
+mandatory:g++:g++ \
+mandatory:makeinfo:texinfo \
+mandatory:bison:bison \
+mandatory:flex:flex \
+mandatory:/usr/include/boost/version.hpp:libboost-all-dev \
+mandatory:/usr/include/zlib.h:zlib1g-dev \
+optional:sdl-config:libsdl1.2-dev \
+optional:pkgconf:pkgconf \
+optional:/usr/lib/x86_64-linux-gnu/pkgconfig/freetype2.pc:libfreetype6-dev \
+mandatory:ncurses5-config:libncurses-dev \
+
 .build_dependencies_checked:
-	MISSING="" ; for TOOLNP in $(TOOLS) ; do IFS=: read FNAME PNAME <<< "$$TOOLNP" ; echo -ne "Checking for $$FNAME \011of $$PNAME...  \0011" ; { which $$FNAME || stat --format="%n" $$FNAME ; } || { MISSING="$$MISSING $$TOOLNP" ; echo "not found" ; } ; done ; if [[ -n "$$MISSING" ]] ; then echo ; echo ; echo "################################" ; echo "Some tools are missing: " ; echo "$$MISSING " | sed 's/:[^:]* / /g' ; echo ; echo "Suggested action:" ; echo ; echo -n "sudo apt-get install " ; echo " $$MISSING " | sed 's/ [^:]*:/ /g' ; echo ; echo "Or the equivalent for your environment (yum, cygwin, etc)." ; echo ; echo "*** If you have installed things manually and believe the build can go on without all tools, you can override this check with the command line below: ***" ; echo "More information on https://github.com/cpcitor/cpc-dev-tool-chain/blob/master/documentation/how_to_install.md#user-content-do-i-need-to-prepare-my-system-" ; echo "touch $$PWD/$@" ; echo ; echo "################################" ; else echo "######## All tools found. ########" ; touch $@ ; fi
+	@( set -eu ; echo ; echo ; \
+	echo "############################################################" ; \
+        echo "########  Sanity check for possibly needed tools.   ########" ; \
+	echo "############################################################" ; \
+        echo ; \
+	declare -A MISSING ; \
+	for TOOLNP in $(TOOLS) ; \
+	do IFS=: read LEVEL FNAME PNAME <<< "$$TOOLNP" ; \
+	   echo -ne "Checking for $$FNAME \011of $$PNAME...  \0011" ; \
+	   { which $$FNAME || stat --format="%n" $$FNAME ; \
+	   } || { echo "**** not found ($$LEVEL): $$FNAME ****" ; \
+	        MISSING[$$LEVEL]="$${MISSING[$$LEVEL]:-} $$FNAME:$$PNAME" ; \
+	   } ; \
+	done ; \
+        for LEVEL in "$${!MISSING[@]}" ; \
+        do \
+            MISSING_AT_THIS_LEVEL="$${MISSING[$$LEVEL]}" ; \
+            echo LAVAL=$$LEVEL MISSING_AT_THIS_LEVEL=$$MISSING_AT_THIS_LEVEL ; \
+	if [[ -n "$$MISSING_AT_THIS_LEVEL" ]] ; \
+	then echo ; \
+	     echo ; \
+	     echo "################################" ; \
+	     echo "Some **$$LEVEL** tools are missing: " ; \
+	     echo "$$MISSING_AT_THIS_LEVEL " | sed 's/:[^:]* / /g' ; \
+	     echo ; \
+	     echo "Suggested action:" ; \
+	     echo ; \
+	     echo -n "sudo apt-get install " ; \
+	     echo " $$MISSING_AT_THIS_LEVEL " | sed 's/ [^:]*:/ /g' ; \
+	     echo ; \
+	     echo "Or the equivalent for your environment (yum, cygwin, etc)." ; \
+	     echo ; \
+	     echo "*** If you have installed things manually and believe the build can go on without all tools, you can override this check with the command line below: ***" ; \
+	     echo "More information on https://github.com/cpcitor/cpc-dev-tool-chain/blob/master/documentation/how_to_install.md#user-content-do-i-need-to-prepare-my-system-" ; \
+	     echo "touch $$PWD/$@" ; \
+	     echo ; \
+	     echo "################################" ; \
+        fi ; \
+        done ; \
+	if [[ -z "$${MISSING[mandatory]:-}" ]] ; \
+        then echo ; \
+	     echo "############################################################" ; \
+             echo "######## All mandatory tools found, we can proceed. ########" ; \
+	     echo "############################################################" ; \
+	     touch $@ ; \
+        else exit 42 ; \
+	fi ; )
 
 bin: .build_dependencies_checked $(BINS)
 dsk: .build_dependencies_checked $(DSKNAME)

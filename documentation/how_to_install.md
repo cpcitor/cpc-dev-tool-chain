@@ -34,13 +34,13 @@ For the widespread tools, use your distribution's package manager, for example o
 
 	{
     APT="sudo apt-get --no-install-recommends --assume-yes install"
-    ${APT:?} git ca-certificates                    # to fetch the rest
-    ${APT:?} wget make patch gcc                    # common tools
-    ${APT:?} bzip2                                  # for hex2bin and sdcc
-    ${APT:?} unzip                                  # for addhead
-    ${APT:?} g++ texinfo bison flex libboost-dev    # for sdcc
-    ${APT:?} libsdl1.2-dev pkgconf libfreetype6-dev # for caprice32
-    ${APT:?} libncurses-dev                         # for cpcxfs
+    ${APT:?} git ca-certificates                    		# to fetch the rest
+    ${APT:?} wget make patch gcc                    		# common tools
+    ${APT:?} g++ texinfo bison flex libboost-dev zlib1g-dev # for sdcc compiler
+    ${APT:?} bzip2                                  		# for hex2bin and sdcc
+    ${APT:?} unzip                                  		# for addhead
+    ${APT:?} libncurses-dev                         		# for cpcxfs
+    ${APT:?} libsdl1.2-dev pkgconf libfreetype6-dev 		# for caprice32 emulator (optional)
 	}
 
 #### Generic instructions

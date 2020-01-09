@@ -455,7 +455,7 @@ clean:
 	-rm -f *.lk *.noi *.rel *.asm *.ihx *.lst *.map *.sym *.rst *.bin.log *.lib *.tmp *.binamsdos *.binamsdos.log $(TARGETS)
 	-rm -f */*.lk */*.noi */*.rel */*.asm */*.ihx */*.lst */*.map */*.sym */*.rst */*.bin.log */*.tmp
 	-rm -f */*/*.lk */*/*.noi */*/*.rel */*/*.asm */*/*.ihx */*/*.lst */*/*.map */*/*.sym */*/*.rst */*/*.bin.log */*/*.tmp
-	-rm -f *~ */*~ */*/*~
+	-rm -f *~ */*~ */*/*~ ./#*# */#*#
 	-rm -f *.generated_from_asm_exported_symbols.h */*.generated_from_asm_exported_symbols.h
 distclean: clean
 

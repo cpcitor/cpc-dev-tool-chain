@@ -76,6 +76,8 @@ build_config.inc: $(BUILD_TARGET_FILE) Makefile
 	echo "# with bash do \"source\" this file." ; \
 	cd "$(<D)" ; \
 	echo "export PATH=\"\$${PATH}:$$PWD\"" ; \
+	cd ../bin ; \
+	echo "export PATH=\"\$${PATH}:$$PWD\"" ; \
 	} >$@ ; )
 
 run: build_config.inc roms

@@ -117,6 +117,7 @@ int main(int argc, const char **argv)
         {
             fprintf(stderr,
                     "png2cpcsprite: invalid mode, must be single character, not '%s'.\n", s_crtc_mode);
+            exit(1);
         }
     }
 

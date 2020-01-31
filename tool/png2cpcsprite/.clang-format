@@ -1,0 +1,6 @@
+UseTab: Never
+IndentWidth: 8
+ContinuationIndentWidth: 8
+BreakBeforeBraces: Allman
+AllowShortIfStatementsOnASingleLine: false
+IndentCaseLabels: false

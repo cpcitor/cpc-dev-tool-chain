@@ -278,6 +278,33 @@ int main(int argc, const char **argv)
                "of sprite data, will write them to output file '%s'.\n",
                sprite_bytes, output_file_name);
 
+        const char *symbol_name;
+        if (argc >= 5)
+        {
+                symbol_name = argv[4];
+                printf("Symbol name supplied on command line: '%s'.\n",
+                       symbol_name);
+        }
+        else
+        {
+                printf("No symbol name supplied on command line.\n");
+
+                char *last_part_of_input_file_name =
+                        rindex(input_file_name, '/');
+                if (last_part_of_input_file_name == NULL)
+                {
+                        last_part_of_input_file_name = input_file_name;
+                }
+                else
+                {
+                        last_part_of_input_file_name++;
+                }
+
+                symbol_name = strdup(last_part_of_input_file_name);
+        }
+
+        printf("Will use symbol name '%s'\n", symbol_name);
+
         FILE *output_file = fopen(output_file_name, "w");
 
         if (output_file == NULL)

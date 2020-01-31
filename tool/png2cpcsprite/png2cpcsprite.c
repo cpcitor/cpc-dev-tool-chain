@@ -5,6 +5,64 @@
 #include <png.h>
 #include <zlib.h>
 
+png_bytep read_png(const char* const input_file_name, png_image *image)
+{
+    memset(image, 0, (sizeof *image));
+    image->version = PNG_IMAGE_VERSION;
+    image->opaque = NULL;
+
+    {
+        printf("Will read from %s\n", input_file_name);
+
+        /* The first argument is the file to read: */
+        if (png_image_begin_read_from_file(image, input_file_name) == 0)
+        {
+            fprintf(stderr, "png2cpcsprite: error: %s\n", image->message);
+            exit(1);
+        }
+    }
+
+    printf("Started decoding, found dimensions %u x %u, %u colors.\n", image->width, image->height, image->colormap_entries);
+
+    png_bytep buffer, buffer_for_colormap;
+
+    image->format = PNG_FORMAT_RGB_COLORMAP;
+
+    {
+        size_t buffer_size = PNG_IMAGE_SIZE(*image);
+        buffer = malloc(buffer_size);
+
+        if (buffer == NULL)
+        {
+            fprintf(stderr, "png2cpcsprite: could not allocate %lu bytes for image", buffer_size);
+            // Yes, we don't cleanup.  Quick and dirty!
+            exit(1);
+        }
+    }
+
+    {
+        size_t colormap__size = PNG_IMAGE_COLORMAP_SIZE(*image);
+        buffer_for_colormap = malloc(colormap__size);
+
+        if (buffer == NULL)
+        {
+            fprintf(stderr, "png2cpcsprite: could not allocate %lu bytes for colormap", colormap__size);
+            // Yes, we don't cleanup.  Quick and dirty!
+            exit(1);
+        }
+    }
+
+    if (png_image_finish_read(image, NULL/*background*/, buffer,
+                              0/*row_stride*/, buffer_for_colormap) == 0)
+    {
+        fprintf(stderr, "png2cpcsprite: error: %s\n", image->message);
+        // Yes, we don't cleanup.  Quick and dirty!
+        exit(1);
+    }
+
+    return buffer;
+}
+
 int main(int argc, const char **argv)
 {
     if (argc != 4)
@@ -25,60 +83,10 @@ int main(int argc, const char **argv)
         exit(2);
     }
 
+    const char* const input_file_name=argv[1];
     png_image image;
-    memset(&image, 0, (sizeof image));
-    image.version = PNG_IMAGE_VERSION;
-    image.opaque = NULL;
 
-    {
-        const char* const input_file_name=argv[1];
-        printf("Will read from %s\n", input_file_name);
-
-        /* The first argument is the file to read: */
-        if (png_image_begin_read_from_file(&image, input_file_name) == 0)
-        {
-            fprintf(stderr, "png2cpcsprite: error: %s\n", image.message);
-            exit(1);
-        }
-    }
-
-    printf("Started decoding, found dimensions %u x %u, %u colors.\n", image.width, image.height, image.colormap_entries);
-
-    png_bytep buffer, buffer_for_colormap;
-
-    image.format = PNG_FORMAT_RGB_COLORMAP;
-
-    {
-        size_t buffer_size = PNG_IMAGE_SIZE(image);
-        buffer = malloc(buffer_size);
-
-        if (buffer == NULL)
-        {
-            fprintf(stderr, "png2cpcsprite: could not allocate %lu bytes for image", buffer_size);
-            // Yes, we don't cleanup.  Quick and dirty!
-            exit(1);
-        }
-    }
-
-    {
-        size_t colormap__size = PNG_IMAGE_COLORMAP_SIZE(image);
-        buffer_for_colormap = malloc(colormap__size);
-
-        if (buffer == NULL)
-        {
-            fprintf(stderr, "png2cpcsprite: could not allocate %lu bytes for colormap", colormap__size);
-            // Yes, we don't cleanup.  Quick and dirty!
-            exit(1);
-        }
-    }
-
-    if (png_image_finish_read(&image, NULL/*background*/, buffer,
-                              0/*row_stride*/, buffer_for_colormap) == 0)
-    {
-        fprintf(stderr, "png2cpcsprite: error: %s\n", image.message);
-        // Yes, we don't cleanup.  Quick and dirty!
-        exit(1);
-    }
+    png_bytep buffer = read_png(input_file_name, &image);
 
     printf("Finished decoding. Processing.\n");
 

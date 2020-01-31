@@ -345,7 +345,7 @@ int main(int argc, const char **argv)
 
                         fprintf(output_file, "0x%02x", byte);
                 }
-                
+
                 fprintf(output_file, "\n");
         }
 

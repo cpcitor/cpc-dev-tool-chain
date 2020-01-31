@@ -14,12 +14,17 @@ void show_usage()
                 "Convert a PNG image into a binary representation suitable for "
                 "display by an Amstrad CPC hardware or emulator.\n"
                 "\n"
-                "usage: png2cpcsprite input-file.png mode output-file.bin\n"
+                "Currently the only output format supported is a .rel file, "
+                "just like the SDCC object (relocatable) output format that "
+                "SDCC generates from C or ASM source files."
+                "\n"
+                "usage: png2cpcsprite input-file.png output-file.rel mode\n"
                 "\n"
                 "* input-file.png must be an image in PNG format with a "
                 "  palette (colormap)\n"
+                "* output-file.rel name of output file\n"
                 "* mode is cpc mode 0 1 or 2\n"
-                "* the actual palette is ignored by this program\n");
+                "Notice: the actual palette is ignored by this program\n");
 }
 
 png_bytep read_png(const char *const input_file_name, png_image *image,
@@ -214,7 +219,33 @@ int main(int argc, const char **argv)
                 }
         }
 
+        const char *const output_file_name = argv[2];
+        
+        printf(
+                                "Generated %u bytes "
+                                "of sprite data, will write them to .\n",
+                                sprite_bytes, w - sprite_buffer, w,
+                                sprite_buffer + sprite_bytes);
+
+        
         write(1, sprite_buffer, sprite_bytes);
 
+        fopen(
+XL2
+H 1 areas 1 global symbols
+S .__.ABS. Def0000
+A _CODE size 3C flags 0 addr 0
+T 00 00 01 02 03 04 05 06 07 08 09 0A 01 02 03 04
+R 00 00 00 00
+T 0E 00 05 06 07 08 09 0A 01 02 03 04 05 06 07 08
+R 00 00 00 00
+T 1C 00 09 0A 01 02 03 04 05 06 07 08 09 0A 01 02
+R 00 00 00 00
+T 2A 00 03 04 05 06 07 08 09 40 01 02 03 04 05 06
+R 00 00 00 00
+T 38 00 07 08 09 0A
+R 00 00 00 00
+
+        
         exit(0);
 }

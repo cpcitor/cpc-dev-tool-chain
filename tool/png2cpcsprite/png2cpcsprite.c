@@ -90,5 +90,32 @@ int main(int argc, const char **argv)
 
     printf("Finished decoding. Processing.\n");
 
+    int crtc_mode;
+
+    {
+        const char *const s_crtc_mode = argv[2];
+
+        switch (s_crtc_mode[0])
+        {
+        case '0':
+        case '1':
+        case '2':
+            crtc_mode = s_crtc_mode[0]-48;
+            break;
+        default:
+            fprintf(stderr,
+                    "png2cpcsprite: mode must be single character, not '%s'.\n", s_crtc_mode);
+            exit(1);
+        }
+
+        if (s_crtc_mode[1])
+        {
+            fprintf(stderr,
+                    "png2cpcsprite: invalid mode, must be single character, not '%s'.\n", s_crtc_mode);
+        }
+    }
+
+    printf("Will generate a sprite representation %u x %u pixels in mode %u.\n", image.width, image.height, crtc_mode);
+
     exit(0);
 }

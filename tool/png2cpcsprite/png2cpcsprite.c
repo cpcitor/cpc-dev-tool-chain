@@ -121,6 +121,27 @@ int main(int argc, const char **argv)
         }
     }
 
+    unsigned int width_bytes = image.width >> (crtc_mode+1);
+
+    unsigned int width_pixels = width_bytes << (crtc_mode+1);
+
+    if (width_pixels != image.width)
+    {
+        fprintf(stderr,
+                "png2cpcsprite: "
+                "in the selected CPC mode %u, "
+                "image width %u "
+                "does not make an integral number of bytes (around %u), "
+                "as they make %u pixels, not %u.",
+                crtc_mode,
+                image.width,
+                width_bytes,
+                width_pixels,
+                image.width
+                );
+        exit(1);
+    }
+
     printf("Will generate a sprite representation %u x %u pixels in mode %u.\n", image.width, image.height, crtc_mode);
 
     exit(0);

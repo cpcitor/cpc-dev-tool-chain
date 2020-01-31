@@ -280,7 +280,36 @@ int main(int argc, const char **argv)
 
         FILE *output_file = fopen(output_file_name, "w");
 
-        fprintf(output_file, "coucou");
+        if (output_file == NULL)
+        {
+                fprintf(stderr,
+                        "png2cpcsprite: error: could not open output file "
+                        "'%s'.",
+                        output_file_name);
+                // Yes, we don't cleanup.  Quick and dirty!
+                exit(1);
+        }
+
+        {
+                u_int8_t *b = sprite_buffer;
+                for (size_t counter = 0; counter < sprite_bytes; counter++)
+                {
+                        u_int8_t byte = *(b++);
+
+                        if (counter % 12 == 0) // FIXME should not hardcode 12.
+                        {
+                                fprintf(output_file, "\n\t.byte ");
+                        }
+                        else
+                        {
+                                fprintf(output_file, ", ");
+                        }
+
+                        fprintf(output_file, "0x%02x", byte);
+                }
+                
+                fprintf(output_file, "\n");
+        }
 
         fclose(output_file);
 

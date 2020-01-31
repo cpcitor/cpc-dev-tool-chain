@@ -14,17 +14,27 @@ void show_usage()
                 "Convert a PNG image into a binary representation suitable for "
                 "display by an Amstrad CPC hardware or emulator.\n"
                 "\n"
-                "Currently the only output format supported is a .rel file, "
-                "just like the SDCC object (relocatable) output format that "
-                "SDCC generates from C or ASM source files."
+                "Currently the only output format supported is a generated "
+                "assembly file, with symbols."
                 "\n"
-                "usage: png2cpcsprite input-file.png output-file.rel mode\n"
+                "usage: png2cpcsprite input-file.png output-file.generated.s "
+                "symbol_name mode\n"
                 "\n"
-                "* input-file.png must be an image in PNG format with a "
+                "* input-file.png (mandatory) must be an image in PNG format "
+                "with a "
                 "  palette (colormap)\n"
-                "* output-file.rel name of output file\n"
-                "* mode is cpc mode 0 1 or 2\n"
-                "Notice: the actual palette is ignored by this program\n");
+                "* output-file.generated.s (mandatory) name of output file\n"
+                "* symbol_name (optional) assembly-level symbol for the "
+                "generated file\n"
+                "* mode (optional) is cpc mode 0 1 or 2. If not supplied, will "
+                "be guessed "
+                "from palette count.\n"
+                "\n"
+                "Notice: \n"
+                "* The actual palette is ignored by this program.\n"
+                "* The generated ASM includes symbols for dimensions, byte "
+                "width, pixel width, height, size, and mode.\n"
+                "\n");
 }
 
 png_bytep read_png(const char *const input_file_name, png_image *image,
@@ -92,10 +102,32 @@ png_bytep read_png(const char *const input_file_name, png_image *image,
         return buffer;
 }
 
+u_int8_t guess_crtc_mode_based_on_colormap_entry_count(int colormap_entries)
+{
+        if (colormap_entries < 2)
+        {
+                fprintf(stderr, "Warning: strange image with less than 2 "
+                                "colors in colormap, moving along anyway.\n");
+        }
+        if (colormap_entries == 2)
+                return 2;
+        if (colormap_entries <= 4)
+                return 1;
+        if (colormap_entries <= 16)
+                return 0;
+        fprintf(stderr, "Error: too many colors (%u) for the CPC, aborting.",
+                colormap_entries);
+        exit(1);
+}
+
 int main(int argc, const char **argv)
 {
-        if (argc != 4)
+        if ((argc < 3) || (argc > 5))
         {
+                fprintf(stderr,
+                        "png2cpcsprite: "
+                        "Error: between 2 and 4 arguments expected, got %u.",
+                        argc - 1);
                 show_usage();
                 exit(2);
         }
@@ -106,12 +138,14 @@ int main(int argc, const char **argv)
 
         png_bytep buffer = read_png(input_file_name, &image, &buffer_size);
 
-        printf("Finished decoding. Processing.\n");
+        printf("Finished decoding PNG. Processing.\n");
 
         int crtc_mode;
 
+        if (argc >= 4)
         {
-                const char *const s_crtc_mode = argv[2];
+                printf("CRTC mode apparently supplied on command line.\n");
+                const char *const s_crtc_mode = argv[3];
 
                 switch (s_crtc_mode[0])
                 {
@@ -138,6 +172,16 @@ int main(int argc, const char **argv)
                         exit(1);
                 }
         }
+        else
+        {
+                printf("CRTC mode not supplied on command line, guessing from "
+                       "colormap count (%u entries).\n",
+                       image.colormap_entries);
+                crtc_mode = guess_crtc_mode_based_on_colormap_entry_count(
+                        image.colormap_entries);
+        }
+
+        printf("CRTC mode selected: %u.\n", crtc_mode);
 
         unsigned int width_bytes = image.width >> (crtc_mode + 1);
 
@@ -202,8 +246,8 @@ int main(int argc, const char **argv)
                 {
                         fprintf(stderr,
                                 "png2cpcsprite: warning: did not consume "
-                                "exacly all %u bytes "
-                                "of input buffer, actually %lu (%lu != %lu).\n",
+                                "exacly all %lu bytes "
+                                "of input buffer, actually %lu (%p != %p).\n",
                                 buffer_size, w - buffer, w,
                                 buffer + buffer_size);
                 }
@@ -213,39 +257,17 @@ int main(int argc, const char **argv)
                         fprintf(stderr,
                                 "png2cpcsprite: warning: did not produce "
                                 "exacly the expected %u bytes "
-                                "of sprite data, actually %lu (%lu != %lu).\n",
+                                "of sprite data, actually %lu (%p != %p).\n",
                                 sprite_bytes, w - sprite_buffer, w,
                                 sprite_buffer + sprite_bytes);
                 }
         }
 
         const char *const output_file_name = argv[2];
-        
-        printf(
-                                "Generated %u bytes "
-                                "of sprite data, will write them to .\n",
-                                sprite_bytes, w - sprite_buffer, w,
-                                sprite_buffer + sprite_bytes);
 
-        
-        write(1, sprite_buffer, sprite_bytes);
+        printf("Generated %u bytes "
+               "of sprite data, will write them to output.\n",
+               sprite_bytes);
 
-        fopen(
-XL2
-H 1 areas 1 global symbols
-S .__.ABS. Def0000
-A _CODE size 3C flags 0 addr 0
-T 00 00 01 02 03 04 05 06 07 08 09 0A 01 02 03 04
-R 00 00 00 00
-T 0E 00 05 06 07 08 09 0A 01 02 03 04 05 06 07 08
-R 00 00 00 00
-T 1C 00 09 0A 01 02 03 04 05 06 07 08 09 0A 01 02
-R 00 00 00 00
-T 2A 00 03 04 05 06 07 08 09 40 01 02 03 04 05 06
-R 00 00 00 00
-T 38 00 07 08 09 0A
-R 00 00 00 00
-
-        
         exit(0);
 }

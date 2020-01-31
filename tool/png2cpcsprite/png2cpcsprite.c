@@ -317,6 +317,17 @@ int main(int argc, const char **argv)
                 exit(1);
         }
 
+        fprintf(output_file, ".module %s_module\n\n", symbol_name);
+
+        fprintf(output_file, "%s_bytes == 0x%04x\n", symbol_name, sprite_bytes);
+        fprintf(output_file, "%s_height == %d\n", symbol_name, image.height);
+        fprintf(output_file, "%s_pixels_per_line == %d\n", symbol_name,
+                width_pixels);
+        fprintf(output_file, "%s_bytes_per_line == %d\n", symbol_name,
+                width_bytes);
+
+        fprintf(output_file, "%s_data::\n", symbol_name);
+
         {
                 u_int8_t *b = sprite_buffer;
                 for (size_t counter = 0; counter < sprite_bytes; counter++)

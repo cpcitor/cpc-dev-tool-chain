@@ -22,7 +22,8 @@ void show_usage()
                 "* the actual palette is ignored by this program\n");
 }
 
-png_bytep read_png(const char *const input_file_name, png_image *image)
+png_bytep read_png(const char *const input_file_name, png_image *image,
+                   size_t *buffer_size)
 {
         memset(image, 0, (sizeof *image));
         image->version = PNG_IMAGE_VERSION;
@@ -47,19 +48,17 @@ png_bytep read_png(const char *const input_file_name, png_image *image)
 
         image->format = PNG_FORMAT_RGB_COLORMAP;
 
-        {
-                size_t buffer_size = PNG_IMAGE_SIZE(*image);
-                buffer = malloc(buffer_size);
+        *buffer_size = PNG_IMAGE_SIZE(*image);
+        buffer = malloc(*buffer_size);
 
-                if (buffer == NULL)
-                {
-                        fprintf(stderr,
-                                "png2cpcsprite: could not allocate %lu bytes "
-                                "for image",
-                                buffer_size);
-                        // Yes, we don't cleanup.  Quick and dirty!
-                        exit(1);
-                }
+        if (buffer == NULL)
+        {
+                fprintf(stderr,
+                        "png2cpcsprite: could not allocate %lu bytes "
+                        "for image",
+                        *buffer_size);
+                // Yes, we don't cleanup.  Quick and dirty!
+                exit(1);
         }
 
         {
@@ -98,8 +97,9 @@ int main(int argc, const char **argv)
 
         const char *const input_file_name = argv[1];
         png_image image;
+        size_t buffer_size;
 
-        png_bytep buffer = read_png(input_file_name, &image);
+        png_bytep buffer = read_png(input_file_name, &image, &buffer_size);
 
         printf("Finished decoding. Processing.\n");
 
@@ -151,9 +151,70 @@ int main(int argc, const char **argv)
                 exit(1);
         }
 
+        unsigned int sprite_bytes = width_bytes * image.height;
+
         printf("Will generate a sprite representation for CRTC mode %u, "
-               "width %u pixels (%u bytes), height %u lines.\n",
-               crtc_mode, image.width, width_bytes, image.height);
+               "width %u pixels (%u bytes), height %u lines, total %u bytes.\n",
+               crtc_mode, image.width, width_bytes, image.height, sprite_bytes);
+
+        u_int8_t *sprite_buffer;
+        {
+                sprite_buffer = malloc(sprite_bytes);
+
+                if (buffer == NULL)
+                {
+                        fprintf(stderr,
+                                "png2cpcsprite: could not allocate %u bytes "
+                                "for sprite buffer",
+                                sprite_bytes);
+                        // Yes, we don't cleanup.  Quick and dirty!
+                        exit(1);
+                }
+        }
+
+        {
+                u_int8_t *r = buffer;
+                u_int8_t *w = sprite_buffer;
+                for (size_t counter = 0; counter < sprite_bytes; counter++)
+                {
+                        u_int8_t cpc_byte = 0;
+
+                        // mode 1 only for now
+                        for (int pixel_in_byte = 0; pixel_in_byte < 4;
+                             pixel_in_byte++)
+                        {
+                                u_int8_t color_palette_index = *(r++);
+                                cpc_byte |= (color_palette_index & 1) |
+                                            ((color_palette_index & 2) << 3);
+                                cpc_byte = cpc_byte << 1;
+                        }
+
+                        *w = cpc_byte;
+                        w++;
+                }
+
+                if (r != buffer + buffer_size)
+                {
+                        fprintf(stderr,
+                                "png2cpcsprite: warning: did not consume "
+                                "exacly all %u bytes "
+                                "of input buffer, actually %lu (%lu != %lu).\n",
+                                buffer_size, w - buffer, w,
+                                buffer + buffer_size);
+                }
+
+                if (w != sprite_buffer + sprite_bytes)
+                {
+                        fprintf(stderr,
+                                "png2cpcsprite: warning: did not produce "
+                                "exacly the expected %u bytes "
+                                "of sprite data, actually %lu (%lu != %lu).\n",
+                                sprite_bytes, w - sprite_buffer, w,
+                                sprite_buffer + sprite_bytes);
+                }
+        }
+
+        write(1, sprite_buffer, sprite_bytes);
 
         exit(0);
 }

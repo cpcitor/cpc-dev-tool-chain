@@ -221,6 +221,16 @@ int main(int argc, const char **argv)
                 }
         }
 
+        if (crtc_mode != 1)
+        {
+                fprintf(stderr,
+                        "png2cpcsprite: error: only mode 1 supported at this "
+                        "time, not %d.",
+                        crtc_mode);
+                // Yes, we don't cleanup.  Quick and dirty!
+                exit(1);
+        }
+
         {
                 u_int8_t *r = buffer;
                 u_int8_t *w = sprite_buffer;

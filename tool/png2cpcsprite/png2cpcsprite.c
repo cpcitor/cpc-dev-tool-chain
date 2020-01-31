@@ -275,8 +275,18 @@ int main(int argc, const char **argv)
         const char *const output_file_name = argv[2];
 
         printf("Generated %u bytes "
-               "of sprite data, will write them to output.\n",
-               sprite_bytes);
+               "of sprite data, will write them to output file '%s'.\n",
+               sprite_bytes, output_file_name);
+
+        FILE *output_file = fopen(output_file_name, "w");
+
+        fprintf(output_file, "coucou");
+
+        fclose(output_file);
+
+        printf("Finished writing file '%s'.\n", output_file_name);
+
+        printf("Success. Exiting.\n");
 
         exit(0);
 }

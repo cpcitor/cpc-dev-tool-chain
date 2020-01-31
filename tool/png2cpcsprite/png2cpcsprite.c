@@ -5,6 +5,23 @@
 #include <png.h>
 #include <zlib.h>
 
+void show_usage()
+{
+    fprintf(stderr,
+            "\n"
+            "png2cpcsprite by Stéphane Gourichon (cpcitor).\n"
+            "\n"
+            "Convert a PNG image into a binary representation suitable for display\n"
+            "by an Amstrad CPC hardware or emulator.\n"
+            "\n"
+            "usage: png2cpcsprite input-file.png mode output-file.bin\n"
+            "\n"
+            "* input-file.png must be an image in PNG format with a palette (colormap)\n"
+            "* mode is cpc mode 0 1 or 2\n"
+            "* the actual palette is ignored by this program\n"
+        );
+}
+
 png_bytep read_png(const char* const input_file_name, png_image *image)
 {
     memset(image, 0, (sizeof *image));
@@ -67,19 +84,7 @@ int main(int argc, const char **argv)
 {
     if (argc != 4)
     {
-        fprintf(stderr,
-                "\n"
-                "png2cpcsprite by Stéphane Gourichon (cpcitor).\n"
-                "\n"
-                "Convert a PNG image into a binary representation suitable for display\n"
-                "by an Amstrad CPC hardware or emulator.\n"
-                "\n"
-                "usage: png2cpcsprite input-file.png mode output-file.bin\n"
-                "\n"
-                "* input-file.png must be an image in PNG format with a palette (colormap)\n"
-                "* mode is cpc mode 0 1 or 2\n"
-                "* the actual palette is ignored by this program\n"
-            );
+        show_usage();
         exit(2);
     }
 

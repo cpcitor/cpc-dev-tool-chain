@@ -157,8 +157,7 @@ int main(int argc, const char **argv)
 
                 default:
                         fprintf(stderr,
-                                "png2cpcsprite: mode must be single character, "
-                                "not '%s'.\n",
+                                "png2cpcsprite: not a valid CPC mode: '%s'.\n",
                                 s_crtc_mode);
                         exit(1);
                 }

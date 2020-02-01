@@ -177,13 +177,22 @@ $(CDTC_ENV_FOR_SDCC):
 	( export LC_ALL=C ; $(MAKE) -C "$(@D)" build_config.inc ; )
 
 ########################################################################
+# Conjure up PNG to CPC converter
+########################################################################
+
+CDTC_ENV_FOR_PNG2CPCSPRITE=$(CDTC_ROOT)/tool/png2cpcsprite/build_config.inc
+
+$(CDTC_ENV_FOR_PNG2CPCSPRITE):
+	( export LC_ALL=C ; $(MAKE) -C "$(@D)" build_config.inc ; )
+
+########################################################################
 # Compile
 ########################################################################
 
 # FIXME change code loc project must choose it
 # Generating any %.rel from a %.c needs to first compile all the %.s because %.c might depend on any of the generated symbol exported from ASM.
 %.rel: %.c Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf $(RELSS)
-	( SDCC_CFLAGS="$(CFLAGS_PROJECT_SDCC) $(CFLAGS_PROJECT_ALLPLATFORMS) -I$(CDTC_ROOT)/cpclib" ; \
+	( SDCC_CFLAGS="$(CFLAGS_PROJECT_SDCC) $(CFLAGS_PROJECT_ALLPLATFORMS) -I$(CDTC_ROOT)/cpclib/cdtc/include/" ; \
 	if grep -E '^#include .cpc(rs|wyz)lib.h.' $< ; then echo "Uses cpcrslib and/or cpcwyzlib: $<" ; $(MAKE) $(CDTC_ENV_FOR_CPCRSLIB) ; SDCC_CFLAGS="$${SDCC_CFLAGS} -I$(CDTC_ROOT)/cpclib/cpcrslib/cpcrslib_SDCC.installtree/include" ; fi ; \
 	if grep -E '^#include .cfwi/.*\.h.' $< ; then echo "Uses cfwi: $<" ; $(MAKE) $(CDTC_ENV_FOR_CFWI) ; SDCC_CFLAGS="$${SDCC_CFLAGS} -I$(abspath $(CDTC_ROOT)/cpclib/cfwi/include/)" ; fi ; \
 	. "$(CDTC_ROOT)"/tool/sdcc/build_config.inc ; set -xv ; $(SDCC) -mz80 --allow-unsafe-read $${SDCC_CFLAGS} $(CFLAGS) -c $< -o $@ ; )
@@ -241,6 +250,9 @@ $(CDTC_ENV_FOR_SDCC):
 	&& grep -q "^#define ASMCONST_" "$${OUTFILE}.tmp" ; \
 	then mv -f "$${OUTFILE}.tmp" "$${OUTFILE}" ; else rm -f "$${OUTFILE}.tmp" ; fi \
 	)
+
+%.generated.s: %.png Makefile $(CDTC_ENV_FOR_PNG2CPCSPRITE) cdtc_project.conf
+	 ( . $(CDTC_ENV_FOR_PNG2CPCSPRITE) ; set -euxv ; png2cpcsprite "$<" "$@" ; )
 
 # If the project does "#include <stdio.h>" we link our putchar implementation. In theory someone might include stdio and prefer his own putchar implementation. If this happens to you, please tell, or even better offer a patch.
 

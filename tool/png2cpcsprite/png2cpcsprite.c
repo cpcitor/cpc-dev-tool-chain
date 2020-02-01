@@ -26,7 +26,8 @@ void show_usage()
                 "* output-file.generated.s (mandatory) name of output file\n"
                 "* symbol_name (optional) assembly-level symbol for the "
                 "generated file\n"
-                "* mode (optional) is cpc mode 0 1 or 2. If not supplied, will "
+                "* mode (optional) is cpc mode 0 1 or 2, or empty string for "
+                "guessing. If not supplied, will "
                 "be guessed "
                 "from palette count.\n"
                 "\n"
@@ -142,7 +143,7 @@ int main(int argc, const char **argv)
 
         int crtc_mode;
 
-        if (argc >= 4)
+        if ((argc >= 4) && (argv[3][0] != 0))
         {
                 printf("CRTC mode apparently supplied on command line.\n");
                 const char *const s_crtc_mode = argv[3];
@@ -173,8 +174,8 @@ int main(int argc, const char **argv)
         }
         else
         {
-                printf("CRTC mode not supplied on command line, guessing from "
-                       "colormap count (%u entries).\n",
+                printf("CRTC mode not determined by command line, guessing "
+                       "from colormap count (%u entries).\n",
                        image.colormap_entries);
                 crtc_mode = guess_crtc_mode_based_on_colormap_entry_count(
                         image.colormap_entries);

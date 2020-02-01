@@ -18,7 +18,7 @@ void show_usage()
                 "assembly file, with symbols."
                 "\n"
                 "usage: png2cpcsprite input-file.png output-file.generated.s "
-                "symbol_name mode\n"
+                "symbol_name mode deltay\n"
                 "\n"
                 "* input-file.png (mandatory) must be an image in PNG format "
                 "with a palette (colormap)\n"
@@ -29,6 +29,9 @@ void show_usage()
                 "guessing. \n"
                 "  If empty string or not supplied, will be guessed from "
                 "palette count.\n"
+                "* deltay (optional). If 1 or not supplied, sprite data will "
+                "be written top down.\n"
+                "  If -1, sprite data will be written bottom up."
                 "\n"
                 "Notice: \n"
                 "* The actual palette is ignored by this program.\n"
@@ -120,13 +123,19 @@ u_int8_t guess_crtc_mode_based_on_colormap_entry_count(int colormap_entries)
         exit(1);
 }
 
+#define maxargs 5
+#define STR_HELPER(x) #x
+#define STR(x) STR_HELPER(x)
+
 int main(int argc, const char **argv)
 {
-        if ((argc < 3) || (argc > 5))
+        if ((argc < 3) || (argc > (maxargs + 1)))
         {
                 fprintf(stderr,
                         "png2cpcsprite: "
-                        "Error: between 2 and 4 arguments expected, got %u.",
+                        "Error: between 2 and " STR(
+                                maxargs) " arguments "
+                                         "expected, got %u.",
                         argc - 1);
                 show_usage();
                 exit(2);
@@ -181,6 +190,28 @@ int main(int argc, const char **argv)
         }
 
         printf("CRTC mode selected: %u.\n", crtc_mode);
+
+        int deltay;
+
+        if ((argc >= 6) && (argv[5][0] != 0))
+        {
+                printf("Deltay apparently supplied on command line.\n");
+                if (sscanf(argv[5], "%d", &deltay) == 0)
+                {
+                        fprintf(stderr,
+                                "png2cpcsprite: aborting: failure to parse "
+                                "deltay from: '%s'.\n",
+                                argv[5]);
+                        exit(1);
+                }
+        }
+        else
+        {
+                printf("deltay not determined by command line, using 1\n");
+                deltay = 1;
+        }
+
+        printf("Deltay selected: %d.\n", deltay);
 
         unsigned int width_bytes = image.width >> (crtc_mode + 1);
 
@@ -370,6 +401,9 @@ int main(int argc, const char **argv)
 
         {
                 u_int8_t *b = sprite_buffer;
+                u_int8_t ymin = (deltay>0)
+                for (size_t counter = 0; counter < sprite_bytes; counter++)
+                {
                 for (size_t counter = 0; counter < sprite_bytes; counter++)
                 {
                         u_int8_t byte = *(b++);

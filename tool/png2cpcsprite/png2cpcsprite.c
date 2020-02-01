@@ -289,8 +289,8 @@ int main(int argc, const char **argv)
         {
                 printf("No symbol name supplied on command line.\n");
 
-                char *last_part_of_input_file_name =
-                        rindex(input_file_name, '/');
+                const char *last_part_of_input_file_name =
+                        strrchr(input_file_name, '/');
                 if (last_part_of_input_file_name == NULL)
                 {
                         last_part_of_input_file_name = input_file_name;
@@ -300,7 +300,47 @@ int main(int argc, const char **argv)
                         last_part_of_input_file_name++;
                 }
 
-                symbol_name = strdup(last_part_of_input_file_name);
+                char *pre_symbol_name = strdup(last_part_of_input_file_name);
+
+                /*
+                  From
+             cpc-dev-tool-chain/tool/sdcc/sdcc-3.9.0/sdas/doc/asmlnk.txt
+
+             1.  Symbols  can  be  composed  of alphanumeric characters,
+                 dollar signs ($),  periods  (.),  and  underscores  (_)
+                 only.
+
+             2.  The  first  character  of a symbol must not be a number
+                 (except in the case of reusable symbols).
+
+                 */
+
+                char *symbol_name_end =
+                        pre_symbol_name + strlen(pre_symbol_name);
+
+                const char *valid_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghij"
+                                          "klmnopqrstuvwxyz0123456789$._";
+
+                {
+                        char *p = pre_symbol_name;
+                        while (p != symbol_name_end)
+                        {
+                                size_t advance = strspn(p, valid_chars);
+                                p += advance;
+                                if ((*p) != 0)
+                                {
+                                        *p = '_';
+                                }
+                        }
+                }
+
+                char symbol_name_auto[80];
+
+                snprintf(symbol_name_auto, 80, "%s%s", "sprite_",
+                         pre_symbol_name);
+                symbol_name_auto[79] = 0;
+
+                symbol_name = symbol_name_auto;
         }
 
         printf("Will use symbol name '%s'\n", symbol_name);

@@ -45,7 +45,7 @@
 
 
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	;; Do we need an absolutely positioned HEADER area ?
+	;; Do we need an absolutely positioned HEADER area?
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 	;; Short answer: no for a RAM program.
@@ -77,7 +77,7 @@ init:
 	jp	_main
 
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	;; Do we need an _exit symbol ?
+	;; Do we need an _exit symbol?
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 	;; Short answer: not confirmed, so not done.
@@ -116,10 +116,10 @@ init:
 	;; Initialize global variables.
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-	;; Why must we care ? Else global variables are not
+	;; Why must we care? Else global variables are not
         ;; initialized.
 
-	;; How this happens ?
+	;; How this happens?
 
 	;; Compiler does not assume that compiled output can be a RAM.
 
@@ -137,22 +137,22 @@ init:
 
 	;; * "ROM program" case
 
-	;; This makes total sense if linker output lands in a ROM. The
-	;; only option is to copy _INITIALIZER to _INITIALIZED (modulo
-	;; some possible compression tricks).
+	;; SDCC behavior makes total sense if linker output lands in a
+	;; ROM. The only option is to copy _INITIALIZER to
+	;; _INITIALIZED (modulo some possible compression tricks).
 
 
 	;; * "RAM program" case
 
 	;; If linker output already lands in RAM, as in a CPC "RAM
-        ;; program", this works also but wastes an amount of RAM equal
-        ;; to the amount of initialized data.
+        ;; program", SDCC behavior works also but wastes an amount of
+        ;; RAM equal to the amount of initialized data.
 
 	;; We may write an external script to trick the linker to
 	;; allocate both area in an absolute fashion to the same
 	;; address. No wasted bytes, no copy.
 
-        ;; One might think: why bother, I'll just won't use
+        ;; One might think: why bother, I'll just not use
         ;; initialized global variables syntax at C level, and
         ;; initialize my variables in C function code.  This works but
         ;; (1) makes code use even more bytes (2) forces poor style at
@@ -170,7 +170,7 @@ init:
 
 	;; If/when need is confirmed, the trick to absolutely position
 	;; both area at same position may be used.  Or tell the
-	;; compiled that code is in RAM ? FIXME Write that to
+	;; compiled that code is in RAM? FIXME Write that to
 	;; sdcc-devel mailing-list.
 
 	.area   _GSINIT

@@ -213,6 +213,15 @@ int main(int argc, const char **argv)
 
         printf("Deltay selected: %d.\n", deltay);
 
+        if (deltay * deltay != 1)
+        {
+                fprintf(stderr,
+                        "png2cpcsprite: "
+                        "Error: deltay is not 1 or -1 but %d.",
+                        deltay);
+                exit(1);
+        }
+
         unsigned int width_bytes = image.width >> (crtc_mode + 1);
 
         unsigned int width_pixels = width_bytes << (crtc_mode + 1);

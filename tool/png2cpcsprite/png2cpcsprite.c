@@ -410,25 +410,36 @@ int main(int argc, const char **argv)
 
         {
                 u_int8_t *b = sprite_buffer;
-                u_int8_t ymin = (deltay>0)
-                for (size_t counter = 0; counter < sprite_bytes; counter++)
+                for (size_t yplain = 0; yplain < image.height; yplain++)
                 {
-                for (size_t counter = 0; counter < sprite_bytes; counter++)
-                {
-                        u_int8_t byte = *(b++);
+                        u_int8_t y = (deltay > 0) ? yplain
+                                                  : image.height - 1 - yplain;
+                        u_int8_t bytes_on_this_line = 0;
 
-                        if (counter % 12 == 0) // FIXME should not hardcode 12.
-                        {
-                                fprintf(output_file, "\n\t.byte ");
-                        }
-                        else
-                        {
-                                fprintf(output_file, ", ");
-                        }
+                        b = &(sprite_buffer[width_bytes * y]);
 
-                        fprintf(output_file, "0x%02x", byte);
+                        for (size_t x = 0; x < width_bytes; x++)
+                        {
+                                u_int8_t byte = *(b++);
+
+                                if (bytes_on_this_line >= 12)
+                                {
+                                        bytes_on_this_line = 0;
+                                }
+
+                                if (bytes_on_this_line == 0)
+                                {
+                                        fprintf(output_file, "\n\t.byte ");
+                                }
+                                else
+                                {
+                                        fprintf(output_file, ", ");
+                                }
+                                bytes_on_this_line++;
+
+                                fprintf(output_file, "0x%02x", byte);
+                        }
                 }
-
                 fprintf(output_file, "\n");
         }
 

@@ -242,9 +242,9 @@ int main(int argc, const char **argv)
                              pixel_in_byte++)
                         {
                                 u_int8_t color_palette_index = *(r++);
+                                cpc_byte = cpc_byte << 1;
                                 cpc_byte |= (color_palette_index & 1) |
                                             ((color_palette_index & 2) << 3);
-                                cpc_byte = cpc_byte << 1;
                         }
 
                         *w = cpc_byte;

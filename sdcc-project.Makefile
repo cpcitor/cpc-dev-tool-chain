@@ -6,6 +6,7 @@ THIS_MAKEFILE := $(call where-am-i)
 VARIABLES_AT_MAKEFILE_START := $(.VARIABLES)
 
 SDCC = time sdcc
+SDAS = time sdasz80
 
 # optional include because inner projects don't have a cdtc_local_machine.conf
 -include cdtc_local_machine.conf
@@ -197,6 +198,9 @@ $(CDTC_ENV_FOR_PNG2CPCSPRITE):
 	if grep -E '^#include .cfwi/.*\.h.' $< ; then echo "Uses cfwi: $<" ; $(MAKE) $(CDTC_ENV_FOR_CFWI) ; SDCC_CFLAGS="$${SDCC_CFLAGS} -I$(abspath $(CDTC_ROOT)/cpclib/cfwi/include/)" ; fi ; \
 	. "$(CDTC_ROOT)"/tool/sdcc/build_config.inc ; set -xv ; $(SDCC) -mz80 --allow-unsafe-read $${SDCC_CFLAGS} $(CFLAGS) -c $< -o $@ ; )
 
+%.rel: %.s Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf
+	( . "$(CDTC_ROOT)"/tool/sdcc/build_config.inc ; set -xv ; $(SDAS) -jylospw -c $< -o $@ ; )
+
 %.generated_from_asm_exported_symbols.h %.rel: %.s Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf
 	( . $(CDTC_ENV_FOR_SDCC) ; \
 	set -eu ; \
@@ -257,7 +261,7 @@ $(CDTC_ENV_FOR_PNG2CPCSPRITE):
 # If the project does "#include <stdio.h>" we link our putchar implementation. In theory someone might include stdio and prefer his own putchar implementation. If this happens to you, please tell, or even better offer a patch.
 
 # "--data-loc 0" ensures data area is computed by linker.
-$(PROJNAME).ihx: $(RELS) Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf
+$(PROJNAME).ihx: $(RELS) Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf $(LDLIBS)
 	( set -xv ; SDCC_LDFLAGS="--code-loc $$(printf 0x%x $(CODELOC)) --data-loc 0" ; \
 	if [[ -n "$(SRCS)" ]] ; then \
 	if grep -H '^#include .stdio.h.' $(SRCS) ; then echo "This executable depends on stdio(putchar): $@" ; $(MAKE) $(CDTC_ENV_FOR_CPC_PUTCHAR) ; SDCC_LDFLAGS="$${SDCC_LDFLAGS} $(CDTC_ROOT)/cpclib/cdtc_stdio/putchar_cpc.rel" ; fi ; \

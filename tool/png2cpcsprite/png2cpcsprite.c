@@ -37,7 +37,7 @@ static struct argp_option options[] = {
          "Path where the output file will be written in assembly source "
          "format.",
          1},
-        {0, 0, 0, 0, "Output format", 2},
+        {0, 0, 0, 0, "Processing", 2},
         {"mode", 'm', "<cpc-mode>", 0,
          "Optional.  "
          "CPC-mode 0, 1 or 2.  "

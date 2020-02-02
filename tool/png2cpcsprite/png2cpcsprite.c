@@ -57,8 +57,10 @@ static struct argp_option options[] = {
          "argument, replacing invalid characters with an underscore '_'.",
          3},
         {"symbol_format_string", 1, "<myprefix_%s_mysuffix>", 0,
+         "Optional.  "
          "Format string to generate symbol names.  "
-         "A '%s' is mandatory else the generated assembly file will be invalid."
+         "A '%s' is mandatory else the generated assembly file will be "
+         "invalid.  "
          "Default is '" symbol_format_string_default "'.",
          3},
         {"module_format_string", 2,

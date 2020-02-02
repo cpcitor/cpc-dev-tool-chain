@@ -138,6 +138,8 @@ static error_t parse_opt(int key, char *arg, struct argp_state *state)
                 goto ok;
                 break;
         case 'n': /* name_stem */
+                  /* This option is handled here, not with others below,
+                   * because an empty value is a correct value. */
                 arguments->name_stem = arg;
                 goto ok;
                 break;

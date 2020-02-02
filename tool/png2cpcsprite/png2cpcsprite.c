@@ -39,18 +39,21 @@ static struct argp_option options[] = {
          1},
         {0, 0, 0, 0, "Output format", 2},
         {"mode", 'm', "<cpc-mode>", 0,
+         "Optional.  "
          "CPC-mode 0, 1 or 2.  "
          "If unspecified or '-' the mode will be guessed from the number or "
          "colormap entries.  Make sure that your image doesn't include extra "
          "unused palette entries which would confuse the guessing logic.",
          2},
         {"direction", 'd', "<t> or <b>", 0,
+         "Optional.  "
          "Default 't' is to write sprite data top to bottom. 'b' causes "
          "processing bottom to top.  Correct value depend on your context, "
          "especially sprite write routine.",
          2},
         {0, 0, 0, 0, "Assembly-level naming", 3},
         {"name_stem", 'n', "somename", 0,
+         "Optional.  "
          "String associated with the image.  Think like the name of your image "
          "at assembly level.  "
          "Default is to generate a name from the file part in the 'input' "
@@ -65,6 +68,7 @@ static struct argp_option options[] = {
          3},
         {"module_format_string", 2,
          "<myprefix_%s_mysuffix> or <my_module_name>", 0,
+         "Optional.  "
          "Format string to generate an assembly module name.  "
          "It is okay to not include a '%s' so that several generated source "
          "files belong to the same module.  "

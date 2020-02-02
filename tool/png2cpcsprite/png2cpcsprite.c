@@ -110,6 +110,17 @@ static error_t parse_opt(int key, char *arg, struct argp_state *state)
         case ARGP_KEY_NO_ARGS:
                 return 0;
         case ARGP_KEY_END:
+                if (arguments->input_file == NULL)
+                {
+                        reason = "missing input file";
+                        goto invalid;
+                }
+                if (arguments->output_file == NULL)
+                {
+                        reason = "missing output file";
+                        goto invalid;
+                }
+
                 return 0;
         case ARGP_KEY_SUCCESS:
                 return 0;
@@ -317,6 +328,7 @@ u_int8_t guess_crtc_mode_based_on_colormap_entry_count(int colormap_entries)
 int main(int argc, const char **argv)
 {
         struct arguments arguments;
+        memset(&arguments, 0, sizeof(arguments));
         arguments.symbol_format_string = symbol_format_string_default;
         arguments.module_format_string = module_format_string_default;
 

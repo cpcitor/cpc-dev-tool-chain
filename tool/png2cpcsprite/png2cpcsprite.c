@@ -66,7 +66,7 @@ static struct argp_option options[] = {
          "Format string to generate an assembly module name.  "
          "It is okay to not include a '%s' so that several generated source "
          "files belong to the same module.  "
-         "Default is ' " module_format_string_default "'.",
+         "Default is '" module_format_string_default "'.",
          3},
         {0}};
 

@@ -156,7 +156,7 @@ static error_t parse_opt(int key, char *arg, struct argp_state *state)
                 break;
         }
 
-        fprintf(stderr, "key=%08xu '%c'\t", key, key);
+        /* fprintf(stderr, "key=%08xu '%c'\t", key, key); */
 
         printf("- argument '%s'\t... ", arg);
         switch (key)

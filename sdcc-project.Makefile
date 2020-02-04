@@ -244,7 +244,7 @@ $(CDTC_ENV_FOR_PNG2CPCSPRITE):
 	echo "#endif /* access_asm_constant_as_pointer_to_type */" ; \
 	echo ; \
 	sed -n 's|^S \([^\. ][^ ]*\) Def\([0-9A-F][0-9A-F][0-9A-F][0-9A-F]\)$$|\1 \2|p' <"$${RELFILE}" \
-	| while read LABEL ADDRESS ; do grep -q "^[[:space:]]*$$LABEL[[:space:]]*==" "$<" | continue ; \
+	| while read LABEL ADDRESS ; do grep -q "^[[:space:]]*$$LABEL[[:space:]]*==" "$<" || continue ; \
 	echo "#define ASMCONST_$${LABEL} 0x$${ADDRESS}" ; \
 	echo "#define ASMCONST_$${LABEL}_as_uint8_t_p ((uint8_t *)0x$${ADDRESS})" ; \
 	echo "#define ASMCONST_$${LABEL}_as_uint16_t_p ((uint16_t *)0x$${ADDRESS})" ; \

@@ -313,7 +313,7 @@ void fw_mc_clear_inks__1(ink_vector1 *ink_vector) __preserves_regs(b, c, iyh, iy
 
     This routine is very good (easy, concise, portable) for parts of
     your programs that have static palette(s) and don't need firmware
-    blinking. 
+    blinking.
 
     ## Example
 
@@ -347,7 +347,7 @@ void fw_mc_clear_inks__1(ink_vector1 *ink_vector) __preserves_regs(b, c, iyh, iy
 
     MC SET INK is a low level routine that directly sets hardware
     registers immediately (without even syncing with monitor).
-    
+
     This routines does *not* set the firmware values like SCR SET INK.
     In practice this means that unless you take some precaution,
     SCREEN pack will override colors very quickly.
@@ -362,7 +362,7 @@ void fw_mc_clear_inks__1(ink_vector1 *ink_vector) __preserves_regs(b, c, iyh, iy
 
     MC SET INKS only needs as many inks as your current mode.  But it
     will set all 16 inks even if current mode only accepts less.
-    
+
     There are several C-level prototypes.  Just use the one that fits
     your current screen mode and you're safe.
 

@@ -115,6 +115,26 @@ struct arguments
         int verbose;
 };
 
+typedef struct byte_triplet
+{
+        u_int8_t r;
+        u_int8_t g;
+        u_int8_t b;
+} byte_triplet;
+
+byte_triplet cpc_palette[27] = {
+        {0, 0, 0},     {0, 0, 128},     {0, 0, 255},
+        {128, 0, 0},   {128, 0, 128},   {128, 0, 255},
+        {255, 0, 0},   {255, 0, 128},   {255, 0, 255},
+
+        {0, 128, 0},   {0, 128, 128},   {0, 128, 255},
+        {128, 128, 0}, {128, 128, 128}, {128, 128, 255},
+        {255, 128, 0}, {255, 128, 128}, {255, 128, 255},
+
+        {0, 255, 0},   {0, 255, 128},   {0, 255, 255},
+        {128, 255, 0}, {128, 255, 128}, {128, 255, 255},
+        {255, 255, 0}, {255, 255, 128}, {255, 255, 255}};
+
 /* Parse a single option. */
 static error_t parse_opt(int key, char *arg, struct argp_state *state)
 {
@@ -402,7 +422,7 @@ png_bytep read_png(const char *const input_file_name, png_image *image,
 
         png_bytep buffer, buffer_for_colormap;
 
-        image->format = PNG_FORMAT_RGB_COLORMAP;
+        image->format = PNG_FORMAT_RGB;
 
         *buffer_size = PNG_IMAGE_SIZE(*image);
         buffer = malloc(*buffer_size);
@@ -459,6 +479,53 @@ u_int8_t guess_crtc_mode_based_on_colormap_entry_count(int colormap_entries)
         fprintf(stderr, "Error: too many colors (%u) for the CPC, aborting.",
                 colormap_entries);
         exit(1);
+}
+
+u_int8_t
+find_palette_index_closest_to_this_rgb_triplet(struct arguments *arguments,
+                                               u_int8_t *pixeldata)
+{
+        // Find index of color closest to this rgb triplet.
+        // Compute distance to all colors in palette.
+        // Take min.
+
+        int pixel_r = pixeldata[0];
+        int pixel_g = pixeldata[1];
+        int pixel_b = pixeldata[2];
+
+        unsigned int squared_distance_min = ~0;
+        unsigned int squared_distance_min_index = ~0;
+
+        for (int palette_index = 0;
+             palette_index < arguments->explicit_palette_count; palette_index++)
+        {
+                int index_in_cpc_palette =
+                        arguments->explicit_palette[palette_index];
+                byte_triplet candidate_rgb = cpc_palette[index_in_cpc_palette];
+
+                int dr = pixel_r - candidate_rgb.r;
+                int dg = pixel_g - candidate_rgb.g;
+                int db = pixel_b - candidate_rgb.b;
+
+                unsigned int squared_distance = (dr * dr + dg * dg + db * db);
+
+                if (squared_distance < squared_distance_min)
+                {
+                        squared_distance_min_index = palette_index;
+                        squared_distance_min = squared_distance;
+
+                        if (squared_distance == 0)
+                        {
+                                break;
+                        }
+                }
+        }
+        //  pr=%u pg=%u pb=%u
+        /* fprintf(stderr, "r=%u g=%u b=%u index=%u/%u\n", pixel_r, pixel_g, */
+        /*         pixel_b, squared_distance_min_index, */
+        /*         arguments->explicit_palette_count); */
+
+        return squared_distance_min_index;
 }
 
 #define maxargs 5
@@ -574,7 +641,7 @@ int main(int argc, const char **argv)
         }
 
         {
-                u_int8_t *r = buffer;
+                u_int8_t *pixeldata = buffer;
                 u_int8_t *w = sprite_buffer;
                 for (size_t counter = 0; counter < sprite_bytes; counter++)
                 {
@@ -584,17 +651,23 @@ int main(int argc, const char **argv)
                         for (int pixel_in_byte = 0; pixel_in_byte < 4;
                              pixel_in_byte++)
                         {
-                                u_int8_t color_palette_index = *(r++);
+                                u_int8_t color_palette_index =
+                                        find_palette_index_closest_to_this_rgb_triplet(
+                                                &arguments, pixeldata);
+
                                 cpc_byte = cpc_byte << 1;
                                 cpc_byte |= (color_palette_index & 2) >> 1 |
                                             ((color_palette_index & 1) << 4);
+
+                                pixeldata +=
+                                        PNG_IMAGE_SAMPLE_SIZE(image.format);
                         }
 
                         *w = cpc_byte;
                         w++;
                 }
 
-                if (r != buffer + buffer_size)
+                if (pixeldata != buffer + buffer_size)
                 {
                         fprintf(stderr,
                                 "png2cpcsprite: warning: did not consume "

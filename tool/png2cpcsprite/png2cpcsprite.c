@@ -32,7 +32,9 @@ static char doc[] =
         "\n"
         "Notice:\n"
         "* The input PNG file must be colormap-based.\n"
-        "* The actual palette is ignored by this program.";
+        "* When not specifying a colormap on the command-line, the actual "
+        "palette is ignored by this program, only colormap index of each pixel "
+        "is used.";
 // static char args_doc[] = "[FILENAME]...";
 static struct argp_option options[] = {
         {0, 0, 0, 0, "Input/output", 1},
@@ -43,12 +45,27 @@ static struct argp_option options[] = {
          "format.",
          1},
         {0, 0, 0, 0, "Processing", 2},
+        {"palette", 'p', "colorcode[,colorcode]*", 0,
+         "Optional.  "
+         "If the runtime palette is known, specify it here, as comma-separated "
+         "decimal values (same values as firmware/BASIC) like -p 1,24,20,6 or "
+         "as 012 RGB triplets like -p 001,220,022,020 .  "
+         "This option is not intended to perform general purpose color "
+         "reduction but mostly to cope with source images that already conform "
+         "to the intended palette yet in incorrect order or when image "
+         "colormap has extra unwanted/unused colors.  "
+         "To cancel a previous palette declaration, declare an empty string: "
+         "-p ''.",
+         2},
         {"mode", 'm', "<cpc-mode>", 0,
          "Optional.  "
          "CPC-mode 0, 1 or 2.  "
-         "If unspecified or '-' the mode will be guessed from the number or "
-         "colormap entries.  Make sure that your image doesn't include extra "
-         "unused palette entries which would confuse the guessing logic.",
+         "If unspecified or '-' the mode will be guessed from the size of the "
+         "palette supplied on command-line, else the number of colormap "
+         "entries in the input image."
+         "In the latter case, make sure that your "
+         "image doesn't include extra unused colormap entries which would "
+         "confuse the very simple guessing logic.",
          2},
         {"direction", 'd', "<t> or <b>", 0,
          "Optional.  "
@@ -81,6 +98,8 @@ static struct argp_option options[] = {
          3},
         {0}};
 
+#define MAX_EXPLICIT_PALETTE_COUNT 27
+
 struct arguments
 {
         char *input_file;
@@ -91,6 +110,8 @@ struct arguments
         char *name_stem;
         char *symbol_format_string;
         char *module_format_string;
+        unsigned int explicit_palette[MAX_EXPLICIT_PALETTE_COUNT];
+        int explicit_palette_count;
         int verbose;
 };
 
@@ -154,6 +175,125 @@ static error_t parse_opt(int key, char *arg, struct argp_state *state)
                 arguments->name_stem = arg;
                 goto ok;
                 break;
+        case 'p':
+        {
+                unsigned int *palette_write_slot = arguments->explicit_palette;
+
+                char *crp = arg;
+
+                unsigned char c;
+
+                unsigned int value_assuming_base3 = 0;
+                bool value_assuming_base3_may_be_valid = true;
+                unsigned int value_assuming_decimal = 0;
+                unsigned int char_count_in_this_number = 0;
+
+                arguments->explicit_palette_count = 0;
+
+                while (true)
+                {
+                        c = *(crp++);
+                        /* printf("\n\tnext char (ascii %u) '%c';\n", c, c); */
+                        if (c == ',' || c == 0)
+                        {
+                                /* printf("char_count_in_this_number = %d\n", */
+                                /*        char_count_in_this_number); */
+                                if (char_count_in_this_number == 3 &&
+                                    value_assuming_base3_may_be_valid)
+                                {
+                                        /* printf("WRITING from base-3 decoded,
+                                         * " */
+                                        /*        "value is %u\n", */
+                                        /*        value_assuming_base3); */
+                                        *(palette_write_slot++) =
+                                                value_assuming_base3;
+                                }
+                                else if (value_assuming_decimal <= 26)
+                                {
+                                        /* printf("WRITING from base-10 decoded,
+                                         * " */
+                                        /*        "value is %u\n", */
+                                        /*        value_assuming_decimal); */
+                                        *(palette_write_slot++) =
+                                                value_assuming_decimal;
+                                }
+                                else
+                                {
+                                        fprintf(stderr,
+                                                "Cannot parse valid ink number "
+                                                "(neither base-3 nor decimal), "
+                                                "aborting just before comma, "
+                                                "at character %d of string "
+                                                "'%s'\n",
+                                                (int)(crp - arg - 1), arg);
+                                        goto invalid;
+                                }
+
+                                // Okay, ink is valid.  Move on.
+                                arguments->explicit_palette_count++;
+                                value_assuming_base3 = 0;
+                                value_assuming_base3_may_be_valid = true;
+                                value_assuming_decimal = 0;
+                                char_count_in_this_number = 0;
+
+                                if (c != 0)
+                                {
+                                        continue;
+                                }
+                                break;
+                        }
+
+                        if ((c >= '0') && (c <= '2') &&
+                            (char_count_in_this_number <= 2))
+                        {
+                                unsigned int figure = c - '0';
+
+                                unsigned int values_per_position[] = {3, 9, 1};
+
+                                value_assuming_base3 +=
+                                        figure *
+                                        values_per_position
+                                                [char_count_in_this_number];
+                                /* printf("updating value_assuming_base3 to
+                                 * %d\n", */
+                                /*        value_assuming_base3); */
+                        }
+                        else
+                        {
+                                /* printf("value_assuming_base3_may_be_valid = "
+                                 */
+                                /*        "false;\n"); */
+                                value_assuming_base3_may_be_valid = false;
+                        }
+
+                        if ((c >= '0') && (c <= '9'))
+                        {
+                                unsigned int figure = c - '0';
+                                value_assuming_decimal =
+                                        value_assuming_decimal * 10 + figure;
+                                char_count_in_this_number++; // increase only
+                                                             // here, we're
+                                                             // going through
+                                                             // this also in the
+                                                             // base-3 case.
+                                /* printf("updating value_assuming_decimal to "
+                                 */
+                                /*        "%d\n", */
+                                /*        value_assuming_decimal); */
+                                continue;
+                        }
+
+                        fprintf(stderr,
+                                "Cannot parse palette: invalid character (not "
+                                "figure or comma), aborting at character %d of "
+                                "string '%s'\n",
+                                (int)(crp - arg - 1), arg);
+                        goto invalid;
+                }
+        }
+                goto ok;
+                break;
+
         default:
                 break;
         }
@@ -335,6 +475,22 @@ int main(int argc, const char **argv)
         /* Parse our arguments; every option seen by parse_opt will
            be reflected in arguments. */
         argp_parse(&argp, argc, (char **restrict)argv, 0, 0, &arguments);
+
+        if (arguments.explicit_palette_count > 0)
+        {
+                printf("Explicit palette provided with %d entries:",
+                       arguments.explicit_palette_count);
+
+                for (int i = 0; i < arguments.explicit_palette_count; i++)
+                {
+                        printf(" %d", arguments.explicit_palette[i]);
+                }
+                printf("\n");
+        }
+        else
+        {
+                printf("Explicit palette not provided.\n");
+        }
 
         png_image image;
         size_t buffer_size;

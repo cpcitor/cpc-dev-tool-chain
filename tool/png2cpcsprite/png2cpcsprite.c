@@ -417,8 +417,8 @@ int main(int argc, const char **argv)
                         {
                                 u_int8_t color_palette_index = *(r++);
                                 cpc_byte = cpc_byte << 1;
-                                cpc_byte |= (color_palette_index & 1) |
-                                            ((color_palette_index & 2) << 3);
+                                cpc_byte |= (color_palette_index & 2) >> 1 |
+                                            ((color_palette_index & 1) << 4);
                         }
 
                         *w = cpc_byte;

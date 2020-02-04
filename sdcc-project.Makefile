@@ -256,7 +256,7 @@ $(CDTC_ENV_FOR_PNG2CPCSPRITE):
 	)
 
 %.generated.s: %.png Makefile $(CDTC_ENV_FOR_PNG2CPCSPRITE) cdtc_project.conf
-	 ( . $(CDTC_ENV_FOR_PNG2CPCSPRITE) ; set -euxv ; png2cpcsprite "$<" "$@" ; )
+	 ( . $(CDTC_ENV_FOR_PNG2CPCSPRITE) ; set -euxv ; png2cpcsprite $(PNG2CPCSPRITE_ARGS) --input "$<" --output "$@" ; )
 
 # If the project does "#include <stdio.h>" we link our putchar implementation. In theory someone might include stdio and prefer his own putchar implementation. If this happens to you, please tell, or even better offer a patch.
 

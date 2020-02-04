@@ -307,7 +307,7 @@ void fw_mc_clear_inks__1(ink_vector1 *ink_vector) __preserves_regs(b, c, iyh, iy
 /** #### CFWI-specific information: ####
 
     WARNING: this routine accepts a pointer argument.  Refer to cfwi.h
-    about implications. TL;DR: have your pointer at leat 0x4000.
+    about implications. TL;DR: have your pointer above 0x4000.
 
     ## Use case
 

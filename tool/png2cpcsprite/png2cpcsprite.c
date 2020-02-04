@@ -501,12 +501,25 @@ int main(int argc, const char **argv)
 
         if (!arguments.crtc_mode_explicitly_set)
         {
-                printf("CRTC mode not determined by command line, guessing "
-                       "from colormap count (%u entries).\n",
-                       image.colormap_entries);
-                arguments.crtc_mode =
-                        guess_crtc_mode_based_on_colormap_entry_count(
-                                image.colormap_entries);
+                printf("CRTC mode not determined by command line\n");
+                if (arguments.explicit_palette_count > 0)
+                {
+                        printf("Guessing from command-line colormap count (%u "
+                               "entries).\n",
+                               arguments.explicit_palette_count);
+                        arguments.crtc_mode =
+                                guess_crtc_mode_based_on_colormap_entry_count(
+                                        arguments.explicit_palette_count);
+                }
+                else
+                {
+                        printf("Guessing from image colormap count (%u "
+                               "entries).\n",
+                               image.colormap_entries);
+                        arguments.crtc_mode =
+                                guess_crtc_mode_based_on_colormap_entry_count(
+                                        image.colormap_entries);
+                }
         }
 
         printf("CRTC mode selected: %u.\n", arguments.crtc_mode);

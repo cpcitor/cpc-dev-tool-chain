@@ -531,6 +531,13 @@ int main(int argc, const char **argv)
 
                 image.format = PNG_FORMAT_RGB;
 
+                // If no colormap is provided, will just pass the values
+                // through.
+                if (arguments.explicit_palette_count == 0)
+                {
+                        image.format |= PNG_FORMAT_FLAG_COLORMAP;
+                }
+
                 buffer_size = PNG_IMAGE_SIZE(image);
                 buffer = malloc(buffer_size);
 
@@ -598,6 +605,65 @@ int main(int argc, const char **argv)
 
         printf("CRTC mode selected: %u.\n", arguments.crtc_mode);
 
+        if (arguments.explicit_palette_count == 0)
+        {
+                printf("No palette provided on command line.  Assuming that "
+                       "your nicely prepared your PNG with a "
+                       "nice palette specially for the CPC.   Will map RGB "
+                       "information from PNG image to CPC colors.\n");
+
+                u_int8_t *cmap_p = buffer_for_colormap;
+
+                for (png_uint_32 cmap_i = 0; cmap_i < image.colormap_entries;
+                     cmap_i++)
+                {
+                        // FIXME Should check if really 3 components? Or
+                        // guaranteed by read parameters?
+                        int png_cmap_r = *(cmap_p++);
+                        int png_cmap_g = *(cmap_p++);
+                        int png_cmap_b = *(cmap_p++);
+
+                        unsigned int squared_distance_min = ~0;
+                        unsigned int squared_distance_min_index = ~0;
+
+                        for (int cpc_full_palette_index = 0;
+                             cpc_full_palette_index < 27;
+                             cpc_full_palette_index++)
+                        {
+                                byte_triplet candidate_rgb =
+                                        cpc_palette[cpc_full_palette_index];
+
+                                int dr = png_cmap_r - candidate_rgb.r;
+                                int dg = png_cmap_g - candidate_rgb.g;
+                                int db = png_cmap_b - candidate_rgb.b;
+
+                                unsigned int squared_distance =
+                                        (dr * dr + dg * dg + db * db);
+
+                                if (squared_distance < squared_distance_min)
+                                {
+                                        squared_distance_min_index =
+                                                cpc_full_palette_index;
+                                        squared_distance_min = squared_distance;
+
+                                        if (squared_distance == 0)
+                                        {
+                                                break;
+                                        }
+                                }
+                        }
+
+                        arguments.explicit_palette
+                                [arguments.explicit_palette_count++] =
+                                squared_distance_min_index;
+
+                        printf("PNG palette entry %d (r,g,b)=(%u,%u,%u) mapped "
+                               "to CPC color %u\n",
+                               cmap_i, png_cmap_r, png_cmap_g, png_cmap_b,
+                               squared_distance_min_index);
+                }
+        }
+
         unsigned int width_bytes = image.width >> (arguments.crtc_mode + 1);
 
         unsigned int width_pixels = width_bytes << (arguments.crtc_mode + 1);
@@ -656,16 +722,24 @@ int main(int argc, const char **argv)
                         for (int pixel_in_byte = 0; pixel_in_byte < 4;
                              pixel_in_byte++)
                         {
-                                u_int8_t color_palette_index =
+                                u_int8_t color_palette_index;
+
+                                if (PNG_FORMAT_FLAG_COLORMAP & image.format)
+                                {
+                                        color_palette_index = *pixeldata;
+                                        pixeldata++;
+                                }
+                                else
+                                {
                                         find_palette_index_closest_to_this_rgb_triplet(
                                                 &arguments, pixeldata);
+                                        pixeldata += PNG_IMAGE_SAMPLE_SIZE(
+                                                image.format);
+                                }
 
                                 cpc_byte = cpc_byte << 1;
                                 cpc_byte |= (color_palette_index & 2) >> 1 |
                                             ((color_palette_index & 1) << 4);
-
-                                pixeldata +=
-                                        PNG_IMAGE_SAMPLE_SIZE(image.format);
                         }
 
                         *w = cpc_byte;

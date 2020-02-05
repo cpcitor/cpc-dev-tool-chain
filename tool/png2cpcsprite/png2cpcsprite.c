@@ -546,6 +546,22 @@ int main(int argc, const char **argv)
                        image.width, image.height, image.colormap_entries,
                        image.format);
 
+                if (PNG_FORMAT_FLAG_ALPHA & image.format)
+                {
+                        fprintf(stderr,
+                                "Warning: image format says it has "
+                                "transparency.  "
+                                "This programm cannot currently generate "
+                                "sprites with transparent areas.  "
+                                "For the sake of accepting this input I will "
+                                "just assume that maybe you don't actually use "
+                                "transparent or semi-transparent colors, and "
+                                "ask the PNG decoder to just flatten partially "
+                                "transparent areas assuming a black "
+                                "background.  This may not be what you "
+                                "want.\n");
+                }
+
                 image.format = PNG_FORMAT_RGB;
 
                 // If no colormap is provided, will just pass the values
@@ -584,7 +600,9 @@ int main(int argc, const char **argv)
                         }
                 }
 
-                if (png_image_finish_read(&image, NULL /*background*/, buffer,
+                png_color black = {0, 0, 0};
+
+                if (png_image_finish_read(&image, &black, buffer,
                                           0 /*row_stride*/,
                                           buffer_for_colormap) == 0)
                 {

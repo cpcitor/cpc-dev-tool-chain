@@ -582,7 +582,7 @@ int main(int argc, const char **argv)
                 }
 
                 printf("Started decoding, found dimensions %u x %u, %u "
-                       "colors, libpng format code %d.\n",
+                       "colors, input libpng format code 0x%x.\n",
                        image.width, image.height, image.colormap_entries,
                        image.format);
 

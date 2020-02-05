@@ -265,6 +265,19 @@ static error_t parse_opt(int key, char *arg, struct argp_state *state)
 
                                 if (c != 0)
                                 {
+                                        if (arguments->explicit_palette_count ==
+                                            16)
+                                        {
+                                                fprintf(stderr,
+                                                        "Already parsed 16 "
+                                                        "colours and still "
+                                                        "something to parse? "
+                                                        "Please check for "
+                                                        "extraneous character "
+                                                        "after your palette "
+                                                        "declaration.\n");
+                                                exit(1);
+                                        }
                                         continue;
                                 }
                                 break;

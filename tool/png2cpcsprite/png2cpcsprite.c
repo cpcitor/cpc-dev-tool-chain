@@ -135,6 +135,13 @@ byte_triplet cpc_palette[27] = {
         {128, 255, 0}, {128, 255, 128}, {128, 255, 255},
         {255, 255, 0}, {255, 255, 128}, {255, 255, 255}};
 
+// From http://www.cpcwiki.eu/index.php/CPC_Palette
+// Thanks http://www.cpcwiki.eu/index.php/User:MacDeath
+u_int8_t firmware_colors[27] = {0x54, 0x44, 0x55, 0x5C, 0x58, 0x5D, 0x4C,
+                                0x45, 0x4D, 0x56, 0x46, 0x57, 0x5E, 0x40,
+                                0x5F, 0x4E, 0x47, 0x4F, 0x52, 0x42, 0x53,
+                                0x5A, 0x59, 0x5B, 0x4A, 0x43, 0x4B};
+
 /* Parse a single option. */
 static error_t parse_opt(int key, char *arg, struct argp_state *state)
 {

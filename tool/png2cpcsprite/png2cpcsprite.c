@@ -474,6 +474,11 @@ find_palette_index_closest_to_this_rgb_triplet(struct arguments *arguments,
 #define STR_HELPER(x) #x
 #define STR(x) STR_HELPER(x)
 
+u_int8_t max_color_count_for_mode(u_int8_t m)
+{
+        return (1 << (1 << (2 - (m))));
+}
+
 int main(int argc, const char **argv)
 {
         struct arguments arguments;
@@ -603,7 +608,11 @@ int main(int argc, const char **argv)
                 }
         }
 
-        printf("CRTC mode selected: %u.\n", arguments.crtc_mode);
+        unsigned int max_color_count_for_selected_mode =
+                max_color_count_for_mode(arguments.crtc_mode);
+
+        printf("CRTC mode selected: %u, which means a palette of %u colors.\n",
+               arguments.crtc_mode, max_color_count_for_selected_mode);
 
         if (arguments.explicit_palette_count == 0)
         {
@@ -611,6 +620,22 @@ int main(int argc, const char **argv)
                        "your nicely prepared your PNG with a "
                        "nice palette specially for the CPC.   Will map RGB "
                        "information from PNG image to CPC colors.\n");
+
+                if (image.colormap_entries > max_color_count_for_selected_mode)
+                {
+                        fprintf(stderr,
+                                "png2cpcsprite: Warning: colormap size is %u, "
+                                "which is more than the %u, the maximum "
+                                "allowed for CPC mode %u.  Since we are in "
+                                "one-to-one "
+                                "PNG-palette-index-to-CPC-palette-index mode, "
+                                "this is okay if the image never uses palette "
+                                "index %d or above, so moving along.\n",
+                                image.colormap_entries,
+                                max_color_count_for_selected_mode,
+                                arguments.crtc_mode,
+                                max_color_count_for_selected_mode);
+                }
 
                 u_int8_t *cmap_p = buffer_for_colormap;
 

@@ -752,6 +752,34 @@ int main(int argc, const char **argv)
                                 if (PNG_FORMAT_FLAG_COLORMAP & image.format)
                                 {
                                         color_palette_index = *pixeldata;
+
+                                        if (color_palette_index >=
+                                            max_color_count_for_selected_mode)
+                                        {
+                                                fprintf(stderr,
+                                                        "Error: at pixel "
+                                                        "number %d, image uses "
+                                                        "palette index %d "
+                                                        "which is too high "
+                                                        "(>=%u) for this mode "
+                                                        "of operation "
+                                                        "(straight "
+                                                        "PNG-palette-index-to-"
+                                                        "CPC-palette-index) "
+                                                        "and CPC mode %d.  "
+                                                        "Result will most "
+                                                        "certainly be ugly.  "
+                                                        "Please prepare your "
+                                                        "image for the CPC "
+                                                        "beforehand.  "
+                                                        "Aborting.\n",
+                                                        counter,
+                                                        color_palette_index,
+                                                        max_color_count_for_selected_mode,
+                                                        arguments.crtc_mode);
+                                                exit(1);
+                                        }
+
                                         pixeldata++;
                                 }
                                 else

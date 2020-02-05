@@ -809,7 +809,8 @@ int main(int argc, const char **argv)
 
         unsigned int sprite_bytes = width_bytes * image.height;
 
-        printf("Will generate a sprite representation for CRTC mode %u, width "
+        printf("\nWill generate a sprite representation for CRTC mode %u, "
+               "width "
                "%u pixels (%u bytes), height %u lines, total %u bytes.\n",
                arguments.crtc_mode, image.width, width_bytes, image.height,
                sprite_bytes);
@@ -925,7 +926,7 @@ int main(int argc, const char **argv)
                 }
         }
 
-        printf("Generated %u bytes of sprite data, will write them to output "
+        printf("\nGenerated %u bytes of sprite data, will write them to output "
                "file '%s'.\n",
                sprite_bytes, arguments.output_file);
 

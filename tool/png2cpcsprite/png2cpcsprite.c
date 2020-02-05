@@ -418,9 +418,7 @@ u_int8_t guess_crtc_mode_based_on_colormap_entry_count(int colormap_entries)
                 return 1;
         if (colormap_entries <= 16)
                 return 0;
-        fprintf(stderr, "Error: too many colors (%u) for the CPC, aborting.",
-                colormap_entries);
-        exit(1);
+        return 4;
 }
 
 u_int8_t
@@ -596,6 +594,18 @@ int main(int argc, const char **argv)
                         arguments.crtc_mode =
                                 guess_crtc_mode_based_on_colormap_entry_count(
                                         arguments.explicit_palette_count);
+
+                        if (arguments.crtc_mode == 4)
+                        {
+                                fprintf(stderr,
+                                        "Internal error: "
+                                        "guess_crtc_mode_based_on_colormap_"
+                                        "entry_count returned an unexpected "
+                                        "value.  Too many explicit palette "
+                                        "entries (%u)?\n",
+                                        arguments.explicit_palette_count);
+                                exit(1);
+                        }
                 }
                 else
                 {
@@ -605,6 +615,24 @@ int main(int argc, const char **argv)
                         arguments.crtc_mode =
                                 guess_crtc_mode_based_on_colormap_entry_count(
                                         image.colormap_entries);
+                        if (arguments.crtc_mode == 4)
+                        {
+                                fprintf(stderr,
+                                        "Error: the PNG palette has too many "
+                                        "colors (%u) for the CPC, "
+                                        "not trying to guess "
+                                        "mode.  Please prepare the picture for "
+                                        "the CPC.  In the "
+                                        "special case where your picture is "
+                                        "indeed prepared, actually "
+                                        "uses the first indices of the palette "
+                                        "only and only happens "
+                                        "to have extraneous colormap entries "
+                                        "at PNG level, set mode "
+                                        "explicitly, for example: -mode 1 .\n",
+                                        image.colormap_entries);
+                                exit(1);
+                        }
                 }
         }
 

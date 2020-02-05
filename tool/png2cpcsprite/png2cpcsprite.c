@@ -542,8 +542,9 @@ int main(int argc, const char **argv)
                 }
 
                 printf("Started decoding, found dimensions %u x %u, %u "
-                       "colors.\n",
-                       image.width, image.height, image.colormap_entries);
+                       "colors, libpng format code %d.\n",
+                       image.width, image.height, image.colormap_entries,
+                       image.format);
 
                 image.format = PNG_FORMAT_RGB;
 

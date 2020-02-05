@@ -437,8 +437,7 @@ png_bytep read_png(const char *const input_file_name, png_image *image,
         if (buffer == NULL)
         {
                 fprintf(stderr,
-                        "png2cpcsprite: could not allocate %lu bytes "
-                        "for image",
+                        "png2cpcsprite: could not allocate %lu bytes for image",
                         *buffer_size);
                 // Yes, we don't cleanup.  Quick and dirty!
                 exit(1);
@@ -474,8 +473,8 @@ u_int8_t guess_crtc_mode_based_on_colormap_entry_count(int colormap_entries)
 {
         if (colormap_entries < 2)
         {
-                fprintf(stderr, "Warning: less than 2 "
-                                "colors in colormap, moving along anyway.\n");
+                fprintf(stderr, "Warning: less than 2 colors in colormap, "
+                                "moving along anyway.\n");
         }
         if (colormap_entries == 2)
                 return 2;
@@ -605,11 +604,9 @@ int main(int argc, const char **argv)
         if (width_pixels != image.width)
         {
                 fprintf(stderr,
-                        "png2cpcsprite: "
-                        "Error: in the selected CPC mode %u, "
-                        "image width %u "
-                        "make around %u bytes "
-                        "which will expand to %u pixels, not %u.",
+                        "png2cpcsprite: Error: in the selected CPC mode %u, "
+                        "image width %u pixels turns into %u bytes which will "
+                        "expand to %u pixels, not %u.",
                         arguments.crtc_mode, image.width, width_bytes,
                         width_pixels, image.width);
                 exit(1);
@@ -617,8 +614,8 @@ int main(int argc, const char **argv)
 
         unsigned int sprite_bytes = width_bytes * image.height;
 
-        printf("Will generate a sprite representation for CRTC mode %u, "
-               "width %u pixels (%u bytes), height %u lines, total %u bytes.\n",
+        printf("Will generate a sprite representation for CRTC mode %u, width "
+               "%u pixels (%u bytes), height %u lines, total %u bytes.\n",
                arguments.crtc_mode, image.width, width_bytes, image.height,
                sprite_bytes);
 
@@ -678,8 +675,8 @@ int main(int argc, const char **argv)
                 {
                         fprintf(stderr,
                                 "png2cpcsprite: warning: did not consume "
-                                "exacly all %lu bytes "
-                                "of input buffer, actually %lu (%p != %p).\n",
+                                "exacly all %lu bytes of input buffer, "
+                                "actually %lu (%p != %p).\n",
                                 buffer_size, w - buffer, w,
                                 buffer + buffer_size);
                 }
@@ -688,15 +685,15 @@ int main(int argc, const char **argv)
                 {
                         fprintf(stderr,
                                 "png2cpcsprite: warning: did not produce "
-                                "exacly the expected %u bytes "
-                                "of sprite data, actually %lu (%p != %p).\n",
+                                "exacly the expected %u bytes of sprite data, "
+                                "actually %lu (%p != %p).\n",
                                 sprite_bytes, w - sprite_buffer, w,
                                 sprite_buffer + sprite_bytes);
                 }
         }
 
-        printf("Generated %u bytes "
-               "of sprite data, will write them to output file '%s'.\n",
+        printf("Generated %u bytes of sprite data, will write them to output "
+               "file '%s'.\n",
                sprite_bytes, arguments.output_file);
 
         if (!arguments.name_stem)

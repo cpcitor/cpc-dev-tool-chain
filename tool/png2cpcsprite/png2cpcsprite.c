@@ -210,6 +210,13 @@ static error_t parse_opt(int key, char *arg, struct argp_state *state)
 
                 arguments->explicit_palette_count = 0;
 
+                if (*crp == 0)
+                {
+                        // -p '' removes any palette declaration.
+                        goto ok;
+                        break;
+                }
+
                 while (true)
                 {
                         c = *(crp++);

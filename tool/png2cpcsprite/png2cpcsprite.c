@@ -799,7 +799,8 @@ int main(int argc, const char **argv)
                                         {
                                                 fprintf(stderr,
                                                         "Error: at pixel "
-                                                        "number %d, image uses "
+                                                        "number %lu, image "
+                                                        "uses "
                                                         "palette index %d "
                                                         "which is too high "
                                                         "(>=%u) for this mode "

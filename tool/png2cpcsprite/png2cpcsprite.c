@@ -598,7 +598,7 @@ int main(int argc, const char **argv)
 
         if (!arguments.crtc_mode_explicitly_set)
         {
-                printf("CRTC mode not determined by command line\n");
+                printf("CRTC mode not determined by command line.\n");
                 if (arguments.explicit_palette_count > 0)
                 {
                         printf("Guessing from command-line colormap count (%u "

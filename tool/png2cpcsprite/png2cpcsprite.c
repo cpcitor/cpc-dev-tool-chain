@@ -474,7 +474,7 @@ u_int8_t guess_crtc_mode_based_on_colormap_entry_count(int colormap_entries)
 {
         if (colormap_entries < 2)
         {
-                fprintf(stderr, "Warning: strange image with less than 2 "
+                fprintf(stderr, "Warning: less than 2 "
                                 "colors in colormap, moving along anyway.\n");
         }
         if (colormap_entries == 2)

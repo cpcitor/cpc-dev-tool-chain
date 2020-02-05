@@ -611,6 +611,9 @@ int main(int argc, const char **argv)
                         image.format |= PNG_FORMAT_FLAG_COLORMAP;
                 }
 
+                printf("Will decode with libpng format code 0x%x.\n",
+                       image.format);
+
                 buffer_size = PNG_IMAGE_SIZE(image);
                 buffer = malloc(buffer_size);
 

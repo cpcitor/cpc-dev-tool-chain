@@ -888,8 +888,9 @@ int main(int argc, const char **argv)
                                 }
                                 else
                                 {
-                                        find_palette_index_closest_to_this_rgb_triplet(
-                                                &arguments, pixeldata);
+                                        color_palette_index =
+                                                find_palette_index_closest_to_this_rgb_triplet(
+                                                        &arguments, pixeldata);
                                         pixeldata += PNG_IMAGE_SAMPLE_SIZE(
                                                 image.format);
                                 }

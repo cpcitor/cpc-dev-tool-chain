@@ -1015,7 +1015,20 @@ int main(int argc, const char **argv)
         fprintf(output_file, "%s_bytes_per_line == %d\n", symbol_name,
                 width_bytes);
 
-        fprintf(output_file, "%s_data::\n", symbol_name);
+        if (arguments.explicit_palette_count > 0)
+        {
+                fprintf(output_file, "\n%s_palette_count == %d\n", symbol_name,
+                        arguments.explicit_palette_count);
+
+                for (int i = 0; i < arguments.explicit_palette_count; i++)
+                {
+                        fprintf(output_file, "%s_palette_ink_%d == %d\n",
+                                symbol_name, i, arguments.explicit_palette[i]);
+                }
+                printf("\n");
+        }
+
+        fprintf(output_file, "\n%s_data::\n", symbol_name);
 
         {
                 u_int8_t *b = sprite_buffer;

@@ -964,7 +964,7 @@ int main(int argc, const char **argv)
                         auto_name_stem + strlen(auto_name_stem);
 
                 const char *valid_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghij"
-                                          "klmnopqrstuvwxyz0123456789$._";
+                                          "klmnopqrstuvwxyz0123456789_";
 
                 {
                         char *p = auto_name_stem;

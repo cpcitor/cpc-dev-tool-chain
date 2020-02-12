@@ -1,0 +1,1098 @@
+
+  Z80 Instruction Set
+
+  * adc <#adc>
+  * add <#add>
+  * and <#and>
+
+  * bit <#bit>
+
+  * call <#call>
+  * ccf <#ccf>
+  * cp <#cp>
+  * cpd <#cpd>
+  * cpdr <#cpdr>
+  * cpi <#cpi>
+  * cpir <#cpir>
+  * cpl <#cpl>
+
+  * daa <#daa>
+  * dec <#dec>
+  * di <#di>
+  * djnz <#djnz>
+
+  * ei <#ei>
+  * ex <#ex>
+  * exx <#exx>
+
+  * halt <#halt>
+
+  * im <#im>
+  * in <#in>
+  * inc <#inc>
+  * ind <#ind>
+  * indr <#indr>
+  * ini <#ini>
+  * inir <#inir>
+
+  * jp <#jp>
+  * jr <#jr>
+
+  * ld <#ld>
+  * ldd <#ldd>
+  * lddr <#lddr>
+  * ldi <#ldi>
+  * ldir <#ldir>
+
+  * neg <#neg>
+  * nop <#nop>
+
+  * or <#or>
+  * otdr <#otdr>
+  * otir <#otir>
+  * out <#out>
+  * outd <#outd>
+  * outi <#outi>
+
+  * pop <#pop>
+  * push <#push>
+
+  * res <#res>
+  * ret <#ret>
+  * reti <#reti>
+  * retn <#retn>
+  * rl <#rl>
+  * rla <#rla>
+  * rlc <#rlc>
+  * rlca <#rlca>
+  * rld <#rld>
+  * rr <#rr>
+  * rra <#rra>
+  * rrc <#rrc>
+  * rrca <#rrca>
+  * rrd <#rrd>
+  * rst <#rst>
+
+  * sbc <#sbc>
+  * scf <#scf>
+  * set <#set>
+  * sla <#sla>
+  * sll <#sll>
+  * sra <#sra>
+  * srl <#srl>
+  * sub <#sub>
+
+  * xor <#xor>
+
+7 0 C
+
+adc <http://z80-heaven.wikidot.com/instructions-set:adc>
+instruction	nops	bytes
+*adc* a,(hl) 	2 	8e
+*adc* a,(ix+nn) 	5 	dd 8e nn
+*adc* a,(iy+nn) 	5 	fd 8e nn
+*adc* a,a 	1 	8f
+*adc* a,b 	1 	88
+*adc* a,c 	1 	89
+*adc* a,d 	1 	8a
+*adc* a,e 	1 	8b
+*adc* a,h 	1 	8c
+*adc* a,ixh 	2 	dd 8c
+*adc* a,iyh 	2 	fd 8c
+*adc* a,l 	1 	8d
+*adc* a,ixl 	2 	dd 8d
+*adc* a,iyl 	2 	fd 8d
+*adc* a,nn 	2 	ce nn
+*adc* hl,bc 	4 	ed 4a
+*adc* hl,de 	4 	ed 5a
+*adc* hl,hl 	4 	ed 6a
+*adc* hl,sp 	4 	ed 7a
+
+add <http://z80-heaven.wikidot.com/instructions-set:add>
+instruction	nops	bytes
+*add* a,(hl) 	2 	86
+*add* a,(ix+nn) 	5 	dd 86 nn
+*add* a,(iy+nn) 	5 	fd 86 nn
+*add* a,a 	1 	87
+*add* a,b 	1 	80
+*add* a,c 	1 	81
+*add* a,d 	1 	82
+*add* a,e 	1 	83
+*add* a,h 	1 	84
+*add* a,ixh 	2 	dd 84
+*add* a,iyh 	2 	fd 84
+*add* a,l 	1 	85
+*add* a,ixl 	2 	dd 85
+*add* a,iyl 	2 	fd 85
+*add* a,nn 	2 	c6 nn
+*add* hl,bc 	3 	09
+*add* hl,de 	3 	19
+*add* hl,hl 	3 	29
+*add* hl,sp 	3 	39
+*add* ix,bc 	4 	dd 09
+*add* ix,de 	4 	dd 19
+*add* ix,ix 	4 	dd 29
+*add* ix,sp 	4 	dd 39
+*add* iy,bc 	4 	fd 09
+*add* iy,de 	4 	fd 19
+*add* iy,iy 	4 	fd 29
+*add* iy,sp 	4 	fd 39
+
+and <http://z80-heaven.wikidot.com/instructions-set:and>
+instruction	nops	bytes
+*and* (hl) 	2 	a6
+*and* (ix+nn) 	5 	dd a6 nn
+*and* (iy+nn) 	5 	fd a6 nn
+*and* a 	1 	a7
+*and* b 	1 	a0
+*and* c 	1 	a1
+*and* d 	1 	a2
+*and* e 	1 	a3
+*and* h 	1 	a4
+*and* ixh 	2 	dd a4
+*and* iyh 	2 	fd a4
+*and* l 	1 	a5
+*and* ixl 	2 	dd a5
+*and* iyl 	2 	fd a5
+*and* nn 	2 	e6 nn
+
+bit <http://z80-heaven.wikidot.com/instructions-set:bit>
+instruction	nops	bytes
+*bit* 0,(hl) 	3 	cb 46
+*bit* 0,(ix+nn) 	6 	dd cb nn 46
+*bit* 0,(iy+nn) 	6 	fd cb nn 46
+*bit* 0,a 	2 	cb 47
+*bit* 0,b 	2 	cb 40
+*bit* 0,c 	2 	cb 41
+*bit* 0,d 	2 	cb 42
+*bit* 0,e 	2 	cb 43
+*bit* 0,h 	2 	cb 44
+*bit* 0,l 	2 	cb 45
+*bit* 1,(hl) 	3 	cb 4e
+*bit* 1,(ix+nn) 	6 	dd cb nn 4e
+*bit* 1,(iy+nn) 	6 	fd cb nn 4e
+*bit* 1,a 	2 	cb 4f
+*bit* 1,b 	2 	cb 48
+*bit* 1,c 	2 	cb 49
+*bit* 1,d 	2 	cb 4a
+*bit* 1,e 	2 	cb 4b
+*bit* 1,h 	2 	cb 4c
+*bit* 1,l 	2 	cb 4d
+*bit* 2,(hl) 	3 	cb 56
+*bit* 2,(ix+nn) 	6 	dd cb nn 56
+*bit* 2,(iy+nn) 	6 	fd cb nn 56
+*bit* 2,a 	2 	cb 57
+*bit* 2,b 	2 	cb 50
+*bit* 2,c 	2 	cb 51
+*bit* 2,d 	2 	cb 52
+*bit* 2,e 	2 	cb 53
+*bit* 2,h 	2 	cb 54
+*bit* 2,l 	2 	cb 55
+*bit* 3,(hl) 	3 	cb 5e
+*bit* 3,(ix+nn) 	6 	dd cb nn 5e
+*bit* 3,(iy+nn) 	6 	fd cb nn 5e
+*bit* 3,a 	2 	cb 5f
+*bit* 3,b 	2 	cb 58
+*bit* 3,c 	2 	cb 59
+*bit* 3,d 	2 	cb 5a
+*bit* 3,e 	2 	cb 5b
+*bit* 3,h 	2 	cb 5c
+*bit* 3,l 	2 	cb 5d
+*bit* 4,(hl) 	3 	cb 66
+*bit* 4,(ix+nn) 	6 	dd cb nn 66
+*bit* 4,(iy+nn) 	6 	fd cb nn 66
+*bit* 4,a 	2 	cb 67
+*bit* 4,b 	2 	cb 60
+*bit* 4,c 	2 	cb 61
+*bit* 4,d 	2 	cb 62
+*bit* 4,e 	2 	cb 63
+*bit* 4,h 	2 	cb 64
+*bit* 4,l 	2 	cb 65
+*bit* 5,(hl) 	3 	cb 6e
+*bit* 5,(ix+nn) 	6 	dd cb nn 6e
+*bit* 5,(iy+nn) 	6 	fd cb nn 6e
+*bit* 5,a 	2 	cb 6f
+*bit* 5,b 	2 	cb 68
+*bit* 5,c 	2 	cb 69
+*bit* 5,d 	2 	cb 6a
+*bit* 5,e 	2 	cb 6b
+*bit* 5,h 	2 	cb 6c
+*bit* 5,l 	2 	cb 6d
+*bit* 6,(hl) 	3 	cb 76
+*bit* 6,(ix+nn) 	6 	dd cb nn 76
+*bit* 6,(iy+nn) 	6 	fd cb nn 76
+*bit* 6,a 	2 	cb 77
+*bit* 6,b 	2 	cb 70
+*bit* 6,c 	2 	cb 71
+*bit* 6,d 	2 	cb 72
+*bit* 6,e 	2 	cb 73
+*bit* 6,h 	2 	cb 74
+*bit* 6,l 	2 	cb 75
+*bit* 7,(hl) 	3 	cb 7e
+*bit* 7,(ix+nn) 	6 	dd cb nn 7e
+*bit* 7,(iy+nn) 	6 	fd cb nn 7e
+*bit* 7,a 	2 	cb 7f
+*bit* 7,b 	2 	cb 78
+*bit* 7,c 	2 	cb 79
+*bit* 7,d 	2 	cb 7a
+*bit* 7,e 	2 	cb 7b
+*bit* 7,h 	2 	cb 7c
+*bit* 7,l 	2 	cb 7d
+
+call <http://z80-heaven.wikidot.com/instructions-set:call>
+instruction	nops	bytes
+*call* nnnn 	5 	cd nn nn
+*call* c,nnnn 	3/5 	dc nn nn
+*call* m,nnnn 	3/5 	fc nn nn
+*call* nc,nnnn 	3/5 	d4 nn nn
+*call* nz,nnnn 	3/5 	c4 nn nn
+*call* p,nnnn 	3/5 	f4 nn nn
+*call* pe,nnnn 	3/5 	ec nn nn
+*call* po,nnnn 	3/5 	e4 nn nn
+*call* z,nnnn 	3/5 	cc nn nn
+
+ccf <http://z80-heaven.wikidot.com/instructions-set:ccf>
+instruction	nops	bytes
+*ccf*		1 	3f
+
+cp <http://z80-heaven.wikidot.com/instructions-set:cp>
+instruction	nops	bytes
+*cp* (hl) 	2 	be
+*cp* (ix+nn) 	5 	dd be nn
+*cp* (iy+nn) 	5 	fd be nn
+*cp* a 	1 	bf
+*cp* b 	1 	b8
+*cp* c 	1 	b9
+*cp* d 	1 	ba
+*cp* e 	1 	bb
+*cp* h 	1 	bc
+*cp* l 	1 	bd
+*cp* nn 	2 	fe nn
+
+cpd <http://z80-heaven.wikidot.com/instructions-set:cpd>
+instruction	nops	bytes
+*cpd*		5 	ed a9
+
+cpdr <http://z80-heaven.wikidot.com/instructions-set:cpdr>
+instruction	nops	bytes
+*cpdr*		5/6 	ed b9
+
+cpi <http://z80-heaven.wikidot.com/instructions-set:cpi>
+instruction	nops	bytes
+*cpi*		5 	ed a1
+
+cpir <http://z80-heaven.wikidot.com/instructions-set:cpir>
+instruction	nops	bytes
+*cpir*		5/6 	ed b1
+
+cpl <http://z80-heaven.wikidot.com/instructions-set:cpl>
+instruction	nops	bytes
+*cpl*		1 	2f
+
+daa <http://z80-heaven.wikidot.com/instructions-set:daa>
+instruction	nops	bytes
+*daa*		1 	27
+
+dec <http://z80-heaven.wikidot.com/instructions-set:dec>
+instruction	nops	bytes
+*dec* (hl) 	3 	35
+*dec* (ix+nn) 	6 	dd 35 nn
+*dec* (iy+nn) 	6 	fd 35 nn
+*dec* a 	1 	3d
+*dec* b 	1 	05
+*dec* bc 	2 	0b
+*dec* c 	1 	0d
+*dec* d 	1 	15
+*dec* de 	2 	1b
+*dec* e 	1 	1d
+*dec* h 	1 	25
+*dec* ixh 	2 	dd 25
+*dec* iyh 	2 	fd 25
+*dec* hl 	2 	2b
+*dec* ix 	3 	dd 2b
+*dec* iy 	3 	fd 2b
+*dec* l 	1 	2d
+*dec* ixl 	2 	dd 2d
+*dec* iyl 	2 	fd 2d
+*dec* sp 	2 	3b
+
+di <http://z80-heaven.wikidot.com/instructions-set:di>
+instruction	nops	bytes
+*di*		1 	f3
+
+djnz <http://z80-heaven.wikidot.com/instructions-set:djnz>
+instruction	nops	bytes
+*djnz* nn 	3/4 	10 nn
+
+ei <http://z80-heaven.wikidot.com/instructions-set:ei>
+instruction	nops	bytes
+*ei*		1 	fb
+
+ex <http://z80-heaven.wikidot.com/instructions-set:ex>
+instruction	nops	bytes
+*ex* (sp),hl 	6 	e3
+*ex* (sp),ix 	7 	dd e3
+*ex* (sp),iy 	7 	fd e3
+*ex* af,af' 	1 	08
+*ex* de,hl 	1 	eb
+
+exx <http://z80-heaven.wikidot.com/instructions-set:exx>
+instruction	nops	bytes
+*exx*		1 	d9
+
+halt <http://z80-heaven.wikidot.com/instructions-set:halt>
+instruction	nops	bytes
+*halt*		1 + x 	76
+
+im <http://z80-heaven.wikidot.com/instructions-set:im>
+instruction	nops	bytes
+*im* 0 	2 	ed 46
+*im* 1 	2 	ed 56
+*im* 2 	2 	ed 5e
+
+in <http://z80-heaven.wikidot.com/instructions-set:in>
+instruction	nops	bytes
+*in* a,(c) 	4 	ed 78
+*in* a,(nn) 	3 	db nn
+*in* b,(c) 	4 	ed 40
+*in* c,(c) 	4 	ed 48
+*in* d,(c) 	4 	ed 50
+*in* e,(c) 	4 	ed 58
+*in* f,(c) 	4 	ed 70
+*in* h,(c) 	4 	ed 60
+*in* l,(c) 	4 	ed 68
+
+inc <http://z80-heaven.wikidot.com/instructions-set:inc>
+instruction	nops	bytes
+*inc* (hl) 	3 	34
+*inc* (ix+nn) 	6 	dd 34 nn
+*inc* (iy+nn) 	6 	fd 34 nn
+*inc* a 	1 	3c
+*inc* b 	1 	04
+*inc* bc 	2 	03
+*inc* c 	1 	0c
+*inc* d 	1 	14
+*inc* de 	2 	13
+*inc* e 	1 	1c
+*inc* h 	1 	24
+*inc* ixh 	2 	dd 24
+*inc* iyh 	2 	fd 24
+*inc* hl 	2 	23
+*inc* ix 	3 	dd 23
+*inc* iy 	3 	fd 23
+*inc* l 	1 	2c
+*inc* ixl 	2 	dd 2c
+*inc* iyl 	2 	fd 2c
+*inc* sp 	2 	33
+
+ind <http://z80-heaven.wikidot.com/instructions-set:ind>
+instruction	nops	bytes
+*ind*		5 	ed aa
+
+indr <http://z80-heaven.wikidot.com/instructions-set:indr>
+instruction	nops	bytes
+*indr*		5/6 	ed ba
+
+ini <http://z80-heaven.wikidot.com/instructions-set:ini>
+instruction	nops	bytes
+*ini*		5 	ed a2
+
+inir <http://z80-heaven.wikidot.com/instructions-set:inir>
+instruction	nops	bytes
+*inir*		5/6 	ed b2
+
+jp <http://z80-heaven.wikidot.com/instructions-set:jp>
+instruction	nops	bytes
+*jp* nnnn 	3 	c3 nn nn
+*jp* (hl) 	1 	e9
+*jp* (ix) 	2 	dd e9
+*jp* (iy) 	2 	fd e9
+*jp* c,nnnn 	3/3 	da nn nn
+*jp* m,nnnn 	3/3 	fa nn nn
+*jp* nc,nnnn 	3/3 	d2 nn nn
+*jp* nz,nnnn 	3/3 	c2 nn nn
+*jp* p,nnnn 	3/3 	f2 nn nn
+*jp* pe,nnnn 	3/3 	ea nn nn
+*jp* po,nnnn 	3/3 	e2 nn nn
+*jp* z,nnnn 	3/3 	ca nn nn
+
+jr <http://z80-heaven.wikidot.com/instructions-set:jr>
+instruction	nops	bytes
+*jr* nn 	3 	18 nn
+*jr* c,nn 	2/3 	38 nn
+*jr* nc,nn 	2/3 	30 nn
+*jr* nz,nn 	2/3 	20 nn
+*jr* z,nn 	2/3 	28 nn
+
+ld <http://z80-heaven.wikidot.com/instructions-set:ld>
+instruction	nops	bytes
+*ld* (bc),a 	2 	02
+*ld* (de),a 	2 	12
+*ld* (hl),a 	2 	77
+*ld* (hl),b 	2 	70
+*ld* (hl),c 	2 	71
+*ld* (hl),d 	2 	72
+*ld* (hl),e 	2 	73
+*ld* (hl),h 	2 	74
+*ld* (hl),l 	2 	75
+*ld* (hl),nn 	3 	36 nn
+*ld* (ix+nn),a 	5 	dd 77 nn
+*ld* (ix+nn),b 	5 	dd 70 nn
+*ld* (ix+nn),c 	5 	dd 71 nn
+*ld* (ix+nn),d 	5 	dd 72 nn
+*ld* (ix+nn),e 	5 	dd 73 nn
+*ld* (ix+nn),h 	5 	dd 74 nn
+*ld* (ix+nn),l 	5 	dd 75 nn
+*ld* (ix+nn),nn 	6 	dd 36 nn nn
+*ld* (iy+nn),a 	5 	fd 77 nn
+*ld* (iy+nn),b 	5 	fd 70 nn
+*ld* (iy+nn),c 	5 	fd 71 nn
+*ld* (iy+nn),d 	5 	fd 72 nn
+*ld* (iy+nn),e 	5 	fd 73 nn
+*ld* (iy+nn),h 	5 	fd 74 nn
+*ld* (iy+nn),l 	5 	fd 75 nn
+*ld* (iy+nn),nn 	6 	fd 36 nn nn
+*ld* (nnnn),a 	4 	32 nn nn
+*ld* (nnnn),bc 	6 	ed 43 nn nn
+*ld* (nnnn),de 	6 	ed 53 nn nn
+*ld* (nnnn),hl 	5 	22 nn nn
+*ld* (nnnn),ix 	6 	dd 22 nn nn
+*ld* (nnnn),iy 	6 	fd 22 nn nn
+*ld* (nnnn),sp 	6 	ed 73 nn nn
+*ld* a,(bc) 	2 	0a
+*ld* a,(de) 	2 	1a
+*ld* a,(hl) 	2 	7e
+*ld* a,(ix+nn) 	5 	dd 7e nn
+*ld* a,(iy+nn) 	5 	fd 7e nn
+*ld* a,(nnnn) 	4 	3a nn nn
+*ld* a,a 	1 	7f
+*ld* a,b 	1 	78
+*ld* a,c 	1 	79
+*ld* a,d 	1 	7a
+*ld* a,e 	1 	7b
+*ld* a,h 	1 	7c
+*ld* a,ixh 	2 	dd 7c
+*ld* a,iyh 	2 	fd 7c
+*ld* a,i 	3 	ed 57
+*ld* a,l 	1 	7d
+*ld* a,ixl 	2 	dd 7d
+*ld* a,iyl 	2 	fd 7d
+*ld* a,nn 	2 	3e nn
+*ld* a,r 	3 	ed 5f
+*ld* b,(hl) 	2 	46
+*ld* b,(ix+nn) 	5 	dd 46 nn
+*ld* b,(iy+nn) 	5 	fd 46 nn
+*ld* b,a 	1 	47
+*ld* b,b 	1 	40
+*ld* b,c 	1 	41
+*ld* b,d 	1 	42
+*ld* b,e 	1 	43
+*ld* b,h 	1 	44
+*ld* b,ixh 	2 	dd 44
+*ld* b,iyh 	2 	fd 44
+*ld* b,l 	1 	45
+*ld* b,ixl 	2 	dd 45
+*ld* b,iyl 	2 	fd 45
+*ld* b,nn 	2 	06 nn
+*ld* bc,(nnnn) 	6 	ed 4b nn nn
+*ld* bc,nnnn 	3 	01 nn nn
+*ld* c,(hl) 	2 	4e
+*ld* c,(ix+nn) 	5 	dd 4e nn
+*ld* c,(iy+nn) 	5 	fd 4e nn
+*ld* c,a 	1 	4f
+*ld* c,b 	1 	48
+*ld* c,c 	1 	49
+*ld* c,d 	1 	4a
+*ld* c,e 	1 	4b
+*ld* c,h 	1 	4c
+*ld* c,ixh 	2 	dd 4c
+*ld* c,iyh 	2 	fd 4c
+*ld* c,l 	1 	4d
+*ld* c,ixl 	2 	dd 4d
+*ld* c,iyl 	2 	fd 4d
+*ld* c,nn 	2 	0e nn
+*ld* d,(hl) 	2 	56
+*ld* d,(ix+nn) 	5 	dd 56 nn
+*ld* d,(iy+nn) 	5 	fd 56 nn
+*ld* d,a 	1 	57
+*ld* d,b 	1 	50
+*ld* d,c 	1 	51
+*ld* d,d 	1 	52
+*ld* d,e 	1 	53
+*ld* d,h 	1 	54
+*ld* d,ixh 	2 	dd 54
+*ld* d,iyh 	2 	fd 54
+*ld* d,l 	1 	55
+*ld* d,ixl 	2 	dd 55
+*ld* d,iyl 	2 	fd 55
+*ld* d,nn 	2 	16 nn
+*ld* de,(nnnn) 	6 	ed 5b nn nn
+*ld* de,nnnn 	3 	11 nn nn
+*ld* e,(hl) 	2 	5e
+*ld* e,(ix+nn) 	5 	dd 5e nn
+*ld* e,(iy+nn) 	5 	fd 5e nn
+*ld* e,a 	1 	5f
+*ld* e,b 	1 	58
+*ld* e,c 	1 	59
+*ld* e,d 	1 	5a
+*ld* e,e 	1 	5b
+*ld* e,h 	1 	5c
+*ld* e,ixh 	2 	dd 5c
+*ld* e,iyh 	2 	fd 5c
+*ld* e,l 	1 	5d
+*ld* e,ixl 	2 	dd 5d
+*ld* e,iyl 	2 	fd 5d
+*ld* e,nn 	2 	1e nn
+*ld* h,(hl) 	2 	66
+*ld* h,(ix+nn) 	5 	dd 66 nn
+*ld* h,(iy+nn) 	5 	fd 66 nn
+*ld* h,a 	1 	67
+*ld* h,b 	1 	60
+*ld* h,c 	1 	61
+*ld* h,d 	1 	62
+*ld* h,e 	1 	63
+*ld* h,h 	1 	64
+*ld* h,l 	1 	65
+*ld* h,nn 	2 	26 nn
+*ld* ixh,a 	2 	dd 67
+*ld* ixh,b 	2 	dd 60
+*ld* ixh,c 	2 	dd 61
+*ld* ixh,d 	2 	dd 62
+*ld* ixh,e 	2 	dd 63
+*ld* ixh,nn 	3 	dd 26 nn
+*ld* iyh,a 	2 	fd 67
+*ld* iyh,b 	2 	fd 60
+*ld* iyh,c 	2 	fd 61
+*ld* iyh,d 	2 	fd 62
+*ld* iyh,e 	2 	fd 63
+*ld* iyh,nn 	3 	fd 26 nn
+*ld* hl,(nnnn) 	5 	2a nn nn
+*ld* hl,nnnn 	3 	21 nn nn
+*ld* i,a 	5 	ed 47
+*ld* ix,(nnnn) 	6 	dd 2a nn nn
+*ld* ix,nnnn 	4 	dd 21 nn nn
+*ld* iy,(nnnn) 	6 	fd 2a nn nn
+*ld* iy,nnnn 	4 	fd 21 nn nn
+*ld* l,(hl) 	2 	6e
+*ld* l,(ix+nn) 	5 	dd 6e nn
+*ld* l,(iy+nn) 	5 	fd 6e nn
+*ld* l,a 	1 	6f
+*ld* l,b 	1 	68
+*ld* l,c 	1 	69
+*ld* l,d 	1 	6a
+*ld* l,e 	1 	6b
+*ld* l,h 	1 	6c
+*ld* l,l 	1 	6d
+*ld* l,nn 	2 	2e nn
+*ld* ixl,a 	2 	dd 6f
+*ld* ixl,b 	2 	dd 68
+*ld* ixl,c 	2 	dd 69
+*ld* ixl,d 	2 	dd 6a
+*ld* ixl,e 	2 	dd 6b
+*ld* ixl,nn 	3 	dd 2e nn
+*ld* iyl,a 	2 	fd 6f
+*ld* iyl,b 	2 	fd 68
+*ld* iyl,c 	2 	fd 69
+*ld* iyl,d 	2 	fd 6a
+*ld* iyl,e 	2 	fd 6b
+*ld* iyl,nn 	3 	fd 2e nn
+*ld* r,a 	3 	ed 4f
+*ld* sp,(nnnn) 	6 	ed 7b nn nn
+*ld* sp,hl 	2 	f9
+*ld* sp,ix 	3 	dd f9
+*ld* sp,iy 	3 	fd f9
+*ld* sp,nnnn 	3 	31 nn nn
+
+ldd <http://z80-heaven.wikidot.com/instructions-set:ldd>
+instruction	nops	bytes
+*ldd*		5 	ed a8
+
+lddr <http://z80-heaven.wikidot.com/instructions-set:lddr>
+instruction	nops	bytes
+*lddr*		5/6 	ed b8
+
+ldi <http://z80-heaven.wikidot.com/instructions-set:ldi>
+instruction	nops	bytes
+*ldi*		5 	ed a0
+
+ldir <http://z80-heaven.wikidot.com/instructions-set:ldir>
+instruction	nops	bytes
+*ldir*		5/6 	ed b0
+
+neg <http://z80-heaven.wikidot.com/instructions-set:neg>
+instruction	nops	bytes
+*neg*		2 	ed 44
+
+nop <http://z80-heaven.wikidot.com/instructions-set:nop>
+instruction	nops	bytes
+*nop*		1 	00
+
+or <http://z80-heaven.wikidot.com/instructions-set:or>
+instruction	nops	bytes
+*or* (hl) 	2 	b6
+*or* (ix+nn) 	5 	dd b6 nn
+*or* (iy+nn) 	5 	fd b6 nn
+*or* a 	1 	b7
+*or* b 	1 	b0
+*or* c 	1 	b1
+*or* d 	1 	b2
+*or* e 	1 	b3
+*or* h 	1 	b4
+*or* ixh 	2 	dd b4
+*or* iyh 	2 	fd b4
+*or* l 	1 	b5
+*or* ixl 	2 	dd b5
+*or* iyl 	2 	fd b5
+*or* nn 	2 	f6 nn
+
+otdr <http://z80-heaven.wikidot.com/instructions-set:otdr>
+instruction	nops	bytes
+*otdr*		5/6 	ed bb
+
+otir <http://z80-heaven.wikidot.com/instructions-set:otir>
+instruction	nops	bytes
+*otir*		5/6 	ed b3
+
+out <http://z80-heaven.wikidot.com/instructions-set:out>
+instruction	nops	bytes
+*out* (c),a 	4 	ed 79
+*out* (c),b 	4 	ed 41
+*out* (c),c 	4 	ed 49
+*out* (c),d 	4 	ed 51
+*out* (c),e 	4 	ed 59
+*out* (c),f 	*?*		ed 71
+*out* (c),h 	4 	ed 61
+*out* (c),l 	4 	ed 69
+*out* (nn),a 	3 	d3 nn
+
+outd <http://z80-heaven.wikidot.com/instructions-set:outd>
+instruction	nops	bytes
+*outd*		5 	ed ab
+
+outi <http://z80-heaven.wikidot.com/instructions-set:outi>
+instruction	nops	bytes
+*outi*		5 	ed a3
+
+pop <http://z80-heaven.wikidot.com/instructions-set:pop>
+instruction	nops	bytes
+*pop* af 	3 	f1
+*pop* bc 	3 	c1
+*pop* de 	3 	d1
+*pop* hl 	3 	e1
+*pop* ix 	5 	dd e1
+*pop* iy 	5 	fd e1
+
+push <http://z80-heaven.wikidot.com/instructions-set:push>
+instruction	nops	bytes
+*push* af 	4 	f5
+*push* bc 	4 	c5
+*push* de 	4 	d5
+*push* hl 	4 	e5
+*push* ix 	5 	dd e5
+*push* iy 	5 	fd e5
+
+res <http://z80-heaven.wikidot.com/instructions-set:res>
+instruction	nops	bytes
+*res* 0,(hl) 	4 	cb 86
+*res* 0,(ix+nn) 	7 	dd cb nn 86
+*res* 0,(iy+nn) 	7 	fd cb nn 86
+*res* 0,a 	2 	cb 87
+*res* 0,b 	2 	cb 80
+*res* 0,c 	2 	cb 81
+*res* 0,d 	2 	cb 82
+*res* 0,e 	2 	cb 83
+*res* 0,h 	2 	cb 84
+*res* 0,l 	2 	cb 85
+*res* 1,(hl) 	4 	cb 8e
+*res* 1,(ix+nn) 	7 	dd cb nn 8e
+*res* 1,(iy+nn) 	7 	fd cb nn 8e
+*res* 1,a 	2 	cb 8f
+*res* 1,b 	2 	cb 88
+*res* 1,c 	2 	cb 89
+*res* 1,d 	2 	cb 8a
+*res* 1,e 	2 	cb 8b
+*res* 1,h 	2 	cb 8c
+*res* 1,l 	2 	cb 8d
+*res* 2,(hl) 	4 	cb 96
+*res* 2,(ix+nn) 	7 	dd cb nn 96
+*res* 2,(iy+nn) 	7 	fd cb nn 96
+*res* 2,a 	2 	cb 97
+*res* 2,b 	2 	cb 90
+*res* 2,c 	2 	cb 91
+*res* 2,d 	2 	cb 92
+*res* 2,e 	2 	cb 93
+*res* 2,h 	2 	cb 94
+*res* 2,l 	2 	cb 95
+*res* 3,(hl) 	4 	cb 9e
+*res* 3,(ix+nn) 	7 	dd cb nn 9e
+*res* 3,(iy+nn) 	7 	fd cb nn 9e
+*res* 3,a 	2 	cb 9f
+*res* 3,b 	2 	cb 98
+*res* 3,c 	2 	cb 99
+*res* 3,d 	2 	cb 9a
+*res* 3,e 	2 	cb 9b
+*res* 3,h 	2 	cb 9c
+*res* 3,l 	2 	cb 9d
+*res* 4,(hl) 	4 	cb a6
+*res* 4,(ix+nn) 	7 	dd cb nn a6
+*res* 4,(iy+nn) 	7 	fd cb nn a6
+*res* 4,a 	2 	cb a7
+*res* 4,b 	2 	cb a0
+*res* 4,c 	2 	cb a1
+*res* 4,d 	2 	cb a2
+*res* 4,e 	2 	cb a3
+*res* 4,h 	2 	cb a4
+*res* 4,l 	2 	cb a5
+*res* 5,(hl) 	4 	cb ae
+*res* 5,(ix+nn) 	7 	dd cb nn ae
+*res* 5,(iy+nn) 	7 	fd cb nn ae
+*res* 5,a 	2 	cb af
+*res* 5,b 	2 	cb a8
+*res* 5,c 	2 	cb a9
+*res* 5,d 	2 	cb aa
+*res* 5,e 	2 	cb ab
+*res* 5,h 	2 	cb ac
+*res* 5,l 	2 	cb ad
+*res* 6,(hl) 	4 	cb b6
+*res* 6,(ix+nn) 	7 	dd cb nn b6
+*res* 6,(iy+nn) 	7 	fd cb nn b6
+*res* 6,a 	2 	cb b7
+*res* 6,b 	2 	cb b0
+*res* 6,c 	2 	cb b1
+*res* 6,d 	2 	cb b2
+*res* 6,e 	2 	cb b3
+*res* 6,h 	2 	cb b4
+*res* 6,l 	2 	cb b5
+*res* 7,(hl) 	4 	cb be
+*res* 7,(ix+nn) 	7 	dd cb nn be
+*res* 7,(iy+nn) 	7 	fd cb nn be
+*res* 7,a 	2 	cb bf
+*res* 7,b 	2 	cb b8
+*res* 7,c 	2 	cb b9
+*res* 7,d 	2 	cb ba
+*res* 7,e 	2 	cb bb
+*res* 7,h 	2 	cb bc
+*res* 7,l 	2 	cb bd
+
+ret <http://z80-heaven.wikidot.com/instructions-set:ret>
+instruction	nops	bytes
+*ret*		3 	c9
+*ret* c 	2/4 	d8
+*ret* m 	2/4 	f8
+*ret* nc 	2/4 	d0
+*ret* nz 	2/4 	c0
+*ret* p 	2/4 	f0
+*ret* pe 	2/4 	e8
+*ret* po 	2/4 	e0
+*ret* z 	2/4 	c8
+
+reti <http://z80-heaven.wikidot.com/instructions-set:reti>
+instruction	nops	bytes
+*reti*		4 	ed 4d
+
+retn <http://z80-heaven.wikidot.com/instructions-set:retn>
+instruction	nops	bytes
+*retn*		4 	ed 45
+
+rl <http://z80-heaven.wikidot.com/instructions-set:rl>
+instruction	nops	bytes
+*rl* (hl) 	4 	cb 16
+*rl* (ix+nn) 	7 	dd cb nn 16
+*rl* (iy+nn) 	7 	fd cb nn 16
+*rl* a 	2 	cb 17
+*rl* b 	2 	cb 10
+*rl* c 	2 	cb 11
+*rl* d 	2 	cb 12
+*rl* e 	2 	cb 13
+*rl* h 	2 	cb 14
+*rl* l 	2 	cb 15
+
+rla <http://z80-heaven.wikidot.com/instructions-set:rla>
+instruction	nops	bytes
+*rla*		1 	17
+
+rlc <http://z80-heaven.wikidot.com/instructions-set:rlc>
+instruction	nops	bytes
+*rlc* (hl) 	4 	cb 06
+*rlc* (ix+nn) 	7 	dd cb nn 06
+*rlc* (iy+nn) 	7 	fd cb nn 06
+*rlc* a 	2 	cb 07
+*rlc* b 	2 	cb 00
+*rlc* c 	2 	cb 01
+*rlc* d 	2 	cb 02
+*rlc* e 	2 	cb 03
+*rlc* h 	2 	cb 04
+*rlc* l 	2 	cb 05
+
+rlca <http://z80-heaven.wikidot.com/instructions-set:rlca>
+instruction	nops	bytes
+*rlca*		1 	07
+
+rld <http://z80-heaven.wikidot.com/instructions-set:rld>
+instruction	nops	bytes
+*rld*		5 	ed 6f
+
+rr <http://z80-heaven.wikidot.com/instructions-set:rr>
+instruction	nops	bytes
+*rr* (hl) 	4 	cb 1e
+*rr* (ix+nn) 	7 	dd cb nn 1e
+*rr* (iy+nn) 	7 	fd cb nn 1e
+*rr* a 	2 	cb 1f
+*rr* b 	2 	cb 18
+*rr* c 	2 	cb 19
+*rr* d 	2 	cb 1a
+*rr* e 	2 	cb 1b
+*rr* h 	2 	cb 1c
+*rr* l 	2 	cb 1d
+
+rra <http://z80-heaven.wikidot.com/instructions-set:rra>
+instruction	nops	bytes
+*rra*		1 	1f
+
+rrc <http://z80-heaven.wikidot.com/instructions-set:rrc>
+instruction	nops	bytes
+*rrc* (hl) 	4 	cb 0e
+*rrc* (ix+nn) 	7 	dd cb nn 0e
+*rrc* (iy+nn) 	7 	fd cb nn 0e
+*rrc* a 	2 	cb 0f
+*rrc* b 	2 	cb 08
+*rrc* c 	2 	cb 09
+*rrc* d 	2 	cb 0a
+*rrc* e 	2 	cb 0b
+*rrc* h 	2 	cb 0c
+*rrc* l 	2 	cb 0d
+
+rrca <http://z80-heaven.wikidot.com/instructions-set:rrca>
+instruction	nops	bytes
+*rrca*		1 	0f
+
+rrd <http://z80-heaven.wikidot.com/instructions-set:rrd>
+instruction	nops	bytes
+*rrd*		5 	ed 67
+
+rst <http://z80-heaven.wikidot.com/instructions-set:rst>
+instruction	nops	bytes
+*rst* 0 	4 	c7
+*rst* 8h 	4 	cf
+*rst* 10h 	4 	d7
+*rst* 18h 	4 	df
+*rst* 20h 	4 	e7
+*rst* 28h 	4 	ef
+*rst* 30h 	4 	f7
+*rst* 38h 	4 	ff
+
+sbc <http://z80-heaven.wikidot.com/instructions-set:sbc>
+instruction	nops	bytes
+*sbc* a,(hl) 	2 	9e
+*sbc* a,(ix+nn) 	5 	dd 9e nn
+*sbc* a,(iy+nn) 	5 	fd 9e nn
+*sbc* a,a 	1 	9f
+*sbc* a,b 	1 	98
+*sbc* a,c 	1 	99
+*sbc* a,d 	1 	9a
+*sbc* a,e 	1 	9b
+*sbc* a,h 	1 	9c
+*sbc* a,ixh 	2 	dd 9c
+*sbc* a,iyh 	2 	fd 9c
+*sbc* a,l 	1 	9d
+*sbc* a,ixl 	2 	dd 9d
+*sbc* a,iyl 	2 	fc 9d
+*sbc* a,nn 	2 	de nn
+*sbc* hl,bc 	4 	ed 42
+*sbc* hl,de 	4 	ed 52
+*sbc* hl,hl 	4 	ed 62
+*sbc* hl,sp 	4 	ed 72
+
+scf <http://z80-heaven.wikidot.com/instructions-set:scf>
+instruction	nops	bytes
+*scf*		1 	37
+
+set <http://z80-heaven.wikidot.com/instructions-set:set>
+instruction	nops	bytes
+*set* 0,(hl) 	4 	cb c6
+*set* 0,(ix+nn) 	7 	dd cb nn c6
+*set* 0,(iy+nn) 	7 	fd cb nn c6
+*set* 0,a 	2 	cb c7
+*set* 0,b 	2 	cb c0
+*set* 0,c 	2 	cb c1
+*set* 0,d 	2 	cb c2
+*set* 0,e 	2 	cb c3
+*set* 0,h 	2 	cb c4
+*set* 0,l 	2 	cb c5
+*set* 1,(hl) 	4 	cb ce
+*set* 1,(ix+nn) 	7 	dd cb nn ce
+*set* 1,(iy+nn) 	7 	fd cb nn ce
+*set* 1,a 	2 	cb cf
+*set* 1,b 	2 	cb c8
+*set* 1,c 	2 	cb c9
+*set* 1,d 	2 	cb ca
+*set* 1,e 	2 	cb cb
+*set* 1,h 	2 	cb cc
+*set* 1,l 	2 	cb cd
+*set* 2,(hl) 	4 	cb d6
+*set* 2,(ix+nn) 	7 	dd cb nn d6
+*set* 2,(iy+nn) 	7 	fd cb nn d6
+*set* 2,a 	2 	cb d7
+*set* 2,b 	2 	cb d0
+*set* 2,c 	2 	cb d1
+*set* 2,d 	2 	cb d2
+*set* 2,e 	2 	cb d3
+*set* 2,h 	2 	cb d4
+*set* 2,l 	2 	cb d5
+*set* 3,(hl) 	4 	cb de
+*set* 3,(ix+nn) 	7 	dd cb nn de
+*set* 3,(iy+nn) 	7 	fd cb nn de
+*set* 3,a 	2 	cb df
+*set* 3,b 	2 	cb d8
+*set* 3,c 	2 	cb d9
+*set* 3,d 	2 	cb da
+*set* 3,e 	2 	cb db
+*set* 3,h 	2 	cb dc
+*set* 3,l 	2 	cb dd
+*set* 4,(hl) 	4 	cb e6
+*set* 4,(ix+nn) 	7 	dd cb nn e6
+*set* 4,(iy+nn) 	7 	fd cb nn e6
+*set* 4,a 	2 	cb e7
+*set* 4,b 	2 	cb e0
+*set* 4,c 	2 	cb e1
+*set* 4,d 	2 	cb e2
+*set* 4,e 	2 	cb e3
+*set* 4,h 	2 	cb e4
+*set* 4,l 	2 	cb e5
+*set* 5,(hl) 	4 	cb ee
+*set* 5,(ix+nn) 	7 	dd cb nn ee
+*set* 5,(iy+nn) 	7 	fd cb nn ee
+*set* 5,a 	2 	cb ef
+*set* 5,b 	2 	cb e8
+*set* 5,c 	2 	cb e9
+*set* 5,d 	2 	cb ea
+*set* 5,e 	2 	cb eb
+*set* 5,h 	2 	cb ec
+*set* 5,l 	2 	cb ed
+*set* 6,(hl) 	4 	cb f6
+*set* 6,(ix+nn) 	7 	dd cb nn f6
+*set* 6,(iy+nn) 	7 	fd cb nn f6
+*set* 6,a 	2 	cb f7
+*set* 6,b 	2 	cb f0
+*set* 6,c 	2 	cb f1
+*set* 6,d 	2 	cb f2
+*set* 6,e 	2 	cb f3
+*set* 6,h 	2 	cb f4
+*set* 6,l 	2 	cb f5
+*set* 7,(hl) 	4 	cb fe
+*set* 7,(ix+nn) 	7 	dd cb nn fe
+*set* 7,(iy+nn) 	7 	fd cb nn fe
+*set* 7,a 	2 	cb ff
+*set* 7,b 	2 	cb f8
+*set* 7,c 	2 	cb f9
+*set* 7,d 	2 	cb fa
+*set* 7,e 	2 	cb fb
+*set* 7,h 	2 	cb fc
+*set* 7,l 	2 	cb fd
+
+sla <http://z80-heaven.wikidot.com/instructions-set:sla>
+0
+instruction	nops	bytes
+*sla* (hl) 	4 	cb 26
+*sla* (ix+nn) 	7 	dd cb nn 26
+*sla* (iy+nn) 	7 	fd cb nn 26
+*sla* a 	2 	cb 27
+*sla* b 	2 	cb 20
+*sla* c 	2 	cb 21
+*sla* d 	2 	cb 22
+*sla* e 	2 	cb 23
+*sla* h 	2 	cb 24
+*sla* l 	2 	cb 25
+
+sll <http://z80-heaven.wikidot.com/instructions-set:sll>
+1
+instruction	nops	bytes
+*sll* (hl) 	4 	cb 36
+*sll* (ix+nn) 	7 	dd cb nn 36
+*sll* (iy+nn) 	7 	fd cb nn 36
+*sll* a 	2 	cb 37
+*sll* b 	2 	cb 30
+*sll* c 	2 	cb 31
+*sll* d 	2 	cb 32
+*sll* e 	2 	cb 33
+*sll* h 	2 	cb 34
+*sll* l 	2 	cb 35
+
+sra <http://z80-heaven.wikidot.com/instructions-set:sra>
+instruction	nops	bytes
+*sra* (hl) 	4 	cb 2e
+*sra* (ix+nn) 	7 	dd cb nn 2e
+*sra* (iy+nn) 	7 	fd cb nn 2e
+*sra* a 	2 	cb 2f
+*sra* b 	2 	cb 28
+*sra* c 	2 	cb 29
+*sra* d 	2 	cb 2a
+*sra* e 	2 	cb 2b
+*sra* h 	2 	cb 2c
+*sra* l 	2 	cb 2d
+
+srl <http://z80-heaven.wikidot.com/instructions-set:srl>
+0
+instruction	nops	bytes
+*srl* (hl) 	4 	cb 3e
+*srl* (ix+nn) 	7 	cb 3e
+*srl* (iy+nn) 	7 	cb 3e
+*srl* a 	2 	cb 3f
+*srl* b 	2 	cb 38
+*srl* c 	2 	cb 39
+*srl* d 	2 	cb 3a
+*srl* e 	2 	cb 3b
+*srl* h 	2 	cb 3c
+*srl* l 	2 	cb 3d
+
+sub <http://z80-heaven.wikidot.com/instructions-set:sub>
+instruction	nops	bytes
+*sub* (hl) 	2 	96
+*sub* (ix+nn) 	5 	dd 96 nn
+*sub* (iy+nn) 	5 	fd 96 nn
+*sub* a 	1 	97
+*sub* b 	1 	90
+*sub* c 	1 	91
+*sub* d 	1 	92
+*sub* e 	1 	93
+*sub* h 	1 	94
+*sub* ixh 	2 	ff 94
+*sub* iyh 	2 	fd 94
+*sub* l 	1 	95
+*sub* ixl 	2 	ff 95
+*sub* iyl 	2 	fd 95
+*sub* nn 	2 	d6 nn
+
+xor <http://z80-heaven.wikidot.com/instructions-set:xor>
+instruction	nops	bytes
+*xor* (hl) 	2 	ae
+*xor* (ix+nn) 	5 	dd ae nn
+*xor* (iy+nn) 	5 	fd ae nn
+*xor* a 	1 	af
+*xor* b 	1 	a8
+*xor* c 	1 	a9
+*xor* d 	1 	aa
+*xor* e 	1 	ab
+*xor* h 	1 	ac
+*xor* ixh 	2 	dd ac
+*xor* iyh 	2 	fd ac
+*xor* l 	1 	ad
+*xor* ixl 	2 	dd ad
+*xor* iyl 	2 	fd ad
+*xor* nn 	2 	ee nn
+
+Thanks to:
+http://jgmalcolm.com/z80/opcodes/opcodesN.htm
+<http://jgmalcolm.com/z80/opcodes/opcodesN.htm>
+http://www.cpc-power.com/cpcarchives/index.php?page=articles&num=65
+<http://www.cpc-power.com/cpcarchives/index.php?page=articles&num=65>
+http://z80-heaven.wikidot.com/instructions-set
+<http://z80-heaven.wikidot.com/instructions-set>
+http://www.z80.info/z80undoc.htm <http://www.z80.info/z80undoc.htm>
+
+Scroll to top
+
+<#title>
+Open quick search
+
+Close quick search

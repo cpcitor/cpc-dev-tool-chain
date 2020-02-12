@@ -896,7 +896,7 @@ instruction	nops	bytes
 *sbc* a,iyh 	2 	fd 9c
 *sbc* a,l 	1 	9d
 *sbc* a,ixl 	2 	dd 9d
-*sbc* a,iyl 	2 	fc 9d
+*sbc* a,iyl 	2 	fd 9d
 *sbc* a,nn 	2 	de nn
 *sbc* hl,bc 	4 	ed 42
 *sbc* hl,de 	4 	ed 52
@@ -1035,8 +1035,8 @@ srl <http://z80-heaven.wikidot.com/instructions-set:srl>
 0
 instruction	nops	bytes
 *srl* (hl) 	4 	cb 3e
-*srl* (ix+nn) 	7 	cb 3e
-*srl* (iy+nn) 	7 	cb 3e
+*srl* (ix+nn) 	7 	dd cb 3e
+*srl* (iy+nn) 	7 	fd cb 3e
 *srl* a 	2 	cb 3f
 *srl* b 	2 	cb 38
 *srl* c 	2 	cb 39
@@ -1056,10 +1056,10 @@ instruction	nops	bytes
 *sub* d 	1 	92
 *sub* e 	1 	93
 *sub* h 	1 	94
-*sub* ixh 	2 	ff 94
+*sub* ixh 	2 	dd 94
 *sub* iyh 	2 	fd 94
 *sub* l 	1 	95
-*sub* ixl 	2 	ff 95
+*sub* ixl 	2 	dd 95
 *sub* iyl 	2 	fd 95
 *sub* nn 	2 	d6 nn
 

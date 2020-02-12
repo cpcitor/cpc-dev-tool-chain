@@ -364,12 +364,12 @@
 
 ;; sbc a,iyl.  Duration: 2 NOPs
 .macro sbc__a_iyl
-.db 0xfc, 0x9d
+.db 0xfd, 0x9d
 .endm
 
 ;; sub ixh.  Duration: 2 NOPs
 .macro sub__ixh
-.db 0xff, 0x94
+.db 0xdd, 0x94
 .endm
 
 ;; sub iyh.  Duration: 2 NOPs
@@ -379,7 +379,7 @@
 
 ;; sub ixl.  Duration: 2 NOPs
 .macro sub__ixl
-.db 0xff, 0x95
+.db 0xdd, 0x95
 .endm
 
 ;; sub iyl.  Duration: 2 NOPs

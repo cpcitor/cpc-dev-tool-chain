@@ -7,6 +7,7 @@ VARIABLES_AT_MAKEFILE_START := $(.VARIABLES)
 
 SDCC = time sdcc
 SDAS = time sdasz80
+SDASFLAGS = -I$(CDTC_ROOT)/cpclib/cdtc/asminclude -jylospw
 
 # optional include because inner projects don't have a cdtc_local_machine.conf
 -include cdtc_local_machine.conf
@@ -205,14 +206,14 @@ $(CDTC_ENV_FOR_PNG2CPCSPRITE):
 	. "$(CDTC_ROOT)"/tool/sdcc/build_config.inc ; set -xv ; $(SDCC) -mz80 --allow-unsafe-read $${SDCC_CFLAGS} $(CFLAGS) -c $< -o $@ ; )
 
 %.rel: %.s Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf $(TARGETS_TO_BUILD_BEFORE_CDTC_S_TO_REL_STEP)
-	( . "$(CDTC_ROOT)"/tool/sdcc/build_config.inc ; set -xv ; $(SDAS) -jylospw $@ $< ; )
+	( . "$(CDTC_ROOT)"/tool/sdcc/build_config.inc ; set -xv ; $(SDAS) $(SDASFLAGS) $@ $< ; )
 
 %.generated_from_asm_exported_symbols.h %.rel: %.s Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf
 	( . $(CDTC_ENV_FOR_SDCC) ; \
 	set -eu ; \
 	RELFILE="$(patsubst %.s,%.rel,$<)" ; \
 	OUTFILE="$(patsubst %.s,%.generated_from_asm_exported_symbols.h,$<)" ; \
-	time sdasz80 -w -l -o -s "$$RELFILE" $< || exit 1 ; \
+	$(SDAS) $(SDASFLAGS) "$$RELFILE" $< || exit 1 ; \
 	{ \
 	echo "#include <stdint.h>" ; \
 	echo ; \

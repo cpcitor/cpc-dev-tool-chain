@@ -198,8 +198,8 @@ $(CDTC_ENV_FOR_PNG2CPCSPRITE):
 	if grep -E '^#include .cfwi/.*\.h.' $< ; then echo "Uses cfwi: $<" ; $(MAKE) $(CDTC_ENV_FOR_CFWI) ; SDCC_CFLAGS="$${SDCC_CFLAGS} -I$(abspath $(CDTC_ROOT)/cpclib/cfwi/include/)" ; fi ; \
 	. "$(CDTC_ROOT)"/tool/sdcc/build_config.inc ; set -xv ; $(SDCC) -mz80 --allow-unsafe-read $${SDCC_CFLAGS} $(CFLAGS) -c $< -o $@ ; )
 
-%.rel: %.s Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf
-	( . "$(CDTC_ROOT)"/tool/sdcc/build_config.inc ; set -xv ; $(SDAS) -jylospw -c $< -o $@ ; )
+%.rel: %.s Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf $(TARGETS_TO_BUILD_BEFORE_CDTC_ASSEMBLY_STEP)
+	( . "$(CDTC_ROOT)"/tool/sdcc/build_config.inc ; set -xv ; $(SDAS) -jylospw $@ $< ; )
 
 %.generated_from_asm_exported_symbols.h %.rel: %.s Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf
 	( . $(CDTC_ENV_FOR_SDCC) ; \

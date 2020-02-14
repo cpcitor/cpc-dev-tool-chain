@@ -267,6 +267,10 @@ instruction	nops	bytes
 *cp* e 	1 	bb
 *cp* h 	1 	bc
 *cp* l 	1 	bd
+*cp* ixh 	2 	dd bc
+*cp* ixl 	2 	dd bd
+*cp* iyh 	2 	fd bc
+*cp* iyl 	2 	fd bd
 *cp* nn 	2 	fe nn
 
 cpd <http://z80-heaven.wikidot.com/instructions-set:cpd>

@@ -67,6 +67,26 @@
 .db 0xfd, 0xa5
 .endm
 
+;; cp ixh.  Duration: 2 NOPs
+.macro cp__ixh
+.db 0xdd, 0xbc
+.endm
+
+;; cp ixl.  Duration: 2 NOPs
+.macro cp__ixl
+.db 0xdd, 0xbd
+.endm
+
+;; cp iyh.  Duration: 2 NOPs
+.macro cp__iyh
+.db 0xfd, 0xbc
+.endm
+
+;; cp iyl.  Duration: 2 NOPs
+.macro cp__iyl
+.db 0xfd, 0xbd
+.endm
+
 ;; dec ixh.  Duration: 2 NOPs
 .macro dec__ixh
 .db 0xdd, 0x25

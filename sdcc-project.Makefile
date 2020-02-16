@@ -268,7 +268,7 @@ $(CDTC_ENV_FOR_PNG2CPCSPRITE):
 # If the project does "#include <stdio.h>" we link our putchar implementation. In theory someone might include stdio and prefer his own putchar implementation. If this happens to you, please tell, or even better offer a patch.
 
 # "--data-loc 0" ensures data area is computed by linker.
-$(PROJNAME).ihx: $(RELS) Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf $(LDLIBS)
+$(PROJNAME).ihx: $(LOCALRELSFORCEDFIRST) $(RELS) Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf $(LDLIBS)
 	( set -xv ; SDCC_LDFLAGS="--code-loc $$(printf 0x%x $(CODELOC)) --data-loc 0" ; \
 	if [[ -n "$(SRCS)" ]] ; then \
 	if grep -H '^#include .stdio.h.' $(SRCS) ; then echo "This executable depends on stdio(putchar): $@" ; $(MAKE) $(CDTC_ENV_FOR_CPC_PUTCHAR) ; SDCC_LDFLAGS="$${SDCC_LDFLAGS} $(CDTC_ROOT)/cpclib/cdtc_stdio/putchar_cpc.rel" ; fi ; \
@@ -276,7 +276,7 @@ $(PROJNAME).ihx: $(RELS) Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf $(LDLIB
 	if grep -H '^#include .cpcwyzlib.h.' $(SRCS) ; then echo "This executable depends on cpcwyzlib: $@" ; $(MAKE) $(CDTC_ENV_FOR_CPCRSLIB) ; SDCC_LDFLAGS="$${SDCC_LDFLAGS} -l$(CDTC_ROOT)/cpclib/cpcrslib/cpcrslib_SDCC.installtree/lib/cpcwyzlib.lib" ; fi ; \
 	if grep -H '^#include .cfwi/.*\.h.' $(SRCS) ; then echo "This executable depends on cfwi: $@" ; $(MAKE) $(CDTC_ENV_FOR_CFWI) ; SDCC_LDFLAGS="$${SDCC_LDFLAGS} -l$(abspath $(CDTC_ENV_FOR_CFWI))" ; fi ; \
 	fi ; \
-	. $(CDTC_ENV_FOR_SDCC) ; $(SDCC) -mz80 --no-std-crt0 -Wl-u $(LDFLAGS) $(LDLIBS) $(filter crt0.rel,$^) $(filter %.rel,$(filter-out crt0.rel,$^)) $${SDCC_LDFLAGS} -o "$@" ; )
+	. $(CDTC_ENV_FOR_SDCC) ; $(SDCC) -mz80 --no-std-crt0 -Wl-u $(LDFLAGS) $(LDLIBS) $(LOCALRELSFORCEDFIRST) $(filter crt0.rel,$(RELS)) $(filter-out crt0.rel,$(RELS)) $${SDCC_LDFLAGS} -o "$@" ; )
 
 $(PROJNAME).lib: $(RELS) Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf
 	 ( . $(CDTC_ENV_FOR_SDCC) ; set -euxv ; sdar rc "$@" $(filter %.rel,$^) ; )

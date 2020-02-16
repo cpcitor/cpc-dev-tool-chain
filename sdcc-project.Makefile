@@ -7,7 +7,7 @@ VARIABLES_AT_MAKEFILE_START := $(.VARIABLES)
 
 SDCC = time sdcc
 SDAS = time sdasz80
-SDASFLAGS = -I$(CDTC_ROOT)/cpclib/cdtc/asminclude -jylospw
+SDASFLAGS = -I$(CDTC_ROOT)/cpclib/cdtc/asminclude -lospw
 
 # optional include because inner projects don't have a cdtc_local_machine.conf
 -include cdtc_local_machine.conf

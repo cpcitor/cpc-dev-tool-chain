@@ -1066,6 +1066,8 @@ int main(int argc, const char **argv)
                 fprintf(output_file, "\n");
         }
 
+        fprintf(output_file, "\n%s_data_end::\n", symbol_name);
+
         fclose(output_file);
 
         printf("Finished writing file '%s'.\n", arguments.output_file);

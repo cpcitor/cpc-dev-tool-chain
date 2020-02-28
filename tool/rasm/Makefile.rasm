@@ -1,0 +1,2 @@
+rasm: $(wildcard rasm_*.c)
+	gcc -W -Wall -Wextra -pedantic $< -O2 -lm -lrt -march=native -o $@

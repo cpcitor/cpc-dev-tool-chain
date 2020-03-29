@@ -534,15 +534,15 @@ headers: $(GENHRDS)
 dep: $(DEPS)
 	@echo $(DEPS)
 
-########################################################################
-# Debug the makefile
-########################################################################
-$(info ######################################################################## )
-$(info Some variables about the project )
-$(info ######################################################################## )
-$(foreach v,                                        \
-  $(sort $(filter-out $(VARIABLES_AT_MAKEFILE_START) VARIABLES_AT_MAKEFILE_START,$(.VARIABLES))), \
-  $(info $(v) = $($(v))))
+# ########################################################################
+# # Debug the makefile
+# ########################################################################
+# $(info ######################################################################## )
+# $(info Some variables about the project )
+# $(info ######################################################################## )
+# $(foreach v,                                        \
+#   $(sort $(filter-out $(VARIABLES_AT_MAKEFILE_START) VARIABLES_AT_MAKEFILE_START,$(.VARIABLES))), \
+#   $(info $(v) = $($(v))))
 
 cppcheck:
 	( shopt -s nullglob ; cppcheck --force -UDEBUG -I . -I cpc-dev-tool-chain/cpclib/cfwi/include -I cpc-dev-tool-chain/tool/sdcc/sdcc-*.installtree/share/sdcc/include/ -I platform_sdcc/ --quiet --enable=all --platform=unspecified --std=c89 *.c *.h platform_sdcc/*.c platform_sdcc/*.h ; )

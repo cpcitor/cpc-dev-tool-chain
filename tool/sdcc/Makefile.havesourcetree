@@ -10,7 +10,7 @@ SDCCINSTALLTREE:=$(PREFIX)
 $(warning using PREFIX=$(PREFIX))
 else
 SDCCINSTALLTREE:=$(SDCCSOURCETREE).installtree
-$(warning PREFIX not set, will install to local tree)
+$(warning PREFIX not set, will install to local out-of-source tree)
 endif
      
 TARGETS=build_config.inc

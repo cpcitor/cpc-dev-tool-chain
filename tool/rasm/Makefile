@@ -13,7 +13,8 @@ all: $(TARGETS)
 ########################################################################
 
 PRODUCT_NAME=rasm
-URL_RELEASE=https://www.cpcwiki.eu/forum/programming/rasm-z80-assembler-in-beta/?action=dlattach;attach=30425
+URL_RELEASE=http://www.roudoudou.com/export/cpc/rasm/rasm_v0119_src.zip
+# https://www.cpcwiki.eu/forum/programming/rasm-z80-assembler-in-beta/?action=dlattach;attach=30425
 
 # http://cpctech.cpc-live.com/download/${PRODUCT_NAME}.zip
 
@@ -21,7 +22,6 @@ URL_RELEASE=https://www.cpcwiki.eu/forum/programming/rasm-z80-assembler-in-beta/
 # Example : URL ends in /download -> define ARCHIVE_NAME to something suitable
 # Example : URL ends in foo.tar.gz -> do not define ARCHIVE_NAME
 #ARCHIVE_NAME=$(PRODUCT_NAME)_latest.tgz
-ARCHIVE_NAME=$(PRODUCT_NAME)_latest.zip
 
 # You must set EXTRACT_DIR_NAME to match archive content.
 EXTRACT_DIR_NAME=$(PRODUCT_NAME)
@@ -36,7 +36,7 @@ URL_DOWNLOAD=$(URL_RELEASE)
 ARCHIVE_NAME?=$(notdir $(URL_DOWNLOAD))
 
 $(ARCHIVE_NAME):
-	set -xv ; wget -S "$(URL_RELEASE)" -O $@.tmp
+	set -xv ; wget --user-agent="Mozilla, not actually but you should know that rejecting downloads based on user agent sniffing is nonsense." -S "$(URL_RELEASE)" -O $@.tmp
 	mv -vf $@.tmp $@
 	@echo "************************************************************************"
 	@echo "**************** Source archive was downloaded to: $(@)"

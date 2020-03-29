@@ -23,7 +23,17 @@ test:
 	@echo -e "SDCCINSTALLTREE=\\t$(SDCCINSTALLTREE)"
 
 # out-of-source build :-)
-$(SDCCBUILDTREE)/.configured: sdcc_srctree.ref
+.build_has_source_tree_patched: z80_cpc_timings.diff sdcc_srctree.ref
+	@echo "************************************************************************"
+	@echo "**************** Configuring in : $$(cat $<)"
+	@echo "************************************************************************"
+	patch -p0 <$<
+	touch "$@"
+	@echo "************************************************************************"
+	@echo "**************** Patch success from : $<"
+	@echo "************************************************************************"
+
+$(SDCCBUILDTREE)/.configured: .build_has_source_tree_patched
 	@echo "************************************************************************"
 	@echo "**************** Configuring in : $$(cat $<)"
 	@echo "************************************************************************"

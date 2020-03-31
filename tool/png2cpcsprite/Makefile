@@ -6,6 +6,8 @@ SOURCES=$(wildcard *.c)
 
 BUILD_TARGET_FILE=png2cpcsprite
 
+build: $(BUILD_TARGET_FILE)
+
 $(BUILD_TARGET_FILE): $(SOURCES) Makefile
 	$(CC) $(CFLAGS) $(SOURCES) -o $@ $(LDFLAGS)
 

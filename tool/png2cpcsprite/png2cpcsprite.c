@@ -937,11 +937,12 @@ int main(int argc, const char **argv)
                                                         "PNG-palette-index-to-"
                                                         "CPC-palette-index) "
                                                         "and CPC mode %d.  "
-                                                        "Result will most "
+                                                        "Result would most "
                                                         "certainly be ugly.  "
                                                         "Please prepare your "
                                                         "image for the CPC "
-                                                        "beforehand.  "
+                                                        "beforehand or see -p "
+                                                        "option."
                                                         "Aborting.\n",
                                                         counter,
                                                         color_palette_index,

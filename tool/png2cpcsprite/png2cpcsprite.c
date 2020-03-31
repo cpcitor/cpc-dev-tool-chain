@@ -724,6 +724,9 @@ int main(int argc, const char **argv)
                        "nice palette specially for the CPC.   Will map RGB "
                        "information from PNG image to CPC colors.\n");
 
+                u_int8_t entries_in_generated_cpc_palette =
+                        image.colormap_entries;
+
                 if (image.colormap_entries > max_color_count_for_selected_mode)
                 {
                         fprintf(stderr,
@@ -738,12 +741,15 @@ int main(int argc, const char **argv)
                                 max_color_count_for_selected_mode,
                                 arguments.crtc_mode,
                                 max_color_count_for_selected_mode);
+
+                        entries_in_generated_cpc_palette =
+                                max_color_count_for_selected_mode;
                 }
 
                 u_int8_t *cmap_p = buffer_for_colormap;
 
-                for (png_uint_32 cmap_i = 0; cmap_i < image.colormap_entries;
-                     cmap_i++)
+                for (png_uint_32 cmap_i = 0;
+                     cmap_i < entries_in_generated_cpc_palette; cmap_i++)
                 {
                         // FIXME Should check if really 3 components? Or
                         // guaranteed by read parameters?
@@ -789,6 +795,21 @@ int main(int argc, const char **argv)
                                "to CPC color %u\n",
                                cmap_i, png_cmap_r, png_cmap_g, png_cmap_b,
                                squared_distance_min_index);
+                }
+
+                if (entries_in_generated_cpc_palette < image.colormap_entries)
+                {
+                        fprintf(stderr,
+                                "png2cpcsprite: Warning: generated CPC palette "
+                                "has only %d entries instead of the original "
+                                "%d.  Assuming the remaining %d are not used "
+                                "at all in the input image, else will abort.  "
+                                "If this is not what you meant, check the -p "
+                                "option.\n",
+                                entries_in_generated_cpc_palette,
+                                image.colormap_entries,
+                                image.colormap_entries -
+                                        entries_in_generated_cpc_palette);
                 }
         }
 

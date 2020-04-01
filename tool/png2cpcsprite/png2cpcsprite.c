@@ -87,6 +87,10 @@ static struct argp_option options[] = {
          "Path where the output file will be written in assembly source "
          "format.",
          1},
+        {"output-format", 'f', "<bitfield>", 0,
+         "Output format specification: 0 plain data. 1 interleaved (1 "
+         "byte transparency mask, 1 byte masked data).",
+         1},
         {0, 0, 0, 0, "Processing", 2},
         {"palette", 'p', "colorcode[,colorcode]*", 0,
          "Optional.  "
@@ -148,6 +152,7 @@ struct arguments
 {
         char *input_file;
         char *output_file;
+        int output_format;
         bool crtc_mode_explicitly_set;
         u_int8_t crtc_mode;
         bool bottom_to_top;
@@ -434,6 +439,38 @@ static error_t parse_opt(int key, char *arg, struct argp_state *state)
         case 'i':
                 arguments->input_file = arg;
                 break;
+        case 'f':
+        {
+                char *end;
+                if (!*arg)
+                {
+                        goto invalid;
+                }
+                errno = 0;
+                long l = strtol(arg, &end, 0);
+
+                if (errno != 0)
+                {
+                        goto invalid;
+                }
+
+                if (l > INT_MAX || (errno == ERANGE && l == LONG_MAX))
+                {
+                        goto invalid;
+                }
+                if (l < INT_MIN || (errno == ERANGE && l == LONG_MIN))
+                {
+                        goto invalid;
+                }
+                if (*end != '\0')
+                {
+                        goto invalid;
+                }
+
+                arguments->output_format = l;
+        }
+        // printf("arg='%s', value=%d\n", arg, arguments->output_format);
+        break;
         case 'o':
                 arguments->output_file = arg;
                 break;

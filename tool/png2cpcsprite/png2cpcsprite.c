@@ -956,8 +956,7 @@ int main(int argc, const char **argv)
                                                 fprintf(stderr,
                                                         "Error: at pixel "
                                                         "number %lu, image "
-                                                        "uses "
-                                                        "palette index %d "
+                                                        "uses palette index %d "
                                                         "which is too high "
                                                         "(>=%u) for this mode "
                                                         "of operation "
@@ -970,7 +969,7 @@ int main(int argc, const char **argv)
                                                         "Please prepare your "
                                                         "image for the CPC "
                                                         "beforehand or see -p "
-                                                        "option."
+                                                        "option.\n"
                                                         "Aborting.\n",
                                                         counter,
                                                         color_palette_index,
@@ -1045,7 +1044,8 @@ int main(int argc, const char **argv)
                 }
         }
 
-        printf("\nGenerated %u bytes of sprite data, will write them to output "
+        printf("\nGenerated %u bytes of sprite data, will write them "
+               "to output "
                "file '%s'.\n",
                sprite_bytes, arguments.output_file);
 
@@ -1108,7 +1108,8 @@ int main(int argc, const char **argv)
         if (output_file == NULL)
         {
                 fprintf(stderr,
-                        "png2cpcsprite: error: could not open output file "
+                        "png2cpcsprite: error: could not open output "
+                        "file "
                         "'%s'.",
                         arguments.output_file);
                 // Yes, we don't cleanup.  Quick and dirty!

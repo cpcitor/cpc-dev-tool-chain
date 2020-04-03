@@ -932,16 +932,6 @@ int main(int argc, const char **argv)
                 }
         }
 
-        if (arguments.crtc_mode != 1)
-        {
-                fprintf(stderr,
-                        "png2cpcsprite: error: only mode 1 supported at this "
-                        "time, not %d.",
-                        arguments.crtc_mode);
-                // Yes, we don't cleanup.  Quick and dirty!
-                exit(1);
-        }
-
         {
                 u_int8_t *pixeldata = buffer;
                 u_int8_t *w = sprite_buffer;
@@ -949,9 +939,10 @@ int main(int argc, const char **argv)
                 {
                         u_int8_t cpc_byte = 0;
 
-                        // mode 1 only for now
-                        for (int pixel_in_byte = 0; pixel_in_byte < 4;
-                             pixel_in_byte++)
+                        int pixels_per_byte = 2 << arguments.crtc_mode;
+
+                        for (int pixel_in_byte = 0;
+                             pixel_in_byte < pixels_per_byte; pixel_in_byte++)
                         {
                                 u_int8_t color_palette_index;
 
@@ -1000,10 +991,35 @@ int main(int argc, const char **argv)
                                 }
 
                                 cpc_byte = cpc_byte << 1;
-                                cpc_byte |= (color_palette_index & 2) >> 1 |
-                                            ((color_palette_index & 1) << 4);
-                        }
 
+                                switch (arguments.crtc_mode)
+                                {
+                                case 0:
+                                        cpc_byte |=
+                                                (color_palette_index & 8) >> 3 |
+                                                (color_palette_index & 4) << 2 |
+                                                (color_palette_index & 2) << 1 |
+                                                (color_palette_index & 1) << 6;
+                                        break;
+                                case 1:
+                                        cpc_byte |=
+                                                (color_palette_index & 2) >> 1 |
+                                                (color_palette_index & 1) << 4;
+                                        break;
+                                case 2:
+                                        cpc_byte |= color_palette_index;
+                                        break;
+                                default:
+                                        fprintf(stderr,
+                                                "png2cpcsprite: internal "
+                                                "error: are we really supposed "
+                                                "to do mode %d?\n",
+                                                arguments.crtc_mode);
+                                        // Yes, we don't cleanup.  Quick and
+                                        // dirty!
+                                        exit(1);
+                                }
+                        }
                         *w = cpc_byte;
                         w++;
                 }

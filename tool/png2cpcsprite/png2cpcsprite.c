@@ -1154,7 +1154,7 @@ int main(int argc, const char **argv)
                 u_int8_t *b = sprite_buffer;
                 for (size_t yplain = 0; yplain < image.height; yplain++)
                 {
-                        u_int8_t y = arguments.bottom_to_top
+                        int y = arguments.bottom_to_top
                                              ? image.height - 1 - yplain
                                              : yplain;
                         u_int8_t bytes_on_this_line = 0;

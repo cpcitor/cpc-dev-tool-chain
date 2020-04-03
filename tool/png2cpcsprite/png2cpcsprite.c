@@ -1028,7 +1028,7 @@ int main(int argc, const char **argv)
                         fprintf(stderr,
                                 "png2cpcsprite: warning: did not consume "
                                 "exacly all %lu bytes of input buffer, "
-                                "actually %lu (%p != %p).\n",
+                                "actually %ld (%p != %p).\n",
                                 buffer_size, w - buffer, w,
                                 buffer + buffer_size);
                 }

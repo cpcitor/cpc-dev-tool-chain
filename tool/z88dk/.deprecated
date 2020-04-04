@@ -1,0 +1,4 @@
+The presence of this file in a cpc-dev-tool-chain directory means
+that the corresponding item is deprecated.
+
+Among other things, it means that by default it won't be built.

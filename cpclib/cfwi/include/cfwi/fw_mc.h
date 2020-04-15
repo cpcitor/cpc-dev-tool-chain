@@ -263,7 +263,7 @@ typedef union ink_vector16
     MC CLEAR INKS only uses the border color and first ink.  When it
     is useful, you probably also use fw_mc_set_inks(), which means you
     already have a pointer to the full palette.  Just use
-    fw_mc_clear_inks() with the same argument.
+    fw_mc_clear_inks__*() with the same argument.
 
     Else, you can use a ink_vector1 parameter for standalone use.
 
@@ -330,7 +330,7 @@ void fw_mc_clear_inks__1(ink_vector1 *ink_vector) __preserves_regs(b, c, iyh, iy
     hardware_color_r0_g0_b0_black,
     hardware_color_r2_g1_b0_orange
     } };
-    fw_mc_clear_inks(&mypalette);
+    fw_mc_clear_inks__4(&mypalette);
     my_draw_invisible_things();
     fw_mc_set_inks(&mypalette);
     my_game_routine();

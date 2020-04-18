@@ -313,6 +313,15 @@ $(CDTC_ENV_FOR_IDSK):
 	( export LC_ALL=C ; $(MAKE) -C "$(@D)" ; )
 
 ########################################################################
+# Conjure up data compression tool exomizer
+########################################################################
+
+CDTC_ENV_FOR_EXOMIZER=$(CDTC_ROOT)/tool/exomizer/build_config.inc
+
+$(CDTC_ENV_FOR_EXOMIZER):
+	( export LC_ALL=C ; $(MAKE) -C "$(@D)" ; )
+
+########################################################################
 # Conjure up addhead
 ########################################################################
 

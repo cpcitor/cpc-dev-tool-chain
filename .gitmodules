@@ -3,3 +3,6 @@
 	url = https://github.com/cpcitor/caprice32
 	branch = integration_with_cdtc
 
+[submodule "tool/gfx2crtc/gfx2crtc"]
+	path = tool/gfx2crtc/gfx2crtc
+	url = https://github.com/cpcsdk/gfx2crtc

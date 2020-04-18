@@ -331,6 +331,15 @@ $(CDTC_ENV_FOR_EXOMIZER):
 	( export LC_ALL=C ; $(MAKE) -C "$(@D)" ; )
 
 ########################################################################
+# Conjure up data compression tool gfx2crtc
+########################################################################
+
+CDTC_ENV_FOR_GFX2CRTC=$(CDTC_ROOT)/tool/gfx2crtc/build_config.inc
+
+$(CDTC_ENV_FOR_GFX2CRTC):
+	( export LC_ALL=C ; $(MAKE) -C "$(@D)" ; )
+
+########################################################################
 # Conjure up addhead
 ########################################################################
 

@@ -131,15 +131,20 @@ static struct argp_option options[] = {
          3},
         {"symbol_format_string", 1, "<myprefix_%s_mysuffix>", 0,
          "Optional.  "
-         "Format string to generate symbol names.  "
+         "Format string to generate the symbol names by which you'll be able "
+         "to refer to your encoded data from assembly or C source code.  "
          "A '%s' is mandatory else the generated assembly file will be "
-         "invalid.  "
+         "invalid because different values will be attached to same symbol.  "
          "Default is '" symbol_format_string_default "'.",
          3},
         {"module_format_string", 2,
          "<myprefix_%s_mysuffix> or <my_module_name>", 0,
          "Optional.  "
-         "Format string to generate an assembly module name.  "
+         "Format string to generate an assembly module name (.module "
+         "modulename).  "
+         "Modules are mainly used in SDCC to get useful error messages (and "
+         "can be used to cause elements defined in several files to be grouped "
+         "in the run-time memory layout, compare with area).  "
          "It is okay to not include a '%s' so that several generated source "
          "files belong to the same module.  "
          "Default is '" module_format_string_default "'.",

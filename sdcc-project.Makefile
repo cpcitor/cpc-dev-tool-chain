@@ -269,7 +269,7 @@ $(CDTC_ENV_FOR_PNG2CPCSPRITE):
 # If you don't want this (presumably because you provide your own putchar), include in your cdtc_project.conf "NO_DEFAULT_PUTCHAR = anythingnonempty".
 
 # "--data-loc 0" ensures data area is computed by linker.
-$(PROJNAME).ihx: $(LOCALRELSFORCEDFIRST) $(RELS) Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf $(LDLIBS)
+$(PROJNAME).ihx $(PROJNAME).map $(PROJNAME).noi: $(LOCALRELSFORCEDFIRST) $(RELS) Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf $(LDLIBS)
 	( set -xv ; SDCC_LDFLAGS="--code-loc $$(printf 0x%x $(CODELOC)) --data-loc 0" ; \
 	if [[ -n "$(SRCS)" ]] ; then \
 	if [[ "$(NO_DEFAULT_PUTCHAR)" = "" ]] && grep -H '^#include .stdio.h.' $(SRCS) ; then echo "This executable depends on stdio(putchar): $@" ; $(MAKE) $(CDTC_ENV_FOR_CPC_PUTCHAR) ; SDCC_LDFLAGS="$${SDCC_LDFLAGS} $(CDTC_ROOT)/cpclib/cdtc_stdio/putchar_cpc.rel" ; fi ; \

@@ -13,6 +13,7 @@ const char *argp_program_bug_address = "<stephane_cpcitor@gourichon.org>";
 
 #define symbol_format_string_default "sprite_%s"
 #define module_format_string_default "module_%s"
+#define area_format_string_default ""
 
 static char doc[] =
         "\n"
@@ -142,12 +143,25 @@ static struct argp_option options[] = {
          "Optional.  "
          "Format string to generate an assembly module name (.module "
          "modulename).  "
-         "Modules are mainly used in SDCC to get useful error messages (and "
-         "can be used to cause elements defined in several files to be grouped "
-         "in the run-time memory layout, compare with area).  "
+         "Modules are mainly used in SDCC to get useful error messages.  "
+         "Additionally, putting several source files in the same module causes "
+         "symbols to be grouped in the run-time memory layout (compare with "
+         "area).  "
          "It is okay to not include a '%s' so that several generated source "
          "files belong to the same module.  "
          "Default is '" module_format_string_default "'.",
+         3},
+        {"area_format_string", 3, "<myprefix_%s_mysuffix> or <my_area_name>", 0,
+         "Optional.  "
+         "Format string to generate an assembly area name (.area AREANAME).  "
+         "The area mechanism in SDCC provide you with some control of run-time "
+         "memory layout: putting elements in same area groups them, and you "
+         "can choose order of areas by customising crt0.S.  "
+         "If empty, no .area line is generated, and the compiler defaults to "
+         "_CODE area.  "
+         "It is okay to not include a '%s' so that several generated source "
+         "files belong to the same area.  "
+         "Default is '" area_format_string_default "'.",
          3},
         {0}};
 
@@ -164,6 +178,7 @@ struct arguments
         char *name_stem;
         char *symbol_format_string;
         char *module_format_string;
+        char *area_format_string;
         unsigned int explicit_palette[MAX_EXPLICIT_PALETTE_COUNT];
         int explicit_palette_count;
         int verbose;
@@ -281,6 +296,10 @@ static error_t parse_opt(int key, char *arg, struct argp_state *state)
                 break;
         case 2: /* module_format_string */
                 arguments->module_format_string = arg;
+                goto ok;
+                break;
+        case 3: /* area_format_string */
+                arguments->area_format_string = arg;
                 goto ok;
                 break;
         case 'n': /* name_stem */
@@ -622,6 +641,7 @@ int main(int argc, const char **argv)
         memset(&arguments, 0, sizeof(arguments));
         arguments.symbol_format_string = symbol_format_string_default;
         arguments.module_format_string = module_format_string_default;
+        arguments.area_format_string = area_format_string_default;
 
         /* Parse our arguments; every option seen by parse_opt will
            be reflected in arguments. */
@@ -1132,6 +1152,15 @@ int main(int argc, const char **argv)
                  arguments.name_stem);
 
         fprintf(output_file, ".module %s\n\n", module_name);
+
+        char area_name[MAX_STRINGS_SIZE];
+        snprintf(area_name, MAX_STRINGS_SIZE, arguments.area_format_string,
+                 arguments.name_stem);
+
+        if (strlen(area_name))
+        {
+                fprintf(output_file, ".area %s\n\n", area_name);
+        }
 
         fprintf(output_file, "%s_bytes == 0x%04x\n", symbol_name, sprite_bytes);
         fprintf(output_file, "%s_height == %d\n", symbol_name, image.height);

@@ -185,6 +185,15 @@ $(CDTC_ENV_FOR_SDCC):
 	( export LC_ALL=C ; $(MAKE) -C "$(@D)" build_config.inc ; )
 
 ########################################################################
+# Conjure up compiler
+########################################################################
+
+CDTC_ENV_FOR_RASM=$(CDTC_ROOT)/tool/rasm/build_config.inc
+
+$(CDTC_ENV_FOR_RASM):
+	( export LC_ALL=C ; $(MAKE) -C "$(@D)" build_config.inc ; )
+
+########################################################################
 # Conjure up PNG to CPC converter
 ########################################################################
 

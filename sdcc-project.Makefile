@@ -268,7 +268,7 @@ $(CDTC_ENV_FOR_PNG2CPCSPRITE):
 	true ; \
 	} >"$${OUTFILE}.tmp" ; \
 	if grep -q "^#define ASMCONST_" "$${OUTFILE}.tmp" ; \
-	then mv -f "$${OUTFILE}.tmp" "$${OUTFILE}" ; else rm -f "$${OUTFILE}.tmp" ; fi \
+	then mv -f "$${OUTFILE}.tmp" "$${OUTFILE}" ; else echo "/* Nothing to see here, but this file needs to exist to avoid spurious rebuilds. */" </dev/null >"$${OUTFILE}" ; fi \
 	)
 
 %.generated.s: %.png Makefile $(CDTC_ENV_FOR_PNG2CPCSPRITE) cdtc_project.conf

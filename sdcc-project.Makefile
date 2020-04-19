@@ -354,7 +354,7 @@ $(CDTC_ENV_FOR_ADDHEAD):
 
 %.binamsdos.log %.binamsdos: %.bin %.bin.log $(CDTC_ENV_FOR_ADDHEAD)
 	( set -exv ; \
-	LOADADDR=$$( sed -n 's/^Lowest address  = 0000\([0-9]*\).*$$/\1/p' <$(<).log ) ; \
+	LOADADDR=$$( sed -n 's/^Lowest address  = 0000\([0-9A-Fa-f]*\).*$$/\1/p' <$(<).log ) ; \
 	RUNADDR=$$( sed -n 's/^ *0000\([0-9A-F]*\) *cpc_run_address  *.*$$/\1/p' <$*.map ) ; \
 	if [[ -z "$$RUNADDR" ]] ; then \
 	RUNADDR=$$( sed -n 's/^ *0000\([0-9A-F]*\) *init  *.*$$/\1/p' <$*.map ) ; \

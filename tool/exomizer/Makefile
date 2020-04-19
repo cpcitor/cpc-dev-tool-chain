@@ -13,7 +13,8 @@ all: $(TARGETS)
 ########################################################################
 
 PRODUCT_NAME=exomizer
-URL_RELEASE=https://bitbucket.org/magli143/exomizer/wiki/downloads/exomizer-3.0.2.zip
+URL_RELEASE=https://bitbucket.org/magli143/exomizer/wiki/downloads/exomizer-2.0.11.zip
+#URL_RELEASE=https://bitbucket.org/magli143/exomizer/wiki/downloads/exomizer-3.0.2.zip
 
 # If the end of the URL does not make a suitable file name, set ARCHIVE_NAME to a suitable file name.
 # Example : URL ends in /download -> define ARCHIVE_NAME to something suitable

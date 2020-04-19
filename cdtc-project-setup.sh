@@ -59,6 +59,7 @@ proceed_with_one_item ()
         fi
 
         {
+                echo "SHELL=/bin/bash"
                 echo "# ${OVERWRITABLE_MARKER}"
                 echo ""
                 echo "# This Makefile links your project to the copy of cpc-dev-tool-chain to be used."

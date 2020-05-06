@@ -167,7 +167,7 @@ then
                 CDTC_ROOT="$( cd -P "cpc-dev-tool-chain" ; pwd ; )"
                 echo "Fetched using git submodule: $CDTC_ROOT"
             else
-                set +xv ; echo >&2 "git submodule update --init failed, moving along." ; break ; 
+                set +xv ; echo >&2 "git submodule update --init failed, moving along." ; break ;
             fi
         fi
         if ! [[ -f "$PROBE" ]]

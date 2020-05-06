@@ -481,15 +481,12 @@ $(CDTNAME): $(BINS) $(CDTC_ENV_FOR_2CDT) Makefile
 	source $(CDTC_ENV_FOR_2CDT) ; \
 	2cdt -n -X 0x$${RUNADDR} -L 0x$${LOADADDR} -r $(PROJNAME) $< $@ ; \
 	)
-	@echo
-	@echo "************************************************************************"
-	@echo "************************************************************************"
-	@echo "**************** Current directory is: $(PWD) "
-	@echo "**************** Image ready: in $@ "
-	@echo "************************************************************************"
-	@echo "**************** Fire up your favorite emulator and run from it: $(BINS)"
-	@echo "************************************************************************"
-	@echo "************************************************************************"
+
+%.cdt: %.binamsdos $(CDTC_ENV_FOR_2CDT) Makefile
+	( set -exv ; \
+	source $(CDTC_ENV_FOR_2CDT) ; \
+	2cdt -n $< $@ ; \
+	)
 
 ########################################################################
 # Conjure up tool to convert .cdt to .voc or .au

@@ -151,7 +151,7 @@ then
     echo 'Checking `cpc-dev-tool-chain` subdirectory'
 
     PROBE="cpc-dev-tool-chain/sdcc-project.Makefile"
-    if ! [[ -d "$PROBE" ]]
+    if ! [[ -f "$PROBE" ]]
     then
         echo "Probing did not find: $PROBE"
 
@@ -170,7 +170,7 @@ then
                 set +xv ; echo >&2 "git submodule update --init failed, moving along." ; break ; 
             fi
         fi
-        if ! [[ -d "$PROBE" ]]
+        if ! [[ -f "$PROBE" ]]
         then
             echo "Mkay, git submodule option did not work.  Trying plain git clone."
             set -xv
@@ -184,7 +184,7 @@ then
                 echo >&2 "git clone failed, moving along." ; break ;
             fi
         fi
-        if ! [[ -d "$PROBE" ]]
+        if ! [[ -f "$PROBE" ]]
         then
             echo "Still not found. Mpfmfpfmmmf."
         fi

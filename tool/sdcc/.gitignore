@@ -3,3 +3,4 @@ sdcc.downloadlog.txt
 sdcc.downloadlog.txt.downloadeddata
 *.tmp
 sdcc-3.9.0
+.build_has_source_tree_patched

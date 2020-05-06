@@ -50,3 +50,5 @@ printer.txt
 **/wGui.log
 .build_dependencies_checked
 *.generated*
+z80_profiling_heat_map
+test_verdict.txt

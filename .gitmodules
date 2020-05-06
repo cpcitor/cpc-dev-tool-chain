@@ -6,3 +6,6 @@
 [submodule "tool/gfx2crtc/gfx2crtc"]
 	path = tool/gfx2crtc/gfx2crtc
 	url = https://github.com/cpcsdk/gfx2crtc
+[submodule "tool/deexo/deexo"]
+	path = tool/deexo/deexo
+	url = https://github.com/antoniovillena/deexo

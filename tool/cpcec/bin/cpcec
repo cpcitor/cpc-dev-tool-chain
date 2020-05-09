@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# cpcec relies on argv[0] to find its files.
+# This doesn't work when calling via PATH.
+# Have to call with explicit file name.
+
+set -xv
+
+$( SCRIPTPATH="$( realpath "$0" )" ; cd "${SCRIPTPATH%/*}" ; realpath ../cpcec/cpcec ) "$@"

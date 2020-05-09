@@ -526,9 +526,19 @@ CDTC_ENV_FOR_CAPRICE32=$(CDTC_ROOT)/tool/caprice32/build_config.inc
 $(CDTC_ENV_FOR_CAPRICE32):
 	( export LC_ALL=C ; $(MAKE) -C "$(@D)" build_config.inc ; )
 
-run: $(DSKNAME) $(CDTC_ENV_FOR_CAPRICE32)
+run-cap32: $(DSKNAME) $(CDTC_ENV_FOR_CAPRICE32)
 	( . $(CDTC_ENV_FOR_CAPRICE32) ; cap32_once $(DSKNAME) -a 'run"$(PROJNAME)' ; )
 
+
+CDTC_ENV_FOR_CPCEC=$(CDTC_ROOT)/tool/cpcec/build_config.inc
+
+$(CDTC_ENV_FOR_CPCEC):
+	( export LC_ALL=C ; $(MAKE) -C "$(@D)" build_config.inc ; )
+
+run-cpcec: $(DSKNAME) $(CDTC_ENV_FOR_CPCEC)
+	( . $(CDTC_ENV_FOR_CPCEC) ; cpcec $(DSKNAME) ; )
+
+run: run-cpcec
 
 ########################################################################
 

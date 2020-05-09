@@ -9,3 +9,6 @@
 [submodule "tool/deexo/deexo"]
 	path = tool/deexo/deexo
 	url = https://github.com/antoniovillena/deexo
+[submodule "tool/cpcec/cpcec"]
+	path = tool/cpcec/cpcec
+	url = https://github.com/cpcitor/cpcec

@@ -1,0 +1,7 @@
+# Information in cpc-ox.h
+
+CFLAGS=-O2
+# -W -Wall -Wextra -pedantic -O2
+
+cpcec: Makefile $(wildcard *.c *.h)
+	$(CC) $(CFLAGS) -DSDL_MAIN_HANDLED -xc cpcec.c -lSDL2 -o $@

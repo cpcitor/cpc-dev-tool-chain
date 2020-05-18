@@ -1,6 +1,6 @@
-diff -ur sdcc-3.9.0/sdas/asz80/z80mch.c sdcc-3.9.0_with_timings/sdas/asz80/z80mch.c
---- sdcc-3.9.0/sdas/asz80/z80mch.c	2018-12-18 09:53:34.000000000 +0100
-+++ sdcc-3.9.0_with_timings/sdas/asz80/z80mch.c	2020-02-12 22:33:08.008281556 +0100
+diff -ur sdcc-4.0.0/sdas/asz80/z80mch.c sdcc-4.0.0_timings/sdas/asz80/z80mch.c
+--- sdcc-4.0.0/sdas/asz80/z80mch.c	2019-06-06 15:43:12.000000000 +0200
++++ sdcc-4.0.0_timings/sdas/asz80/z80mch.c	2020-05-18 18:27:19.072897691 +0200
 @@ -67,64 +67,64 @@
  static const char  z80pg1[256] = {
  /*--*--* 0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F */

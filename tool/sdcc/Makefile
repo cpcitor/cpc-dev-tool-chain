@@ -14,7 +14,7 @@ all: $(TARGETS)
 
 # Tested release
 PRODUCT_NAME=sdcc
-URL_RELEASE=http://sourceforge.net/projects/sdcc/files/sdcc/3.9.0/sdcc-src-3.9.0.tar.bz2/download
+URL_RELEASE=http://sourceforge.net/projects/sdcc/files/sdcc/4.0.0/sdcc-src-4.0.0.tar.bz2/download
 
 URL_DOWNLOAD=$(URL_RELEASE)
 

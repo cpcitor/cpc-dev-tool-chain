@@ -76,6 +76,7 @@ clean:
 	-rm -f *~
 	-$(MAKE) -C $(SDCCBUILDTREE) clean
 	-rm -f $(SDCCBUILDTREE)/.built
+	-rm -fv sdcc_srctree.ref sdcc_tarball.ref
 
 mrproper: clean
 	-rm -f $(TARGETS)

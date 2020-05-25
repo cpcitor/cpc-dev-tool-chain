@@ -286,7 +286,7 @@ $(PROJNAME).ihx $(PROJNAME).map $(PROJNAME).noi $(PROJNAME).lk: $(LOCALRELSFORCE
 	if grep -H '^#include .cpcwyzlib.h.' $(SRCS) ; then echo "This executable depends on cpcwyzlib: $(PROJNAME)" ; $(MAKE) $(CDTC_ENV_FOR_CPCRSLIB) ; SDCC_LDFLAGS="$${SDCC_LDFLAGS} -l$(CDTC_ROOT)/cpclib/cpcrslib/cpcrslib_SDCC.installtree/lib/cpcwyzlib.lib" ; fi ; \
 	if grep -H '^#include .cfwi/.*\.h.' $(SRCS) ; then echo "This executable depends on cfwi: $(PROJNAME)" ; $(MAKE) $(CDTC_ENV_FOR_CFWI) ; SDCC_LDFLAGS="$${SDCC_LDFLAGS} -l$(abspath $(CDTC_ENV_FOR_CFWI))" ; fi ; \
 	fi ; \
-	. $(CDTC_ENV_FOR_SDCC) ; $(SDCC) -mz80 --no-std-crt0 -Wl-u $(LDFLAGS) $(LDLIBS) $(LOCALRELSFORCEDFIRST) $(filter crt0.rel,$(RELS)) $(filter-out crt0.rel,$(RELS)) $(LOCALRELSOTHERS) $${SDCC_LDFLAGS} -o .tmp."$(PROJNAME)".ihx && for EXT in ihx lk map noi ; do mv -vf .tmp."$(PROJNAME)".$$EXT "$(PROJNAME)".$$EXT ; done ; \
+	. $(CDTC_ENV_FOR_SDCC) ; $(SDCC) -mz80 --no-std-crt0 -Wl-u $(LDFLAGS) $(LDLIBS) $(LOCALRELSFORCEDFIRST) $(filter crt0.rel,$(RELS)) $(filter-out crt0.rel,$(RELS)) $(LOCALRELSOTHERS) $${SDCC_LDFLAGS} -o .tmp."$(PROJNAME)".ihx || exit $$? ; for EXT in ihx lk map noi ; do mv -vf .tmp."$(PROJNAME)".$$EXT "$(PROJNAME)".$$EXT ; done ; \
 	L__INITIALIZER=$$( sed -n 's/^ *0000\([0-9A-Fa-f]*\) *l__INITIALIZER *$$/\1/p' <"$(PROJNAME)".map ) ; \
 	INITIALIZER=$$( sed -n 's/^ *0000\([0-9A-Fa-f]*\) *s__INITIALIZER *$$/\1/p' <"$(PROJNAME)".map ) ; \
 	INITIALIZED=$$( sed -n 's/^ *0000\([0-9A-Fa-f]*\) *s__INITIALIZED *$$/\1/p' <"$(PROJNAME)".map ) ; \

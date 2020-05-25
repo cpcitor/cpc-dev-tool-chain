@@ -148,13 +148,13 @@ ihx: .build_dependencies_checked $(PROJNAME).ihx
 .PHONY: default all bin dsk cdt voc au lib ihx run
 
 ########################################################################
-# Conjure up cpc-specific putchar
+# Conjure up cpc-specific stdio
 ########################################################################
 
-CDTC_ENV_FOR_CPC_PUTCHAR=$(CDTC_ROOT)/cpclib/cdtc_stdio/cdtc_stdio.lib $(CDTC_ROOT)/cpclib/cdtc_stdio/putchar_cpc.rel
+CPC_STDIO_LIB=$(CDTC_ROOT)/cpclib/cdtc_stdio/cdtc_stdio.lib $(CDTC_ROOT)/cpclib/cdtc_stdio/stdio_cpc.lib
 
-$(CDTC_ENV_FOR_CPC_PUTCHAR):
-	( export LC_ALL=C ; $(MAKE) -C "$(@D)" lib putchar_cpc.rel ; )
+$(CPC_STDIO_LIB):
+	( export LC_ALL=C ; $(MAKE) -C "$(@D)" lib ; )
 
 ########################################################################
 # Conjure up cpcrslib
@@ -274,14 +274,14 @@ $(CDTC_ENV_FOR_PNG2CPCSPRITE):
 %.generated.s: %.png Makefile $(CDTC_ENV_FOR_PNG2CPCSPRITE) cdtc_project.conf
 	 ( . $(CDTC_ENV_FOR_PNG2CPCSPRITE) ; set -euxv ; png2cpcsprite $(PNG2CPCSPRITE_ARGS) --input "$<" --output "$@" ; )
 
-# If the project does "#include <stdio.h>" we link our putchar implementation.
-# If you don't want this (presumably because you provide your own putchar), include in your cdtc_project.conf "NO_DEFAULT_PUTCHAR = anythingnonempty".
+# If the project does "#include <stdio.h>" we link our stdio implementation.
+# If you don't want this (presumably because you provide your own stdio), include in your cdtc_project.conf "NO_DEFAULT_STDIO = anythingnonempty".
 
 # "--data-loc 0" ensures data area is computed by linker.
 $(PROJNAME).ihx $(PROJNAME).map $(PROJNAME).noi $(PROJNAME).lk: $(LOCALRELSFORCEDFIRST) $(RELS) $(LOCALRELSOTHERS) Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf $(LDLIBS)
 	( set -euxv ; SDCC_LDFLAGS="--code-loc $$(printf 0x%x $(CODELOC)) --data-loc 0" ; \
 	if [[ -n "$(SRCS)" ]] ; then \
-	if [[ "$(NO_DEFAULT_PUTCHAR)" = "" ]] && grep -H '^#include .stdio.h.' $(SRCS) ; then echo "This executable depends on stdio(putchar): $(PROJNAME)" ; $(MAKE) $(CDTC_ENV_FOR_CPC_PUTCHAR) ; SDCC_LDFLAGS="$${SDCC_LDFLAGS} $(CDTC_ROOT)/cpclib/cdtc_stdio/putchar_cpc.rel" ; fi ; \
+	if [[ "$(NO_DEFAULT_STDIO)" = "" ]] && grep -H '^#include .stdio.h.' $(SRCS) ; then echo "This executable depends on stdio(stdio): $(PROJNAME)\nPlease consider CPC-specific API,\nfor non-formatted string cfwi_txt_str0_output, see $(CDTC_ROOT)/cpclib/cfwi/include/cfwi/cfwi_txt.h\nfor keyboard input fw_km_wait_char, fw_km_read_char see $(CDTC_ROOT)/cpclib/cfwi/include/cfwi/fw_km.h" ; $(MAKE) $(CPC_STDIO_LIB) ; SDCC_LDFLAGS="$${SDCC_LDFLAGS} $(CDTC_ROOT)/cpclib/cdtc_stdio/stdio_cpc.lib" ; fi ; \
 	if grep -H '^#include .cpcrslib.h.' $(SRCS) ; then echo "This executable depends on cpcrslib: $(PROJNAME)" ; $(MAKE) $(CDTC_ENV_FOR_CPCRSLIB) ; SDCC_LDFLAGS="$${SDCC_LDFLAGS} -l$(CDTC_ROOT)/cpclib/cpcrslib/cpcrslib_SDCC.installtree/lib/cpcrslib.lib" ; fi ; \
 	if grep -H '^#include .cpcwyzlib.h.' $(SRCS) ; then echo "This executable depends on cpcwyzlib: $(PROJNAME)" ; $(MAKE) $(CDTC_ENV_FOR_CPCRSLIB) ; SDCC_LDFLAGS="$${SDCC_LDFLAGS} -l$(CDTC_ROOT)/cpclib/cpcrslib/cpcrslib_SDCC.installtree/lib/cpcwyzlib.lib" ; fi ; \
 	if grep -H '^#include .cfwi/.*\.h.' $(SRCS) ; then echo "This executable depends on cfwi: $(PROJNAME)" ; $(MAKE) $(CDTC_ENV_FOR_CFWI) ; SDCC_LDFLAGS="$${SDCC_LDFLAGS} -l$(abspath $(CDTC_ENV_FOR_CFWI))" ; fi ; \

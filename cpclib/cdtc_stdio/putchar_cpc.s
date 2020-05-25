@@ -6,6 +6,7 @@
 	;; by H. Hansen 2003
 	;; Original lines has been marked out!
 
+.module putchar
 	.area _CODE
 _putchar::
 _putchar_rr_s::

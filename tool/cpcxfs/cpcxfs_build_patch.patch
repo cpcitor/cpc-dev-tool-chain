@@ -1,7 +1,7 @@
-Only in cpcxfs.patched/: .patched
+Only in cpcxfs.patched/: .unpacked
 diff -ur cpcxfs/src/cpcfs.c cpcxfs.patched/src/cpcfs.c
---- cpcxfs/src/cpcfs.c	2013-12-23 12:01:44.000000000 +0100
-+++ cpcxfs.patched/src/cpcfs.c	2014-12-29 18:18:27.977203207 +0100
+--- cpcxfs/src/cpcfs.c	2017-06-24 21:23:01.000000000 +0200
++++ cpcxfs.patched/src/cpcfs.c	2020-06-15 14:32:15.966515374 +0200
 @@ -12,6 +12,7 @@
  
  
@@ -14,8 +14,8 @@ diff -ur cpcxfs/src/cpcfs.c cpcxfs.patched/src/cpcfs.c
  DirEntry *directory = (DirEntry*)NULL;
  
  /* KT - adjusted stamp */
--char stamp[] = "Compiled: " __DATE__ " "  __TIME__ "  by Kevin Thacker.";
-+char stamp[] = "Compiled: " __DATE__ " "  __TIME__ "  by a user of cpc-dev-tool-chain.";
+-char stamp[] = "Compiled:  " __DATE__ " "  __TIME__ "   by Kevin Thacker.";
++char stamp[] = "Compiled:  " __DATE__ " "  __TIME__ "   by a user of cpc-dev-tool-chain.";
  char copyright[] = "Original code (C) Dec. 1995 Derik van ZÅtphen";
  
  
@@ -45,13 +45,15 @@ diff -ur cpcxfs/src/cpcfs.c cpcxfs.patched/src/cpcfs.c
  										  
  	ui_main (argc,argv);
  	
+Only in cpcxfs.patched/src: cpcfs.c.orig
+Only in cpcxfs.patched/src: cpcfs.c.rej
 Only in cpcxfs.patched/src: cpcfs.c~
-Only in cpcxfs.patched/src: cpcfs.o
-Binary files cpcxfs/src/cpcxfs and cpcxfs.patched/src/cpcxfs differ
-Only in cpcxfs.patched/src: fs.o
+Only in cpcxfs/src: cpcfs.o
+Only in cpcxfs/src: cpcxfs
+Only in cpcxfs/src: fs.o
 diff -ur cpcxfs/src/makefile.lnx cpcxfs.patched/src/makefile.lnx
---- cpcxfs/src/makefile.lnx	2013-12-30 11:07:52.000000000 +0100
-+++ cpcxfs.patched/src/makefile.lnx	2015-02-24 12:15:04.546030448 +0100
+--- cpcxfs/src/makefile.lnx	2013-12-30 12:07:51.000000000 +0100
++++ cpcxfs.patched/src/makefile.lnx	2020-06-15 14:31:20.776928378 +0200
 @@ -28,7 +28,8 @@
  LDARGS  = $(LDOPT)
  
@@ -62,8 +64,8 @@ diff -ur cpcxfs/src/makefile.lnx cpcxfs.patched/src/makefile.lnx
  # LDARGS += -lreadline -lhistory -ltermcap
  endif
  
-Only in cpcxfs.patched/src: match.o
-Only in cpcxfs.patched/src: readdef.o
-Only in cpcxfs.patched/src: tools.o
-Only in cpcxfs.patched/src: ui.o
-Only in cpcxfs.patched/src: unix.o
+Only in cpcxfs/src: match.o
+Only in cpcxfs/src: readdef.o
+Only in cpcxfs/src: tools.o
+Only in cpcxfs/src: ui.o
+Only in cpcxfs/src: unix.o

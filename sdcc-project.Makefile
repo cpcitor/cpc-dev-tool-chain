@@ -472,7 +472,7 @@ $(CDTC_ENV_FOR_2CDT):
 
 # FIXME DRY LOADADDR
 # FIXME support only one bin
-$(CDTNAME): $(BINS) $(CDTC_ENV_FOR_2CDT) Makefile
+%.cdt: %.bin %.bin.log %.map $(CDTC_ENV_FOR_2CDT) Makefile
 	( set -exv ; \
 	LOADADDR=$$( sed -n 's/^Lowest address  = 0000\([0-9]*\).*$$/\1/p' <$(<).log ) ; \
 	RUNADDR=$$( sed -n 's/^ *0000\([0-9A-F]*\) *cpc_run_address  *.*$$/\1/p' <$(<:.bin=.map) ) ; \
@@ -483,7 +483,7 @@ $(CDTNAME): $(BINS) $(CDTC_ENV_FOR_2CDT) Makefile
 	echo "Cannot figure out run address. Aborting." ; exit 1 ; \
 	fi ; \
 	source $(CDTC_ENV_FOR_2CDT) ; \
-	2cdt -n -X 0x$${RUNADDR} -L 0x$${LOADADDR} -r $(PROJNAME) $< $@ ; \
+	2cdt -n -X 0x$${RUNADDR} -L 0x$${LOADADDR} -r $* $< $@ ; \
 	)
 
 %.cdt: %.binamsdos $(CDTC_ENV_FOR_2CDT) Makefile

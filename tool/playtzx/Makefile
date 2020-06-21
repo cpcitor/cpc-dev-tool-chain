@@ -13,37 +13,22 @@ all: $(TARGETS)
 ########################################################################
 
 PRODUCT_NAME=playtzx
-URL_RELEASE=http://www.worldofspectrum.org/pub/sinclair/tools/unix/playtzx-0.12c.tar.gz
-
-# If the end of the URL does not make a suitable file name, set ARCHIVE_NAME to a suitable file name.
-# Example : URL ends in /download -> define ARCHIVE_NAME to something suitable
-# Example : URL ends in foo.tar.gz -> do not define ARCHIVE_NAME
-#ARCHIVE_NAME=$(PRODUCT_NAME)_latest.tgz
+URL_GIT=https://github.com/tcat-qldom/PlayTZX # unused, set in git submodule
 
 # You must set EXTRACT_DIR_NAME to match archive content.
-EXTRACT_DIR_NAME=playtzx-0.12c
+EXTRACT_DIR_NAME=$(PRODUCT_NAME)
 
 # If only one generated executable file, set BUILD_TARGET_FILE to path to it.
 # It several generated executable files, do not set BUILD_TARGET_FILE.
 BUILD_DIR=$(EXTRACT_DIR_NAME)
 BUILD_TARGET_FILE=$(BUILD_DIR)/${PRODUCT_NAME}
 
-URL_DOWNLOAD=$(URL_RELEASE)
-
-ARCHIVE_NAME?=$(notdir $(URL_DOWNLOAD))
-
-$(ARCHIVE_NAME):
-	wget -S $(URL_RELEASE) -O $@.tmp
-	mv -vf $@.tmp $@
-	@echo "************************************************************************"
-	@echo "**************** Source archive was downloaded to: $(@)"
-	@echo "************************************************************************"
-
-$(EXTRACT_DIR_NAME)/.unpacked: $(ARCHIVE_NAME)
+$(EXTRACT_DIR_NAME)/.unpacked $(EXTRACT_DIR_NAME)/Makefile: Makefile
 	@echo "************************************************************************"
 	@echo "**************** Extracting source from: $^"
 	@echo "************************************************************************"
-	tar zxvf $<
+	git submodule update --init $(PRODUCT_NAME)
+	-rm -f $(PRODUCT_NAME)/$(PRODUCT_NAME) $(PRODUCT_NAME)/*.o
 	touch $@
 	@echo "************************************************************************"
 	@echo "**************** Source extracted to: $(@D)"
@@ -78,11 +63,10 @@ endif
 
 BUILD_TARGET_FILE?=$(EXTRACT_DIR_NAME)/.built
 
-$(BUILD_TARGET_FILE): $(EXTRACT_DIR_NAME)/.patched
+$(BUILD_TARGET_FILE): $(EXTRACT_DIR_NAME)/.patched $(EXTRACT_DIR_NAME)/Makefile
 	@echo "************************************************************************"
 	@echo "**************** Configuring and build in: $^"
 	@echo "************************************************************************"
-	( cd $(BUILD_DIR) ; ./configure ; )
 	$(MAKE) -C "$(BUILD_DIR)" --print-directory
 	touch "$@"
 	@echo "************************************************************************"

@@ -12,3 +12,6 @@
 [submodule "tool/cpcec/cpcec"]
 	path = tool/cpcec/cpcec
 	url = https://github.com/cpcitor/cpcec
+[submodule "tool/playtzx/playtzx"]
+	path = tool/playtzx/playtzx
+	url = https://github.com/tcat-qldom/PlayTZX

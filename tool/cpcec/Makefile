@@ -13,7 +13,7 @@ all: $(TARGETS)
 ########################################################################
 
 PRODUCT_NAME=cpcec
-URL_GIT=https://github.com/cpcitor/cpcec
+# URL_GIT=https://github.com/cpcitor/cpcec # unused, set in git submodule
 
 # You must set EXTRACT_DIR_NAME to match archive content.
 EXTRACT_DIR_NAME=$(PRODUCT_NAME)
@@ -22,8 +22,6 @@ EXTRACT_DIR_NAME=$(PRODUCT_NAME)
 # It several generated executable files, do not set BUILD_TARGET_FILE.
 BUILD_DIR=$(EXTRACT_DIR_NAME)
 BUILD_TARGET_FILE=$(BUILD_DIR)/${PRODUCT_NAME}
-
-URL_DOWNLOAD=$(URL_GIT)
 
 $(EXTRACT_DIR_NAME)/.unpacked $(EXTRACT_DIR_NAME)/Makefile: Makefile.cpcec
 	@echo "************************************************************************"
@@ -56,6 +54,7 @@ $(EXTRACT_DIR_NAME)/.patched: $(PATCHNAME) $(EXTRACT_DIR_NAME)/.unpacked
 	@echo "************************************************************************"
 	@echo "**************** Patching source in: $^"
 	@echo "************************************************************************"
+	patch -p0 < $<
 	touch $@
 	@echo "************************************************************************"
 	@echo "**************** Source patched in: $(@D)"
@@ -96,7 +95,7 @@ mrproper:
 	-rm -f $(PRODUCT_NAME)
 
 distclean: mrproper
-	-rm -f $(ARCHIVE_NAME)
+
 
 ########################################################################
 # Debug the makefile

@@ -13,15 +13,7 @@ all: $(TARGETS)
 ########################################################################
 
 PRODUCT_NAME=rasm
-URL_RELEASE=http://www.roudoudou.com/export/cpc/rasm/rasm_v0119_src.zip
-# https://www.cpcwiki.eu/forum/programming/rasm-z80-assembler-in-beta/?action=dlattach;attach=30425
-
-# http://cpctech.cpc-live.com/download/${PRODUCT_NAME}.zip
-
-# If the end of the URL does not make a suitable file name, set ARCHIVE_NAME to a suitable file name.
-# Example : URL ends in /download -> define ARCHIVE_NAME to something suitable
-# Example : URL ends in foo.tar.gz -> do not define ARCHIVE_NAME
-#ARCHIVE_NAME=$(PRODUCT_NAME)_latest.tgz
+# URL set in git submodule
 
 # You must set EXTRACT_DIR_NAME to match archive content.
 EXTRACT_DIR_NAME=$(PRODUCT_NAME)
@@ -29,25 +21,13 @@ EXTRACT_DIR_NAME=$(PRODUCT_NAME)
 # If only one generated executable file, set BUILD_TARGET_FILE to path to it.
 # It several generated executable files, do not set BUILD_TARGET_FILE.
 BUILD_DIR=$(EXTRACT_DIR_NAME)
-BUILD_TARGET_FILE=$(BUILD_DIR)/${PRODUCT_NAME}
+BUILD_TARGET_FILE=$(BUILD_DIR)/${PRODUCT_NAME}.exe
 
-URL_DOWNLOAD=$(URL_RELEASE)
-
-ARCHIVE_NAME?=$(notdir $(URL_DOWNLOAD))
-
-$(ARCHIVE_NAME):
-	set -xv ; wget --user-agent="Mozilla, not actually but you should know that rejecting downloads based on user agent sniffing is nonsense." -S "$(URL_RELEASE)" -O $@.tmp
-	mv -vf $@.tmp $@
-	@echo "************************************************************************"
-	@echo "**************** Source archive was downloaded to: $(@)"
-	@echo "************************************************************************"
-
-$(EXTRACT_DIR_NAME)/.unpacked: $(ARCHIVE_NAME) Makefile.rasm
+$(EXTRACT_DIR_NAME)/.unpacked:
 	@echo "************************************************************************"
 	@echo "**************** Extracting source from: $^"
 	@echo "************************************************************************"
-	mkdir -p $(EXTRACT_DIR_NAME) ; cd $(EXTRACT_DIR_NAME) ; unzip ../$<
-	cp Makefile.rasm $(EXTRACT_DIR_NAME)/Makefile
+	git submodule update --init $(PRODUCT_NAME)
 	touch $@
 	@echo "************************************************************************"
 	@echo "**************** Source extracted to: $(@D)"
@@ -73,14 +53,14 @@ $(EXTRACT_DIR_NAME)/.patched: $(PATCHNAME) $(EXTRACT_DIR_NAME)/.unpacked
 	@echo "************************************************************************"
 	@echo "**************** Patching source in: $^"
 	@echo "************************************************************************"
-	#patch -p0 < $< # Disabled for now as patch is not needed for most uses. Fixes issue https://github.com/cpcitor/cpc-dev-tool-chain/issues/1 
+	#patch -p0 < $< # No patch needed here
 	touch $@
 	@echo "************************************************************************"
 	@echo "**************** Source patched in: $(@D)"
 	@echo "************************************************************************"
 endif
 
-BUILD_TARGET_FILE?=$(EXTRACT_DIR_NAME)/.built
+BUILD_TARGET_FILE?=$(EXTRACT_DIR_NAME)/$(PRODUCT_NAME).exe
 
 $(BUILD_TARGET_FILE): $(EXTRACT_DIR_NAME)/.patched
 	@echo "************************************************************************"
@@ -92,7 +72,7 @@ $(BUILD_TARGET_FILE): $(EXTRACT_DIR_NAME)/.patched
 	@echo "**************** Configured and built in: $(@D)"
 	@echo "************************************************************************"
 
-build_config.inc: $(BUILD_TARGET_FILE) Makefile
+build_config.inc: $(BUILD_TARGET_FILE) Makefile bin/$(PRODUCT_NAME)
 	(set -eu ; \
 	{ \
 	echo "# with bash do \"source\" this file." ; \
@@ -100,17 +80,23 @@ build_config.inc: $(BUILD_TARGET_FILE) Makefile
 	echo "export PATH=\"\$${PATH}:$$PWD\"" ; \
 	} >$@ ; )
 
-#$(PRODUCT_NAME): $(BUILD_TARGET_FILE)
-#	cp -avf $< $@
+.PHONY: run
+
+run: bin/$(PRODUCT_NAME)
+	$<
+
+bin/$(PRODUCT_NAME): $(BUILD_TARGET_FILE)
+	mkdir -p bin
+	cp -avf $< $@
 
 .PHONY: install
 
 install: $(BUILD_TARGET_FILE)
-	@ if [[ -z "$PREFIX_BIN" ]] ; then echo >&2 "PREFIX_BIN not set. Aborting." ; exit 1 ; fi
+	@ if [[ -z "$(PREFIX_BIN)" ]] ; then echo >&2 "PREFIX_BIN not set. Aborting." ; exit 1 ; fi
 	@echo "************************************************************************"
 	@echo "**************** Installing: $^"
 	@echo "************************************************************************"
-	install -s -D -v --target-directory=$(PREFIX_BIN) $(BUILD_TARGET_FILE)
+	cp -fv $(BUILD_TARGET_FILE) $(PREFIX_BIN)/$(PRODUCT_NAME)
 	@echo "************************************************************************"
 	@echo "**************** Configured and built in: $(@D)"
 	@echo "************************************************************************"
@@ -127,7 +113,7 @@ mrproper:
 	-rm -f $(PRODUCT_NAME)
 
 distclean: mrproper
-	-rm -f $(ARCHIVE_NAME)
+
 
 ########################################################################
 # Debug the makefile

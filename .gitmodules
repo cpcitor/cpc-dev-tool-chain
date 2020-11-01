@@ -15,3 +15,6 @@
 [submodule "tool/playtzx/playtzx"]
 	path = tool/playtzx/playtzx
 	url = https://github.com/tcat-qldom/PlayTZX
+[submodule "tool/rasm/rasm"]
+	path = tool/rasm/rasm
+	url = https://github.com/EdouardBERGE/rasm

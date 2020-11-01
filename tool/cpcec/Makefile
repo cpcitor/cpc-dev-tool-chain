@@ -13,7 +13,7 @@ all: $(TARGETS)
 ########################################################################
 
 PRODUCT_NAME=cpcec
-# URL_GIT=https://github.com/cpcitor/cpcec # unused, set in git submodule
+# URL set in git submodule
 
 # You must set EXTRACT_DIR_NAME to match archive content.
 EXTRACT_DIR_NAME=$(PRODUCT_NAME)
@@ -54,7 +54,7 @@ $(EXTRACT_DIR_NAME)/.patched: $(PATCHNAME) $(EXTRACT_DIR_NAME)/.unpacked
 	@echo "************************************************************************"
 	@echo "**************** Patching source in: $^"
 	@echo "************************************************************************"
-	patch -p0 < $<
+	#patch -p0 < $< # No patch needed here
 	touch $@
 	@echo "************************************************************************"
 	@echo "**************** Source patched in: $(@D)"

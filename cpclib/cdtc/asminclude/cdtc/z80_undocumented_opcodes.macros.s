@@ -1,6 +1,6 @@
 ;; This file was generated with the help of a bash script from data published at https://borilla.co.uk/z80.html . Thanks John Adams a.k.a. https://github.com/borilla !
 ;; It is intended to be used like this:
-;; .include "z80_undocumented_opcodes.s"
+;; .include "z80_undocumented_opcodes.macros.s"
 ;; ...your code...
 ;; adc__a_ixh
 

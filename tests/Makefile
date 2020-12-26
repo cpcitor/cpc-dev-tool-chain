@@ -1,4 +1,4 @@
-SHELL=/bin/bash
+SHELL=/bin/bash -eu
 
 VARIABLES_AT_MAKEFILE_START := $(.VARIABLES)
 
@@ -11,16 +11,16 @@ all: all-tests summarize
 all-tests: run-tests-make run-tests-shell 
 
 summarize:
-	@( grep -h . */test_verdict.txt | sort | uniq -c >$@.tmp && mv -f $@.tmp test-result-summary.txt ; )
-	@( echo "########################################################################" ; if grep FAIL test-result-summary.txt ; then echo >&2 "At least one test fails" ; exit 1 ; else echo "ALL TEST PASS" ; exit 0 ; fi ; )
+	@( set -o pipefail ; grep -h . */test_verdict.txt | sort | uniq -c >$@.tmp && mv -f $@.tmp test-result-summary.txt ; )
+	@( set -o pipefail ; echo "########################################################################" ; if grep FAIL test-result-summary.txt ; then echo >&2 "At least one test fails" ; exit 1 ; else echo "ALL TEST PASS" ; exit 0 ; fi ; )
 
 
 
 run-tests-shell: $(CDTC_ENV_FOR_CAPRICE32)
-	@( shopt -s nullglob ; rm -fv */output/*~ */model/*~ ; for TEST in */test.sh ; do echo "########################################################################" ; echo -ne "Shell TEST: $$TEST\t" ; bash $$TEST >$${MAKE}.log 2>&1 && echo "TEST PASS" || echo "TEST FAIL $$TEST" ; done ; exit 0 ; )
+	@( set -o pipefail ; shopt -s nullglob ; rm -fv */output/*~ */model/*~ ; for TEST in */test.sh ; do echo "########################################################################" ; echo -ne "Shell TEST: $$TEST\t" ; bash $$TEST >$${MAKE}.log 2>&1 && echo "TEST PASS" || echo "TEST FAIL $$TEST" ; done ; exit 0 ; )
 
 run-tests-make:
-	@( rm -fv */output/*~ */model/*~ ; for MAKE in */local.Makefile ; do echo "########################################################################" ; echo -ne "Make TEST: $$MAKE\t" ; ( cd "$$(dirname $$MAKE)" ; $(MAKE) >test-execution.log 2>&1 ) && echo "TEST PASS"  || echo "TEST FAIL $$MAKE" ; done ; exit 0 ; )
+	@( set -o pipefail ; rm -fv */output/*~ */model/*~ ; for MAKE in */local.Makefile ; do echo "########################################################################" ; echo -ne "Make TEST: $$MAKE\t" ; ( cd "$$(dirname $$MAKE)" ; $(MAKE) >test-execution.log 2>&1 ) && echo "TEST PASS"  || echo "TEST FAIL $$MAKE" ; done ; exit 0 ; )
 
 ########################################################################
 # Run emulator

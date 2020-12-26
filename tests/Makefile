@@ -8,7 +8,7 @@ CDTC_ROOT=..
 
 all: all-tests summarize
 
-all-tests: run-tests-make run-tests-shell 
+all-tests: run-tests-make run-tests-shell
 
 summarize:
 	@( set -o pipefail ; grep -h . */test_verdict.txt | sort | uniq -c >$@.tmp && mv -f $@.tmp test-result-summary.txt ; )

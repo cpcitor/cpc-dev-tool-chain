@@ -61,7 +61,7 @@ default:
 	@echo "########################################################################"
 	@echo "Exiting without performing any build. Happy hacking!"
 	@echo "########################################################################"
-	@exit 0
+	@exit 1
 
 
 all: $(TARGETS)

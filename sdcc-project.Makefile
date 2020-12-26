@@ -585,3 +585,7 @@ dep: $(DEPS)
 
 cppcheck:
 	( shopt -s nullglob ; cppcheck --force -UDEBUG -I . -I cpc-dev-tool-chain/cpclib/cfwi/include -I cpc-dev-tool-chain/tool/sdcc/sdcc-*.installtree/share/sdcc/include/ -I platform_sdcc/ --quiet --enable=all --platform=unspecified --std=c89 *.c *.h platform_sdcc/*.c platform_sdcc/*.h ; )
+
+.PHONY: clang-format
+clang-format:
+	clang-format -i *.c *.h */*.c */*.h

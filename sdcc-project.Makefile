@@ -69,23 +69,23 @@ all: $(TARGETS)
 # /usr/include/freetype2/ft2build.h
 # /usr/include/SDL/SDL.h
 TOOLS=\
-mandatory:git:git \
-mandatory:wget:wget \
-mandatory:make:make \
-mandatory:patch:patch \
-mandatory:gcc:gcc \
-mandatory:bzip2:bzip2 \
-mandatory:unzip:unzip \
-mandatory:g++:g++ \
-mandatory:makeinfo:texinfo \
-mandatory:bison:bison \
-mandatory:flex:flex \
-mandatory:/usr/include/boost/version.hpp:libboost-all-dev \
-mandatory:/usr/include/zlib.h:zlib1g-dev \
-optional:sdl-config:libsdl1.2-dev \
-optional:pkgconf:pkgconf \
-optional:/usr/lib/x86_64-linux-gnu/pkgconfig/freetype2.pc:libfreetype6-dev \
-mandatory:ncurses5-config:libncurses-dev \
+    mandatory:git:git \
+    mandatory:wget:wget \
+    mandatory:make:make \
+    mandatory:patch:patch \
+    mandatory:gcc:gcc \
+    mandatory:bzip2:bzip2 \
+    mandatory:unzip:unzip \
+    mandatory:g++:g++ \
+    mandatory:makeinfo:texinfo \
+    mandatory:bison:bison \
+    mandatory:flex:flex \
+    mandatory:/usr/include/boost/version.hpp:libboost-all-dev \
+    mandatory:/usr/include/zlib.h:zlib1g-dev \
+    optional:sdl-config:libsdl1.2-dev \
+    optional:pkgconf:pkgconf \
+    optional:/usr/lib/x86_64-linux-gnu/pkgconfig/freetype2.pc:libfreetype6-dev \
+    mandatory:ncurses5-config:libncurses-dev \
 
 .build_dependencies_checked:
 	@( set -eu ; echo ; echo ; \

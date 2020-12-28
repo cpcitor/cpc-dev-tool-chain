@@ -176,6 +176,16 @@ $(CDTC_ENV_FOR_CFWI):
 	( export LC_ALL=C ; $(MAKE) -C "$(@D)" ; )
 
 ########################################################################
+# Conjure up cdtc library
+########################################################################
+
+CDTC_ENV_FOR_CDTC=$(CDTC_ROOT)/cpclib/cdtc/cdtc.lib
+
+.PHONY: $(CDTC_ENV_FOR_CDTC)
+$(CDTC_ENV_FOR_CDTC):
+	( export LC_ALL=C ; $(MAKE) -C "$(@D)" ; )
+
+########################################################################
 # Conjure up compiler
 ########################################################################
 
@@ -212,6 +222,7 @@ $(CDTC_ENV_FOR_PNG2CPCSPRITE):
 	( SDCC_CFLAGS="$(CFLAGS_PROJECT_SDCC) $(CFLAGS_PROJECT_ALLPLATFORMS) -I$(CDTC_ROOT)/cpclib/cdtc/include/" ; \
 	if grep -E '^#include .cpc(rs|wyz)lib.h.' $< ; then echo "Uses cpcrslib and/or cpcwyzlib: $<" ; $(MAKE) $(CDTC_ENV_FOR_CPCRSLIB) ; SDCC_CFLAGS="$${SDCC_CFLAGS} -I$(CDTC_ROOT)/cpclib/cpcrslib/cpcrslib_SDCC.installtree/include" ; fi ; \
 	if grep -E '^#include .cfwi/.*\.h.' $< ; then echo "Uses cfwi: $<" ; $(MAKE) $(CDTC_ENV_FOR_CFWI) ; SDCC_CFLAGS="$${SDCC_CFLAGS} -I$(abspath $(CDTC_ROOT)/cpclib/cfwi/include/)" ; fi ; \
+	if grep -E '^#include .cdtc/.*\.h.' $< ; then echo "Uses cdtc: $<" ; $(MAKE) $(CDTC_ENV_FOR_CDTC) ; SDCC_CFLAGS="$${SDCC_CFLAGS} -I$(abspath $(CDTC_ROOT)/cpclib/cdtc/include/)" ; fi ; \
 	. "$(CDTC_ROOT)"/tool/sdcc/build_config.inc ; set -xv ; $(SDCC) -mz80 --allow-unsafe-read $${SDCC_CFLAGS} $(CFLAGS) -c $< -o $@ ; )
 
 #%.rel: %.s Makefile $(CDTC_ENV_FOR_SDCC) cdtc_project.conf $(TARGETS_TO_BUILD_BEFORE_CDTC_S_TO_REL_STEP)
@@ -285,6 +296,7 @@ $(PROJNAME).ihx $(PROJNAME).map $(PROJNAME).noi $(PROJNAME).lk: $(LOCALRELSFORCE
 	if grep -H '^#include .cpcrslib.h.' $(SRCS) ; then echo "This executable depends on cpcrslib: $(PROJNAME)" ; $(MAKE) $(CDTC_ENV_FOR_CPCRSLIB) ; SDCC_LDFLAGS="$${SDCC_LDFLAGS} -l$(CDTC_ROOT)/cpclib/cpcrslib/cpcrslib_SDCC.installtree/lib/cpcrslib.lib" ; fi ; \
 	if grep -H '^#include .cpcwyzlib.h.' $(SRCS) ; then echo "This executable depends on cpcwyzlib: $(PROJNAME)" ; $(MAKE) $(CDTC_ENV_FOR_CPCRSLIB) ; SDCC_LDFLAGS="$${SDCC_LDFLAGS} -l$(CDTC_ROOT)/cpclib/cpcrslib/cpcrslib_SDCC.installtree/lib/cpcwyzlib.lib" ; fi ; \
 	if grep -H '^#include .cfwi/.*\.h.' $(SRCS) ; then echo "This executable depends on cfwi: $(PROJNAME)" ; $(MAKE) $(CDTC_ENV_FOR_CFWI) ; SDCC_LDFLAGS="$${SDCC_LDFLAGS} -l$(abspath $(CDTC_ENV_FOR_CFWI))" ; fi ; \
+	if grep -H '^#include .cdtc/.*\.h.' $(SRCS) ; then echo "This executable depends on cdtc: $(PROJNAME)" ; $(MAKE) $(CDTC_ENV_FOR_CDTC) ; SDCC_LDFLAGS="$${SDCC_LDFLAGS} -l$(abspath $(CDTC_ENV_FOR_CDTC))" ; fi ; \
 	fi ; \
 	. $(CDTC_ENV_FOR_SDCC) ; $(SDCC) -mz80 --no-std-crt0 -Wl-u $(LDFLAGS) $(LDLIBS) $(LOCALRELSFORCEDFIRST) $(filter crt0.rel,$(RELS)) $(filter-out crt0.rel,$(RELS)) $(LOCALRELSOTHERS) $${SDCC_LDFLAGS} -o .tmp."$(PROJNAME)".ihx || exit $$? ; for EXT in ihx lk map noi ; do mv -vf .tmp."$(PROJNAME)".$$EXT "$(PROJNAME)".$$EXT ; done ; \
 	L__INITIALIZER=$$( sed -n 's/^ *0000\([0-9A-Fa-f]*\) *l__INITIALIZER *$$/\1/p' <"$(PROJNAME)".map ) ; \

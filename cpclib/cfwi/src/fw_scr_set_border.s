@@ -6,5 +6,5 @@ _fw_scr_set_border::
         ld      c,(hl)
 	inc 	hl
 	ld      b,(hl)
-        call    0xBC38  ; SCR SET BORDER
-        ret
+        jp      0xBC38  ; SCR SET BORDER
+        ;rather than call + ret

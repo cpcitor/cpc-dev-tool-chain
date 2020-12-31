@@ -12,5 +12,5 @@ _fw_scr_set_ink::
 	ld      a,(hl)
         ld      c,a
         ld      a,d
-        call    0xBC32  ; SCR SET INK
-        ret
+        jp      0xBC32  ; SCR SET INK
+        ;rather than call + ret

@@ -215,7 +215,7 @@ uint32_t fw_scr_get_location(void) __preserves_regs(b, c, iyh, iyl);
     MC SET MODE
     SCR GET MODE
  */
-void fw_scr_set_mode(unsigned char x) __preserves_regs(iyh, iyl);
+void fw_scr_set_mode(unsigned char x) __z88dk_fastcall __preserves_regs(iyh, iyl);
 
 /* 92: SCR CLEAR
     #BC14
@@ -311,4 +311,3 @@ void fw_scr_set_ink( uint8_t pen, uint8_t color1, uint8_t color2 ) __preserves_r
 void fw_scr_set_border( uint8_t color1, uint8_t color2 ) __preserves_regs(iyh, iyl);
 
 #endif /* __FW_SCR_H__ */
-

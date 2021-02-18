@@ -29,7 +29,7 @@ cd "${PROJDIRNAME:?}"
 
 { echo "#include <stdio.h>" ; echo "int main() { printf(\"Hello World, hello ${USER:-you}.\\n\"); while (1) {} ; return 0; }" ; } >hello.c
 
-make
+make dsk
 
 #{ echo "#include <cpcrslib.h>" ; echo "int main() { cpc_PrintStr(\"Hello World, hello ${USER:-you}.\\n\"); while (1) {} ; return 0; }" ; } >hello.c
 

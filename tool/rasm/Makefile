@@ -72,7 +72,7 @@ $(BUILD_TARGET_FILE): $(EXTRACT_DIR_NAME)/.patched
 	@echo "**************** Configured and built in: $(@D)"
 	@echo "************************************************************************"
 
-build_config.inc: $(BUILD_TARGET_FILE) Makefile bin/$(PRODUCT_NAME)
+build_config.inc: bin/$(PRODUCT_NAME) Makefile
 	(set -eu ; \
 	{ \
 	echo "# with bash do \"source\" this file." ; \

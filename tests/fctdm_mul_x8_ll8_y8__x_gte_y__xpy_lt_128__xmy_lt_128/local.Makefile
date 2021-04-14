@@ -5,7 +5,7 @@ test_verdict.txt: model output
 # Make target should succeed even if test fails.
 
 run_test output: cap32_fortest.cfg dsk
-	( . $(CDTC_ENV_FOR_CAPRICE32) ; rm -rf output ; mkdir output ; cap32 $(DSKNAME) -c cap32_fortest.cfg -a 'run"$(PROJNAME)' -a CAP32_WAITBREAKCAP32_SCRNSHOTCAP32_EXIT ; rename 's|output/screenshot.*.png$$|output/screenshot.png|' output/screenshot*.png ; )
+	( . $(CDTC_ENV_FOR_CAPRICE32) ; rm -rf output ; mkdir output ; cap32 $(DSKNAME) -c cap32_fortest.cfg -a 'run"$(PROJNAME)' -a CAP32_WAITBREAKCAP32_SCRNSHOT -a CAP32_EXIT ; rename 's|output/screenshot.*.png$$|output/screenshot.png|' output/screenshot*.png ; )
 
 
 

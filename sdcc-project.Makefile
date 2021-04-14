@@ -514,7 +514,7 @@ $(CDTC_ENV_FOR_PLAYTZX):
 ########################################################################
 
 clean:
-	-rm -f *.lk *.noi *.rel *.asm *.ihx *.lst *.map *.sym *.rst *.bin.log *.lib *.tmp *.binamsdos *.binamsdos.log $(TARGETS)
+	-rm -f *.lk *.noi *.rel *.asm *.ihx *.lst *.map *.sym *.rst *.bin.log *.lib *.tmp .tmp.* *.binamsdos *.binamsdos.log $(TARGETS)
 	-rm -f */*.lk */*.noi */*.rel */*.asm */*.ihx */*.lst */*.map */*.sym */*.rst */*.bin.log */*.tmp
 	-rm -f */*/*.lk */*/*.noi */*/*.rel */*/*.asm */*/*.ihx */*/*.lst */*/*.map */*/*.sym */*/*.rst */*/*.bin.log */*/*.tmp
 	-rm -f *~ */*~ */*/*~ ./#*# */#*#

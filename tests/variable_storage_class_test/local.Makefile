@@ -10,7 +10,10 @@ run_test output: cap32_fortest.cfg dsk
 
 
 cap32_fortest.cfg: $(CDTC_ENV_FOR_CAPRICE32) local.Makefile
-	sed 	-e "s|speed=.*|speed=256|" \
+	sed \
+		-e "s|speed=.*|speed=256|" \
+		-e "s|limit_speed=.*|limit_speed=0|" \
+		-e "s|auto_pause=.*|auto_pause=0|" \
 		-e "s|printer=.*|printer=1|" \
 		-e "s|printer_file=.*|printer_file=output/parallel_port_log.txt|" \
 		-e "s|sdump_dir=.*|sdump_dir=output|" \

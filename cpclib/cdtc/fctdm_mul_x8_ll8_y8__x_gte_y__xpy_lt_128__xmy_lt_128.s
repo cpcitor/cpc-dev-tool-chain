@@ -1,5 +1,7 @@
 .module _fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_128__xmy_lt_128
 
+.globl _fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_128__xmy_lt_128_table
+
 .z80
 
 	;; This file implements a multiplication routine based on a table.
@@ -18,7 +20,7 @@
         ;; Inspired from https://www.msxcomputermagazine.nl/mccw/92/Multiplication/en.html
         ;; and adapted for my specific case of unsigned 8bit integers.
 
-_fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_128__xmy_lt_128_table == 0x3F00
+;_fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_128__xmy_lt_128_table == 0x3F00
 
 _fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_128__xmy_lt_128_fill_table::
         ld de,#(_fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_128__xmy_lt_128_table)

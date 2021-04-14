@@ -10,6 +10,9 @@ all: all-tests summarize
 
 all-tests: run-tests-make run-tests-shell
 
+clean-tests:
+	\rm -rfv */cap32_fortest.cfg */output */test-execution.log */test_verdict.txt */*~ */.build_dependencies_checked
+
 summarize:
 	@( set -o pipefail ; grep -h . */test_verdict.txt | sort | uniq -c >$@.tmp && mv -f $@.tmp test-result-summary.txt ; )
 	@( set -o pipefail ; echo "########################################################################" ; if grep FAIL test-result-summary.txt ; then echo >&2 "At least one test fails" ; exit 1 ; else echo "ALL TEST PASS" ; exit 0 ; fi ; )

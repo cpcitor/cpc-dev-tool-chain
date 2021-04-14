@@ -18,7 +18,4 @@ main()
             }
         }
     }
-
-    cfwi_txt_str0_output( "Press any key to exit." );
-    fw_km_wait_key();
 }

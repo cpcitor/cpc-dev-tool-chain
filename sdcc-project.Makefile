@@ -588,4 +588,4 @@ cppcheck:
 
 .PHONY: clang-format
 clang-format:
-	clang-format -i *.c *.h */*.c */*.h
+	-clang-format -i *.c *.h */*.c */*.h

@@ -8,10 +8,10 @@ displayhelp:
 .PHONY: hello_world_using_z88dk hello_world_using_sdcc hello_world_using_sdcc-all cpcrslib cpcrslib-all sdcc-all test-custom-project
 
 hello_world_using_z88dk: hello_world_using_z88dk/Makefile
-	LC_ALL=C $(MAKE) -C $@
+	LC_ALL=C $(MAKE) -C $@ all
 
 hello_world_using_sdcc: hello_world_using_sdcc/Makefile
-	LC_ALL=C $(MAKE) -C $@
+	LC_ALL=C $(MAKE) -C $@ all
 
 hello_world_using_sdcc-all: hello_world_using_sdcc/Makefile
 	LC_ALL=C $(MAKE) -C $(<D) all

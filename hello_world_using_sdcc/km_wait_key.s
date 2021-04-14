@@ -6,10 +6,8 @@
 ;	---------------------------------
 ; Function km_wait_key
 ; ---------------------------------
-_km_wait_key_start::
 _km_wait_key:
         call    0xBB18
 	;; return value in l register
 	ld	l,a
 	ret
-_my_km_wait_key_end::

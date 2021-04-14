@@ -30,22 +30,15 @@ _fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_128__xmy_lt_128_fill_table::
         ld l,e
         ;; bc is a scratch variable
 1$:
-        ld a,h
-        ld c,l                  ; ac = current_square
-        and a                   ; clear carry
-        ;; rlc c
-        ;; rl a                    ; ac = current_square << 1
-        ;; rlc c
-        ;; rl a                    ; ac = current_square << 2
-        ;; rlc c
-        ;; rl a                    ; ac = current_square << 3
-        ;; rlc c
-        ;; rl a                    ; ac = current_square << 4
-        ;; rlc c
-        ;; rl a                    ; ac = current_square << 5
-        ;; rlc c
-        ;; rl a                    ; ac = current_square << 6
-        ;; Thus, a = current_square >>2 .
+        ld c,h
+        ld a,l                  ; ca = current_square
+
+        srl c
+        rr a
+        srl c
+        rr a
+
+        ;; Thus, a = LSB(current_square >>2).
 
         ld (de), a              ; write to table
 

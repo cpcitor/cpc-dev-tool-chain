@@ -5,7 +5,7 @@
         .globl _crtc_r1_disp_width_chars
         .globl _crtc_r6_disp_height_chars
         .globl _crtc_r9_plus_1_disp_lines_per_char_height
-        .globl _cdtc_screen_basic__table_lh
+        .globl _cdtc_screen_basic__table_hl
         .globl _screen_first_byte_address
         .globl _screen_width_in_bytes
 
@@ -20,9 +20,9 @@
         .endm
 
 
-;;_cdtc_screen_basic__table_lh == 0x5A00
+;;_cdtc_screen_basic__table_hl == 0x5A00
 
-_cdtc_screen_basic__table_lh__fill::
+_cdtc_screen_basic__table_hl__fill::
 	;; Now we're interested in a _crtc_r1_disp_width_chars * _crtc_r6_disp_height_chars screen.
 	;; Each line is 64 byte wide.
 	;; 0xC000
@@ -39,7 +39,7 @@ _cdtc_screen_basic__table_lh__fill::
         ;; 0xD820
 	;; Loop until exhausted _screen_total_lines.
 
-	ld iy, #_cdtc_screen_basic__table_lh
+	ld iy, #_cdtc_screen_basic__table_hl
         ld hl, #_screen_first_byte_address
         ld de, #_screen_width_in_bytes
         ;; b used to count scanline lines in characters
@@ -51,9 +51,9 @@ next_char_big_line:
 
 next_scan_line_in_char:
 	;; write value in table
-        ld 0(iy), l   ;; first write high byte
+        ld 0(iy), h   ;; first write high byte
         with_iy ^/inc h/ ;; go to second table
-        ld 0(iy), h   ;; there, write low byte
+        ld 0(iy), l   ;; there, write low byte
         with_iy ^/dec h/ ;; go back to first table
         with_iy ^/inc l/ ;; next entry in table
 
@@ -80,7 +80,7 @@ next_scan_line_in_char:
 
         ;; Example code showing how to
         ;; get screen address at run time.
-        ;; ld h, # (> _cdtc_screen_basic__table_lh )
+        ;; ld h, # (> _cdtc_screen_basic__table_hl )
         ;; ld l, #0
         ;; ld c, (hl)
         ;; inc h

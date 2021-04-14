@@ -48,7 +48,7 @@
      from ASM call `_cdtc_screen_basic__configure_crtc`).
 
     -Step 3b: ensure your code calls
-     `cdtc_screen_basic__table_lh__fill()` before any text or graphics
+     `cdtc_screen_basic__table_hl__fill()` before any text or graphics
      routine is called.
 
     -At will, call from ASM _cdtc_screen_basic_plot from ASM with H=y
@@ -66,7 +66,7 @@
 
     Example 1 : 320x200 screen, same as firmware.
 
-_cdtc_screen_basic__table_lh == 0x7E00
+_cdtc_screen_basic__table_hl == 0x7E00
 _screen_first_byte_address == 0xC000
 _crtc_r1_disp_width_chars == 40    ; 40 chars, 80 bytes, 320-pixel wide screen, the standar
 _crtc_r6_disp_height_chars == 25   ; 25 chars, 200-pixel high screen
@@ -77,7 +77,7 @@ _screen_total_lines == _crtc_r6_disp_height_chars * _crtc_r9_plus_1_disp_lines_p
 
     Example 2 : 256x256 screen, the one primarily used and most tested
 
-_cdtc_screen_basic__table_lh == 0x100 ; if you don't return to BASIC, you can overwrite 0x100-0x2FF
+_cdtc_screen_basic__table_hl == 0x100 ; if you don't return to BASIC, you can overwrite 0x100-0x2FF
 _screen_first_byte_address == 0xC000
 _crtc_r1_disp_width_chars == 32    ; 32 chars, 64 bytes, 256-pixel wide screen (standard is 40)
 _crtc_r6_disp_height_chars == 32   ; 32 chars, 256-pixel high screen
@@ -88,7 +88,7 @@ _screen_total_lines == _crtc_r6_disp_height_chars * _crtc_r9_plus_1_disp_lines_p
 
     Example 3 : 256x192 screen (with much room for hardware scrolling that is not supported yet, 8 blocks of 512 bytes of unused memory)
 
-_cdtc_screen_basic__table_lh == 0x7E00
+_cdtc_screen_basic__table_hl == 0x7E00
 _screen_first_byte_address == 0xC000
 _crtc_r1_disp_width_chars == 32    ; 32 chars, 64 bytes, 256-pixel wide screen (standard is 40)
 _crtc_r6_disp_height_chars == 24   ; 24 chars, 192-pixel high screen
@@ -99,7 +99,7 @@ _screen_total_lines == _crtc_r6_disp_height_chars * _crtc_r9_plus_1_disp_lines_p
 
     Example 4 : 256x192 screen (occupies a solid 12288 bytes, useful to use the rest of memory in one contiguous block) -- NOT SUPPORTED YET, routine does not yet compute value for register 4 nor set it.
 
-_cdtc_screen_basic__table_lh == 0xF000 ; put table just after screen, because why not
+_cdtc_screen_basic__table_hl == 0xF000 ; put table just after screen, because why not
 _screen_first_byte_address == 0xC000
 _crtc_r1_disp_width_chars == 32    ; 32 chars, 64 bytes, 256-pixel wide screen (standard is 40)
 _crtc_r6_disp_height_chars == 32   ; 32 chars but of height 6, 192-pixel high screen
@@ -117,7 +117,7 @@ Adjusting from these examples, you can create your own mode.
 
     You must ensure that
  */
-void cdtc_screen_basic__table_lh__fill( void );
+void cdtc_screen_basic__table_hl__fill( void );
 
 
 void cdtc_screen_basic__configure_crtc( void );

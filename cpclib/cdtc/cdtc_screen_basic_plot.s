@@ -1,4 +1,4 @@
-        .globl _screen_address_processing__table_h
+        .globl _cdtc_screen_basic__table_hl
 
 _cdtc_screen_basic__plot::
         ;; H = y, L = x
@@ -21,12 +21,12 @@ cdtc_screen_basic__plot_mask_loop:
         ;; ok mask is in b
 
         ;; now compute address
-        ld d, #_screen_address_processing__table_h >> 8 ; MSB table
+        ld d, #_cdtc_screen_basic__table_hl >> 8 ; MSB table
         ld e, h                 ; y
         ld a,(de)               ; read MSB
         ld h,a
 
-        dec d                   ; LSB table
+        inc d                   ; LSB table
         ld a,(de)               ; read LSB
 
         ;; address to add is quarter of x

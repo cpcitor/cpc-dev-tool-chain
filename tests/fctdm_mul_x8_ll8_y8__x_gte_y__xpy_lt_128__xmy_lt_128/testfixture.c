@@ -33,7 +33,6 @@ perform_test( void )
 
     do
     {
-        --y;
         printf( "%d ", y );
         printer_uint8_as_hex_with_prefix( y );
         fw_mc_send_printer( ' ' );
@@ -41,7 +40,6 @@ perform_test( void )
 
         do
         {
-            --x;
             // 4 * x * y = ( x + y )² - ( x - y )²
             // x * y = ( x + y )² / 4 - ( x - y )² / 4
             // x * y = table( x + y ) - table( x - y )
@@ -70,9 +68,11 @@ perform_test( void )
             fw_gra_set_pen( color );
 
             fw_gra_plot_absolute( x << 1, y << 1 );
+            x++;
         } while ( x != 0 );
 
         fw_mc_send_printer( '\n' );
+        y++;
     } while ( y != 0 );
 
     return 0;

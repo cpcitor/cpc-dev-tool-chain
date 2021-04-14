@@ -14,11 +14,13 @@ fill_table( void )
 
     do
     {
+        printer_uint8_as_hex_with_prefix( s>>2 );
         // s = i * i ;
         *( p++ ) = s >> 2;
         // (x+1)² = x² + 2*x + 1
         s += ( i << 1 ) + 1;
     } while ( ++i != 0 );
+    fw_mc_send_printer( '\n' );
 }
 
 uint8_t

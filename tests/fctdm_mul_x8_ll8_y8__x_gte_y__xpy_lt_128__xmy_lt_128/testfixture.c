@@ -19,6 +19,16 @@ perform_test( void )
     uint32_t time_1 = fw_kl_time_please();
     printf( "done.\n" );
 
+    {
+        uint8_t y=0;
+        do
+        {
+            printer_uint8_as_hex_with_prefix( fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_128__xmy_lt_128_table[y] );
+            y++;
+        } while (y!=0);
+        fw_mc_send_printer( '\n' );
+    }
+
     uint8_t y = 0;
 
     do

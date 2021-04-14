@@ -36,7 +36,7 @@ perform_test( void )
         printf( "%d ", y );
         printer_uint8_as_hex_with_prefix( y );
         fw_mc_send_printer( ' ' );
-        uint8_t x = 0;
+        uint8_t x = y;
 
         do
         {
@@ -71,11 +71,11 @@ perform_test( void )
 
             fw_gra_plot_absolute( x << 1, y << 1 );
             x++;
-        } while ( x != 0 );
+        } while ( (x!=0) && (x<(256-y)) );
 
         fw_mc_send_printer( '\n' );
         y++;
-    } while ( y != 0 );
+    } while ( y < 128 );
 
     return 0;
 }

@@ -48,8 +48,8 @@ _fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_128__xmy_lt_128_fill_table::
         ld c,e                  ; remember, e is also index
         scf
         adc hl,bc               ; we add index +1
-        ; carry cleared already because no overflow and a                   ; clear carry
-        adc hl,bc               ; we ass index
+        ; carry cleared already because no overflow so adc clears carry
+        adc hl,bc               ; we add index
 
         inc de                  ; move pointer to next entry, increment index
         ld a,e

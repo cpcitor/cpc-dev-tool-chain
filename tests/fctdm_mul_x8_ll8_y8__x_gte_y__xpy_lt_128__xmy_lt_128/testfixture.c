@@ -18,6 +18,8 @@ perform_test( void )
     fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_128__xmy_lt_128_fill_table();
     uint32_t time_1 = fw_kl_time_please();
     printf( "done.\n" );
+    printer_uint32_as_hex_with_prefix( time_1 - time_0 );
+    fw_mc_send_printer( '\n' );
 
     {
         uint8_t y=0;
@@ -40,13 +42,15 @@ perform_test( void )
 
         do
         {
+            uint16_t tz = x * y;
+            printer_uint16_as_hex_with_prefix( tz );
+            fw_mc_send_printer( '=' );
+
             // 4 * x * y = ( x + y )² - ( x - y )²
             // x * y = ( x + y )² / 4 - ( x - y )² / 4
             // x * y = table( x + y ) - table( x - y )
             uint16_t z = fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_128__xmy_lt_128( (x << 8) | y);
             printer_uint16_as_hex_with_prefix( z );
-
-            uint16_t tz = x * y;
 
             uint8_t color = 0;
 

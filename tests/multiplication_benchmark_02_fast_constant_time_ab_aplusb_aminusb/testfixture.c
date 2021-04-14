@@ -14,7 +14,6 @@ fill_table( void )
 
     do
     {
-        printer_uint8_as_hex_with_prefix( s>>2 );
         // s = i * i ;
         *( p++ ) = s >> 2;
         // (x+1)² = x² + 2*x + 1
@@ -31,8 +30,22 @@ perform_test( void )
     fw_scr_set_ink( 3, 6, 6 );
     fw_txt_win_enable( 32, 39, 0, 25 );
     printf( "Filling table..." );
+    uint32_t time_0 = fw_kl_time_please();
     fill_table();
+    uint32_t time_1 = fw_kl_time_please();
     printf( "done.\n" );
+    printer_uint32_as_hex_with_prefix( time_1 - time_0 );
+    fw_mc_send_printer( '\n' );
+
+    {
+        uint8_t y=0;
+        do
+        {
+            printer_uint8_as_hex_with_prefix( mult_u8_u8_squares_table[y] );
+            y++;
+        } while (y!=0);
+        fw_mc_send_printer( '\n' );
+    }
 
     uint8_t y = 0;
 
@@ -45,14 +58,16 @@ perform_test( void )
 
         do
         {
+            uint16_t tz = x * y;
+            printer_uint16_as_hex_with_prefix( tz );
+            fw_mc_send_printer( '=' );
+
             // 4 * x * y = ( x + y )² - ( x - y )²
             // x * y = ( x + y )² / 4 - ( x - y )² / 4
             // x * y = table( x + y ) - table( x - y )
             uint16_t z = mult_u8_u8_squares_table[x + y] -
                          mult_u8_u8_squares_table[x - y];
             printer_uint16_as_hex_with_prefix( z );
-
-            uint16_t tz = x * y;
 
             uint8_t color = 0;
 

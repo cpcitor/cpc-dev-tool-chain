@@ -4,8 +4,6 @@
 #include "stdint.h"
 #include <stdio.h>
 
-uint16_t mult_u8_u8_squares_table[256];
-
 uint8_t
 perform_test( void )
 {

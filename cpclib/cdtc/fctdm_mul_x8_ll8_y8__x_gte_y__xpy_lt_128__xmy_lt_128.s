@@ -41,6 +41,10 @@ _fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_128__xmy_lt_128_fill_table::
         ;; Thus, a = LSB(current_square >>2).
 
         ld (de), a              ; write to table
+        inc d
+        ld a,c
+        ld (de), a
+        dec d
 
         ;; Compute next square
         ;; Basically, that's hl = hl + index + index + 1
@@ -66,22 +70,35 @@ _fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_128__xmy_lt_128::
 
 	ld d,#(>_fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_128__xmy_lt_128_table)
         ld e,a                  ; e=h0-l0
-        ld a,(de)               ; b=(h0-l0)^2
-        ld b,a
+        ex de,hl
+        ld c,(hl)
+        inc h                   ; switch to MSB table
+        ld b,(hl)
+        ; bc=(h0-l0)^2
 
+        ex de,hl
         ld a,h
         add l
         jp c, sum_of_operands_too_big
 
-        ld e,a                  ; e=h0+l0
-        ld a,(de)               ; a=(h0+l0)^2
+        ld e,a
 
-        sub b
-        ld l,a
+        ex de,hl
+        ld a,(hl)               ; read MSB
+        dec h                   ; switch to LSB table
+        ld l,(hl)               ; read LSB
+        ld h,a
+
+        ; hl=(h0+l0)^2
+
+        ;; let's bet carry = 0. Why ? Because table is not over memory
+	;; boundary so inc h set carry to zero.
+
+        sbc hl,bc
         ret
 numbers_not_in_order:
-        ld l,#(-1)
+        ld hl,#(-1)
         ret
 sum_of_operands_too_big:
-        ld l,#8
+        ld hl,#8
         ret

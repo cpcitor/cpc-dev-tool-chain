@@ -36,7 +36,7 @@ perform_test( void )
         printf( "%d ", y );
         printer_uint8_as_hex_with_prefix( y );
         fw_mc_send_printer( ' ' );
-        uint8_t x = y;
+        uint8_t x = 0;
 
         do
         {

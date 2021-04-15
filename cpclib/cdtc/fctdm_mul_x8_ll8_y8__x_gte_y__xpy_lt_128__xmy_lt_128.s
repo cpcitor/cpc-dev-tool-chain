@@ -66,8 +66,9 @@ _fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_128__xmy_lt_128::
         ;; assumes h > l > 0
         ld a,h
         sub l
-        jp c, numbers_not_in_order
-
+        jp nc, numbers_in_order
+        neg
+numbers_in_order:
 	ld d,#(>_fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_128__xmy_lt_128_table)
         ld e,a                  ; e=h0-l0
         ex de,hl

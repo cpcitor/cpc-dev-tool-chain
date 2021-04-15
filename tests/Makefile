@@ -23,7 +23,7 @@ run-tests-shell: $(CDTC_ENV_FOR_CAPRICE32)
 	@( set -o pipefail ; shopt -s nullglob ; rm -fv */output/*~ */model/*~ ; for TEST in */test.sh ; do echo "########################################################################" ; echo -ne "Shell TEST: $$TEST\t" ; bash $$TEST >$${MAKE}.log 2>&1 && echo "TEST PASS" || echo "TEST FAIL $$TEST" ; done ; exit 0 ; )
 
 run-tests-make:
-	@( set -o pipefail ; rm -fv */output/*~ */model/*~ ; for MAKE in */local.Makefile ; do echo "########################################################################" ; echo -ne "Make TEST: $$MAKE\t" ; ( cd "$$(dirname $$MAKE)" ; if $(MAKE) test_verdict.txt >test-execution.log 2>&1 ; then echo "TEST PASS" ; else echo "TEST FAIL, see details in $$(dirname $$MAKE)/test-execution.log" ; fi ; ) ; done ; exit 0 ; )
+	@( set -o pipefail ; rm -fv */output/*~ */model/*~ ; for MAKE in */local.Makefile ; do echo "########################################################################" ; echo -ne "Make TEST: $$MAKE\t" ; ( cd "$$(dirname $$MAKE)" ; if { $(MAKE) test_verdict.txt ; diff -ur model output ; } >test-execution.log 2>&1 ; then echo "TEST PASS" ; else echo "TEST FAIL, see details in $$(dirname $$MAKE)/test-execution.log" ; fi ; ) ; done ; exit 0 ; )
 
 ########################################################################
 # Run emulator

@@ -3,7 +3,7 @@
         .z80
 
         .globl _star_4pixelsperframe_pos_byte_l
-        .globl _star_1pixelsperframe_pos_byte_l
+        .globl _star_1pixel_perframe_pos_byte_l
         .globl _setborder
 
 .include "cdtc/cpc_hardware_colors.s"
@@ -59,7 +59,7 @@ star1pix:
 
         ;; star1pix encode both address and mask
 
-        ld hl, #(_star_1pixelsperframe_pos_byte_l)
+        ld hl, #(_star_1pixel_perframe_pos_byte_l)
         ;; b = (star_count+1) mod 256
         ;; c = mask
         ld bc,#0x0088
@@ -73,37 +73,30 @@ next_star1pix_:
         xor a
         ld (de),a
 
-        ;; prepare new address computation
-        ld b,a ; b=0	1 nop
-        ld c,a ; c=0	1 nop
-
         ;; get mask
         inc h
         ld a,(hl)
 
         ;; compute new mask
         rlca   ;    	1 nop
+        jr nc, samebyte
+        ld a,#0x10
+        dec de
+        set 6,d
+samebyte:
 
-        ;; compute new address
-        rl c   ;    	2 nop
-        ex de,hl ;    	1 nop
-        sbc hl,bc;    	4 nop
-        set 6,h
-
-        ;; hl = new address
-        ;; de = table(mask)
+        ;; de = new address
+        ;; hl = table(mask)
 
         ;; draw new star
-        ld (hl),a
+        ld (de),a
 
         ;; store new mask
-        ld (de),a
-        dec d
+        ld (hl),a
+        dec h
 
-        ex de,hl
-
-        ;; hl = table(high)
         ;; de = new address
+        ;; hl = table(high)
 
         ;; store new address
         ld (hl),d

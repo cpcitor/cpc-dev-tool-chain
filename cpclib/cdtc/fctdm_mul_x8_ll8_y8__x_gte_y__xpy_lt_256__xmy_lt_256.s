@@ -5,7 +5,7 @@
         ;; Inspired from https://www.msxcomputermagazine.nl/mccw/92/Multiplication/en.html
         ;; and adapted for my specific case of unsigned 8bit integers.
 
-_fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_256__xmy_lt_256_table == 0x3D00
+_fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_256__xmy_lt_256_table == 0x3D00 ;
 
 _fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_256__xmy_lt_256_fill_table::
         ld de,#(_fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_256__xmy_lt_256_table)
@@ -15,25 +15,21 @@ _fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_256__xmy_lt_256_fill_table::
         ld l,e
         ;; bc is a scratch variable
 1$:
-        ;; TODO THIS IS WRONG. HAS TO COMPUTE SQUARES ON 24bit BECAUSE 511*511=776001=0x3FC01.
-        ld a,h
-        ld c,l                  ; ac = current_square
-        and a                   ; clear carry
-        ;; rlc c
-        ;; rl a                    ; ac = current_square << 1
-        ;; rlc c
-        ;; rl a                    ; ac = current_square << 2
-        ;; rlc c
-        ;; rl a                    ; ac = current_square << 3
-        ;; rlc c
-        ;; rl a                    ; ac = current_square << 4
-        ;; rlc c
-        ;; rl a                    ; ac = current_square << 5
-        ;; rlc c
-        ;; rl a                    ; ac = current_square << 6
-        ;; Thus, a = current_square >>2 .
+        ld c,h
+        ld a,l                  ; ca = current_square
+
+        srl c
+        rr a
+        srl c
+        rr a
+
+        ;; Thus, a = LSB(current_square >>2).
 
         ld (de), a              ; write to table
+        inc d
+        ld a,c
+        ld (de), a
+        dec d
 
         ;; Compute next square
         ;; Basically, that's hl = hl + index + index + 1
@@ -41,8 +37,8 @@ _fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_256__xmy_lt_256_fill_table::
         ld c,e                  ; remember, e is also index
         scf
         adc hl,bc               ; we add index +1
-        ; carry cleared already because no overflow and a                   ; clear carry
-        adc hl,bc               ; we ass index
+        ; carry cleared already because no overflow so adc clears carry
+        adc hl,bc               ; we add index
 
         inc de                  ; move pointer to next entry, increment index
         ld a,e
@@ -55,26 +51,37 @@ _fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_256__xmy_lt_256::
         ;; assumes h > l > 0
         ld a,h
         sub l
-        jp c, numbers_not_in_order
-
+        jp nc, numbers_in_order
+        neg
+numbers_in_order:
 	ld d,#(>_fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_256__xmy_lt_256_table)
         ld e,a                  ; e=h0-l0
-        ld a,(de)               ; b=(h0-l0)^2
-        ld b,a
+        ex de,hl
+        ld c,(hl)
+        inc h                   ; switch to MSB table
+        ld b,(hl)
+        ; bc=(h0-l0)^2
 
+        ex de,hl
         ld a,h
-        ld h,#0
         add l
-        jp nc, first_half_of_table
-        inc hl
-first_half_of_table:
-                                ; hl=h0+l0
-        add hl,de
+        jp c, sum_of_operands_too_big
 
-        ld a,(hl)               ; a=(h0+l0)^2
-        sub b
-        ld l,a
+        ld e,a
+
+        ex de,hl
+        ld a,(hl)               ; read MSB
+        dec h                   ; switch to LSB table
+        ld l,(hl)               ; read LSB
+        ld h,a
+
+        ; hl=(h0+l0)^2
+
+        ;; let's bet carry = 0. Why ? Because table is not over memory
+	;; boundary so inc h set carry to zero.
+
+        sbc hl,bc
         ret
-numbers_not_in_order:
-        ld l,#(~0)
+sum_of_operands_too_big:
+        ld hl,#8
         ret

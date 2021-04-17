@@ -5,6 +5,8 @@
         .globl _star_pos_byte_l
         .globl _setborder
 
+.include "cdtc/cpc_hardware_colors.s"
+
 _show_stars::
         ;; ld bc,#0xbc0c
         ;; out (c),c
@@ -14,10 +16,10 @@ _show_stars::
         ld a,#00
 
 next_frame:
-        ld l,#0x54
+        ld l,#hardware_color_r0_g0_b0_black
         call _setborder
         call #0xbd19
-        ld l,#0x55
+        ld l,#hardware_color_r0_g0_b2_bright_blue
         call _setborder
 
         ld hl, #(_star_pos_byte_l)

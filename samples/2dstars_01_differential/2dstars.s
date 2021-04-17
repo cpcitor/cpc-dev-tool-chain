@@ -23,7 +23,9 @@ next_frame:
         call _setborder
 
         ld hl, #(_star_pos_byte_l)
-        ld b,#0x0
+        ;; b = (star_count+1) mod 256
+        ;; c = mask
+        ld bc,#0x0088
 next_star:
         ;; read old address
         ld e,(hl)
@@ -44,7 +46,7 @@ next_star:
         ld (hl),e
 
         ;; draw new star
-        ld a,b
+        ld a,c
         ld (de),a
 
         ;; next star

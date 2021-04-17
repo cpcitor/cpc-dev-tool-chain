@@ -3,6 +3,7 @@
         .z80
 
         .globl _star_pos_byte_l
+        .globl _setborder
 
 _show_stars::
         ;; ld bc,#0xbc0c
@@ -13,7 +14,11 @@ _show_stars::
         ld a,#00
 
 next_frame:
+        ld l,#0x54
+        call _setborder
         call #0xbd19
+        ld l,#0x44
+        call _setborder
 
         ld hl, #(_star_pos_byte_l)
 

@@ -11,6 +11,7 @@ void show_stars(void);
 void
 main(void)
 {
+    fw_scr_set_mode(0);
     cfwi_txt_str0_output("Staaars!  Reset CPC or exit emulator to stop.");
 
     fw_kl_choke_off__ignore_return_value();

@@ -5,9 +5,15 @@
 
 uint8_t __at( 0x1000 ) star_4pixelsperframe_pos_byte_l[256];
 uint8_t __at( 0x1100 ) star_4pixelsperframe_pos_byte_h[256];
-uint8_t __at( 0x1200 ) star_1pixel_perframe_pos_byte_l[256];
-uint8_t __at( 0x1300 ) star_1pixel_perframe_pos_byte_h[256];
-uint8_t __at( 0x1400 ) star_1pixel_perframe_mask[256];
+
+uint8_t __at( 0x1200 ) star_2pixelsperframe_pos_byte_l[256];
+uint8_t __at( 0x1300 ) star_2pixelsperframe_pos_byte_h[256];
+uint8_t __at( 0x1400 ) star_2pixelsperframe_mask[256];
+
+uint8_t __at( 0x1500 ) star_1pixel_perframe_pos_byte_l[256];
+uint8_t __at( 0x1600 ) star_1pixel_perframe_pos_byte_h[256];
+
+uint8_t __at( 0x1700 ) star_1pixel_perframe_mask[256];
 
 void show_stars( void );
 
@@ -54,6 +60,15 @@ main( void )
         star_1pixel_perframe_mask[i1] = masks[pos&0x3];
         star_1pixel_perframe_pos_byte_l[i1] = (pos>>2) & 0xff;
         star_1pixel_perframe_pos_byte_h[i1] = 0xc0 | ( ( pos >> 10 ) & 0x7f );
+    }
+
+    for ( int i2 = 0; i2 < 256; i2++ )
+    {
+        uint16_t pos = rand();
+
+        star_2pixelsperframe_mask[i2] = masks[pos&0x3];
+        star_2pixelsperframe_pos_byte_l[i2] = (pos>>2) & 0xff;
+        star_2pixelsperframe_pos_byte_h[i2] = 0xc0 | ( ( pos >> 10 ) & 0x7f );
     }
 
     show_stars();

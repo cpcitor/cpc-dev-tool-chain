@@ -20,12 +20,13 @@ perform_test( void )
     fw_mc_send_printer( '\n' );
 
     {
-        uint8_t y=0;
+        uint8_t y = 0;
         do
         {
-            printer_uint8_as_hex_with_prefix( fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_128__xmy_lt_128_table[y] );
+            printer_uint8_as_hex_with_prefix(
+                fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_128__xmy_lt_128_table[y] );
             y++;
-        } while (y!=0);
+        } while ( y != 0 );
         fw_mc_send_printer( '\n' );
     }
 
@@ -47,7 +48,8 @@ perform_test( void )
             // 4 * x * y = ( x + y )² - ( x - y )²
             // x * y = ( x + y )² / 4 - ( x - y )² / 4
             // x * y = table( x + y ) - table( x - y )
-            uint16_t z = fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_128__xmy_lt_128( (x << 8) | y);
+            uint16_t z = fctdm_mul_x8_ll8_y8__x_gte_y__xpy_lt_128__xmy_lt_128(
+                ( x << 8 ) | y );
             printer_uint16_as_hex_with_prefix( z );
 
             uint8_t color = 0;
@@ -71,7 +73,7 @@ perform_test( void )
 
             fw_gra_plot_absolute( x << 1, y << 1 );
             x++;
-        } while ( (x!=0) && (x<(256-y)) );
+        } while ( ( x != 0 ) && ( x < ( 256 - y ) ) );
 
         fw_mc_send_printer( '\n' );
         y++;

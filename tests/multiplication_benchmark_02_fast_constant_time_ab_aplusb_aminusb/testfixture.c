@@ -38,12 +38,12 @@ perform_test( void )
     fw_mc_send_printer( '\n' );
 
     {
-        uint8_t y=0;
+        uint8_t y = 0;
         do
         {
             printer_uint8_as_hex_with_prefix( mult_u8_u8_squares_table[y] );
             y++;
-        } while (y!=0);
+        } while ( y != 0 );
         fw_mc_send_printer( '\n' );
     }
 
@@ -90,7 +90,7 @@ perform_test( void )
 
             fw_gra_plot_absolute( x << 1, y << 1 );
             x++;
-        } while ( (x!=0) && (x<(256-y)) );
+        } while ( ( x != 0 ) && ( x < ( 256 - y ) ) );
 
         fw_mc_send_printer( '\n' );
         y++;

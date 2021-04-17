@@ -15,10 +15,10 @@ _show_stars::
         ;; out (c),c
 
 next_frame:
-        ld l,#hardware_color_r0_g0_b0_black
+        ld l,#hardware_color_register_value_r0_g0_b0_black
         call _setborder
         call #0xbd19
-        ld l,#hardware_color_r0_g0_b2_bright_blue
+        ld l,#hardware_color_register_value_r0_g0_b2_bright_blue
         call _setborder
 
         ld hl, #(_star_4pixelsperframe_pos_byte_l)
@@ -54,7 +54,7 @@ next_star4pix_:
         djnz next_star4pix_
 
 star1pix:
-        ld l,#hardware_color_r0_g1_b0_green
+        ld l,#hardware_color_register_value_r0_g1_b0_green
         call _setborder
 
         ;; star1pix encode both address and mask

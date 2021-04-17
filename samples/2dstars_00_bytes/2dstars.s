@@ -17,11 +17,11 @@ next_frame:
         ld l,#0x54
         call _setborder
         call #0xbd19
-        ld l,#0x44
+        ld l,#0x55
         call _setborder
 
         ld hl, #(_star_pos_byte_l)
-
+        ld b,#0x0
 next_star:
         ;; read old address
         ld e,(hl)

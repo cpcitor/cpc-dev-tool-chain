@@ -3,8 +3,11 @@
 #include <stdio.h>
 #include <stdlib.h> //random
 
-uint8_t __at( 0x3e00 ) star_pos_byte_l[256];
-uint8_t __at( 0x3f00 ) star_pos_byte_h[256];
+uint8_t __at( 0x1000 ) star_4pixelsperframe_pos_byte_l[256];
+uint8_t __at( 0x1100 ) star_4pixelsperframe_pos_byte_h[256];
+uint8_t __at( 0x1200 ) star_1pixelsperframe_pos_byte_l[256];
+uint8_t __at( 0x1300 ) star_1pixelsperframe_pos_byte_h[256];
+uint8_t __at( 0x1400 ) star_1pixelsperframe_mask[256];
 
 void show_stars( void );
 
@@ -32,8 +35,17 @@ main( void )
     {
         uint16_t addr = rand();
 
-        star_pos_byte_l[i] = addr & 0xff;
-        star_pos_byte_h[i] = 0xc0 | ( ( addr >> 8 ) & 0x3f );
+        star_4pixelsperframe_pos_byte_l[i] = addr & 0xff;
+        star_4pixelsperframe_pos_byte_h[i] = 0xc0 | ( ( addr >> 8 ) & 0x3f );
+    }
+
+    for ( int i = 0; i < 256; i++ )
+    {
+        uint16_t addr = rand();
+
+        star_1pixelsperframe_pos_byte_l[i] = addr & 0xff;
+        star_1pixelsperframe_pos_byte_h[i] = 0xc0 | ( ( addr >> 8 ) & 0x7f );
+        star_1pixelsperframe_mask[i] = (i<128)?0x80:0x08;
     }
 
     show_stars();

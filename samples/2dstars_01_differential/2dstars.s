@@ -22,9 +22,10 @@ next_frame:
         call _setborder
 
         ld hl, #(_star_4pixelsperframe_pos_byte_l)
-        ;; b = (star_count+1) mod 256
+
+        ;; always 256 stars, else set l=(256-starcount)
         ;; c = mask
-        ld bc,#0x0088
+        ld c,#0x88
 next_star4pix_:
         ;; read old address
         ld e,(hl)
@@ -51,7 +52,8 @@ next_star4pix_:
         ;; next star
         inc l
 
-        djnz next_star4pix_
+        jr nz, next_star4pix_
+        ;djnz next_star4pix_
 
 star1pix:
         ld l,#hardware_color_register_value_r0_g1_b0_green
@@ -60,9 +62,7 @@ star1pix:
         ;; star1pix encode both address and mask
 
         ld hl, #(_star_1pixel_perframe_pos_byte_l)
-        ;; b = (star_count+1) mod 256
-        ;; c = mask
-        ld bc,#0x0088
+        ;; always 256 stars, else set l=(256-starcount)
 next_star1pix_:
         ;; read old address
         ld e,(hl)
@@ -106,7 +106,8 @@ samebyte:
         ;; next star
         inc l
 
-        djnz next_star1pix_
+        jr nz, next_star1pix_
+        ;djnz next_star1pix_
 
         jr next_frame
 

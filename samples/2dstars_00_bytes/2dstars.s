@@ -29,6 +29,7 @@ next_star:
         ld d,(hl)
 
         ;; erase old star
+        xor a
         ld (de),a
 
         ;; compute new address
@@ -41,9 +42,8 @@ next_star:
         ld (hl),e
 
         ;; draw new star
-        dec a
+        ld a,b
         ld (de),a
-        inc a
 
         ;; next star
         inc l

@@ -97,9 +97,6 @@ numbers_in_order:
 
         sbc hl,bc
         ret
-numbers_not_in_order:
-        ld hl,#(-1)
-        ret
 sum_of_operands_too_big:
         ld hl,#8
         ret

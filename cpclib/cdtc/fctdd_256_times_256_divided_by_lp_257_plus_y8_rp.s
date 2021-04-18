@@ -1,17 +1,17 @@
 .module _fctdd_256_times_256_divided_by_lp_257_plus_y8_rp
 
+.globl _fctdd_256_times_256_divided_by_lp_257_plus_y8_rp_table
+
 .z80
 
         ;; Original implementation of a division routine.
         ;; Greetings to Euclides for paving the way! ;-p
 
-_fctdd_256_times_256_divided_by_lp_257_plus_y8_rp_table == 0x3c00
-
 _fctdd_256_times_256_divided_by_lp_257_plus_y8_rp_fill_table::
         ;; We create a table of 256 * 256 / (257 + y) for all unsigned bytes y.
 
         ;; First, 256 * 256 / 256 = 256.  Yeah, so what?
-        
+
         ;; Let's focus on the value at some index k of our table.
 
         ;; It means we have q(k) (quotient) and r(k) (remainder) satisfying:
@@ -109,9 +109,9 @@ _fctdd_256_times_256_divided_by_lp_257_plus_y8_rp_fill_table::
         ;; loop if no carry
 
         ;; First iterations
-        ;; 
-        
-        
+        ;;
+
+
         ;; Assign registers
         ;; hl = r
         ;; d = 1
@@ -170,3 +170,5 @@ nocarry:
         inc e
         jr nz, nextindex
         ret
+
+        ;; To use it, just read the entry in the table.

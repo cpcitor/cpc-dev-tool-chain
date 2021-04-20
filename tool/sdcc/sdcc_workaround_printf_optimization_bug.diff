@@ -1,0 +1,33 @@
+diff -urw sdcc/src/SDCCast.c sdcc_workaround_bug/src/SDCCast.c
+--- sdcc/src/SDCCast.c	2021-01-03 10:47:54.000000000 +0100
++++ sdcc_workaround_bug/src/SDCCast.c	2021-04-20 09:18:43.915816655 +0200
+@@ -3174,6 +3174,29 @@
+   ast *parms = tree->right;
+   ast *func = tree->left;
+ 
++  return;
++/* This function is buggy, it causes incorrect compilation of this file:
++
++#include <stdio.h>
++
++int
++main ()
++{
++	printf ("1\n");
++	printf ("2\n");
++
++	printf ("3\001");
++
++	printf ("4\n");
++	printf ("5\n");
++	return 0;
++}
++
++It should print 1 2 3\001 4 5
++
++and instead prints 1 2 3\001 1 2
++*/
++
+   if (!TARGET_IS_STM8 && !TARGET_Z80_LIKE && !TARGET_PDK_LIKE) // Regression test gcc-torture-execute-20121108-1.c fails to build for hc08 and mcs51 (without --stack-auto)
+     return;
+ 

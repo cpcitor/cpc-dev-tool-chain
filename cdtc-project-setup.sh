@@ -82,15 +82,25 @@ proceed_with_one_item ()
                 echo "# You may define custom rules in your local.Makefile."
                 echo "# The first rule if your local.Makefile will be called as default."
                 echo ""
+                echo "# If you do create create a local.Makefile, it is highly recommended that its"
+                echo "# first rule looks like: default: auto_setup_cdtc yourdefaultrule"
+                echo "# default: auto_setup_cdtc"
+                echo "#         $(MAKE) your_default_rule"
+                echo "# Benefit: cloning your project and runing 'make', will still just work,"
+                echo "# like it does without a local.Makefile."
+                echo ""
                 echo "########################################################################"
                 echo "# Below is fallback code: in case the main cpc-dev-tool-chain"
                 echo "# directory was not found, explain what to do."
                 echo ""
                 echo "mkfile_path := \$(abspath \$(lastword \$(MAKEFILE_LIST)))"
                 echo "current_dir := \$(dir \$(mkfile_path))"
-
+                echo ""
+                echo "auto_setup_cdtc:"
+                echo "	if [[ -z \"\$(CDTC_ROOT)\" ]] ; then bash configure_cdtc_build_tree.sh || \$(MAKE) fail_for_cannot_locate_cdtc ; fi"
+                echo ""
                 echo "fail_for_cannot_locate_cdtc:"
-                echo -e "\011@echo 'Cannot locate cpc-dev-tool-chain main directory.'"
+                echo -e "\011@echo 'Unconfigured project (cannot locate cpc-dev-tool-chain main directory).'"
                 echo -e "\011@echo 'Explanation: this project appears to rely on cpc-dev-tool-chain for compilation.'"
                 echo -e "\011@echo 'You can get a copy from https://github.com/cpcitor/cpc-dev-tool-chain'"
                 echo -e "\011@echo 'Then run:'"
@@ -158,7 +168,7 @@ echo cp failed, maybe mac os x, using simpler cp command line
 fi
 
 	chmod a+x configure_cdtc_build_tree.sh
-	
+
         echo "Job done with: $1"
 	echo "--------------------------------"
         return 0

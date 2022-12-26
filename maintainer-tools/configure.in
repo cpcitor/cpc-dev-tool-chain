@@ -151,8 +151,11 @@ then
     echo 'Checking `cpc-dev-tool-chain` subdirectory'
 
     PROBE="cpc-dev-tool-chain/sdcc-project.Makefile"
-    if ! [[ -f "$PROBE" ]]
+    if [[ -f "$PROBE" ]]
     then
+        echo "Found $PROBE"
+        CDTC_ROOT="$( cd -P "cpc-dev-tool-chain" ; pwd ; )"
+    else
         echo "Probing did not find: $PROBE"
 
         echo "Using git to fetch cpc-dev-tool-chain from network..."

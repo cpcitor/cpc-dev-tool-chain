@@ -85,7 +85,7 @@ proceed_with_one_item ()
                 echo "# If you do create create a local.Makefile, it is highly recommended that its"
                 echo "# first rule looks like: default: auto_setup_cdtc yourdefaultrule"
                 echo "# default: auto_setup_cdtc"
-                echo "#         $(MAKE) your_default_rule"
+                echo "#         \$(MAKE) your_default_rule"
                 echo "# Benefit: cloning your project and runing 'make', will still just work,"
                 echo "# like it does without a local.Makefile."
                 echo ""

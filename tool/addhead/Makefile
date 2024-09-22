@@ -13,12 +13,6 @@ all: $(TARGETS)
 ########################################################################
 
 PRODUCT_NAME=addhead
-URL_RELEASE=http://cpctech.cpcwiki.de/download/${PRODUCT_NAME}.zip
-
-# If the end of the URL does not make a suitable file name, set ARCHIVE_NAME to a suitable file name.
-# Example : URL ends in /download -> define ARCHIVE_NAME to something suitable
-# Example : URL ends in foo.tar.gz -> do not define ARCHIVE_NAME
-#ARCHIVE_NAME=$(PRODUCT_NAME)_latest.tgz
 
 # You must set EXTRACT_DIR_NAME to match archive content.
 EXTRACT_DIR_NAME=$(PRODUCT_NAME)
@@ -28,22 +22,11 @@ EXTRACT_DIR_NAME=$(PRODUCT_NAME)
 BUILD_DIR=$(EXTRACT_DIR_NAME)
 BUILD_TARGET_FILE=$(BUILD_DIR)/${PRODUCT_NAME}
 
-URL_DOWNLOAD=$(URL_RELEASE)
-
-ARCHIVE_NAME?=$(notdir $(URL_DOWNLOAD))
-
-$(ARCHIVE_NAME):
-	wget -S $(URL_RELEASE) -O $@.tmp
-	mv -vf $@.tmp $@
-	@echo "************************************************************************"
-	@echo "**************** Source archive was downloaded to: $(@)"
-	@echo "************************************************************************"
-
-$(EXTRACT_DIR_NAME)/.unpacked: $(ARCHIVE_NAME)
+$(EXTRACT_DIR_NAME)/.unpacked:
 	@echo "************************************************************************"
 	@echo "**************** Extracting source from: $^"
 	@echo "************************************************************************"
-	unzip $<
+	git submodule update --init ${PRODUCT_NAME}
 	touch $@
 	@echo "************************************************************************"
 	@echo "**************** Source extracted to: $(@D)"
@@ -69,7 +52,7 @@ $(EXTRACT_DIR_NAME)/.patched: $(PATCHNAME) $(EXTRACT_DIR_NAME)/.unpacked
 	@echo "************************************************************************"
 	@echo "**************** Patching source in: $^"
 	@echo "************************************************************************"
-	#patch -p0 < $< # Disabled for now as patch is not needed for most uses. Fixes issue https://github.com/cpcitor/cpc-dev-tool-chain/issues/1 
+	#patch -p0 < $< # Disabled for now as patch is not needed for most uses. Fixes issue https://github.com/cpcitor/cpc-dev-tool-chain/issues/1
 	touch $@
 	@echo "************************************************************************"
 	@echo "**************** Source patched in: $(@D)"
@@ -123,7 +106,7 @@ mrproper:
 	-rm -f $(PRODUCT_NAME)
 
 distclean: mrproper
-	-rm -f $(ARCHIVE_NAME)
+	( cd "$EXTRACT_DIR_NAME" && git clean -dfx ; )
 
 ########################################################################
 # Debug the makefile

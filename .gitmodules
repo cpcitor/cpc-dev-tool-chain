@@ -18,3 +18,6 @@
 [submodule "tool/rasm/rasm"]
 	path = tool/rasm/rasm
 	url = https://github.com/EdouardBERGE/rasm
+[submodule "tool/addhead/addhead"]
+	path = tool/addhead/addhead
+	url = https://github.com/cpcitor/addhead

@@ -13,7 +13,8 @@ all: $(TARGETS)
 ########################################################################
 
 PRODUCT_NAME=cpcxfs
-URL_RELEASE=http://cpctech.cpcwiki.de/download/${PRODUCT_NAME}.zip
+#URL_RELEASE=http://cpctech.cpcwiki.de/download/${PRODUCT_NAME}.zip
+URL_GIT=-b feature/extended https://github.com/realfms/cpcfs
 
 # If the end of the URL does not make a suitable file name, set ARCHIVE_NAME to a suitable file name.
 # Example : URL ends in /download -> define ARCHIVE_NAME to something suitable
@@ -39,18 +40,20 @@ $(ARCHIVE_NAME):
 	@echo "**************** Source archive was downloaded to: $(@)"
 	@echo "************************************************************************"
 
-$(EXTRACT_DIR_NAME)/.unpacked: $(ARCHIVE_NAME)
+$(EXTRACT_DIR_NAME)/.unpacked: # $(ARCHIVE_NAME)
 	@echo "************************************************************************"
 	@echo "**************** Extracting source from: $^"
 	@echo "************************************************************************"
-	unzip $<
-	rm -f "$(EXTRACT_DIR_NAME)/src/cpcxfs" "$(EXTRACT_DIR_NAME)/src/"*.o
+	#unzip $<
+	git submodule update --init ${PRODUCT_NAME}
+	( cd "$(EXTRACT_DIR_NAME)" ; for PATTERN in "*.o" "*.exe" "src/cpcxfs" "*.prj" "src/makedoc" "*.suo" "*.obj" "*.iobj" "*.ilk" "*.pdb" "*.ipdb" "*.idb" "*.VC.db" "*.tlog" "*.sln" "*.vcxproj*" "*.log*" ; do find . -type f -ipath "$${PATTERN}" -exec rm -fv {} \; ; done ; )
 	touch $@
 	@echo "************************************************************************"
 	@echo "**************** Source extracted to: $(@D)"
 	@echo "************************************************************************"
 
-PATCHNAME=$(EXTRACT_DIR_NAME)_build_patch.patch
+PATCHNAME=
+#$(EXTRACT_DIR_NAME)_build_patch.patch
 
 .PHONY: patch
 

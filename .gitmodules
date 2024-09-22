@@ -21,3 +21,6 @@
 [submodule "tool/addhead/addhead"]
 	path = tool/addhead/addhead
 	url = https://github.com/cpcitor/addhead
+[submodule "tool/cpcxfs/cpcxfs"]
+	path = tool/cpcxfs/cpcxfs
+	url = https://github.com/cpcitor/cpcfs

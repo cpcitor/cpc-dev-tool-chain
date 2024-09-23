@@ -93,6 +93,7 @@ TOOLS=\
         echo "########  Sanity check for possibly needed tools.   ########" ; \
 	echo "############################################################" ; \
         echo ; \
+	git submodule update --init --recursive ; \
 	declare -A MISSING ; \
 	for TOOLNP in $(TOOLS) ; \
 	do IFS=: read LEVEL FNAME PNAME <<< "$$TOOLNP" ; \

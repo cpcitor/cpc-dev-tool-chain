@@ -27,7 +27,7 @@ test:
 	@echo "************************************************************************"
 	@echo "**************** Configuring in : $$(cat $<)"
 	@echo "************************************************************************"
-	( cd $(SDCCSOURCETREE) ; for PATCHNAME in $(filter %.diff, $^) ; do echo "Applying patch $${PATCHNAME}" ; patch -p1 <../$${PATCHNAME} ; done ; )
+	( set -eu ; cd $(SDCCSOURCETREE) ; for PATCHNAME in $(filter %.diff, $^) ; do echo "Applying patch $${PATCHNAME}" ; patch -p1 <../$${PATCHNAME} ; done ; )
 	touch "$@"
 	@echo "************************************************************************"
 	@echo "**************** Patch success from : $<"

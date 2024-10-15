@@ -24,3 +24,6 @@
 [submodule "tool/cpcxfs/cpcxfs"]
 	path = tool/cpcxfs/cpcxfs
 	url = https://github.com/cpcitor/cpcfs
+[submodule "tool/2cdt/2cdt"]
+	path = tool/2cdt/2cdt
+	url = https://github.com/cpcitor/2cdt

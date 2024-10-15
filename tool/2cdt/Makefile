@@ -13,12 +13,7 @@ all: $(TARGETS)
 ########################################################################
 
 PRODUCT_NAME=2cdt
-URL_RELEASE=http://cpctech.cpcwiki.de/download/${PRODUCT_NAME}.zip
-
-# If the end of the URL does not make a suitable file name, set ARCHIVE_NAME to a suitable file name.
-# Example : URL ends in /download -> define ARCHIVE_NAME to something suitable
-# Example : URL ends in foo.tar.gz -> do not define ARCHIVE_NAME
-#ARCHIVE_NAME=$(PRODUCT_NAME)_latest.tgz
+#URL_RELEASE=http://cpctech.cpcwiki.de/download/${PRODUCT_NAME}.zip
 
 # You must set EXTRACT_DIR_NAME to match archive content.
 EXTRACT_DIR_NAME=$(PRODUCT_NAME)
@@ -28,24 +23,12 @@ EXTRACT_DIR_NAME=$(PRODUCT_NAME)
 BUILD_DIR=$(EXTRACT_DIR_NAME)
 BUILD_TARGET_FILE=$(BUILD_DIR)/${PRODUCT_NAME}
 
-URL_DOWNLOAD=$(URL_RELEASE)
-
-ARCHIVE_NAME?=$(notdir $(URL_DOWNLOAD))
-
-$(ARCHIVE_NAME):
-	wget -S $(URL_RELEASE) -O $@.tmp
-	mv -vf $@.tmp $@
-	@echo "************************************************************************"
-	@echo "**************** Source archive was downloaded to: $(@)"
-	@echo "************************************************************************"
-
-$(EXTRACT_DIR_NAME)/.unpacked: $(ARCHIVE_NAME)
+$(EXTRACT_DIR_NAME)/.unpacked:
 	@echo "************************************************************************"
 	@echo "**************** Extracting source from: $^"
 	@echo "************************************************************************"
-	unzip $<
-	#rm -f 2cdt/src/*.o # release at 2014-01-03 no longer includes binaries or object files.
-	#mv -vf 2cdt/2cdt 2cdt/2cdt.x86-elf-linux || echo "Could not move away Linux-x86-only precompiled binaries. Hope that's ok."
+	# unzip $<
+	git submodule update --init ${PRODUCT_NAME}
 	touch $@
 	@echo "************************************************************************"
 	@echo "**************** Source extracted to: $(@D)"
@@ -113,6 +96,7 @@ install: $(BUILD_TARGET_FILE)
 	@echo "**************** Configured and built in: $(@D)"
 	@echo "************************************************************************"
 
+
 clean:
 	-$(MAKE) -C "$(BUILD_DIR)" clean
 	-rm -f $(BUILD_TARGET_FILE)
@@ -124,7 +108,7 @@ mrproper:
 	-rm -f $(PRODUCT_NAME)
 
 distclean: mrproper
-	-rm -f $(ARCHIVE_NAME)
+	( cd "$EXTRACT_DIR_NAME" && git clean -dfx ; )
 
 ########################################################################
 # Debug the makefile

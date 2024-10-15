@@ -45,8 +45,19 @@ distclean:
 	if [[ -f $(PRODUCT_NAME)_srctree.ref ]] ; then $(MAKE) -f Makefile.havesourcetree $(MAKECMDGOALS) ; fi
 	rm -rf *.ref
 
+# https://stackoverflow.com/questions/2527496/how-can-i-write-a-makefile-to-auto-detect-and-parallelize-the-build-with-gnu-mak#answer-2527627
+NPROCS:=1
+OS:=$(shell uname -s)
+
+ifeq ($(OS),Linux)
+  NPROCS:=$(shell grep -c ^processor /proc/cpuinfo)
+endif
+ifeq ($(OS),Darwin) # Assume Mac OS X
+  NPROCS:=$(shell system_profiler | awk '/Number Of CPUs/{print $4}{next;}')
+endif
+
 default test build_config.inc clean mrproper install: $(PRODUCT_NAME)_srctree.ref
-	$(MAKE) -f Makefile.havesourcetree $(MAKECMDGOALS)
+	$(MAKE) -j$(NPROCS) -f Makefile.havesourcetree $(MAKECMDGOALS)
 
 ########################################################################
 # Debug the makefile
